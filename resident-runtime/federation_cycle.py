@@ -9,10 +9,11 @@ K=importlib.util.module_from_spec(SPEC); SPEC.loader.exec_module(K)
 GWSPEC=importlib.util.spec_from_file_location("federation_gateway_transport",ROOT/"resident-runtime"/"federation_gateway_transport.py")
 GW=importlib.util.module_from_spec(GWSPEC); GWSPEC.loader.exec_module(GW)
 
+# No supplied epoch on a cycle: the six-field FAIL_CLOSED stands in the heartbeat_reference, never a clock value.
 def main():
     if os.getenv("STEGVERSE_ORG_FEDERATION_GATEWAY_URL","").strip():
         receipt=GW.resident_gateway_cycle(ROOT)
-        receipt["heartbeat_reference"]=K.hb_reference()
+        receipt["heartbeat_reference"]=K.hb_epoch_refusal(None)
         receipt["transport"]="SHARED_SERVICE_GATEWAY"
     else:
         results=K.consume_and_respond(ROOT)
@@ -21,7 +22,7 @@ def main():
         receipt={
           "schema_version":"stegverse.org-federation-cycle.v1",
           "organization":K.load_registry(ROOT)["organization"],
-          "heartbeat_reference":K.hb_reference(),
+          "heartbeat_reference":K.hb_epoch_refusal(None),
           "frames_seen":len(results),
           "frames_consumed":consumed,
           "responses_emitted":responses,
