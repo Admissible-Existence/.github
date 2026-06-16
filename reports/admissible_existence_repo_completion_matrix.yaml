@@ -16,15 +16,26 @@ repos:
     status: complete
     role: root formalism
   IW:
-    completion: 15
-    activation: 10
-    status: bootstrap_started
+    completion: 100
+    activation: 100
+    status: v0_1_receipt
     role: inference window formalism
-  telemetry:
-    completion: 0
-    activation: 0
-    status: not_started
   BC:
+    completion: 100
+    activation: 100
+    status: v0_1_receipt
+    role: boundary coherence formalism
+  RE:
+    completion: 100
+    activation: 85
+    status: registry_only_receipt
+    role: reversible entropy formalism
+  STCM:
+    completion: 100
+    activation: 95
+    status: v0_1_receipt
+    role: state transition conservation model
+  telemetry:
     completion: 0
     activation: 0
     status: not_started
@@ -37,10 +48,6 @@ repos:
     activation: 0
     status: not_started
   DaCo:
-    completion: 0
-    activation: 0
-    status: not_started
-  RE:
     completion: 0
     activation: 0
     status: not_started
@@ -76,10 +83,6 @@ repos:
     completion: 0
     activation: 0
     status: not_started
-  STCM:
-    completion: 0
-    activation: 0
-    status: not_started
   ae-validation-factory:
     completion: 0
     activation: 0
@@ -93,38 +96,48 @@ repos:
     activation: 0
     status: not_started
 
+waves:
+  wave_1:
+    completion: 100
+    repos:
+      - IW
+      - BC
+      - RE
+      - STCM
+  wave_2:
+    completion: 0
+    repos:
+      - DC
+      - DaCo
+      - CHF
+      - TT
+  wave_3:
+    completion: 0
+    repos:
+      - GCAT-BCAT
+      - ECAT-ICAT
+      - Triad
+      - Existence
+  wave_4:
+    completion: 0
+    repos:
+      - validator
+      - tracker
+      - telemetry
+      - ae-validation-factory
+      - RTG
+      - learning-transition-governance
+
 parallel_build_policy:
   can_build_in_parallel: true
   preferred_method: batch_bootstrap_by_wave
-  wave_1:
-    - IW
-    - BC
-    - RE
-    - STCM
-  wave_2:
-    - DC
-    - DaCo
-    - CHF
-    - TT
-  wave_3:
-    - GCAT-BCAT
-    - ECAT-ICAT
-    - Triad
-    - Existence
-  wave_4:
-    - validator
-    - tracker
-    - telemetry
-    - ae-validation-factory
-    - RTG
-    - learning-transition-governance
+  org_matrix_updates_after_each_wave: true
 
 parallel_rules:
   one_registry_per_repo: true
   one_dispatcher_per_repo: true
   one_workflow_per_repo: true
   no_cross_repo_release_claim_until_repo_receipt: true
-  org_matrix_updates_after_each_wave: true
 
 limits:
   no_authority_claim: true
