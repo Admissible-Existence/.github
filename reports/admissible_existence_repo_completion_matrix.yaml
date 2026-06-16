@@ -1,0 +1,133 @@
+matrix:
+  id: admissible_existence_repo_completion_matrix
+  org: Admissible-Existence
+  status: active
+  purpose: repo completion and parallel build planning
+
+repos:
+  core-lite:
+    completion: 100
+    activation: 100
+    status: complete
+    role: reusable core-lite kernel
+  AE:
+    completion: 100
+    activation: 100
+    status: complete
+    role: root formalism
+  IW:
+    completion: 15
+    activation: 10
+    status: bootstrap_started
+    role: inference window formalism
+  telemetry:
+    completion: 0
+    activation: 0
+    status: not_started
+  BC:
+    completion: 0
+    activation: 0
+    status: not_started
+  CHF:
+    completion: 0
+    activation: 0
+    status: not_started
+  DC:
+    completion: 0
+    activation: 0
+    status: not_started
+  DaCo:
+    completion: 0
+    activation: 0
+    status: not_started
+  RE:
+    completion: 0
+    activation: 0
+    status: not_started
+  RE-Reduction:
+    completion: 0
+    activation: 0
+    status: not_started
+  Triad:
+    completion: 0
+    activation: 0
+    status: not_started
+  GCAT-BCAT:
+    completion: 0
+    activation: 0
+    status: not_started
+  ECAT-ICAT:
+    completion: 0
+    activation: 0
+    status: not_started
+  Existence:
+    completion: 0
+    activation: 0
+    status: not_started
+  validator:
+    completion: 0
+    activation: 0
+    status: not_started
+  tracker:
+    completion: 0
+    activation: 0
+    status: not_started
+  TT:
+    completion: 0
+    activation: 0
+    status: not_started
+  STCM:
+    completion: 0
+    activation: 0
+    status: not_started
+  ae-validation-factory:
+    completion: 0
+    activation: 0
+    status: not_started
+  RTG:
+    completion: 0
+    activation: 0
+    status: not_started
+  learning-transition-governance:
+    completion: 0
+    activation: 0
+    status: not_started
+
+parallel_build_policy:
+  can_build_in_parallel: true
+  preferred_method: batch_bootstrap_by_wave
+  wave_1:
+    - IW
+    - BC
+    - RE
+    - STCM
+  wave_2:
+    - DC
+    - DaCo
+    - CHF
+    - TT
+  wave_3:
+    - GCAT-BCAT
+    - ECAT-ICAT
+    - Triad
+    - Existence
+  wave_4:
+    - validator
+    - tracker
+    - telemetry
+    - ae-validation-factory
+    - RTG
+    - learning-transition-governance
+
+parallel_rules:
+  one_registry_per_repo: true
+  one_dispatcher_per_repo: true
+  one_workflow_per_repo: true
+  no_cross_repo_release_claim_until_repo_receipt: true
+  org_matrix_updates_after_each_wave: true
+
+limits:
+  no_authority_claim: true
+  no_repo_open: true
+  no_merge: true
+  no_deploy: true
