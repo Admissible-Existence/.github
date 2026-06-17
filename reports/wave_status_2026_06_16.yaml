@@ -1,0 +1,31 @@
+waves:
+  wave_1:
+    completion: 100
+    repos:
+      IW: 100
+      BC: 100
+      RE: 100
+      STCM: 100
+  wave_2:
+    completion: 100
+    repos:
+      DC: 100
+      DaCo: 100
+      CHF: 100
+      TT: 100
+  wave_3:
+    completion: 0
+    repos:
+      GCAT-BCAT: 0
+      ECAT-ICAT: 0
+      Triad: 0
+      Existence: 0
+  wave_4:
+    completion: 0
+    repos:
+      validator: 0
+      tracker: 0
+      telemetry: 0
+      ae-validation-factory: 0
+      RTG: 0
+      learning-transition-governance: 0
