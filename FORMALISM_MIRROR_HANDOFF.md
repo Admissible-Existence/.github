@@ -2,7 +2,7 @@
 
 **Status:** ACTIVE — authoritative coordination source
 
-**Last updated:** 2026-07-28
+**Last updated:** 2026-07-29
 
 **Repository Coordination Authority worker:** `AEX-COORD-20260728-01`
 
@@ -34,27 +34,27 @@ Current governing sequence:
 
 ## 3. Current repository inventory
 
-| Organization / Repository | Intended role | Current status | Canonical handoff status |
-|---|---|---:|---|
+| Organization / Repository | Intended role | Current verified status | Canonical handoff status |
+|---|---|---|---|
 | `Admissible-Existence/Existence` | Existence formalism | Existing | Repo-specific handoff not yet verified |
 | `Admissible-Existence/AE` | Admissible Existence formalism | Existing | Repo-specific handoff not yet verified |
-| `Admissible-Existence/RTG` | Relational Transition Geometry | **Repository not presently visible** | Creation/ownership decision required |
-| `Admissible-Existence/GTG` | Generalized Transition Governance | **Repository not presently visible** | Creation/ownership decision required |
-| `Admissible-Existence/TT` | Transition Table formalism | **Repository not presently visible** | Creation/ownership decision required |
+| `Admissible-Existence/RTG` | Relational Transition Geometry | Existing; README defines role and build goal | `docs/RTG_MIRROR_HANDOFF.md` installed 2026-07-29 |
+| `Admissible-Existence/GTG` | Generalized Transition Governance | Existing; seven-volume formal draft and validation surface present | `docs/GTG_MIRROR_HANDOFF.md` verified |
+| `Admissible-Existence/TT` | Transition Table formalism | Existing; strict resolution chain and user-facing RTG-TT test interface present | `docs/TT_MIRROR_HANDOFF.md` verified |
 | `Admissible-Existence/validator` | Formalism validation/invalidation | Existing | Repo-specific handoff not yet verified |
-| `GCAT-BCAT-Engine/Publisher` | Publication projection | External dependency | Handoff/path verification required |
-| `StegVerse-Labs/Site` | Public rendered and downloadable surface | Existing | Site mirror controls exist; formalism publication path not yet verified |
-| `admissibility-wiki` | Public evidence and determination surface | External dependency | Update path required at release readiness |
-| `stegguardian-wiki` | Guardian/governance public surface | External dependency | Update path required at release readiness |
+| `GCAT-BCAT-Engine/Publisher` | Publication projection | External dependency | Destination awareness exists for TT; formalism publication path requires verification |
+| `StegVerse-Labs/Site` | Public rendered and downloadable surface | Existing | RTG/GTG/TT complete-document paths not yet verified; TT state is NOT_ADMITTED |
+| `StegVerse-Labs/admissibility-wiki` | Public evidence and determination surface | Existing external dependency | TT bounded receipt reported installed; public determination unauthorized |
+| `StegVerse-002/stegguardian-wiki` | Guardian/governance public surface | Existing external dependency | TT dependency blocked |
 
 ## 4. Worker inventory
 
-| Worker ID | Assignment | Destination | Status | Task % | Goal activation % | Source-session dependency |
-|---|---|---|---|---:|---:|---|
-| `AEX-COORD-20260728-01` | Establish and maintain formalism coordination, worker ledger, archive transfer gate, and repository inventory | `Admissible-Existence/.github` | ACTIVE | 60% | 25% | false after this handoff commit |
-| `AEX-INV-UNASSIGNED` | Inventory canonical RTG Volumes I–XV, GTG, and TT materials across accessible repositories and Site | To be assigned by coordinator | UNASSIGNED | 0% | 0% | n/a |
-| `AEX-ROUTE-UNASSIGNED` | Define canonical repository ownership for RTG, GTG, and TT, including whether new repos must be created | To be assigned by coordinator | BLOCKED | 0% | 0% | n/a |
-| `SITE-FORMALISM-UNASSIGNED` | Build verified online and downloadable formalism publication paths | `StegVerse-Labs/Site` | BLOCKED | 0% | 0% | n/a |
+| Worker ID | Assignment | Destination | Status | Task % | Developed-files % | Goal activation % | Source-session dependency |
+|---|---|---|---|---:|---:|---:|---|
+| `AEX-COORD-20260728-01` | Maintain formalism coordination, worker ledger, archive transfer gate, and repository inventory | `Admissible-Existence/.github` | ACTIVE | 75% | 70% | 40% | false |
+| `AEX-INV-20260729-01` | Inventory and reconcile RTG, GTG, and TT corpus, handoffs, publication surfaces, and ownership | RTG / GTG / TT / Site | ACTIVE | 35% | 30% | 20% | false |
+| `AEX-ROUTE-20260729-01` | Confirm canonical ownership now that dedicated RTG, GTG, and TT repos are visible | `Admissible-Existence/.github` | ACTIVE | 70% | 70% | 60% | false |
+| `SITE-FORMALISM-UNASSIGNED` | Build verified online and downloadable formalism publication paths | `StegVerse-Labs/Site` | BLOCKED | 0% | 0% | 0% | n/a |
 
 ## 5. Task ledger
 
@@ -62,76 +62,76 @@ Current governing sequence:
 
 - **Worker:** `AEX-COORD-20260728-01`
 - **Status:** ACTIVE
-- **Completion:** 60%
+- **Completion:** 75%
 - **Completed:**
   - singular coordination authority declared;
-  - central worker inventory established;
-  - central task ledger established;
-  - archive transfer confirmation language established;
-  - source-session independence rule established.
+  - central worker inventory and task ledger established;
+  - archive transfer and source-session independence rules established;
+  - dedicated RTG, GTG, and TT repositories located;
+  - GTG and TT handoffs verified;
+  - RTG repo-specific handoff installed;
+  - inventory worker assigned.
 - **Remaining:**
-  - verify repo-specific `*_MIRROR_HANDOFF.md` files;
-  - register active workers from other sessions;
-  - accept or reject their overlapping assignments;
+  - verify AE, Existence, and validator handoffs;
+  - import any active workers from other sessions;
   - create machine-verifiable archive-gate validation;
-  - propagate the authority link into governed repositories.
+  - propagate central-authority links into all governed repositories.
 
 ### `AEX-INV-001` — Formalism corpus inventory
 
-- **Worker:** UNASSIGNED
-- **Status:** READY FOR ASSIGNMENT
-- **Completion:** 0%
-- **Scope:** Locate and classify all RTG, GTG, and TT files, including Volumes I–XV, consolidated drafts, schemas, examples, tests, PDFs, Site pages, and superseded copies.
-- **Required output:** canonical inventory, provenance map, duplicate/conflict report, missing-file report, and recommended repository ownership.
+- **Worker:** `AEX-INV-20260729-01`
+- **Status:** ACTIVE
+- **Completion:** 35%
+- **Scope:** Locate and classify all RTG, GTG, and TT files, including volumes, consolidated drafts, schemas, examples, tests, PDFs, Site pages, and superseded copies.
+- **Verified findings:**
+  - RTG dedicated repository exists and identifies its mathematical role, but its complete volume and publication inventory remains unresolved;
+  - GTG has a canonical seven-volume set, contracts, schemas, fixtures, validators, tests, and a formal-draft-complete posture;
+  - TT has a large exploratory README plus a strict AE/Factory/TT receipt chain, transition elements T-060 through T-065, hosted validation evidence, and a user-facing RTG-TT test interface;
+  - GTG is not release-ready or independently verified;
+  - TT is not release-, tag-, publication-, execution-, or certification-authorized and remains blocked on destination admission;
+  - complete public RTG/GTG/TT document and download paths on Site are not yet verified.
+- **Required outputs remaining:**
+  - complete RTG Volumes I–XV provenance map;
+  - repository file inventories for RTG, GTG, and TT;
+  - duplicate/conflict and missing-file reports;
+  - consolidated-specification readiness report;
+  - Site path and download verification report.
 
 ### `AEX-ROUTE-001` — Canonical repository decision
 
-- **Worker:** UNASSIGNED
-- **Status:** BLOCKED BY `AEX-INV-001`
-- **Completion:** 0%
-- **Scope:** Decide whether RTG, GTG, and TT remain under an existing formalism repository or receive dedicated repositories under `Admissible-Existence`.
+- **Worker:** `AEX-ROUTE-20260729-01`
+- **Status:** ACTIVE — provisional decision established
+- **Completion:** 70%
+- **Current decision:**
+  - `Admissible-Existence/RTG` is the canonical RTG owner;
+  - `Admissible-Existence/GTG` is the canonical GTG owner;
+  - `Admissible-Existence/TT` is the canonical TT owner.
+- **Remaining:**
+  - reconcile RTG handoff ownership language with AE references;
+  - reconcile TT statements that place some RTG ownership in AE;
+  - confirm which repository owns consolidated cross-formalism publication manifests;
+  - record explicit supersession/provenance rules.
 
 ### `AEX-PUBLISH-001` — Public formalism publication
 
 - **Worker:** UNASSIGNED
-- **Status:** BLOCKED BY `AEX-INV-001` and `AEX-ROUTE-001`
+- **Status:** BLOCKED BY `AEX-INV-001` and final `AEX-ROUTE-001` reconciliation
 - **Completion:** 0%
-- **Scope:** Publish complete online documents and downloadable releases to Site with canonical repository, version, status, provenance, and supersession links.
+- **Scope:** Publish complete online documents and downloadable releases to Site with canonical repository, version, status, provenance, supersession, validation, and non-authority links.
 
 ## 6. Finding intake rule
 
 A LinkedIn post, external discussion, experiment, or session insight must not automatically become a new long-running implementation session.
 
-The originating session must record:
-
-- finding ID;
-- concise finding;
-- primary and secondary StegVerse concepts affected;
-- destination organization/repository;
-- requested task;
-- evidence or source reference;
-- urgency and dependency information.
-
-The Repository Coordination Authority then registers a worker and assignment in this handoff or the destination repo handoff.
+The originating session records the finding, affected concepts, destination, requested task, evidence, urgency, and dependencies. The Repository Coordination Authority then registers the worker and assignment here or in the destination handoff.
 
 ## 7. Archive transfer gate
-
-A session is not archive-ready merely because it documented a finding or suggested work.
 
 Valid state sequence:
 
 `NOT_TRANSFERRED → ASSIGNED → ACKNOWLEDGED → ARCHIVE_READY`
 
-Every archive transfer must include:
-
-- finding or task ID;
-- destination organization and repository;
-- governing handoff path;
-- assigned worker ID;
-- assigned task;
-- completion baseline;
-- worker acknowledgment;
-- confirmation that the worker does not depend on the originating conversation.
+Every archive transfer must identify the task, destination, handoff, worker, completion baseline, acknowledgment, and source-session independence.
 
 Required confirmation line:
 
@@ -141,32 +141,31 @@ A session may use `READY FOR ARCHIVE` only after that statement is factually tru
 
 ## 8. Completion model
 
-Three percentages must remain separate:
+Three percentages remain separate:
 
-1. **Task completion** — accepted assigned deliverables divided by required assigned deliverables.
+1. **Task completion** — accepted deliverables divided by required assigned deliverables.
 2. **Developed-files completion** — substantive required files divided by all required files; scaffolding and stubs do not count as developed.
 3. **Goal activation completion** — accepted activation conditions divided by all conditions required for operational use.
 
-Workers may propose completion values. Only the Repository Coordination Authority accepts and records repository-wide or program-wide values.
+Workers may propose values. Only the Repository Coordination Authority accepts repository-wide or program-wide values.
 
 ## 9. Release and propagation rule
 
-When a governed repository reaches release/tag readiness, the coordinator must:
+At release/tag readiness, the coordinator must create or verify the release task and follow-on propagation verification for:
 
-1. create or verify the release/tag task;
-2. create a follow-on verification task for applicable propagation to:
-   - `StegVerse-Labs/Site`;
-   - `GCAT-BCAT-Engine/Publisher`;
-   - `admissibility-wiki`;
-   - `stegguardian-wiki`;
-3. record evidence and completion in this handoff.
+- `StegVerse-Labs/Site`;
+- `GCAT-BCAT-Engine/Publisher`;
+- `StegVerse-Labs/admissibility-wiki`;
+- `StegVerse-002/stegguardian-wiki`.
 
-## 10. Immediate next assignment
+## 10. Immediate next work
 
-Priority assignment candidate: `AEX-INV-001`.
+`AEX-INV-20260729-01` must complete the RTG Volumes I–XV provenance and file inventory, then verify whether consolidated RTG, GTG, and TT documents are publicly readable and downloadable from Site.
 
-The next worker must inventory the actual RTG, GTG, and TT corpus before any new volume, consolidated specification, dedicated repository, or Site publication path is declared canonical.
+No new volume, consolidated specification, release, or publication path may be declared canonical until that inventory is recorded.
 
-## 11. Transfer confirmation for this coordination task
+## 11. Transfer confirmations
 
-Repository Coordination Authority has registered worker `AEX-COORD-20260728-01`, assigned task `AEX-COORD-001`, recorded `60%` task completion, and updated `Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md`. Worker `AEX-COORD-20260728-01` no longer references the originating discussion as its operational source; this handoff is now the authoritative source for continuation.
+Repository Coordination Authority has registered worker `AEX-COORD-20260728-01`, assigned task `AEX-COORD-001`, recorded `75%` task completion, and updated `Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md`. Worker `AEX-COORD-20260728-01` no longer references the originating discussion as its operational source; this handoff is now authoritative.
+
+Repository Coordination Authority has registered worker `AEX-INV-20260729-01`, assigned task `AEX-INV-001`, recorded `35%` task completion, and updated `Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md` and `Admissible-Existence/RTG/docs/RTG_MIRROR_HANDOFF.md`. Worker `AEX-INV-20260729-01` no longer references the originating session; these handoffs are now the authoritative sources for continuation.
