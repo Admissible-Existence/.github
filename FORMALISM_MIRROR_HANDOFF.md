@@ -38,7 +38,7 @@ Current governing sequence:
 |---|---|---|---|
 | `Admissible-Existence/Existence` | Existence formalism | Existing | Repo-specific handoff not yet verified |
 | `Admissible-Existence/AE` | Admissible Existence formalism | Existing | Repo-specific handoff not yet verified |
-| `Admissible-Existence/RTG` | Relational Transition Geometry | Existing; README defines role and build goal | `docs/RTG_MIRROR_HANDOFF.md` installed 2026-07-29 |
+| `Admissible-Existence/RTG` | Relational Transition Geometry | Existing; README and operational development verified; Volumes I–XV provenance unresolved | `docs/RTG_MIRROR_HANDOFF.md` and `docs/RTG_CORPUS_INVENTORY_STATUS.md` active |
 | `Admissible-Existence/GTG` | Generalized Transition Governance | Existing; seven-volume formal draft and validation surface present | `docs/GTG_MIRROR_HANDOFF.md` verified |
 | `Admissible-Existence/TT` | Transition Table formalism | Existing; strict resolution chain and user-facing RTG-TT test interface present | `docs/TT_MIRROR_HANDOFF.md` verified |
 | `Admissible-Existence/validator` | Formalism validation/invalidation | Existing | Repo-specific handoff not yet verified |
@@ -51,9 +51,9 @@ Current governing sequence:
 
 | Worker ID | Assignment | Destination | Status | Task % | Developed-files % | Goal activation % | Source-session dependency |
 |---|---|---|---|---:|---:|---:|---|
-| `AEX-COORD-20260728-01` | Maintain formalism coordination, worker ledger, archive transfer gate, and repository inventory | `Admissible-Existence/.github` | ACTIVE | 75% | 70% | 40% | false |
-| `AEX-INV-20260729-01` | Inventory and reconcile RTG, GTG, and TT corpus, handoffs, publication surfaces, and ownership | RTG / GTG / TT / Site | ACTIVE | 35% | 30% | 20% | false |
-| `AEX-ROUTE-20260729-01` | Confirm canonical ownership now that dedicated RTG, GTG, and TT repos are visible | `Admissible-Existence/.github` | ACTIVE | 70% | 70% | 60% | false |
+| `AEX-COORD-20260728-01` | Maintain formalism coordination, worker ledger, archive transfer gate, and repository inventory | `Admissible-Existence/.github` | ACTIVE | 78% | 72% | 42% | false |
+| `AEX-INV-20260729-01` | Inventory and reconcile RTG, GTG, and TT corpus, handoffs, publication surfaces, and ownership | RTG / GTG / TT / Site | ACTIVE | 45% | 35% | 25% | false |
+| `AEX-ROUTE-20260729-01` | Confirm canonical ownership and reconcile AE/RTG/TT ownership boundaries | `Admissible-Existence/.github` | ACTIVE | 72% | 70% | 60% | false |
 | `SITE-FORMALISM-UNASSIGNED` | Build verified online and downloadable formalism publication paths | `StegVerse-Labs/Site` | BLOCKED | 0% | 0% | 0% | n/a |
 
 ## 5. Task ledger
@@ -62,7 +62,7 @@ Current governing sequence:
 
 - **Worker:** `AEX-COORD-20260728-01`
 - **Status:** ACTIVE
-- **Completion:** 75%
+- **Completion:** 78%
 - **Completed:**
   - singular coordination authority declared;
   - central worker inventory and task ledger established;
@@ -70,7 +70,8 @@ Current governing sequence:
   - dedicated RTG, GTG, and TT repositories located;
   - GTG and TT handoffs verified;
   - RTG repo-specific handoff installed;
-  - inventory worker assigned.
+  - durable RTG corpus inventory report installed;
+  - inventory and routing workers assigned.
 - **Remaining:**
   - verify AE, Existence, and validator handoffs;
   - import any active workers from other sessions;
@@ -81,17 +82,20 @@ Current governing sequence:
 
 - **Worker:** `AEX-INV-20260729-01`
 - **Status:** ACTIVE
-- **Completion:** 35%
+- **Completion:** 45%
 - **Scope:** Locate and classify all RTG, GTG, and TT files, including volumes, consolidated drafts, schemas, examples, tests, PDFs, Site pages, and superseded copies.
 - **Verified findings:**
-  - RTG dedicated repository exists and identifies its mathematical role, but its complete volume and publication inventory remains unresolved;
+  - RTG dedicated repository exists and identifies its mathematical role;
+  - RTG operational history includes IICT fixtures, missing-authority and lost-recoverability cases, fail-closed result handling, bridge records, theorem fixtures, and status/goal records;
+  - the location and canonical provenance of the separately downloaded RTG Volumes I–XV remain unresolved;
   - GTG has a canonical seven-volume set, contracts, schemas, fixtures, validators, tests, and a formal-draft-complete posture;
   - TT has a large exploratory README plus a strict AE/Factory/TT receipt chain, transition elements T-060 through T-065, hosted validation evidence, and a user-facing RTG-TT test interface;
   - GTG is not release-ready or independently verified;
   - TT is not release-, tag-, publication-, execution-, or certification-authorized and remains blocked on destination admission;
   - complete public RTG/GTG/TT document and download paths on Site are not yet verified.
 - **Required outputs remaining:**
-  - complete RTG Volumes I–XV provenance map;
+  - exact RTG Volumes I–XV filename and source-location inventory;
+  - volume-to-path and definition-provenance matrix;
   - repository file inventories for RTG, GTG, and TT;
   - duplicate/conflict and missing-file reports;
   - consolidated-specification readiness report;
@@ -101,14 +105,18 @@ Current governing sequence:
 
 - **Worker:** `AEX-ROUTE-20260729-01`
 - **Status:** ACTIVE — provisional decision established
-- **Completion:** 70%
+- **Completion:** 72%
 - **Current decision:**
   - `Admissible-Existence/RTG` is the canonical RTG owner;
   - `Admissible-Existence/GTG` is the canonical GTG owner;
   - `Admissible-Existence/TT` is the canonical TT owner.
+- **Conflict requiring reconciliation:**
+  - TT assigns the Admissible Resolution Function and geometric minimum to `Admissible-Existence/AE` while consuming those records locally;
+  - RTG owns relational-transition geometry generally;
+  - the final ownership rule must distinguish RTG geometry from AE admissibility-resolution derivation without duplicating canonical definitions.
 - **Remaining:**
   - reconcile RTG handoff ownership language with AE references;
-  - reconcile TT statements that place some RTG ownership in AE;
+  - record the RTG/AE boundary for the Admissible Resolution Function and geometric minimum;
   - confirm which repository owns consolidated cross-formalism publication manifests;
   - record explicit supersession/provenance rules.
 
@@ -160,12 +168,14 @@ At release/tag readiness, the coordinator must create or verify the release task
 
 ## 10. Immediate next work
 
-`AEX-INV-20260729-01` must complete the RTG Volumes I–XV provenance and file inventory, then verify whether consolidated RTG, GTG, and TT documents are publicly readable and downloadable from Site.
+`AEX-INV-20260729-01` must recover the exact RTG Volumes I–XV filenames and source locations, build the volume-to-path provenance matrix, and then verify complete online and download paths on Site.
 
-No new volume, consolidated specification, release, or publication path may be declared canonical until that inventory is recorded.
+`AEX-ROUTE-20260729-01` must define the AE/RTG ownership boundary for the Admissible Resolution Function and geometric minimum.
+
+No new volume, consolidated specification, release, or publication path may be declared canonical until those records are accepted.
 
 ## 11. Transfer confirmations
 
-Repository Coordination Authority has registered worker `AEX-COORD-20260728-01`, assigned task `AEX-COORD-001`, recorded `75%` task completion, and updated `Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md`. Worker `AEX-COORD-20260728-01` no longer references the originating discussion as its operational source; this handoff is now authoritative.
+Repository Coordination Authority has registered worker `AEX-COORD-20260728-01`, assigned task `AEX-COORD-001`, recorded `78%` task completion, and updated `Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md`. Worker `AEX-COORD-20260728-01` no longer references the originating discussion as its operational source; this handoff is now authoritative.
 
-Repository Coordination Authority has registered worker `AEX-INV-20260729-01`, assigned task `AEX-INV-001`, recorded `35%` task completion, and updated `Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md` and `Admissible-Existence/RTG/docs/RTG_MIRROR_HANDOFF.md`. Worker `AEX-INV-20260729-01` no longer references the originating session; these handoffs are now the authoritative sources for continuation.
+Repository Coordination Authority has registered worker `AEX-INV-20260729-01`, assigned task `AEX-INV-001`, recorded `45%` task completion, and updated `Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md`, `Admissible-Existence/RTG/docs/RTG_MIRROR_HANDOFF.md`, and `Admissible-Existence/RTG/docs/RTG_CORPUS_INVENTORY_STATUS.md`. Worker `AEX-INV-20260729-01` no longer references the originating session; these handoffs are now the authoritative sources for continuation.
