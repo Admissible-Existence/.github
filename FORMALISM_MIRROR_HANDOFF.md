@@ -20,14 +20,7 @@ The Repository Coordination Authority alone may register workers, accept complet
 
 ## 3. Primary repository authority status
 
-Central-authority links and local handoffs are active in:
-
-- `Admissible-Existence/Existence`;
-- `Admissible-Existence/AE`;
-- `Admissible-Existence/RTG`;
-- `Admissible-Existence/GTG`;
-- `Admissible-Existence/TT`;
-- `Admissible-Existence/validator`.
+Central-authority links and local handoffs are active in Existence, AE, RTG, GTG, TT, and validator.
 
 Canonical ownership remains:
 
@@ -45,57 +38,45 @@ Canonical ownership remains:
 | `AEX-INV-20260729-01` | RTG/GTG/TT corpus and publication inventory | ACTIVE | 58% | 48% | 34% | false |
 | `AEX-ROUTE-20260729-01` | Canonical ownership reconciliation and propagation | COMPLETE | 100% | 100% | 96% | false |
 | `AEX-EXIST-20260729-01` | Existence RC1 and boundary verification | ACTIVE | 58% | 55% | 40% | false |
-| `AEX-VALID-20260729-01` | Validator surface and receipt inventory | ACTIVE | 68% | 64% | 45% | false |
+| `AEX-VALID-20260729-01` | Validator surface and receipt inventory | ACTIVE | 78% | 74% | 56% | false |
 | `SITE-FORMALISM-UNASSIGNED` | Complete online/downloadable formalism publication | BLOCKED | 10% | 5% | 0% | n/a |
 
 ## 5. Completed coordination control plane
 
-`AEX-COORD-001` is complete and archive-ready. The singular authority, worker ledger, ownership propagation, archive-transfer registry, validator, workflow, and hosted successful proof are installed.
-
-Hosted evidence:
+`AEX-COORD-001` is complete and archive-ready. Hosted proof:
 
 ```text
 pull_request: 1
-head_commit: 6e57815a441c2994e265846c813b0c76f151fae9
 workflow: Formalism Archive Gate
 run_id: 30555119304
 run_number: 7
-status: completed
 conclusion: success
 job_id: 90913485417
-job: validate-archive-transfer-registry
 job_conclusion: success
 validator_step_conclusion: success
 ```
 
-Durable evidence: `docs/FORMALISM_ARCHIVE_GATE_HOSTED_EVIDENCE.md`.
+## 6. Validator inventory progress
 
-## 6. Active validator inventory
+Current-head validator surfaces are now mapped in:
 
-`AEX-VALID-001` has verified:
+```text
+Admissible-Existence/validator/docs/VALIDATOR_SURFACE_INVENTORY.md
+Admissible-Existence/validator/docs/VALIDATOR_CURRENT_HEAD_SURFACE_MAP.md
+```
 
-- `data/validator-profile-contract.json`;
-- `data/target-manifest-contract.json`;
-- `tools/run_validation_seed.py`;
-- `tools/check_validation_seed.py` as named receipt checker;
-- `dist/validation-seed-receipt.json`;
-- `docs/VALIDATION_EXECUTION_SEED_STATUS.md`;
-- deterministic `INSUFFICIENT_EVIDENCE` when target evidence is absent;
-- zero target writes, zero automatic pull requests, and no execution or authority creation;
-- historical development of profile/target checkers, outcomes, TT evaluation, RE fixtures, smoke workflow, and reachable-goal status.
+Verified current-head groups include:
 
-Durable inventory:
+- profile, target-manifest, and outcome contracts;
+- deterministic fail-closed validation seed runner and checker;
+- compact seed receipt;
+- TT, RE, and RE-Reduction fixture profiles and target manifests;
+- general profile evaluator and expected TT checker;
+- hosted workflow definition evaluating all three fixture families.
 
-`Admissible-Existence/validator/docs/VALIDATOR_SURFACE_INVENTORY.md`
+The RE and RE-Reduction target manifests remain fixture declarations with `target_commit: unknown-local-example`. They are not commit-bound standing receipts.
 
-Remaining validator work:
-
-1. verify exact current-head paths for all historical outcome, TT, RE, and workflow surfaces;
-2. verify hosted validator workflow evidence;
-3. define the complete receipt contract beyond the compact seed;
-4. define factory invocation/report deposit;
-5. define Master-Records custody and public-projection propagation;
-6. record schema supersession rules.
+The validator workflow definition is present on current head, but a successful hosted run for the present validator head has not yet been observed.
 
 ## 7. Archive-transfer gate
 
@@ -113,26 +94,23 @@ tools/check_formalism_archive_gate.py
 
 ## 8. Active program work
 
-Coordination completion does not complete formalism publication. Active blockers remain:
-
-1. recover exact RTG Volume I–XV files or filenames;
-2. calculate hashes and populate the provenance matrix;
-3. classify normative, explanatory, duplicate, superseded, and unresolved content;
-4. complete Existence hosted RC1 and release-readiness evidence;
-5. finish validator current-head path, hosted evidence, and propagation inventory;
-6. prepare consolidated canonical artifacts;
-7. obtain Site orchestrator admission;
-8. publish complete online and downloadable editions;
-9. obtain Publisher, admissibility-wiki, and stegguardian-wiki destination receipts.
+1. Recover exact RTG Volume I–XV files or filenames.
+2. Calculate hashes and populate the provenance matrix.
+3. Classify normative, explanatory, duplicate, superseded, and unresolved RTG content.
+4. Complete Existence hosted RC1 and release-readiness evidence.
+5. Capture hosted validator evidence for current head.
+6. Define the full validator receipt, Factory invocation/deposit, Master-Records custody, and schema-supersession contracts.
+7. Prepare consolidated canonical artifacts.
+8. Obtain Site orchestrator admission.
+9. Publish complete online and downloadable editions.
+10. Obtain Publisher, admissibility-wiki, and stegguardian-wiki destination receipts.
 
 No Site mutation may bypass `StegVerse-Labs/Site/docs/SITE_MIRROR_HANDOFF.md` or its orchestrator.
 
 ## 9. Completion model
 
-Coordination task completion, developed-file completion, and coordination activation are 100%. Program-wide formalism-publication activation remains separate and materially incomplete.
+Coordination completion remains 100%. Program-wide formalism-publication activation remains materially incomplete.
 
 ## 10. Transfer confirmations
 
-Repository Coordination Authority has registered worker `AEX-COORD-20260728-01`, assigned task `AEX-COORD-001`, recorded `100%` completion, and updated `Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md`. Worker `AEX-COORD-20260728-01` no longer references the originating session; this handoff, archive registry, and hosted evidence are authoritative.
-
-Repository Coordination Authority has registered worker `AEX-VALID-20260729-01`, assigned task `AEX-VALID-001`, recorded `68%` completion, and updated `Admissible-Existence/validator/docs/VALIDATOR_MIRROR_HANDOFF.md` and `docs/VALIDATOR_SURFACE_INVENTORY.md`. Worker `AEX-VALID-20260729-01` no longer references the originating session; those validator records are authoritative.
+Repository Coordination Authority has registered worker `AEX-VALID-20260729-01`, assigned task `AEX-VALID-001`, recorded `78%` completion, and updated the validator handoff, surface inventory, current-head surface map, and this central ledger. Worker `AEX-VALID-20260729-01` no longer references the originating session; those repository records are authoritative for continuation.
