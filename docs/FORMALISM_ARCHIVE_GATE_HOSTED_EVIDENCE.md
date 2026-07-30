@@ -21,27 +21,41 @@ changed_file: .github/workflows/formalism-archive-gate.yml
 change_type: bounded no-op comment
 ```
 
-The pull request changes no worker assignment, archive state, authority, task scope, or completion percentage. Its sole purpose is to trigger the existing archive-gate workflow through a pull-request event that can be observed by the connected workflow tooling.
+The pull request changed no worker assignment, archive state, authority, task scope, or completion percentage. Its sole purpose was to trigger the existing archive-gate workflow through an observable pull-request event.
 
-## Observed workflow evidence
+## Hosted result
 
 ```text
 workflow_name: Formalism Archive Gate
 workflow_run_id: 30555119304
 workflow_run_number: 7
-observed_status: queued
-observed_conclusion: none
+workflow_status: completed
+workflow_conclusion: success
+job_id: 90913485417
+job_name: validate-archive-transfer-registry
+job_status: completed
+job_conclusion: success
+validator_step: Validate formalism archive gate
+validator_step_conclusion: success
 hosted_trigger_observed: true
-hosted_success_observed: false
+hosted_success_observed: true
 hosted_failure_observed: false
 ```
 
-The run has been observed as queued. This proves that the pull-request trigger and workflow association are active. It does not yet prove validator success or failure.
+The hosted workflow completed successfully. Checkout, Python setup, archive-transfer registry validation, and job completion all concluded successfully.
 
-## Completion boundary
+## Coordination completion decision
 
-`AEX-COORD-001` remains at 99% until a terminal hosted conclusion is recorded and any active formalism workers created outside the central ledger are imported or explicitly found absent.
+`AEX-COORD-001` is complete. The coordination control plane, repository handoffs, central authority propagation, machine-readable transfer registry, validator, workflow, and hosted proof path are all installed and verified.
 
-## Next valid step
+This does not complete the separate formalism-publication goal. RTG Volume I–XV provenance, consolidated artifacts, Site admission, public downloads, and downstream destination receipts remain governed by their assigned tasks.
 
-Fetch workflow run `30555119304` after it reaches a terminal state, inspect its job steps or logs, and update this record and `FORMALISM_MIRROR_HANDOFF.md` with the exact conclusion.
+## Archive posture
+
+```text
+task_completion: 100%
+developed_files_completion: 100%
+coordination_goal_activation: 100%
+source_session_dependency: false
+archive_ready: true
+```
