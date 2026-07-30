@@ -38,45 +38,45 @@ Canonical ownership remains:
 | `AEX-INV-20260729-01` | RTG/GTG/TT corpus and publication inventory | ACTIVE | 58% | 48% | 34% | false |
 | `AEX-ROUTE-20260729-01` | Canonical ownership reconciliation and propagation | COMPLETE | 100% | 100% | 96% | false |
 | `AEX-EXIST-20260729-01` | Existence RC1 and boundary verification | ACTIVE | 58% | 55% | 40% | false |
-| `AEX-VALID-20260729-01` | Validator surface and receipt inventory | ACTIVE | 78% | 74% | 56% | false |
+| `AEX-VALID-20260729-01` | Validator surface, hosted workflow, and receipt inventory | ACTIVE | 88% | 84% | 70% | false |
 | `SITE-FORMALISM-UNASSIGNED` | Complete online/downloadable formalism publication | BLOCKED | 10% | 5% | 0% | n/a |
 
 ## 5. Completed coordination control plane
 
-`AEX-COORD-001` is complete and archive-ready. Hosted proof:
+`AEX-COORD-001` is complete and archive-ready. Hosted archive-gate proof concluded successfully under run `30555119304`, job `90913485417`.
 
-```text
-pull_request: 1
-workflow: Formalism Archive Gate
-run_id: 30555119304
-run_number: 7
-conclusion: success
-job_id: 90913485417
-job_conclusion: success
-validator_step_conclusion: success
-```
+## 6. Validator hosted evidence
 
-## 6. Validator inventory progress
-
-Current-head validator surfaces are now mapped in:
+Durable validator records:
 
 ```text
 Admissible-Existence/validator/docs/VALIDATOR_SURFACE_INVENTORY.md
 Admissible-Existence/validator/docs/VALIDATOR_CURRENT_HEAD_SURFACE_MAP.md
+Admissible-Existence/validator/docs/VALIDATOR_HOSTED_EVIDENCE.md
 ```
 
-Verified current-head groups include:
+Hosted diagnosis and repair:
 
-- profile, target-manifest, and outcome contracts;
-- deterministic fail-closed validation seed runner and checker;
-- compact seed receipt;
-- TT, RE, and RE-Reduction fixture profiles and target manifests;
-- general profile evaluator and expected TT checker;
-- hosted workflow definition evaluating all three fixture families.
+```text
+pull_request: Admissible-Existence/validator#1
+diagnostic_run: 30568508756
+diagnostic_conclusion: failure
+failure: missing examples/re-standing-profile.json
+repair_merge_commit: f0e043014c69e4eb2826377fb94d4a71d5bb2354
+corrected_run: 30568658726
+corrected_run_number: 33
+corrected_conclusion: success
+job_id: 90959463094
+```
 
-The RE and RE-Reduction target manifests remain fixture declarations with `target_commit: unknown-local-example`. They are not commit-bound standing receipts.
+The corrected workflow now:
 
-The validator workflow definition is present on current head, but a successful hosted run for the present validator head has not yet been observed.
+- validates the TT profile fixture;
+- verifies the expected TT result;
+- rejects the unbound RE example;
+- rejects the unbound RE-Reduction example.
+
+The two RE manifests retain `target_commit: unknown-local-example`. They remain fail-closed fixtures and are not canonical standing receipts.
 
 ## 7. Archive-transfer gate
 
@@ -98,12 +98,13 @@ tools/check_formalism_archive_gate.py
 2. Calculate hashes and populate the provenance matrix.
 3. Classify normative, explanatory, duplicate, superseded, and unresolved RTG content.
 4. Complete Existence hosted RC1 and release-readiness evidence.
-5. Capture hosted validator evidence for current head.
-6. Define the full validator receipt, Factory invocation/deposit, Master-Records custody, and schema-supersession contracts.
-7. Prepare consolidated canonical artifacts.
-8. Obtain Site orchestrator admission.
-9. Publish complete online and downloadable editions.
-10. Obtain Publisher, admissibility-wiki, and stegguardian-wiki destination receipts.
+5. Define the full validator receipt contract.
+6. Define validation-profile-registry consumption and Factory invocation/deposit.
+7. Define Master-Records custody, public projection, and schema supersession.
+8. Prepare consolidated canonical artifacts.
+9. Obtain Site orchestrator admission.
+10. Publish complete online and downloadable editions.
+11. Obtain Publisher, admissibility-wiki, and stegguardian-wiki destination receipts.
 
 No Site mutation may bypass `StegVerse-Labs/Site/docs/SITE_MIRROR_HANDOFF.md` or its orchestrator.
 
@@ -113,4 +114,4 @@ Coordination completion remains 100%. Program-wide formalism-publication activat
 
 ## 10. Transfer confirmations
 
-Repository Coordination Authority has registered worker `AEX-VALID-20260729-01`, assigned task `AEX-VALID-001`, recorded `78%` completion, and updated the validator handoff, surface inventory, current-head surface map, and this central ledger. Worker `AEX-VALID-20260729-01` no longer references the originating session; those repository records are authoritative for continuation.
+Repository Coordination Authority has registered worker `AEX-VALID-20260729-01`, assigned task `AEX-VALID-001`, recorded `88%` completion, and updated the validator handoff, surface inventory, current-head surface map, hosted evidence record, and this central ledger. Worker `AEX-VALID-20260729-01` no longer references the originating session; those repository records are authoritative for continuation.
