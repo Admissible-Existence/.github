@@ -32,3 +32,5 @@ jobs:
 
       - name: Validate formalism archive gate
         run: python tools/check_formalism_archive_gate.py
+
+# Hosted-proof probe: bounded no-op change used to obtain pull-request validation evidence.
