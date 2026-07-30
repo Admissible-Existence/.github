@@ -32,52 +32,44 @@ This handoff is the singular source of truth for assignments, accepted percentag
 | Worker ID | Assignment | Status | Task % | Developed-files % | Goal activation % | Source-session dependency |
 |---|---|---|---:|---:|---:|---|
 | `AEX-COORD-20260728-01` | Coordination control plane and archive enforcement | COMPLETE / ARCHIVE_READY | 100% | 100% | 100% | false |
-| `AEX-INV-20260729-01` | RTG/GTG/TT corpus and publication inventory | ACTIVE | 58% | 48% | 34% | false |
+| `AEX-INV-20260729-01` | RTG manuscript, operational corpus, and publication inventory | ACTIVE | 82% | 78% | 58% | false |
 | `AEX-ROUTE-20260729-01` | Canonical ownership reconciliation and propagation | COMPLETE | 100% | 100% | 96% | false |
 | `AEX-EXIST-20260729-01` | Existence RC1 surfaces, hosted checks, artifacts, and authority boundary | COMPLETE / ARCHIVE_READY | 100% | 100% | 100% | false |
 | `AEX-VALID-20260729-01` | Validator surfaces, hosted behavior, receipt, integration, custody, and supersession contracts | COMPLETE / ARCHIVE_READY | 100% | 100% | 100% | false |
 | `SITE-FORMALISM-UNASSIGNED` | Complete online/downloadable formalism publication | BLOCKED | 10% | 5% | 0% | n/a |
 
-## 5. Completed Existence RC1 layer
+## 5. Corrected RTG publication provenance
+
+Persistent-library recovery established that the RTG publication family is one Volume I developed through part releases and consolidated as:
+
+```text
+Foundations-of-RTG-Volume-I-Integrated-v0.9.0
+```
+
+Recovered integrated format hashes:
+
+```text
+Markdown  8d9d0eb0f52ef3313cebe5121e24db6ac8b1a1947fec17d06b1a9e6dc907e13a
+DOCX      27b569ad0e87779fc062ccfb71e5b606ebb3331e6c612c57a384cb6049e4cb83
+PDF       ac4b3353b199c5ddeebc33981c33db80fdd88f1eb8898e3986333ec8a6f1eb91
+```
+
+The separately observed Volume I–XV sequence belongs to `Standing Research Companion`, not RTG. The prior fifteen-volume RTG assumption is rejected and must not be used in corpus-completeness or publication claims.
 
 Durable records:
 
 ```text
-Admissible-Existence/Existence/docs/EXISTENCE_MIRROR_HANDOFF.md
-Admissible-Existence/Existence/docs/EXISTENCE_RC1_HOSTED_EVIDENCE.md
-Admissible-Existence/Existence/RELEASE_CANDIDATE.md
+Admissible-Existence/RTG/docs/RTG_LIBRARY_ARTIFACT_RECOVERY.md
+Admissible-Existence/RTG/docs/RTG_VOLUME_PROVENANCE_MATRIX.md
+Admissible-Existence/RTG/docs/RTG_CORPUS_INVENTORY_STATUS.md
+Admissible-Existence/RTG/docs/RTG_MIRROR_HANDOFF.md
 ```
 
-Hosted proof:
+The repository manifest remains the operational canonical corpus. The integrated manuscript is a recovered publication candidate pending repository deposit, crosswalk, validation, and acceptance.
 
-```text
-pull_request: Admissible-Existence/Existence#1
-head_commit: af86c6aa6c8362029a2c3f47a3cd6777dacc832a
-workflow: RC1 Validation
-run_id: 30571386668
-run_number: 59
-conclusion: success
-job_id: 90968719850
-job_conclusion: success
-```
+## 6. Completed Existence and validator layers
 
-Hosted artifacts:
-
-```text
-rc1-completion-record
-artifact_id: 8770918013
-digest: sha256:8f14d5a25136a3b03904b61aa1ab3740d74655359ed467b41d6798761bfbb511
-
-rc1-artifact-receipts
-artifact_id: 8770917728
-digest: sha256:9e5cfdf1a2e211a9ed510d912388da70785140e87d5f0d504c2438f7bc0700d7
-```
-
-Existence RC1 is internally release-ready. This does not authorize publication or execution and does not make `%Existence` equivalent to commit-time admissibility.
-
-## 6. Completed validator layer
-
-The validator layer is complete and archive-ready with hosted contract enforcement, commit-bound receipt requirements, profile-registry and Factory boundaries, Master-Records custody, and supersession controls.
+Existence RC1 verification and validator control-plane tasks are complete and archive-ready, with hosted evidence and durable receipts or contracts.
 
 ## 7. Archive-transfer gate
 
@@ -93,24 +85,28 @@ tools/check_formalism_archive_gate.py
 .github/workflows/formalism-archive-gate.yml
 ```
 
-The registry records coordination, Existence, and validator workers at 100% and `ARCHIVE_READY`.
+The registry records coordination, Existence, and validator workers at 100% and `ARCHIVE_READY`; RTG inventory remains active at 82% and `ACKNOWLEDGED`.
 
 ## 8. Active program work
 
-1. Recover exact RTG Volume I–XV files or filenames.
-2. Calculate hashes and populate the provenance matrix.
-3. Classify normative, explanatory, duplicate, superseded, and unresolved RTG content.
-4. Prepare consolidated canonical artifacts after provenance resolution.
-5. Obtain Site orchestrator admission.
-6. Publish complete online and downloadable editions.
-7. Obtain Publisher, admissibility-wiki, and stegguardian-wiki destination receipts.
+1. Deposit or reconstruct the recovered integrated RTG Markdown manuscript in a reviewable repository path.
+2. Build definition, theorem, symbol, schema, and fixture crosswalks against the manifest corpus.
+3. Classify normative, explanatory, experimental, duplicate, and superseded content.
+4. Resolve manuscript-to-manifest divergence and produce consolidated-specification readiness decision.
+5. Bind reproducible DOCX/PDF generation to the accepted Markdown source.
+6. Obtain validator acceptance.
+7. Obtain Site orchestrator admission.
+8. Publish complete online and downloadable editions.
+9. Obtain Publisher, admissibility-wiki, and stegguardian-wiki destination receipts.
 
 No Site mutation may bypass `StegVerse-Labs/Site/docs/SITE_MIRROR_HANDOFF.md` or its orchestrator.
 
 ## 9. Completion model
 
-Coordination, Existence RC1 verification, and validator tasks are complete. Program-wide formalism-publication activation remains incomplete because corpus provenance, canonical consolidation, Site admission, and destination receipts remain open.
+Coordination, Existence RC1 verification, and validator tasks are complete. The largest remaining technical dependency is no longer locating fifteen RTG volumes; it is integrating and crosswalking the recovered v0.9.0 manuscript against the canonical operational corpus.
+
+Program-wide formalism-publication activation remains incomplete because consolidation, validation, Site admission, and destination receipts remain open.
 
 ## 10. Transfer confirmation
 
-Repository Coordination Authority has registered worker `AEX-EXIST-20260729-01`, assigned task `AEX-EXIST-001`, recorded `100%` completion, and updated the Existence handoff, hosted evidence, release-candidate status, archive-transfer registry, and this central ledger. Worker `AEX-EXIST-20260729-01` no longer references the originating session; those repository records are authoritative for continuation.
+Repository Coordination Authority has registered worker `AEX-INV-20260729-01`, assigned task `AEX-INV-001`, recorded `82%` completion, and updated the RTG handoff, library recovery record, provenance matrix, corpus inventory, archive-transfer registry, and this central ledger. Worker `AEX-INV-20260729-01` no longer references the originating session; those repository records are authoritative for continuation.
