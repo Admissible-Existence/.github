@@ -1,6 +1,6 @@
 {
   "registry_id": "AEX-ARCHIVE-TRANSFER-REGISTRY-0001",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "authority_worker": "AEX-COORD-20260728-01",
   "valid_states": ["NOT_TRANSFERRED", "ASSIGNED", "ACKNOWLEDGED", "ARCHIVE_READY"],
   "required_transition_order": ["NOT_TRANSFERRED", "ASSIGNED", "ACKNOWLEDGED", "ARCHIVE_READY"],
@@ -23,12 +23,12 @@
       "worker_id": "AEX-INV-20260729-01",
       "destination_repository": "Admissible-Existence/RTG",
       "handoff_path": "docs/RTG_MIRROR_HANDOFF.md",
-      "assigned_task": "Inventory and reconcile RTG, GTG, TT, and publication surfaces.",
-      "completion_percent": 58,
+      "assigned_task": "Recover and reconcile the RTG integrated manuscript, manifest corpus, interlayer ownership, and publication surfaces.",
+      "completion_percent": 82,
       "state": "ACKNOWLEDGED",
       "worker_acknowledged": true,
       "source_session_dependency": false,
-      "confirmation_line": "Repository Coordination Authority has registered worker AEX-INV-20260729-01, assigned task AEX-INV-001, recorded 58% completion, and updated Admissible-Existence/RTG/docs/RTG_MIRROR_HANDOFF.md. Worker AEX-INV-20260729-01 no longer references the originating session; the handoff is now the authoritative source for continuation."
+      "confirmation_line": "Repository Coordination Authority has registered worker AEX-INV-20260729-01, assigned task AEX-INV-001, recorded 82% completion, and updated Admissible-Existence/RTG/docs/RTG_MIRROR_HANDOFF.md. Worker AEX-INV-20260729-01 no longer references the originating session; the handoff is now the authoritative source for continuation."
     },
     {
       "task_id": "AEX-EXIST-001",
