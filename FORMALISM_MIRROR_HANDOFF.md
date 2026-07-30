@@ -28,9 +28,9 @@ Establish a collision-resistant path from findings and formal development into c
 |---|---|---|---|
 | `Admissible-Existence/Existence` | Governed `%Existence` standing layer | RC1 integration scaffold, two round-trip fixtures, proof path, validation and release accounting present | `docs/EXISTENCE_MIRROR_HANDOFF.md` installed |
 | `Admissible-Existence/AE` | Admissible Existence and Admissible Resolution Function | AE source contract, deterministic receipt, public index, validation and cross-repo chain present | `docs/AE_MIRROR_HANDOFF.md` verified |
-| `Admissible-Existence/RTG` | Relational Transition Geometry | Manifest corpus and operational build verified; Volume I–XV provenance unresolved | RTG handoff, corpus inventory, volume matrix, and Site path report active |
-| `Admissible-Existence/GTG` | Generalized Transition Governance | Seven-volume formal draft and validation surface present | `docs/GTG_MIRROR_HANDOFF.md` verified |
-| `Admissible-Existence/TT` | Transition Table formalism | Strict resolution chain and RTG-TT test interface present | `docs/TT_MIRROR_HANDOFF.md` verified |
+| `Admissible-Existence/RTG` | Relational Transition Geometry | Manifest corpus and operational build verified; Volume I–XV provenance unresolved | RTG handoff, inventory records, Site path report, and central-authority link active |
+| `Admissible-Existence/GTG` | Generalized Transition Governance | Seven-volume formal draft and validation surface present | GTG handoff and central-authority link active |
+| `Admissible-Existence/TT` | Transition Table formalism | Strict resolution chain and RTG-TT test interface present | TT handoff and central-authority link active |
 | `Admissible-Existence/validator` | Profile-driven standing evaluation | Validation role and initial profile families declared | `docs/VALIDATOR_MIRROR_HANDOFF.md` installed |
 | `GCAT-BCAT-Engine/Publisher` | Publication projection | External dependency | Formalism publication path requires verification |
 | `StegVerse-Labs/Site` | Public rendered/downloadable surface | TT code-representation route verified; no complete RTG/GTG/TT route declared | Active workload prevents unadmitted formalism mutation |
@@ -41,9 +41,9 @@ Establish a collision-resistant path from findings and formal development into c
 
 | Worker ID | Assignment | Destination | Status | Task % | Developed-files % | Goal activation % | Source-session dependency |
 |---|---|---|---|---:|---:|---:|---|
-| `AEX-COORD-20260728-01` | Maintain coordination, worker ledger, archive gate, and repository inventory | `Admissible-Existence/.github` | ACTIVE | 94% | 92% | 70% | false |
+| `AEX-COORD-20260728-01` | Maintain coordination, worker ledger, archive gate, repository inventory, and authority propagation | `Admissible-Existence/.github` | ACTIVE | 97% | 96% | 76% | false |
 | `AEX-INV-20260729-01` | Inventory and reconcile RTG, GTG, TT, and publication surfaces | RTG / GTG / TT / Site | ACTIVE | 58% | 48% | 34% | false |
-| `AEX-ROUTE-20260729-01` | Reconcile canonical ownership and AE/RTG/TT boundaries | `Admissible-Existence/.github` | ACTIVE | 90% | 88% | 82% | false |
+| `AEX-ROUTE-20260729-01` | Reconcile canonical ownership and AE/RTG/TT boundaries | `Admissible-Existence/.github` | ACTIVE | 96% | 95% | 90% | false |
 | `AEX-EXIST-20260729-01` | Verify Existence RC1 surfaces and preserve `%Existence` boundaries | `Admissible-Existence/Existence` | ACTIVE | 55% | 50% | 35% | false |
 | `AEX-VALID-20260729-01` | Inventory validator surfaces and profile/factory boundaries | `Admissible-Existence/validator` | ACTIVE | 45% | 40% | 25% | false |
 | `SITE-FORMALISM-UNASSIGNED` | Build complete online and downloadable formalism paths after Site admission | `StegVerse-Labs/Site` | BLOCKED | 10% | 5% | 0% | n/a |
@@ -54,9 +54,10 @@ Establish a collision-resistant path from findings and formal development into c
 
 - **Worker:** `AEX-COORD-20260728-01`
 - **Status:** ACTIVE
-- **Completion:** 94%
-- **Completed:** singular authority; central ledger; archive-transfer rules; RTG/GTG/TT discovery; AE/GTG/TT handoff verification; Existence and validator handoff installation; RTG inventory and Site path verification; worker registration; machine-readable archive-transfer registry; archive-gate validator; GitHub Actions archive-gate workflow.
-- **Remaining:** import active workers from other sessions; propagate central authority and archive-registry links into all governed repositories; observe hosted archive-gate workflow evidence.
+- **Completion:** 97%
+- **Completed:** singular authority; central ledger; archive-transfer rules; primary formalism handoffs; worker registration; machine-readable archive-transfer registry; archive-gate validator; GitHub Actions workflow; resolved ownership boundary; central-authority links propagated into RTG, GTG, and TT.
+- **Hosted validation posture:** not observed. Commit status returned no checks, and the available workflow lookup exposes pull-request-triggered runs only; empty results do not establish workflow failure or nonexecution.
+- **Remaining:** import active workers from other sessions; propagate central authority links into AE, Existence, validator, and later governed destinations; capture an explicit hosted archive-gate receipt through a supported workflow/PR observation path.
 
 ### `AEX-INV-001` — Formalism corpus inventory
 
@@ -75,14 +76,18 @@ Establish a collision-resistant path from findings and formal development into c
 ### `AEX-ROUTE-001` — Canonical repository decision
 
 - **Worker:** `AEX-ROUTE-20260729-01`
-- **Status:** ACTIVE — ownership boundary resolved, propagation pending
-- **Completion:** 90%
+- **Status:** ACTIVE — ownership boundary resolved and propagated to RTG, GTG, and TT
+- **Completion:** 96%
 - **Canonical ownership rule:**
-  - `Admissible-Existence/RTG` owns relational-transition geometry, primitives, operators, invariants, boundaries, horizons, and the geometric derivation inputs used to determine minimum faithful resolution;
-  - `Admissible-Existence/AE` formally owns the Admissible Resolution Function, its source contract, deterministic source receipt, and public index;
-  - `Admissible-Existence/ae-validation-factory` independently verifies AE source and downstream result receipts;
-  - `Admissible-Existence/TT` consumes the AE result and operationalizes discrete micro-node allocation without claiming ownership of the underlying geometry.
-- **Remaining:** propagate this ownership rule into RTG and cross-formalism publication manifests; record explicit supersession/provenance rules.
+  - `Admissible-Existence/RTG` owns relational-transition geometry, primitives, operators, invariants, boundaries, horizons, and geometric derivation inputs;
+  - `Admissible-Existence/AE` formally owns the Admissible Resolution Function, source contract, deterministic receipt, and public index;
+  - `Admissible-Existence/ae-validation-factory` independently verifies source and downstream receipts;
+  - `Admissible-Existence/TT` consumes the AE result and operationalizes discrete allocation without claiming the underlying geometry.
+- **Propagation evidence:**
+  - `Admissible-Existence/RTG/docs/FORMALISM_COORDINATION_AUTHORITY.md` — commit `73d871f0d699be42ebc9fd54e8a3f97bfdcad4be`;
+  - `Admissible-Existence/GTG/docs/FORMALISM_COORDINATION_AUTHORITY.md` — commit `0ee367ef9a4280f4f4f3b7719289fead5c084835`;
+  - `Admissible-Existence/TT/docs/FORMALISM_COORDINATION_AUTHORITY.md` — commit `a60d4cafee7dd17f8a24ce82c033347554b5d31d`.
+- **Remaining:** propagate to AE, Existence, validator, and cross-formalism publication manifests; record final supersession/provenance policy.
 
 ### `AEX-EXIST-001` — Existence handoff and RC1 verification
 
@@ -140,26 +145,18 @@ Only the Repository Coordination Authority accepts repository-wide or program-wi
 
 ## 8. Release and propagation rule
 
-At release/tag readiness, create or verify release and propagation tasks for:
-
-- `StegVerse-Labs/Site`;
-- `GCAT-BCAT-Engine/Publisher`;
-- `StegVerse-Labs/admissibility-wiki`;
-- `StegVerse-002/stegguardian-wiki`.
+At release/tag readiness, create or verify release and propagation tasks for Site, Publisher, admissibility-wiki, and stegguardian-wiki.
 
 ## 9. Immediate next work
 
-1. Observe and retain hosted evidence from `.github/workflows/formalism-archive-gate.yml`.
-2. `AEX-INV-20260729-01` must obtain the downloaded RTG Volume I–XV files or filenames, calculate hashes, populate the provenance matrix, and compare them against the manifest corpus.
-3. `AEX-ROUTE-20260729-01` must propagate the resolved AE/RTG/TT ownership rule into RTG and cross-formalism records.
-4. `AEX-VALID-20260729-01` must inventory validator schemas, evaluators, fixtures, and receipt formats.
-5. `AEX-EXIST-20260729-01` must verify Existence hosted RC1 and release-readiness evidence.
-6. No Site mutation may bypass `StegVerse-Labs/Site/docs/SITE_MIRROR_HANDOFF.md` or its active orchestrator.
+1. Propagate the coordination-authority and archive-registry links into AE, Existence, and validator.
+2. Capture hosted archive-gate evidence through a supported PR/workflow observation path.
+3. Obtain the downloaded RTG Volume I–XV files or filenames, calculate hashes, populate the provenance matrix, and compare them against the manifest corpus.
+4. Continue Existence and validator inventory workers.
+5. Do not mutate Site without admission through `StegVerse-Labs/Site/docs/SITE_MIRROR_HANDOFF.md` and its orchestrator.
 
 ## 10. Transfer confirmations
 
-Repository Coordination Authority has registered worker `AEX-COORD-20260728-01`, assigned task `AEX-COORD-001`, recorded `94%` completion, and updated this handoff plus `data/formalism-archive-transfer-registry.json`, `tools/check_formalism_archive_gate.py`, and `.github/workflows/formalism-archive-gate.yml`. Worker `AEX-COORD-20260728-01` no longer references the originating discussion; this handoff and its archive-transfer registry are authoritative.
+Repository Coordination Authority has registered worker `AEX-COORD-20260728-01`, assigned task `AEX-COORD-001`, recorded `97%` completion, and updated this handoff plus the archive-transfer registry, validator, workflow, and RTG/GTG/TT coordination-authority records. Worker `AEX-COORD-20260728-01` no longer references the originating discussion; these repository records are authoritative.
 
-Repository Coordination Authority has registered worker `AEX-EXIST-20260729-01`, assigned task `AEX-EXIST-001`, recorded `55%` completion, and updated `Admissible-Existence/Existence/docs/EXISTENCE_MIRROR_HANDOFF.md`. Worker `AEX-EXIST-20260729-01` no longer references the originating session; that handoff is authoritative.
-
-Repository Coordination Authority has registered worker `AEX-VALID-20260729-01`, assigned task `AEX-VALID-001`, recorded `45%` completion, and updated `Admissible-Existence/validator/docs/VALIDATOR_MIRROR_HANDOFF.md`. Worker `AEX-VALID-20260729-01` no longer references the originating session; that handoff is authoritative.
+Repository Coordination Authority has registered worker `AEX-INV-20260729-01`, assigned task `AEX-INV-001`, recorded `58%` completion, and preserved its RTG inventory handoffs. Worker `AEX-INV-20260729-01` no longer references the originating session; those handoffs remain authoritative.
