@@ -1,14 +1,78 @@
 {
   "registry_id": "AEX-ARCHIVE-TRANSFER-REGISTRY-0001",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "authority_worker": "AEX-COORD-20260728-01",
   "valid_states": ["NOT_TRANSFERRED", "ASSIGNED", "ACKNOWLEDGED", "ARCHIVE_READY"],
   "required_transition_order": ["NOT_TRANSFERRED", "ASSIGNED", "ACKNOWLEDGED", "ARCHIVE_READY"],
   "required_fields": ["task_id", "worker_id", "destination_repository", "handoff_path", "assigned_task", "completion_percent", "state", "worker_acknowledged", "source_session_dependency", "confirmation_line"],
   "records": [
-    {"task_id":"AEX-COORD-001","worker_id":"AEX-COORD-20260728-01","destination_repository":"Admissible-Existence/.github","handoff_path":"FORMALISM_MIRROR_HANDOFF.md","assigned_task":"Maintain formalism coordination, worker ledger, archive transfer gate, repository inventory, and primary-formalism authority propagation.","completion_percent":100,"state":"ARCHIVE_READY","worker_acknowledged":true,"source_session_dependency":false,"confirmation_line":"Repository Coordination Authority has registered worker AEX-COORD-20260728-01, assigned task AEX-COORD-001, recorded 100% completion, and updated Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md. Worker AEX-COORD-20260728-01 no longer references the originating session; the handoff is now the authoritative source for continuation."},
-    {"task_id":"AEX-INV-001","worker_id":"AEX-INV-20260729-01","destination_repository":"Admissible-Existence/RTG","handoff_path":"docs/RTG_MIRROR_HANDOFF.md","assigned_task":"Recover and reconcile the RTG integrated manuscript, manifest corpus, interlayer ownership, hosted validation, and publication surfaces.","completion_percent":88,"state":"ACKNOWLEDGED","worker_acknowledged":true,"source_session_dependency":false,"confirmation_line":"Repository Coordination Authority has registered worker AEX-INV-20260729-01, assigned task AEX-INV-001, recorded 88% completion, and updated Admissible-Existence/RTG/docs/RTG_MIRROR_HANDOFF.md. Exact source identity, hosted workflow creation, and complete stable-identifier enumeration are recorded; repository deposit, item-level crosswalk, ownership resolution, artifact recovery, and terminal hosted-run evidence remain open. The worker no longer references the originating session."},
-    {"task_id":"AEX-EXIST-001","worker_id":"AEX-EXIST-20260729-01","destination_repository":"Admissible-Existence/Existence","handoff_path":"docs/EXISTENCE_MIRROR_HANDOFF.md","assigned_task":"Verify Existence RC1 surfaces, hosted checks, release-readiness artifacts, and AE/Existence authority boundaries.","completion_percent":100,"state":"ARCHIVE_READY","worker_acknowledged":true,"source_session_dependency":false,"confirmation_line":"Repository Coordination Authority has registered worker AEX-EXIST-20260729-01, assigned task AEX-EXIST-001, recorded 100% completion, and updated Admissible-Existence/Existence/docs/EXISTENCE_MIRROR_HANDOFF.md. Worker AEX-EXIST-20260729-01 no longer references the originating session; the handoff is now the authoritative source for continuation."},
-    {"task_id":"AEX-VALID-001","worker_id":"AEX-VALID-20260729-01","destination_repository":"Admissible-Existence/validator","handoff_path":"docs/VALIDATOR_MIRROR_HANDOFF.md","assigned_task":"Inventory and verify validator surfaces, hosted workflow behavior, full receipt contract, profile-registry consumption, Factory invocation and deposit, Master-Records custody, and schema supersession boundaries.","completion_percent":100,"state":"ARCHIVE_READY","worker_acknowledged":true,"source_session_dependency":false,"confirmation_line":"Repository Coordination Authority has registered worker AEX-VALID-20260729-01, assigned task AEX-VALID-001, recorded 100% completion, and updated Admissible-Existence/validator/docs/VALIDATOR_MIRROR_HANDOFF.md. Worker AEX-VALID-20260729-01 no longer references the originating session; the handoff is now the authoritative source for continuation."}
+    {
+      "task_id": "AEX-COORD-001",
+      "worker_id": "AEX-COORD-20260728-01",
+      "destination_repository": "Admissible-Existence/.github",
+      "handoff_path": "FORMALISM_MIRROR_HANDOFF.md",
+      "assigned_task": "Maintain formalism coordination, worker ledger, archive transfer gate, repository inventory, and primary-formalism authority propagation.",
+      "completion_percent": 100,
+      "state": "ARCHIVE_READY",
+      "worker_acknowledged": true,
+      "source_session_dependency": false,
+      "confirmation_line": "Repository Coordination Authority has registered worker AEX-COORD-20260728-01, assigned task AEX-COORD-001, recorded 100% completion, and updated Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md. Worker AEX-COORD-20260728-01 no longer references the originating session; the handoff is now the authoritative source for continuation."
+    },
+    {
+      "task_id": "AEX-INV-001",
+      "worker_id": "AEX-INV-20260729-01",
+      "destination_repository": "Admissible-Existence/RTG",
+      "handoff_path": "docs/RTG_MIRROR_HANDOFF.md",
+      "assigned_task": "Recover and reconcile the RTG integrated manuscript, manifest corpus, interlayer ownership, hosted validation, predecessor evidence, referenced artifacts, reproducible review rendering, and publication surfaces.",
+      "completion_percent": 94,
+      "developed_files_percent": 91,
+      "goal_activation_percent": 76,
+      "state": "ACKNOWLEDGED",
+      "worker_acknowledged": true,
+      "source_session_dependency": false,
+      "evidence": {
+        "source_deposit_commit": "8b49e8bccd80c809eacc986cbc44a63f56989b5a",
+        "source_sha256": "8d9d0eb0f52ef3313cebe5121e24db6ac8b1a1947fec17d06b1a9e6dc907e13a",
+        "source_git_blob": "b04da19f78481b7269da0e7e9ae56c7deeb873a3",
+        "assembly_run_id": 30640967457,
+        "assembly_job_id": 91190505845,
+        "terminal_validation_run_id": 30642003938,
+        "terminal_validation_job_id": 91194015275,
+        "terminal_validation_artifact_id": 8797815080,
+        "terminal_validation_artifact_digest": "sha256:f5456fae379cd00d5595e943d6e81ba3e17fbe14fc26f269e0b7e9ac2bdf5855",
+        "item_inventory_total": 131,
+        "accepted_exact_statement_counterparts": 0,
+        "predecessor_evidence_commit": "6e69aa557e14a9ed854ef88d21e5bc3655bff7f2",
+        "predecessor_evidence_bundle_sha256": "2a7355e47979c14aa372d92c3844b93115c2657a8a9175d13e84e3d92665666b",
+        "rtg_handoff_commit": "b1967c673155e37ab7f2cac6f67faafd73bc3939",
+        "central_handoff_commit": "f0baca489cbdc680f264d6bf9e8ad1df3d090a67",
+        "renderer_attempt_trigger_commit": "ca3e25613b049ab556babe308f64fd3a32281b7f"
+      },
+      "confirmation_line": "Repository Coordination Authority has registered worker AEX-INV-20260729-01, assigned task AEX-INV-001, recorded 94% completion, 91% developed files, and 76% goal activation, and updated Admissible-Existence/RTG/docs/RTG_MIRROR_HANDOFF.md. Exact source deposit, terminal hosted source validation, 131-item declaration inventory, AE/RTG ownership posture, evidence-bound Parts II-VI comparison, artifact-recovery crosswalk, and revised NOT READY decision are committed. The render pipeline is defined but lacks accepted terminal evidence. Statement equivalence, proof review, implementation recovery, validator/Factory acceptance, and Site admission remain open. The worker no longer references the originating session."
+    },
+    {
+      "task_id": "AEX-EXIST-001",
+      "worker_id": "AEX-EXIST-20260729-01",
+      "destination_repository": "Admissible-Existence/Existence",
+      "handoff_path": "docs/EXISTENCE_MIRROR_HANDOFF.md",
+      "assigned_task": "Verify Existence RC1 surfaces, hosted checks, release-readiness artifacts, and AE/Existence authority boundaries.",
+      "completion_percent": 100,
+      "state": "ARCHIVE_READY",
+      "worker_acknowledged": true,
+      "source_session_dependency": false,
+      "confirmation_line": "Repository Coordination Authority has registered worker AEX-EXIST-20260729-01, assigned task AEX-EXIST-001, recorded 100% completion, and updated Admissible-Existence/Existence/docs/EXISTENCE_MIRROR_HANDOFF.md. Worker AEX-EXIST-20260729-01 no longer references the originating session; the handoff is now the authoritative source for continuation."
+    },
+    {
+      "task_id": "AEX-VALID-001",
+      "worker_id": "AEX-VALID-20260729-01",
+      "destination_repository": "Admissible-Existence/validator",
+      "handoff_path": "docs/VALIDATOR_MIRROR_HANDOFF.md",
+      "assigned_task": "Inventory and verify validator surfaces, hosted workflow behavior, full receipt contract, profile-registry consumption, Factory invocation and deposit, Master-Records custody, and schema supersession boundaries.",
+      "completion_percent": 100,
+      "state": "ARCHIVE_READY",
+      "worker_acknowledged": true,
+      "source_session_dependency": false,
+      "confirmation_line": "Repository Coordination Authority has registered worker AEX-VALID-20260729-01, assigned task AEX-VALID-001, recorded 100% completion, and updated Admissible-Existence/validator/docs/VALIDATOR_MIRROR_HANDOFF.md. Worker AEX-VALID-20260729-01 no longer references the originating session; the handoff is now the authoritative source for continuation."
+    }
   ]
 }
