@@ -35,7 +35,7 @@ Every execution session must read and maintain `NEXT_EXECUTION_SESSION_PROMPT.md
 | Worker ID | Assignment | Status | Task % | Developed-files % | Goal activation % | Source-session dependency |
 |---|---|---|---:|---:|---:|---|
 | `AEX-COORD-20260728-01` | Coordination control plane and archive enforcement | COMPLETE / ARCHIVE_READY | 100% | 100% | 100% | false |
-| `AEX-INV-20260729-01` | RTG manuscript, operational corpus, crosswalk, and publication inventory | ACTIVE / ACKNOWLEDGED | 86% | 83% | 64% | false |
+| `AEX-INV-20260729-01` | RTG manuscript, operational corpus, crosswalk, hosted validation, and publication inventory | ACTIVE / ACKNOWLEDGED | 87% | 84% | 65% | false |
 | `AEX-ROUTE-20260729-01` | Canonical ownership reconciliation and propagation | COMPLETE | 100% | 100% | 96% | false |
 | `AEX-EXIST-20260729-01` | Existence RC1 surfaces and hosted evidence | COMPLETE / ARCHIVE_READY | 100% | 100% | 100% | false |
 | `AEX-VALID-20260729-01` | Validator contracts, receipts, custody, and supersession | COMPLETE / ARCHIVE_READY | 100% | 100% | 100% | false |
@@ -53,24 +53,22 @@ Verified hashes:
 
 ## 2026-07-30 RTG progress
 
-The recovered Markdown was materialized from persistent library file `file_000000004ffc81f5ad2de4eec3845789`; its hash, 180,709-byte size, and 3,667-line count were independently verified.
+Persistent-library file `file_000000004ffc81f5ad2de4eec3845789` was materialized again and independently verified as 180,709 bytes, 3,667 lines, and the expected Markdown SHA-256.
 
-A noncanonical review package was created in `Admissible-Existence/RTG`:
+The GitHub connector still exposes only complete UTF-8 content for repository writes and no local-file or connector-file parameter. The working container has no authenticated GitHub CLI. Exact repository deposit therefore remains blocked and `repository_deposit_verified` remains false.
 
-- review index commit `1f651ca4fcdf0cc39d981fbe9bcce43ff750f060`
-- machine crosswalk commit `6f55ae81ee84b5da233d8e31607a9c59be90217d`
-- human crosswalk commit `17aeb1b2764e6ec5dd828dd3db8afdd69286def5`
-- structural validator commit `709d008a602af891282b5327a617a5bc45bc88f2`
-- RTG handoff update commit `cbbc73187d9e7859767938e2fc2353523db25c9b`
-- archive registry update commit `67fdbbe980605f0ce4b2a221117e0a9bea22ed5c`, version `1.0.5`
+A hosted validator workflow was created at `Admissible-Existence/RTG/.github/workflows/manifest-manuscript-crosswalk.yml` in commit `700f3321633fc8efe9e518c8485d9930938c9bb2`. It invokes `python tools/check_manifest_manuscript_crosswalk.py` on push, pull request, and manual dispatch with read-only contents permission.
 
-The exact manuscript bytes are not yet deposited because the session's GitHub contents connector did not accept a local file reference. This is recorded as a transport blocker; `repository_deposit_verified` remains false.
+The available commit-run enumeration action explicitly filters to pull-request-triggered runs and returned no runs for commit `700f3321633fc8efe9e518c8485d9930938c9bb2`. Therefore no terminal run ID, job ID, conclusion, step result, or artifact ID is yet accepted.
+
+RTG handoff update commit: `3532871250ead59c7ababaff53e15aca028717e2`.
+Archive registry update commit: `5ff118d8120af0f4e2d9b1fbb7a524046e2aaa5b`; registry version `1.0.6`.
 
 ## Crosswalk and readiness
 
-The initial crosswalk covers manifest terms plus definitions, theorems, symbols, schemas, fixtures, tools, and non-claims. It records normative, explanatory, experimental, duplicate, superseded, and unresolved classifications.
+The initial crosswalk records the permitted classifications `normative`, `explanatory`, `experimental`, `duplicate`, `superseded`, and `unresolved` but remains grouped rather than statement-complete.
 
-Primary divergences are: AE ownership overlap in manuscript admissibility material; missing manifest-verified implementations for manuscript-referenced schemas and research tooling; pending exact source deposit; and unresolved predecessor supersession.
+Primary divergences remain: AE ownership overlap in manuscript admissibility material; missing manifest-verified implementations for manuscript-referenced schemas and research tooling; pending exact source deposit; pending terminal hosted validation evidence; incomplete statement-level coverage; and unresolved predecessor supersession.
 
 **Consolidated specification readiness: NOT READY.** No canonicalization, release, route, or publication claim is admitted.
 
@@ -78,18 +76,19 @@ Primary divergences are: AE ownership overlap in manuscript admissibility materi
 
 Valid sequence: `NOT_TRANSFERRED → ASSIGNED → ACKNOWLEDGED → ARCHIVE_READY`.
 
-`data/formalism-archive-transfer-registry.json` version `1.0.5` records coordination, Existence, and validator workers archive-ready; RTG remains acknowledged at 86%.
+`data/formalism-archive-transfer-registry.json` version `1.0.6` records coordination, Existence, and validator workers archive-ready; RTG remains acknowledged at 87%.
 
 ## Highest-value next work
 
-1. Deposit exact recovered Markdown bytes at the review path and verify repository hash.
-2. Add hosted crosswalk validation and observe terminal run/job identifiers.
-3. Expand statement-level and artifact-level crosswalk coverage.
-4. Resolve RTG/AE ownership divergence and predecessor supersession.
-5. Recover or explicitly mark absent implementations.
-6. Issue revised consolidated-specification readiness decision.
-7. Bind reproducible DOCX/PDF only after accepted source establishment.
-8. Route through validator and Factory only with commit-bound evidence.
-9. Do not modify Site until the Site orchestrator admits the work.
+1. Deposit exact recovered Markdown bytes using a GitHub transport that accepts a local file or complete 180,709-byte content.
+2. Read committed bytes back and verify SHA-256 before changing the repository-deposit flag.
+3. Observe and record a terminal hosted run, job, steps, conclusion, and artifact IDs.
+4. Expand statement-level and artifact-level crosswalk coverage.
+5. Resolve RTG/AE ownership divergence and predecessor supersession explicitly.
+6. Recover or explicitly mark absent manuscript implementation artifacts.
+7. Issue a revised evidence-bound readiness decision.
+8. Bind reproducible DOCX/PDF only after accepted commit-bound source establishment.
+9. Route through validator and Factory only with commit-bound source and hosted evidence.
+10. Do not modify Site until the Site orchestrator admits the work.
 
-Site publication remains blocked by `StegVerse-Labs/Site/docs/SITE_MIRROR_HANDOFF.md` and its active orchestration sequence.
+Site publication remains blocked by `StegVerse-Labs/Site/docs/SITE_MIRROR_HANDOFF.md` and its active orchestration sequence. No Site mutation was performed.
