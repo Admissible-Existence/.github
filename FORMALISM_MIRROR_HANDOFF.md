@@ -41,42 +41,44 @@ This record controls assignments, accepted percentages, archive state, ownership
 - Accepted hosted validation: run `30642003938`, job `91194015275`, artifact `8797815080`, digest `sha256:f5456fae379cd00d5595e943d6e81ba3e17fbe14fc26f269e0b7e9ac2bdf5855`, conclusion `success`
 - Inventory: 67 definitions, 10 axioms, 48 theorems, 6 hypotheses; 131 total; titles/lines `131/131`; accepted exact manifest counterparts `0/131`
 - Proof text located `37`; theorem statements without located proof text `11`; independently validated proofs `0`
-- Parts II-VI: 121 identical/superseded, 10 new, 0 modified, 0 removed, 0 unresolved comparison statuses; generated inventory predecessor fields remain unresolved pending accepted hosted integration
+- Parts II-VI: 121 identical/superseded, 10 new, 0 modified, 0 removed, 0 unresolved; generated inventory predecessor fields remain unresolved pending accepted hosted integration
 - Missing: referenced schemas, Experiment 1 packet, claims register, falsification register, TLA+ packet, Lean packet, independent-review implementation tooling
 - Consolidated specification readiness: **NOT READY**
 
-## Render activation update
+## Renderer activation and current observation
 
-Original terminal-observation trigger commit: `2f7b485c38b4d64f4e669ac56be49d94653e953b`.
-
-Observed before repair:
-
-- `review/volume-I-integrated-v0.9.0/render-attempt-receipt.json` absent on `main`;
-- no combined commit statuses;
-- no push-triggered run exposed by the commit-run connector;
-- no bot receipt commit, job logs, image digest, output hashes, artifact ID, or artifact digest.
-
-The workflow source contained a pre-execution custom-shell defect in the terminal receipt step: `shell: python` lacked the required `{0}` placeholder. Only that defect was repaired.
-
+- original trigger commit: `2f7b485c38b4d64f4e669ac56be49d94653e953b`
+- proven pre-execution defect: `shell: python` omitted `{0}`
+- repair: `shell: python {0}`
 - repair commit: `a28feef9368896ae1b6926afa131b19b51dcb57c`
 - repaired workflow blob: `3339c3d1d6c88b730ad8013d611cab0b7bc92a4a`
 - repair evidence: `Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/render-preflight-repair-receipt.json`
-- evidence commit: `b9fb44361fd407dcd598c7f0a8702bab00c2b9a5`
-- RTG handoff commit: `a45168f6895fe756274613c0515787a4655f3625`
+- repair evidence commit: `b9fb44361fd407dcd598c7f0a8702bab00c2b9a5`
 
-Post-repair state remains fail-closed: no terminal receipt, status, bot commit, run ID, job ID, logs, output hashes, or artifact evidence is accepted. This is **PREFLIGHT REPAIRED — RUN EVIDENCE PENDING**, not a successful or failed render.
+Direct re-observation on 2026-07-31 established:
+
+- `review/volume-I-integrated-v0.9.0/render-attempt-receipt.json` remains absent on `main`;
+- no repair-commit workflow run is exposed by the available commit-run lookup;
+- repair-commit combined statuses remain empty;
+- no commit matching `Record RTG Volume I render attempt` exists;
+- recent history contains no renderer bot receipt commit;
+- bot commit `8a29147e4c2d6e16009323ccb9f22db7d4ca0f15` concerns crosswalk validation run `30680434618`, not rendering;
+- no renderer run ID, job ID, terminal conclusion, logs, image digest, DOCX/PDF hashes, render receipt, artifact ID, artifact digest, size, or expiry is accepted.
+
+RTG handoff observation commit: `484a0be9517015cc691bcc5f79f4701a487ba038`.
+
+Current renderer state: **PREFLIGHT REPAIRED — HOSTED RUN EVIDENCE UNOBSERVABLE**. This is neither render success nor render failure. No speculative renderer mutation is authorized without logs proving the first defect.
 
 ## Highest-value next work
 
-1. Recheck the terminal render-attempt receipt on `main`.
-2. Resolve the push-triggered run for `a28feef9368896ae1b6926afa131b19b51dcb57c` and record run ID, job ID, terminal conclusion, every step outcome, complete logs, first proven renderer defect or success, resolved image digest, DOCX/PDF hashes, render receipt, artifact ID/digest/size/expiry.
-3. Repair only a log-proven renderer defect and observe another hosted attempt.
-4. After one success, execute a second hosted run against the same digest-pinned lock and require cross-run byte identity; then conduct review-only visual QA.
-5. Apply Parts II-VI evidence into all 131 predecessor fields and validator checks through accepted hosted execution.
-6. Resolve all 131 statements to accepted exact counterparts or evidence-supported explicit no-counterpart statuses.
-7. Complete symbol/schema/fixture/tool/claim/non-claim crosswalks, proof review, and missing-artifact closure.
-8. Reissue readiness from evidence only. Do not route to validator, Factory, Publisher, Site, tag, release, or publication until gates permit.
-9. Do not merge PR #1 merely to obtain green status; close or supersede it only after authoritative main evidence is recorded.
+1. Obtain a direct Actions run listing or terminal receipt for the repaired renderer workflow.
+2. Record exact run/job/conclusion/steps/logs and the first proven defect or successful output evidence.
+3. Repair only a log-proven defect; after one success, require a second byte-identical digest-pinned run before visual QA.
+4. Apply Parts II-VI evidence into all 131 predecessor fields and fail-closed checks through accepted hosted execution.
+5. Resolve all 131 statements to accepted exact counterparts or evidence-supported explicit no-counterpart statuses.
+6. Complete symbol/schema/fixture/tool/claim/non-claim crosswalks, proof review, and missing-artifact closure.
+7. Reissue readiness from evidence only. Do not route to validator, Factory, Publisher, Site, tag, release, or publication until gates permit.
+8. Do not merge PR #1 merely for green status.
 
 ## Remaining destinations
 
