@@ -1,13 +1,14 @@
 # Next Execution Session Prompt
 
-**Status:** ACTIVE — reusable cross-session activation prompt
-
-**Last updated:** 2026-07-30
+**Status:** ACTIVE — reusable cross-session activation prompt  
+**Last updated:** 2026-07-31
 
 ## Prompt
 
 ```text
 Continue the Admissible-Existence formalism-publication activation program using the connected GitHub account directly.
+
+Treat live repository state, Git history, committed evidence, workflow runs, jobs, logs, artifacts, immutable blobs, current handoffs, and directly verified receipts as authoritative over previous chat claims.
 
 Before making any change, read these authoritative records in order:
 
@@ -15,64 +16,86 @@ Before making any change, read these authoritative records in order:
 2. Admissible-Existence/.github/NEXT_EXECUTION_SESSION_PROMPT.md
 3. Admissible-Existence/.github/HANDOFF_COMPLETENESS_STANDARD.md
 4. Admissible-Existence/RTG/docs/RTG_MIRROR_HANDOFF.md
-5. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/README.md
-6. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/crosswalk/manifest-manuscript-crosswalk.json
-7. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/crosswalk/manifest-manuscript-crosswalk.md
-8. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/crosswalk/rtg-statement-inventory.json
-9. Admissible-Existence/RTG/tools/check_manifest_manuscript_crosswalk.py
-10. Admissible-Existence/RTG/.github/workflows/manifest-manuscript-crosswalk.yml
-11. Admissible-Existence/RTG/docs/RTG_CORPUS_INVENTORY_STATUS.md
-12. Admissible-Existence/RTG/docs/RTG_LIBRARY_ARTIFACT_RECOVERY.md
-13. Admissible-Existence/RTG/docs/RTG_VOLUME_PROVENANCE_MATRIX.md
-14. Admissible-Existence/RTG/docs/FORMALISM_SITE_PATH_VERIFICATION.md
-15. StegVerse-Labs/Site/docs/SITE_MIRROR_HANDOFF.md before any Site or publication mutation.
+5. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/render-preflight-repair-receipt.json
+6. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/README.md
+7. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/consolidated-specification-readiness.json
+8. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/consolidated-specification-readiness.md
+9. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/crosswalk/manifest-manuscript-crosswalk.json
+10. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/crosswalk/manifest-manuscript-crosswalk.md
+11. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/crosswalk/rtg-statement-inventory.json
+12. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/crosswalk/rtg-statement-inventory.md
+13. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/crosswalk/hosted-validation-receipt.json
+14. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/crosswalk/predecessor-comparison-evidence-manifest.json
+15. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/crosswalk/artifact-recovery-crosswalk.json
+16. Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/crosswalk/artifact-recovery-crosswalk.md
+17. Admissible-Existence/RTG/render/volume-I-integrated-v0.9.0/toolchain-lock.json
+18. Admissible-Existence/RTG/tools/normalize_docx.py
+19. Admissible-Existence/RTG/tools/render_rtg_volume_i.sh
+20. Admissible-Existence/RTG/.github/workflows/render-rtg-volume-i.yml
+21. StegVerse-Labs/Site/docs/SITE_MIRROR_HANDOFF.md before any Site or publication mutation.
 
 Treat Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md as the singular authority for assignments, accepted percentages, ownership, archive state, and publication routing.
 
-Current goal:
-Integrate the recovered Foundations-of-RTG-Volume-I-Integrated-v0.9.0 manuscript with the manifest-verified RTG corpus and advance it toward a validated, reproducibly rendered, online and downloadable publication.
+Current accepted state:
 
-Verified state:
-- Publication family: one RTG Volume I; the Standing Research Companion owns the separate I-XV sequence.
-- Library file ID: file_000000004ffc81f5ad2de4eec3845789.
-- Markdown SHA-256: 8d9d0eb0f52ef3313cebe5121e24db6ac8b1a1947fec17d06b1a9e6dc907e13a.
-- Verified size: 180709 bytes; verified line count: 3667.
-- Exact repository deposit remains false; no safe local-file or connector-file GitHub transport was exposed.
-- Hosted workflow path: Admissible-Existence/RTG/.github/workflows/manifest-manuscript-crosswalk.yml.
-- Hosted workflow creation commit: 700f3321633fc8efe9e518c8485d9930938c9bb2.
-- No terminal hosted run ID, job ID, conclusion, relevant step result, or artifact ID is accepted.
-- Statement inventory path: review/volume-I-integrated-v0.9.0/crosswalk/rtg-statement-inventory.json.
-- Statement inventory commit: 0adfd46312fd33333b8439ae5e8a40a359c51492.
-- Inventory coverage: 67 definitions, 10 axioms, 48 theorems, 6 hypotheses; 131 total stable identifiers.
-- RTG handoff commit: fa54e2ed24cf58f54ec158960285edc3687886e4.
-- Central formalism handoff commit: e3cb8e90f9eb5aa7ba42ef4d4175c8ece1934f1e.
-- Archive registry commit: d8a178331667d374ea4be25ebc04d137be460b46; registry version 1.0.7.
-- Current accepted RTG worker completion: task 88%, developed files 85%, goal activation 66%.
-- Consolidated specification readiness remains NOT READY.
-- Site publication remains blocked until orchestrator admission.
+- Exact Markdown source path: review/volume-I-integrated-v0.9.0/Foundations-of-RTG-Volume-I-Integrated-v0.9.0.md.
+- SHA-256: 8d9d0eb0f52ef3313cebe5121e24db6ac8b1a1947fec17d06b1a9e6dc907e13a.
+- Size: 180709 bytes; line count: 3667; Git blob: b04da19f78481b7269da0e7e9ae56c7deeb873a3.
+- Exact-source deposit commit: 8b49e8bccd80c809eacc986cbc44a63f56989b5a.
+- Accepted central hosted validation: run 30642003938; job 91194015275; artifact 8797815080; artifact digest sha256:f5456fae379cd00d5595e943d6e81ba3e17fbe14fc26f269e0b7e9ac2bdf5855; conclusion success.
+- Inventory: 67 definitions, 10 axioms, 48 theorems, 6 hypotheses; 131 total; exact titles and lines 131/131; accepted exact manifest counterparts 0/131.
+- Proof text located 37; theorem statements without located proof text 11; independently validated proofs 0.
+- Parts II-VI comparison: 121 identical/superseded, 10 new, 0 modified, 0 removed, 0 unresolved comparison statuses. Generated inventory predecessor fields remain unresolved pending accepted hosted integration.
+- No referenced schema, Experiment 1 packet, claims register, falsification register, TLA+ packet, Lean packet, or independent-review implementation tooling has been recovered.
+- Current accepted RTG percentages: task 94%, developed files 91%, goal activation 76%.
+- Consolidated specification readiness: NOT READY.
+- No release, route, canonical publication, or Site admission is authorized.
+
+Renderer activation evidence:
+
+- Original behavior-neutral trigger commit: 2f7b485c38b4d64f4e669ac56be49d94653e953b.
+- render-attempt-receipt.json remained absent on main.
+- No combined commit statuses, push-triggered run exposed by the commit-run connector, bot receipt commit, job logs, image digest, output hashes, artifact ID, or artifact digest was available.
+- Proven pre-execution defect: the terminal receipt step used `shell: python` without the required `{0}` placeholder.
+- One-line repair: `shell: python {0}`.
+- Repair commit: a28feef9368896ae1b6926afa131b19b51dcb57c.
+- Repaired workflow blob: 3339c3d1d6c88b730ad8013d611cab0b7bc92a4a.
+- Preflight evidence path: review/volume-I-integrated-v0.9.0/render-preflight-repair-receipt.json.
+- Evidence commit: b9fb44361fd407dcd598c7f0a8702bab00c2b9a5.
+- RTG handoff commit: a45168f6895fe756274613c0515787a4655f3625.
+- Central handoff commit: 71199f46df2ba80bf24c5511f12c2e762bd8fe01.
+- Current renderer state: PREFLIGHT REPAIRED — RUN EVIDENCE PENDING. Do not characterize it as render success or failure.
 
 Execute the highest-value safe work in this order:
-1. Use any connected GitHub capability that accepts a local file, connector file, or exact complete UTF-8 content to deposit the recovered Markdown at Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/Foundations-of-RTG-Volume-I-Integrated-v0.9.0.md.
-2. Read committed bytes back and verify SHA-256 8d9d0eb0f52ef3313cebe5121e24db6ac8b1a1947fec17d06b1a9e6dc907e13a before changing repository_deposit_verified to true.
-3. Observe a terminal hosted workflow run and record exact run ID, job ID, conclusion, relevant step results, and artifact IDs.
-4. Expand rtg-statement-inventory.json item by item with exact title, manuscript line, manifest counterpart, permitted classification, proof status, implementation status, and ownership posture.
-5. Expand the machine-readable and human-readable crosswalks to every symbol, schema, fixture, tool, claim, and non-claim.
-6. Resolve the ownership divergence between manuscript admissibility material and AE-owned final commit-time resolution without transferring final resolution authority to RTG.
-7. Compare predecessor Parts II-VI against integrated v0.9.0 and record identical, modified, removed, duplicate, superseded, or unresolved status per statement.
-8. Search GitHub history and the file library for manuscript-referenced schemas, experiments, claims registers, falsification registers, TLA+ packets, Lean sources, and independent-report tooling. Record every absent artifact rather than inventing it.
-9. Produce a revised consolidated-specification readiness decision from recorded evidence only.
-10. Define reproducible Markdown-to-DOCX/PDF generation only after the source path is accepted.
-11. Route through validator and Factory only after commit-bound source and terminal hosted-workflow evidence exists.
-12. Do not modify Site until its handoff and orchestrator admit the workload.
+
+1. Check whether review/volume-I-integrated-v0.9.0/render-attempt-receipt.json now exists on main.
+2. Identify the push-triggered render workflow run caused by repair commit a28feef9368896ae1b6926afa131b19b51dcb57c.
+3. Record the exact run ID, job ID, terminal conclusion, every step outcome, complete job logs, first proven renderer defect or successful result, resolved container image digest, generated DOCX/PDF hashes, render receipt, artifact ID, artifact digest, size, and expiry.
+4. If the attempt failed, repair only the first defect established by logs. Do not redesign the renderer speculatively.
+5. Trigger and observe another hosted attempt.
+6. If one attempt succeeds, execute a second hosted render against the same digest-pinned lock and require byte-identical DOCX and PDF outputs across runs.
+7. Record output hashes, toolchain digest, environment normalization, artifact digest, and retention details.
+8. Perform document-structure and visual QA only after deterministic hosted rendering succeeds. Keep artifacts review-only.
+9. Apply Parts II-VI comparison evidence into all 131 inventory predecessor fields and bind fail-closed validator checks through accepted hosted execution.
+10. Resolve each statement to either an accepted exact manifest counterpart or an explicit evidence-supported no-counterpart status.
+11. Expand symbol, schema, fixture, tool, claim, and non-claim crosswalks completely.
+12. Preserve AE ownership of final commit-time admissibility resolution. Do not transfer execution or resolution authority to RTG.
+13. Reissue consolidated-specification readiness from recorded evidence only.
+14. Do not route to validator or Factory until crosswalk, proof, implementation, and deterministic-render gates permit it.
+15. Do not modify Site until the Site orchestrator explicitly admits formalism publication work.
+16. Do not merge PR #1 merely to obtain a green status. Review whether its evidence remains useful after authoritative main evidence is recorded; close or supersede it with an explicit reason when appropriate.
 
 Before ending:
-- update every affected repository handoff;
-- update Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md;
-- update data/formalism-archive-transfer-registry.json when worker completion changes;
-- record exact paths, commit SHAs, hashes, workflow run IDs, job IDs, conclusions, step results, and artifact IDs;
-- satisfy HANDOFF_COMPLETENESS_STANDARD.md;
-- update this prompt to the next highest-value task;
-- end the response with the complete paste-ready next-session prompt in a writing block.
 
-Do not call any manuscript, consolidated specification, release, route, or publication canonical until acceptance evidence is recorded. Stop only at a real blocker, exhausted safe work, or an ownership/publication gate.
+- update Admissible-Existence/RTG/docs/RTG_MIRROR_HANDOFF.md;
+- update Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md;
+- update Admissible-Existence/.github/data/formalism-archive-transfer-registry.json only if accepted completion changes;
+- update Admissible-Existence/.github/NEXT_EXECUTION_SESSION_PROMPT.md;
+- record exact paths, commits, hashes, run IDs, job IDs, conclusions, step results, log findings, image digests, artifact IDs, and artifact digests;
+- satisfy HANDOFF_COMPLETENESS_STANDARD.md;
+- list every remaining file, module, or evidence packet and its destination repository;
+- preserve all noncanonical, non-release, non-execution, and non-publication boundaries;
+- end the response with the complete paste-ready next-session prompt.
+
+Do not call any manuscript, consolidated specification, tag, release, route, render, or publication canonical until acceptance evidence is recorded. Stop only when safe work is exhausted, a genuine external blocker is reached, or the next action would violate an ownership or publication gate.
 ```
