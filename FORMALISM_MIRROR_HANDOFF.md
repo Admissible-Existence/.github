@@ -1,7 +1,7 @@
 # Admissible-Existence Formalism Mirror Handoff
 
 **Status:** ACTIVE — singular coordination authority  
-**Last updated:** 2026-07-31  
+**Last updated:** 2026-08-01  
 **Coordination worker:** `AEX-COORD-20260728-01`
 
 ## Program
@@ -9,7 +9,7 @@
 **Goal ID:** `AEX-FORMALISM-PUBLICATION-ACTIVATION-001`  
 `Existence / AE → RTG → GTG → TT → validator → Publisher / Site → admissibility-wiki`
 
-This record controls assignments, accepted percentages, archive state, ownership boundaries, and publication routing. `HANDOFF_COMPLETENESS_STANDARD.md` and `NEXT_EXECUTION_SESSION_PROMPT.md` are mandatory continuation records.
+This record controls assignments, accepted percentages, archive state, ownership boundaries, and publication routing. `HANDOFF_COMPLETENESS_STANDARD.md` and `NEXT_EXECUTION_SESSION_PROMPT.md` remain mandatory continuation records.
 
 ## Ownership
 
@@ -20,7 +20,7 @@ This record controls assignments, accepted percentages, archive state, ownership
 - validator evaluates standing without owning source formalisms or creating execution authority.
 - ae-validation-factory discovers targets, invokes profiles, and deposits reports.
 - Master-Records preserves receipt identity, custody, hashes, and standing history.
-- Manuscript or renderer language cannot transfer AE final authority to RTG.
+- Manuscript, renderer, Site projection, CI, or publication routing cannot transfer AE final authority to RTG or Site.
 
 ## Worker inventory
 
@@ -31,63 +31,63 @@ This record controls assignments, accepted percentages, archive state, ownership
 | `AEX-ROUTE-20260729-01` | Ownership reconciliation and propagation | COMPLETE | 100% | 100% | 96% | false |
 | `AEX-EXIST-20260729-01` | Existence RC1 surfaces and hosted evidence | COMPLETE / ARCHIVE_READY | 100% | 100% | 100% | false |
 | `AEX-VALID-20260729-01` | Validator contracts, receipts, custody, supersession | COMPLETE / ARCHIVE_READY | 100% | 100% | 100% | false |
-| `SITE-FORMALISM-UNASSIGNED` | Online/downloadable formalism publication | BLOCKED | 10% | 5% | 0% | n/a |
+| `SITE-FORMALISM-001` | StegVerse review-only formalism projection and machine observation | ACTIVE_REVIEW_ONLY | 100% | 100% | 76% | false |
 
 ## Accepted RTG state
 
-- Exact Markdown path: `Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/Foundations-of-RTG-Volume-I-Integrated-v0.9.0.md`
+- Exact Markdown: `Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/Foundations-of-RTG-Volume-I-Integrated-v0.9.0.md`
 - SHA-256 / bytes / lines / blob: `8d9d0eb0f52ef3313cebe5121e24db6ac8b1a1947fec17d06b1a9e6dc907e13a` / `180709` / `3667` / `b04da19f78481b7269da0e7e9ae56c7deeb873a3`
 - Deposit commit: `8b49e8bccd80c809eacc986cbc44a63f56989b5a`
 - Accepted hosted validation: run `30642003938`, job `91194015275`, artifact `8797815080`, digest `sha256:f5456fae379cd00d5595e943d6e81ba3e17fbe14fc26f269e0b7e9ac2bdf5855`, conclusion `success`
-- Inventory: 67 definitions, 10 axioms, 48 theorems, 6 hypotheses; 131 total; titles/lines `131/131`; accepted exact manifest counterparts `0/131`
-- Proof text located `37`; theorem statements without located proof text `11`; independently validated proofs `0`
-- Parts II-VI: 121 identical/superseded, 10 new, 0 modified, 0 removed, 0 unresolved; generated inventory predecessor fields remain unresolved pending accepted hosted integration
-- Missing: referenced schemas, Experiment 1 packet, claims register, falsification register, TLA+ packet, Lean packet, independent-review implementation tooling
-- Consolidated specification readiness: **NOT READY**
+- Inventory: 67 definitions, 10 axioms, 48 theorems, 6 hypotheses; 131 total.
+- Proof text located `37`; theorem statements without located proof text `11`; independently validated proofs `0`.
+- Parts II–VI: 121 identical/superseded, 10 new, 0 modified, 0 removed, 0 unresolved; evidence commit `6e69aa557e14a9ed854ef88d21e5bc3655bff7f2`.
+- Missing or unclosed classes: referenced schemas, Experiment 1 packet, claims register, falsification register, TLA+ packet, Lean packet, independent-review implementation tooling.
+- Consolidated specification readiness: **NOT READY**.
 
-## Renderer activation and current observation
+## RTG machine execution
 
-- original trigger commit: `2f7b485c38b4d64f4e669ac56be49d94653e953b`
-- proven pre-execution defect: `shell: python` omitted `{0}`
-- repair: `shell: python {0}`
-- repair commit: `a28feef9368896ae1b6926afa131b19b51dcb57c`
-- repaired workflow blob: `3339c3d1d6c88b730ad8013d611cab0b7bc92a4a`
-- repair evidence: `Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/render-preflight-repair-receipt.json`
-- repair evidence commit: `b9fb44361fd407dcd598c7f0a8702bab00c2b9a5`
+The remaining RTG lanes are machine-owned and have no external/manual tasks.
 
-Direct re-observation on 2026-07-31 established:
+- Task registry: `Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/machine-execution/task-registry.json`
+- Executor: `Admissible-Existence/RTG/tools/advance_formalism_lanes.py`
+- Durable workflow: `Admissible-Existence/RTG/.github/workflows/advance-formalism-lanes.yml`
+- Renderer receipt: `Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/machine-execution/lane-3-observation.json`
+- Statement-integration receipt: `Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/machine-execution/lane-4-observation.json`
+- Evidence-closure ledger: `Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/machine-execution/evidence-closure-ledger.json`
+- Evidence-closure receipt: `Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/machine-execution/lane-5-observation.json`
+- Readiness result: `Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/machine-execution/readiness-observation.json`
 
-- `review/volume-I-integrated-v0.9.0/render-attempt-receipt.json` remains absent on `main`;
-- no repair-commit workflow run is exposed by the available commit-run lookup;
-- repair-commit combined statuses remain empty;
-- no commit matching `Record RTG Volume I render attempt` exists;
-- recent history contains no renderer bot receipt commit;
-- bot commit `8a29147e4c2d6e16009323ccb9f22db7d4ca0f15` concerns crosswalk validation run `30680434618`, not rendering;
-- no renderer run ID, job ID, terminal conclusion, logs, image digest, DOCX/PDF hashes, render receipt, artifact ID, artifact digest, size, or expiry is accepted.
+The executor reconstructs the hash-bound Parts II–VI evidence bundle from `Admissible-Existence/RTG/evidence/predecessor-comparison-bundle/*.b64`, verifies SHA-256 `2a7355e47979c14aa372d92c3844b93115c2657a8a9175d13e84e3d92665666b`, recovers the comparison files, runs available inventory/crosswalk validators, writes receipts, and the workflow commits changed state to `main`.
 
-RTG handoff observation commit: `484a0be9517015cc691bcc5f79f4701a487ba038`.
+## StegVerse active review-only projection
 
-Current renderer state: **PREFLIGHT REPAIRED — HOSTED RUN EVIDENCE UNOBSERVABLE**. This is neither render success nor render failure. No speculative renderer mutation is authorized without logs proving the first defect.
+The StegVerse formalism layer is built and active as a bounded review-only observation projection.
 
-## Highest-value next work
+- Owner issue: `StegVerse-Labs/Site#127`
+- Active surface: `StegVerse-Labs/Site/formalisms/rtg/index.html`
+- Activation receipt: `StegVerse-Labs/Site/data/formalism-publication/rtg-review-projection-activation-receipt.json`
+- Projection state: `StegVerse-Labs/Site/data/formalism-publication/rtg-projection-observation.json`
+- Import contract: `StegVerse-Labs/Site/data/formalism-publication/rtg-publication-readiness.schema.json`
+- Observer: `StegVerse-Labs/Site/scripts/check_rtg_formalism_projection.py`
+- Durable workflow: `StegVerse-Labs/Site/.github/workflows/observe-rtg-formalism-projection.yml`
+- Task registry: `StegVerse-Labs/Site/data/formalism-publication/rtg-projection-task-state.json`
 
-1. Obtain a direct Actions run listing or terminal receipt for the repaired renderer workflow.
-2. Record exact run/job/conclusion/steps/logs and the first proven defect or successful output evidence.
-3. Repair only a log-proven defect; after one success, require a second byte-identical digest-pinned run before visual QA.
-4. Apply Parts II-VI evidence into all 131 predecessor fields and fail-closed checks through accepted hosted execution.
-5. Resolve all 131 statements to accepted exact counterparts or evidence-supported explicit no-counterpart statuses.
-6. Complete symbol/schema/fixture/tool/claim/non-claim crosswalks, proof review, and missing-artifact closure.
-7. Reissue readiness from evidence only. Do not route to validator, Factory, Publisher, Site, tag, release, or publication until gates permit.
-8. Do not merge PR #1 merely for green status.
+The Site observer reads the durable RTG machine receipts, validates the Site projection contract, recomputes the next machine action, and commits changed projection state to `main`.
 
-## Remaining destinations
+Review-only activation does not create canonicality, release, routing, custody, execution, admissibility, or canonical-publication authority.
 
-Destination `Admissible-Existence/RTG`: terminal hosted render evidence; successful digest-pinned render and second-run repeatability; QA record; 131 counterpart/no-counterpart records; integrated predecessor fields; complete symbol/schema/fixture/tool/claim/non-claim crosswalk; proof-review receipts; missing-artifact closure packets; validator/Factory receipts after admission.
+## Current execution order
 
-Destination `StegVerse-Labs/Site`: nothing until explicit Site-orchestrator admission.
-
-Release-time verification, only after all gates: `StegVerse-Labs/Site`, `GCAT-BCAT-Engine/Publisher`, `admissibility-wiki`, `stegguardian-wiki`.
+1. `RTG-LANE-3-RENDER-EVIDENCE` continues at `Admissible-Existence/RTG/.github/workflows/render-rtg-volume-i.yml` and is observed at `.../machine-execution/lane-3-observation.json`.
+2. `RTG-LANE-4-STATEMENT-INTEGRATION` executes at `Admissible-Existence/RTG/tools/advance_formalism_lanes.py` and records at `.../machine-execution/lane-4-observation.json`.
+3. `RTG-LANE-5-EVIDENCE-CLOSURE` executes against `.../machine-execution/evidence-closure-ledger.json` and records at `.../machine-execution/lane-5-observation.json`.
+4. `RTG-READINESS-REISSUE` recomputes at `.../machine-execution/readiness-observation.json`.
+5. StegVerse consumes these results through `StegVerse-Labs/Site/scripts/check_rtg_formalism_projection.py` and updates `StegVerse-Labs/Site/data/formalism-publication/rtg-projection-observation.json`.
+6. Publisher, validator, Factory, tag, release, and canonical-publication routes remain blocked until evidence permits.
 
 ## Archive and publication gate
 
-`AEX-INV-20260729-01` remains ACTIVE / ACKNOWLEDGED. Source-session dependency is false. No manuscript, consolidated specification, render, route, tag, release, or publication is canonical or authorized. Current thread state is ready for archive after the reusable next-session prompt carries this exact continuation state.
+`AEX-INV-20260729-01` remains ACTIVE / ACKNOWLEDGED. Source-session dependency is false. The StegVerse review-only layer is active, but the consolidated specification remains NOT READY and no canonical publication is authorized.
+
+Do not archive an execution session while the RTG machine receipts contain unresolved lane work. Archive only when no machine-owned tasks remain to coordinate.
