@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Admissible-Existence/.github/schemas/formalism-task-state.schema.json",
+  "title": "Admissible-Existence formalism task state",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "goal_id", "tasks"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "goal_id": {"type": "string", "minLength": 1},
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["task_id", "repository", "stage", "claim_state", "completion_state", "evidence", "next_action"],
+        "properties": {
+          "task_id": {"type": "string", "pattern": "^AEX-[A-Z0-9-]+$"},
+          "originating_goal": {"type": "string"},
+          "repository": {"type": "string", "pattern": "^Admissible-Existence/"},
+          "branch": {"type": "string", "minLength": 1},
+          "stage": {"enum": ["inventory", "formalism_development", "mathematical_validation", "coherence_audit", "peer_review_preparation", "publication_readiness", "site_publication_verification"]},
+          "claim_state": {"enum": ["UNCLAIMED", "CLAIMED_FOR_IMPLEMENTATION", "CLAIMED_FOR_VALIDATION", "CLAIMED_FOR_INTEGRATION", "MACHINE_OWNED", "BLOCKED", "COMPLETE", "SUPERSEDED", "MERGED_INTO_CANONICAL_WORKSTREAM"]},
+          "completion_state": {"enum": ["MISSING", "SCAFFOLD", "PARTIAL", "IMPLEMENTED_UNVALIDATED", "COMPLETE_VALIDATED", "BLOCKED", "SUPERSEDED", "MERGED"]},
+          "claimant": {"type": ["string", "null"]},
+          "claim_created_at": {"type": ["string", "null"], "format": "date-time"},
+          "claim_expires_at": {"type": ["string", "null"], "format": "date-time"},
+          "release_condition": {"type": ["string", "null"]},
+          "collision_boundary": {"type": ["string", "null"]},
+          "evidence": {"type": "array", "items": {"type": "string"}},
+          "next_action": {"type": "string", "minLength": 1},
+          "next_action_location": {"type": ["string", "null"]},
+          "archival_dependency": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
