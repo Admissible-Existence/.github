@@ -1,0 +1,147 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "AEX-FORMALISM-SESSION-CONSOLIDATION-20260802-01",
+  "program": "AEX-FORMALISM-PUBLICATION-ACTIVATION-001",
+  "originating_session_goal": "Establish, activate, observe, and continuously advance the StegVerse RTG formalism-publication layer without external tasks or passive status halts.",
+  "session_classification": "MERGED_INTO_CANONICAL_WORKSTREAM",
+  "canonical_continuation": {
+    "program_handoff": "Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md",
+    "repository_handoff": "Admissible-Existence/RTG/docs/RTG_MIRROR_HANDOFF.md",
+    "task_registry": "Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/machine-execution/task-registry.json",
+    "site_projection": "StegVerse-Labs/Site/data/formalism-publication/rtg-projection-observation.json"
+  },
+  "session_goals": [
+    {
+      "goal_id": "SESSION-GOAL-01",
+      "goal": "Build and activate the StegVerse review-only RTG formalism projection.",
+      "destination": "StegVerse-Labs/Site",
+      "branch": "main",
+      "location": "formalisms/rtg/index.html",
+      "state": "COMPLETE",
+      "evidence": "data/formalism-publication/rtg-review-projection-activation-receipt.json",
+      "archival_dependency": false
+    },
+    {
+      "goal_id": "SESSION-GOAL-02",
+      "goal": "Install machine observation so status cannot halt development.",
+      "destination": "StegVerse-Labs/Site",
+      "branch": "main",
+      "location": ".github/workflows/observe-rtg-formalism-projection.yml",
+      "state": "COMPLETE",
+      "evidence": "data/formalism-publication/rtg-projection-observation.json",
+      "archival_dependency": false
+    },
+    {
+      "goal_id": "SESSION-GOAL-03",
+      "goal": "Recover and apply Parts II-VI lineage across all 131 integrated RTG statements.",
+      "destination": "Admissible-Existence/RTG",
+      "branch": "main",
+      "location": "review/volume-I-integrated-v0.9.0/machine-execution/predecessor-lineage-application-receipt.json",
+      "state": "COMPLETE_BOUNDED_SCOPE",
+      "validation": "131 resolved; 121 predecessor-present; 10 new; 0 unresolved; exact-text equivalence withheld",
+      "archival_dependency": false
+    },
+    {
+      "goal_id": "SESSION-GOAL-04",
+      "goal": "Repair lane advancement so closed corrupt evidence paths cannot reactivate.",
+      "destination": "Admissible-Existence/RTG",
+      "branch": "main",
+      "location": "tools/advance_formalism_lanes.py",
+      "state": "COMPLETE",
+      "evidence": "lane 4 state BOUNDED_LINEAGE_APPLIED",
+      "archival_dependency": false
+    },
+    {
+      "goal_id": "SESSION-GOAL-05",
+      "goal": "Obtain deterministic hosted rendering evidence and second-run byte identity.",
+      "destination": "Admissible-Existence/RTG",
+      "branch": "main",
+      "location": ".github/workflows/render-rtg-volume-i.yml",
+      "state": "MACHINE_OWNED_RETRY",
+      "claim": "RTG-LANE-3-RENDER-EVIDENCE",
+      "release_condition": "terminal receipt plus inspected run/job/log/artifact evidence and second byte-identical render",
+      "archival_dependency": false,
+      "reason": "All unique requirements and continuation logic are in the task registry and workflow."
+    },
+    {
+      "goal_id": "SESSION-GOAL-06",
+      "goal": "Close 13 evidence classes and generate theorem proof-review packets.",
+      "destination": "Admissible-Existence/RTG",
+      "branch": "main",
+      "location": ".github/workflows/advance-evidence-closure.yml",
+      "state": "MACHINE_OWNED_RETRY",
+      "claim": "RTG-LANE-5-EVIDENCE-CLOSURE",
+      "release_condition": "13/13 bounded or recovered classes and 48 durable theorem packets",
+      "archival_dependency": false,
+      "reason": "Executor, workflow, receipts, retry path, and authority boundary are committed."
+    },
+    {
+      "goal_id": "SESSION-GOAL-07",
+      "goal": "Recompute readiness and propagate the bounded state to StegVerse.",
+      "destination": "Admissible-Existence/RTG and StegVerse-Labs/Site",
+      "branch": "main",
+      "location": "tools/converge_formalism_publication.py -> scripts/check_rtg_formalism_projection.py",
+      "state": "MACHINE_OWNED_BLOCKED",
+      "release_condition": "lane 3 and lane 5 terminal receipts",
+      "archival_dependency": false
+    },
+    {
+      "goal_id": "SESSION-GOAL-08",
+      "goal": "Preserve AE final commit-time authority and prevent review, render, Site, CI, or publication projection from creating authority.",
+      "destination": "Admissible-Existence/.github and Admissible-Existence/RTG",
+      "branch": "main",
+      "location": "FORMALISM_MIRROR_HANDOFF.md and RTG_MIRROR_HANDOFF.md",
+      "state": "COMPLETE_AND_ENFORCED",
+      "archival_dependency": false
+    },
+    {
+      "goal_id": "SESSION-GOAL-09",
+      "goal": "Eliminate unspecified external tasks and assign every unresolved action to a machine owner and exact location.",
+      "destination": "Admissible-Existence/RTG",
+      "branch": "main",
+      "location": "review/volume-I-integrated-v0.9.0/machine-execution/task-registry.json",
+      "state": "COMPLETE",
+      "evidence": "schema 2.0.0; session_claims_released true; manual_external_tasks empty",
+      "archival_dependency": false
+    },
+    {
+      "goal_id": "SESSION-GOAL-10",
+      "goal": "Transfer all session-specific state so redundant chat sessions can close.",
+      "destination": "Admissible-Existence/.github",
+      "branch": "main",
+      "location": "formalism-publication/session-consolidation/AEX-FORMALISM-PUBLICATION-ACTIVATION-001-session-transfer-2026-08-02.json",
+      "state": "COMPLETE",
+      "archival_dependency": false
+    }
+  ],
+  "claims": {
+    "implementation_claims_remaining_in_chat": 0,
+    "validation_claims_remaining_in_chat": 0,
+    "integration_claims_remaining_in_chat": 0,
+    "observation_claims_remaining_in_chat": 0,
+    "repository_native_claims": [
+      "RTG-LANE-3-RENDER-EVIDENCE",
+      "RTG-LANE-5-EVIDENCE-CLOSURE",
+      "RTG-READINESS-REISSUE",
+      "SITE-FORMALISM-PROJECTION-REFRESH"
+    ]
+  },
+  "duplicate_work_disposition": {
+    "chat_sessions": "SUPERSEDED_BY_REPOSITORY_NATIVE_TASK_REGISTRY",
+    "archive_recovery_lane": "SUPERSEDED_BY_BOUNDED_LINEAGE_APPLICATION",
+    "competing_handoffs": "NONE_CREATED",
+    "canonical_handoffs": [
+      "Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md",
+      "Admissible-Existence/RTG/docs/RTG_MIRROR_HANDOFF.md"
+    ]
+  },
+  "archive_conditions": {
+    "all_unique_requirements_transferred": true,
+    "all_unresolved_tasks_have_machine_owners": true,
+    "all_release_conditions_machine_observable": true,
+    "manual_external_tasks": [],
+    "chat_session_required_for_continuation": false,
+    "archive_ready": true
+  },
+  "authority_effect": "NONE"
+}
