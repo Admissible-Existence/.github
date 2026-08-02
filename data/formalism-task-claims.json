@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-02T08:42:00Z",
+  "goal_id": "AEX-FORMALISM-WORKER-PUBLICATION-001",
+  "tasks": [
+    {
+      "task_id": "AEX-RTG-MACHINE-LANES",
+      "originating_goal": "Develop RTG to peer-review publication grade and publish only after readiness",
+      "repository": "Admissible-Existence/RTG",
+      "branch": "main",
+      "stage": "mathematical_validation",
+      "claim_state": "MACHINE_OWNED",
+      "completion_state": "PARTIAL",
+      "claimant": "RTG machine execution lanes",
+      "claim_created_at": "2026-08-02T00:00:00Z",
+      "claim_expires_at": null,
+      "release_condition": "Lane 3 deterministic render, lane 5 evidence closure, and readiness convergence are directly verified",
+      "collision_boundary": "Do not duplicate RTG rendering, evidence closure, theorem review packet generation, or readiness convergence",
+      "evidence": ["Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md", "Admissible-Existence/RTG/docs/RTG_MIRROR_HANDOFF.md"],
+      "next_action": "Observe and validate current RTG machine receipts; repair only the first proven defect",
+      "next_action_location": "Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/machine-execution/",
+      "archival_dependency": true
+    },
+    {
+      "task_id": "AEX-ORG-COHERENCE-AUDIT",
+      "originating_goal": "Periodically ensure all repository documentation and mathematics remain consistent and coherent",
+      "repository": "Admissible-Existence/.github",
+      "branch": "goal/formalism-worker-system",
+      "stage": "coherence_audit",
+      "claim_state": "CLAIMED_FOR_IMPLEMENTATION",
+      "completion_state": "IMPLEMENTED_UNVALIDATED",
+      "claimant": "goal/formalism-worker-system",
+      "claim_created_at": "2026-08-02T07:45:00Z",
+      "claim_expires_at": "2026-08-09T07:45:00Z",
+      "release_condition": "PR #2 merged and first scheduled or manual hosted audit run inspected",
+      "collision_boundary": "Organization-wide audit only; source repositories retain mathematical authority",
+      "evidence": ["Admissible-Existence/.github/pull/2", ".github/workflows/formalism-coherence-audit.yml", "scripts/audit_formalism_coherence.py"],
+      "next_action": "Merge PR #2 when checks permit and inspect the first hosted audit report",
+      "next_action_location": "Admissible-Existence/.github/pull/2",
+      "archival_dependency": true
+    },
+    {
+      "task_id": "AEX-ORG-TASK-DISPATCH",
+      "originating_goal": "Automate repository-specific formalism development and prevent duplicate work",
+      "repository": "Admissible-Existence/.github",
+      "branch": "goal/formalism-worker-system",
+      "stage": "inventory",
+      "claim_state": "CLAIMED_FOR_IMPLEMENTATION",
+      "completion_state": "PARTIAL",
+      "claimant": "goal/formalism-worker-system",
+      "claim_created_at": "2026-08-02T08:42:00Z",
+      "claim_expires_at": "2026-08-09T08:42:00Z",
+      "release_condition": "Task dispatcher emits schema-valid durable states from the worker registry and coherence report",
+      "collision_boundary": "Coordination and task derivation only; no source-formalism content mutation",
+      "evidence": ["schemas/formalism-task-state.schema.json", "data/formalism-task-claims.json"],
+      "next_action": "Install and test deterministic task-state dispatcher",
+      "next_action_location": "scripts/dispatch_formalism_tasks.py",
+      "archival_dependency": true
+    }
+  ]
+}
