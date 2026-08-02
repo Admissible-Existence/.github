@@ -4,6 +4,16 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "17 6 * * 1"
+  push:
+    branches: [main]
+    paths:
+      - "data/formalism-worker-registry.json"
+      - "data/formalism-task-claims.json"
+      - "schemas/formalism-task-state.schema.json"
+      - "scripts/audit_formalism_coherence.py"
+      - "scripts/dispatch_formalism_tasks.py"
+      - "tests/test_dispatch_formalism_tasks.py"
+      - ".github/workflows/formalism-coherence-audit.yml"
 
 permissions:
   contents: write
