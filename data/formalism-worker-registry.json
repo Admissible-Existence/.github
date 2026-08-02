@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "goal_id": "AEX-FORMALISM-WORKER-PUBLICATION-001",
+  "coordination_repository": "Admissible-Existence/.github",
+  "publication_destination": "StegVerse-Labs/Site papers page",
+  "audit_cadence": "weekly",
+  "repositories": [
+    {"name":"AE","formalism_owner":true,"worker_state":"required","publication_state":"not_verified"},
+    {"name":"Existence","formalism_owner":true,"worker_state":"required","publication_state":"not_verified"},
+    {"name":"RTG","formalism_owner":true,"worker_state":"partial_existing","publication_state":"review_only"},
+    {"name":"GTG","formalism_owner":true,"worker_state":"required","publication_state":"not_ready"},
+    {"name":"TT","formalism_owner":true,"worker_state":"required","publication_state":"not_verified"},
+    {"name":"STCM","formalism_owner":true,"worker_state":"required","publication_state":"not_verified"},
+    {"name":"HPS","formalism_owner":true,"worker_state":"required","publication_state":"not_verified"},
+    {"name":"FI","formalism_owner":true,"worker_state":"required","publication_state":"not_verified"}
+  ],
+  "required_worker_stages": [
+    "inventory",
+    "formalism_development",
+    "mathematical_validation",
+    "coherence_audit",
+    "peer_review_preparation",
+    "publication_readiness",
+    "site_publication_verification"
+  ],
+  "fail_closed": true
+}
