@@ -1,4 +1,4 @@
-name: Formalism coherence audit
+name: Formalism coherence and task dispatch
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ env:
   PYTHONUNBUFFERED: "1"
 
 jobs:
-  audit:
+  audit-and-dispatch:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -21,8 +21,11 @@ jobs:
 
       - name: Validate worker files
         run: |
-          python -m py_compile scripts/audit_formalism_coherence.py
+          python -m py_compile scripts/audit_formalism_coherence.py scripts/dispatch_formalism_tasks.py
           python -m json.tool data/formalism-worker-registry.json >/dev/null
+          python -m json.tool data/formalism-task-claims.json >/dev/null
+          python -m json.tool schemas/formalism-task-state.schema.json >/dev/null
+          python -m unittest discover -s tests -v
 
       - name: Run fail-closed coherence audit
         id: audit
@@ -35,26 +38,36 @@ jobs:
           echo "status=$status" >> "$GITHUB_OUTPUT"
           exit 0
 
-      - name: Persist latest audit report
+      - name: Derive durable repository task states
+        run: |
+          python scripts/dispatch_formalism_tasks.py
+          test -f reports/formalism-task-state-latest.json
+          python -m json.tool reports/formalism-task-state-latest.json >/dev/null
+
+      - name: Persist latest audit and task state
         run: |
           test -f reports/formalism-coherence-latest.json
+          test -f reports/formalism-task-state-latest.json
           git config user.name "admissible-existence-worker"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add reports/formalism-coherence-latest.json
+          git add reports/formalism-coherence-latest.json reports/formalism-task-state-latest.json
           if ! git diff --cached --quiet; then
-            git commit -m "Record formalism coherence audit"
+            git commit -m "Record formalism coherence audit and task state"
             git push
           fi
 
-      - name: Upload audit evidence
+      - name: Upload worker evidence
         uses: actions/upload-artifact@v4
         with:
-          name: formalism-coherence-audit
-          path: reports/formalism-coherence-latest.json
+          name: formalism-coherence-and-task-state
+          path: |
+            reports/formalism-coherence-latest.json
+            reports/formalism-task-state-latest.json
           if-no-files-found: error
 
-      - name: Enforce fail-closed result
+      - name: Enforce fail-closed coherence result
         if: steps.audit.outputs.status != '0'
         run: |
           echo "The coherence worker found blocking conditions or lacked required repository access."
+          echo "Task state was still persisted so blocked work remains machine-observable."
           exit 1
