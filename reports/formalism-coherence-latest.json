@@ -1,0 +1,191 @@
+{
+  "generated_at": "2026-08-02T08:46:15.476611+00:00",
+  "goal_id": "AEX-FORMALISM-WORKER-PUBLICATION-001",
+  "state_counts": {
+    "COMPLETE": 0,
+    "REVIEW_REQUIRED": 0,
+    "BLOCKED": 8,
+    "FAILED": 0
+  },
+  "repositories": [
+    {
+      "repository": "Admissible-Existence/AE",
+      "state": "BLOCKED",
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_INACCESSIBLE_OR_API_FAILURE",
+          "detail": "HTTP Error 404: Not Found"
+        }
+      ],
+      "metrics": {},
+      "next_task": {
+        "owner": "Admissible-Existence/AE",
+        "target": "repository access / worker credential",
+        "action": "Restore machine-readable access and rerun audit",
+        "release_condition": "GitHub API tree and Markdown content are readable"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/Existence",
+      "state": "BLOCKED",
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_INACCESSIBLE_OR_API_FAILURE",
+          "detail": "HTTP Error 404: Not Found"
+        }
+      ],
+      "metrics": {},
+      "next_task": {
+        "owner": "Admissible-Existence/Existence",
+        "target": "repository access / worker credential",
+        "action": "Restore machine-readable access and rerun audit",
+        "release_condition": "GitHub API tree and Markdown content are readable"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/RTG",
+      "state": "BLOCKED",
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_INACCESSIBLE_OR_API_FAILURE",
+          "detail": "HTTP Error 404: Not Found"
+        }
+      ],
+      "metrics": {},
+      "next_task": {
+        "owner": "Admissible-Existence/RTG",
+        "target": "repository access / worker credential",
+        "action": "Restore machine-readable access and rerun audit",
+        "release_condition": "GitHub API tree and Markdown content are readable"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/GTG",
+      "state": "BLOCKED",
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_INACCESSIBLE_OR_API_FAILURE",
+          "detail": "HTTP Error 404: Not Found"
+        }
+      ],
+      "metrics": {},
+      "next_task": {
+        "owner": "Admissible-Existence/GTG",
+        "target": "repository access / worker credential",
+        "action": "Restore machine-readable access and rerun audit",
+        "release_condition": "GitHub API tree and Markdown content are readable"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/TT",
+      "state": "BLOCKED",
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_INACCESSIBLE_OR_API_FAILURE",
+          "detail": "HTTP Error 404: Not Found"
+        }
+      ],
+      "metrics": {},
+      "next_task": {
+        "owner": "Admissible-Existence/TT",
+        "target": "repository access / worker credential",
+        "action": "Restore machine-readable access and rerun audit",
+        "release_condition": "GitHub API tree and Markdown content are readable"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/STCM",
+      "state": "BLOCKED",
+      "findings": [
+        {
+          "severity": "error",
+          "code": "MISSING_HANDOFF"
+        },
+        {
+          "severity": "warning",
+          "code": "UNRESOLVED_PLACEHOLDERS",
+          "count": 9
+        },
+        {
+          "severity": "warning",
+          "code": "POSSIBLE_DEFINITION_COLLISIONS",
+          "labels": [
+            "Closure Harness \u2014 Dispatcher Task\n\n**Task ID:** `closure-harness`",
+            "Conflict posture classes\n\n```text\nnone\nnon_blocking\nopen_blocking\nunder_review\nresolved_accepted",
+            "Core claim",
+            "Current claim boundary\n\n```text\nSTCM v0.6 is executable and fixture-backed as a draft boundary.",
+            "Dead-basis guarantee\n\n`closure.py` NEVER returns CLOSED when a required field is null. A green result",
+            "Exit contract",
+            "Positive draft conflict postures\n\n```text\nnone\nnon_blocking\nresolved_accepted\n```",
+            "Purpose",
+            "Source commits\n\n```text\nportability.py: 250fc7b9baeeac0bc4315d2a2163e4130643db50",
+            "Status",
+            "Version boundary statement",
+            "What it does\n\nRuns every transition fixture once and asserts its expected verdict. Reports a"
+          ]
+        }
+      ],
+      "metrics": {
+        "branch": "main",
+        "files": 99,
+        "markdown_files": 15,
+        "handoffs": 0,
+        "math_signal_files": 7,
+        "placeholder_markers": 9,
+        "broken_local_links": 0,
+        "duplicate_definition_labels": 12,
+        "theorem_signals": 0,
+        "proof_signals": 3
+      },
+      "next_task": {
+        "owner": "Admissible-Existence/STCM",
+        "target": "docs/STCM_MIRROR_HANDOFF.md",
+        "action": "Resolve coherence findings and rerun organization audit",
+        "release_condition": "No error findings; all warnings classified or closed"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/HPS",
+      "state": "BLOCKED",
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_INACCESSIBLE_OR_API_FAILURE",
+          "detail": "HTTP Error 404: Not Found"
+        }
+      ],
+      "metrics": {},
+      "next_task": {
+        "owner": "Admissible-Existence/HPS",
+        "target": "repository access / worker credential",
+        "action": "Restore machine-readable access and rerun audit",
+        "release_condition": "GitHub API tree and Markdown content are readable"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/FI",
+      "state": "BLOCKED",
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_INACCESSIBLE_OR_API_FAILURE",
+          "detail": "HTTP Error 404: Not Found"
+        }
+      ],
+      "metrics": {},
+      "next_task": {
+        "owner": "Admissible-Existence/FI",
+        "target": "repository access / worker credential",
+        "action": "Restore machine-readable access and rerun audit",
+        "release_condition": "GitHub API tree and Markdown content are readable"
+      }
+    }
+  ],
+  "publication_authorized": false,
+  "publication_rule": "This audit detects coherence gaps; it does not independently authorize publication."
+}
