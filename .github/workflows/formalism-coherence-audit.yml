@@ -1,0 +1,60 @@
+name: Formalism coherence audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 * * 1"
+
+permissions:
+  contents: write
+
+env:
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out coordination repository
+        uses: actions/checkout@v4
+
+      - name: Validate worker files
+        run: |
+          python -m py_compile scripts/audit_formalism_coherence.py
+          python -m json.tool data/formalism-worker-registry.json >/dev/null
+
+      - name: Run fail-closed coherence audit
+        id: audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          python scripts/audit_formalism_coherence.py
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Persist latest audit report
+        run: |
+          test -f reports/formalism-coherence-latest.json
+          git config user.name "admissible-existence-worker"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/formalism-coherence-latest.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Record formalism coherence audit"
+            git push
+          fi
+
+      - name: Upload audit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: formalism-coherence-audit
+          path: reports/formalism-coherence-latest.json
+          if-no-files-found: error
+
+      - name: Enforce fail-closed result
+        if: steps.audit.outputs.status != '0'
+        run: |
+          echo "The coherence worker found blocking conditions or lacked required repository access."
+          exit 1
