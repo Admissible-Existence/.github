@@ -50,6 +50,13 @@ def test_source_complete_with_open_integration_routes_to_integration_only() -> N
     assert "integration" in next_action
 
 
+def test_implementation_complete_with_actions_blocker_routes_to_hosted_validation_blocked() -> None:
+    action, next_action = module.classify({"role": "source", "worker_state": "implementation_complete_hosted_validation_blocked"})
+    assert action == "HOSTED_VALIDATION_BLOCKED"
+    assert "do not reopen implementation" in next_action
+    assert "Actions-authority" in next_action
+
+
 def test_coordination_routes_to_control_plane() -> None:
     action, _ = module.classify({"role": "coordination", "worker_state": "active_control_plane"})
     assert action == "CONTROL_PLANE"
