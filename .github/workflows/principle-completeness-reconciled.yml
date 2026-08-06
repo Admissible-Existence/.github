@@ -1,0 +1,128 @@
+name: Reconciled principle completeness evidence
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "47 6 * * 1"
+  push:
+    branches: [main]
+    paths:
+      - "data/organization-mathematics-registry.yaml"
+      - "data/formalism-task-claims.json"
+      - "scripts/audit_formalism_coherence.py"
+      - "scripts/reconcile_principle_coverage.py"
+      - "scripts/dispatch_formalism_tasks.py"
+      - "docs/SESSION_EXECUTION_INVENTORY_2026-08-06.md"
+      - ".github/workflows/principle-completeness-reconciled.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: reconciled-principle-completeness-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check pyyaml
+
+      - name: Validate static implementation
+        run: |
+          python -m py_compile \
+            scripts/audit_formalism_coherence.py \
+            scripts/reconcile_principle_coverage.py \
+            scripts/dispatch_formalism_tasks.py
+          python -m unittest discover -s tests -v
+
+      - name: Run live audit without hiding failures
+        id: live
+        env:
+          STEGVERSE_WORKER_TOKEN: ${{ secrets.STEGVERSE_WORKER_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          python scripts/audit_formalism_coherence.py
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Reconcile against all 32 registered repositories
+        id: reconcile
+        run: |
+          set +e
+          python scripts/reconcile_principle_coverage.py
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Validate reconciled evidence shape
+        run: |
+          python -m json.tool reports/principle-completeness-reconciled.json >/dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('reports/principle-completeness-reconciled.json').read_text())
+          assert report['expected_repository_count'] == 32
+          assert report['reconciled_repository_count'] == 32
+          assert report['publication_authorized'] is False
+          assert report['release_authorized'] is False
+          names = {item['repository'] for item in report['repositories']}
+          assert len(names) == 32
+          assert 'Admissible-Existence/.github' in names
+          assert 'Admissible-Existence/AE' in names
+          assert 'Admissible-Existence/Existence' in names
+          assert 'Admissible-Existence/RTG' in names
+          PY
+
+      - name: Derive durable task states when compatible
+        id: dispatch
+        run: |
+          set +e
+          python scripts/dispatch_formalism_tasks.py
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Persist evidence even when coverage is blocked
+        run: |
+          git config user.name "admissible-existence-worker"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            reports/principle-completeness-latest.json \
+            reports/principle-completeness-latest.md \
+            reports/formalism-coherence-latest.json \
+            reports/principle-completeness-reconciled.json \
+            reports/principle-completeness-reconciled.md
+          if test -f reports/formalism-task-state-latest.json; then
+            git add reports/formalism-task-state-latest.json
+          fi
+          if ! git diff --cached --quiet; then
+            git commit -m "Record reconciled principle completeness evidence"
+            git push
+          fi
+
+      - name: Upload inspectable evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: reconciled-principle-completeness
+          path: |
+            reports/principle-completeness-latest.json
+            reports/principle-completeness-latest.md
+            reports/formalism-coherence-latest.json
+            reports/principle-completeness-reconciled.json
+            reports/principle-completeness-reconciled.md
+            reports/formalism-task-state-latest.json
+          if-no-files-found: warn
+
+      - name: Enforce fail-closed final state
+        if: steps.live.outputs.status != '0' || steps.reconcile.outputs.status != '0' || steps.dispatch.outputs.status != '0'
+        run: |
+          echo "Evidence was persisted, but completeness, visibility, or dispatch remains blocked."
+          echo "Inspect the reconciled report and task state for the exact next executable action."
+          exit 1
