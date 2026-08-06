@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Admissible-Existence/.github/schemas/tvc-capability-grant-receipt.schema.json",
+  "title": "TVC Capability Grant Receipt",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "request_id",
+    "decision",
+    "request_hash",
+    "policy_hash",
+    "issued_at",
+    "expires_at",
+    "revocation_reference",
+    "scope",
+    "bindings",
+    "credentials_recorded",
+    "protected_values_recorded"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "request_id": {"const": "AEX-PC-TVC-CAPABILITY-001"},
+    "decision": {"enum": ["ALLOW_CAPABILITY_LEASE", "DENY", "REVIEW_REQUIRED"]},
+    "request_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "policy_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "issued_at": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "revocation_reference": {"type": "string", "minLength": 1},
+    "scope": {
+      "type": "object",
+      "required": ["repository_pattern", "operations"],
+      "properties": {
+        "repository_pattern": {"const": "Admissible-Existence/*"},
+        "operations": {
+          "type": "array",
+          "items": {"type": "string"},
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "bindings": {
+      "type": "object",
+      "required": ["repository", "workflow", "ref", "workflow_run_id", "workflow_run_attempt"],
+      "properties": {
+        "repository": {"const": "Admissible-Existence/.github"},
+        "workflow": {"const": ".github/workflows/principle-completeness-workers.yml"},
+        "ref": {"const": "refs/heads/main"},
+        "workflow_run_id": {"type": ["string", "integer"]},
+        "workflow_run_attempt": {"type": ["string", "integer"]}
+      },
+      "additionalProperties": false
+    },
+    "credentials_recorded": {"const": false},
+    "protected_values_recorded": {"const": false},
+    "authority": {
+      "type": "object",
+      "properties": {
+        "credential_custody": {"const": "StegVerse-Labs/TV"},
+        "grant_authority": {"const": "StegVerse-Labs/TVC"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}
