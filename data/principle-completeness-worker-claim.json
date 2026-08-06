@@ -1,32 +1,37 @@
 {
-  "schema_version": "1.0.0",
-  "task_id": "AEX-ORG-PRINCIPLE-COMPLETENESS-WORKERS",
+  "schema_version": "1.1.0",
+  "task_id": "AEX-PC-AUTOMATED-WORKERS-001",
+  "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_goal": "Ensure all related repositories contain validated formalism, mathematics, candidate-proof or support records, and current handoffs",
   "repository": "Admissible-Existence/.github",
   "branch": "main",
+  "claim_state": "CLAIMED_FOR_INTEGRATION",
+  "completion_state": "PARTIAL",
+  "claimant": "principle-completeness-workers.yml with StegVerse-Labs/TVC execution-grant dependency",
+  "claim_created_at": "2026-08-06T20:40:00Z",
+  "claim_expires_at": "2026-08-13T20:49:00Z",
+  "release_condition": "Either all 32 repositories validate complete, or the TV/TVC-governed worker path produces an exact-run sanitized grant receipt, TV runtime resolution, 32-repository inspection, durable worker reports, repository-local task references or distinct machine claims, retained artifacts, and continued repository-native progress without chat dependence.",
+  "collision_boundary": "TV owns credential custody and packaging/distribution policy; TVC owns scoped grant, revocation, and no-secret receipt authority; .github consumes but does not own protected values or source mathematics authority.",
   "surfaces": [
     "data/formalism-worker-registry.json",
+    "data/tvc-principle-completeness-capability-request.json",
+    "schemas/tvc-capability-grant-receipt.schema.json",
+    "scripts/validate_tvc_worker_capability.py",
     "scripts/run_principle_completeness_workers.py",
     ".github/workflows/principle-completeness-workers.yml",
-    "reports/formalism-worker-status-latest.json",
-    "reports/formalism-worker-status-latest.md"
+    "StegVerse-Labs/TVC/tasks/TVC-AEX-PRINCIPLE-COMPLETENESS-CAPABILITY-001.json",
+    "StegVerse-Labs/TVC/docs/AEX_PRINCIPLE_COMPLETENESS_CAPABILITY_MIRROR_HANDOFF.md"
   ],
-  "claim_state": "CLAIMED_FOR_VALIDATION",
-  "completion_state": "IMPLEMENTED_UNVALIDATED",
-  "claimant": "principle-completeness-workers.yml",
-  "claim_created_at": "2026-08-06T20:38:00Z",
-  "claim_expires_at": "2026-08-13T20:38:00Z",
-  "release_condition": "A directly inspected hosted run proves 32-repository inspection, durable repository-local issue creation or distinct machine claims, committed reports, artifact upload, fail-closed blockers, and continued execution without chat dependence; alternatively all 32 repositories independently validate complete.",
-  "collision_boundary": "Do not duplicate RTG machine lanes, invent source mathematics, accept proofs, or treat artifact presence as substantive completion.",
-  "expected_evidence": [
-    "hosted workflow run id",
-    "job and step results",
-    "repository-local worker issue references",
-    "reports/formalism-worker-status-latest.json",
-    "reports/formalism-worker-status-latest.md",
-    "principle-completeness-worker-status artifact"
+  "evidence": [
+    "commit:87e6a77adfccc87019e1a52377f75378df49c630",
+    "commit:1b00eff88c2b79c266529d94dac53bdff4aed638",
+    "commit:ab4c5cbfba696e50451ba9e983afda34cdb2f6c0",
+    "commit:8589888c3abd3e6c73efc4f0dea8169a62624f46",
+    "commit:54d1e06152ac292c93db12b4688a2f8838f71f6f",
+    "commit:e03af5a3695355bdcd55e087be080b2ba623d365",
+    "workflow_id:328874742"
   ],
-  "next_action": "Inspect the first hosted run and repair the first proven credential, access, reporting, persistence, or issue-upsert defect.",
-  "next_action_location": "Admissible-Existence/.github/.github/workflows/principle-completeness-workers.yml",
+  "next_action": "Implement and validate the TVC request adapter through the existing execution-grant lane, then integrate the sanitized exact-run receipt with the .github worker workflow.",
+  "next_action_location": "StegVerse-Labs/TVC/tasks/TVC-AEX-PRINCIPLE-COMPLETENESS-CAPABILITY-001.json",
   "archival_dependency": true
 }
