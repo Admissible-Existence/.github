@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.3.0",
+  "schema_version": "2.4.0",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "coordination_repository": "Admissible-Existence/.github",
   "execution_model": "central controller creates bounded repository-local implementation branches or reports BLOCKED",
@@ -18,7 +18,7 @@
     {"repository":"Admissible-Existence/TT","role":"source","worker_state":"source_complete_integration_pending","completion_evidence":{"handoff":"docs/TT_MIRROR_HANDOFF.md","handoff_commit":"1c5c385d9edaba358ef6bf45cabbe8fa8e0f5a7b","source_issue":"Admissible-Existence/TT#9","integration_issue":"Admissible-Existence/TT#2","coordination_commit":"a60d4cafee7dd17f8a24ce82c033347554b5d31d"}},
     {"repository":"Admissible-Existence/STCM","role":"source","worker_state":"implementation_complete_hosted_validation_blocked","completion_evidence":{"handoff":"docs/STCM_MIRROR_HANDOFF.md","handoff_commit":"2feba62be339ef6174e5eb342eb8f66061b5bf40","deterministic_receipt":"reports/stcm-deterministic-validation-receipt.json","receipt_commit":"a455572a779ba481637465e48c17b34db5106a68","activation_pr":"Admissible-Existence/STCM#2","issue":"Admissible-Existence/STCM#1","blocker":"Admissible-Existence/.github:data/actions-activation-authority-blocker.json"}},
     {"repository":"Admissible-Existence/ET","role":"source","worker_state":"validated_complete_notify_only","completion_evidence":{"handoff":"ET_MIRROR_HANDOFF.md","task_state":"data/et-task-state.json","observation":"et-task-observation.report.json","session_close_receipt":"data/session-consolidation/transition-element-session-close-receipt.json","tests":"46 tests, return code 0, OK","remaining_role":"consumer-owned propagation only"}},
-    {"repository":"Admissible-Existence/learning-transition-governance","role":"source","worker_state":"required"},
+    {"repository":"Admissible-Existence/learning-transition-governance","role":"source","worker_state":"implementation_complete_hosted_validation_blocked","completion_evidence":{"handoff":"docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md","handoff_commit":"5a11a204e425654419f22a7ce67b56dbb30ca21c","deterministic_receipt":"reports/learning-transition-validation-receipt.json","receipt_commit":"a023d59985d63ab933c0c6ab5b807b3635a5048c","receipt_sha256":"e4fa6f40908473e47827d7ef086ef0cf2b30bb8b395a5ee7c1c3c3aab4933e05","closed_issue":"Admissible-Existence/learning-transition-governance#1","blocker":"Admissible-Existence/.github:data/actions-activation-authority-blocker.json"}},
     {"repository":"Admissible-Existence/BC","role":"source","worker_state":"required"},
     {"repository":"Admissible-Existence/CHF","role":"source","worker_state":"required"},
     {"repository":"Admissible-Existence/RE","role":"source","worker_state":"required"},
