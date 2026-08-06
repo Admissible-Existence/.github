@@ -22,6 +22,8 @@ def classify(entry: dict) -> tuple[str, str]:
     state = entry["worker_state"]
     if role == "coordination":
         return "CONTROL_PLANE", "Maintain coordination records and observe execution."
+    if state == "validated_complete_notify_only":
+        return "COMPLETE_NOTIFY_ONLY", "Preserve completion evidence; notify only for separately admitted propagation or regression."
     if state == "machine_owned_observe_only":
         return "OBSERVE_NOTIFY_ONLY", "Observe canonical machine-owned work; do not duplicate implementation."
     if role == "empty":
@@ -37,7 +39,6 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", default="reports/cross-repository-remediation-latest.json")
     args = parser.parse_args()
-
     workers = load(WORKERS)
     routing = load(ROUTING)
     rows = []
@@ -52,10 +53,10 @@ def main() -> int:
             "routing_state": action,
             "next_action": next_action,
             "owner": entry["repository"] if action.startswith("DIRECT_") or action == "DISPOSITION_REQUIRED" else "Admissible-Existence/.github",
+            "completion_evidence": entry.get("completion_evidence"),
         })
-
     report = {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "goal_id": routing["goal_id"],
         "parent_goal_id": routing["parent_goal_id"],
         "counts": counts,
@@ -63,7 +64,7 @@ def main() -> int:
         "immediate_dependencies": routing["immediate_dependencies"],
         "conditional_propagation": routing["conditional_propagation"],
         "propagation_gate": routing["propagation_gate"],
-        "complete": all(row["routing_state"] in {"CONTROL_PLANE", "OBSERVE_NOTIFY_ONLY"} for row in rows),
+        "complete": all(row["routing_state"] in {"CONTROL_PLANE", "OBSERVE_NOTIFY_ONLY", "COMPLETE_NOTIFY_ONLY"} for row in rows),
     }
     target = Path(args.out)
     target.parent.mkdir(parents=True, exist_ok=True)
