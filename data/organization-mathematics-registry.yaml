@@ -1,0 +1,267 @@
+schema_version: 1.0.0
+organization: Admissible-Existence
+generated_from: live_repository_inventory
+updated: 2026-08-06
+status_vocabulary:
+  mathematics: [UNASSESSED, THESIS, DEFINED, FORMALIZED, PROOF_CANDIDATE, PROVED, SIMULATED, VALIDATED]
+  proof: [NONE, CANDIDATE, REVIEW_REQUIRED, ACCEPTED, REJECTED, SUPERSEDED]
+repositories:
+  - repository: Admissible-Existence/.github
+    role: coordination
+    layer: validation-control
+    intended_mathematics: [organization coverage functions, status vectors, completeness predicates, proof-candidate accounting]
+    mathematics_status: FORMALIZED
+    support_status: VALIDATED_PENDING_HOSTED_RUN
+    proof_candidate_status: NONE
+    touched: true
+  - repository: Admissible-Existence/AE
+    role: source
+    layer: existence-admissibility
+    intended_mathematics: [admissible existence, coherent life, viability, recoverability, authority, purpose, composition, reconstructability]
+    mathematics_status: FORMALIZED
+    support_status: SIMULATED
+    proof_candidate_status: CANDIDATE
+    principle_count: 31
+    touched: true
+  - repository: Admissible-Existence/Existence
+    role: source
+    layer: existence-admissibility
+    intended_mathematics: [governed standing, four-lens review, existence percentage, review-execution separation, commit-time conjunction]
+    mathematics_status: FORMALIZED
+    support_status: VALIDATED
+    proof_candidate_status: NONE
+    principle_count: 10
+    touched: true
+  - repository: Admissible-Existence/RTG
+    role: source
+    layer: transition
+    intended_mathematics: [relational transition geometry, admissible regions, theorem packets, predecessor lineage]
+    mathematics_status: PROOF_CANDIDATE
+    support_status: VALIDATED_PENDING_REVIEW
+    proof_candidate_status: REVIEW_REQUIRED
+    collision_boundary: machine_owned_lanes
+    touched: false
+  - repository: Admissible-Existence/GTG
+    role: source
+    layer: transition
+    intended_mathematics: [generalized transition governance, multi-actor policy, authority-compatible transition]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/TT
+    role: source
+    layer: transition
+    intended_mathematics: [transition tables, transition topology, state relation invariants]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/STCM
+    role: source
+    layer: transition
+    intended_mathematics: [state-transition conservation, closure, consistency]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/ET
+    role: source
+    layer: transition
+    intended_mathematics: [evolution or execution transition semantics]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/learning-transition-governance
+    role: source
+    layer: transition
+    intended_mathematics: [learning updates, drift, convergence, admissible policy change]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/BC
+    role: source
+    layer: boundary-recovery
+    intended_mathematics: [boundary coherence, purpose inversion, support classes]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/CHF
+    role: source
+    layer: boundary-recovery
+    intended_mathematics: [consequence horizons, irreversibility, temporal recovery regions]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/RE
+    role: source
+    layer: boundary-recovery
+    intended_mathematics: [reversible entropy, recovery margins, reversible state relations]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/RE-Reduction
+    role: source
+    layer: boundary-recovery
+    intended_mathematics: [reduction maps, preserved invariants, information loss]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/DC
+    role: source
+    layer: distributed-authority
+    intended_mathematics: [distributed coherence, coupling, local-to-global conditions]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/Triad
+    role: source
+    layer: distributed-authority
+    intended_mathematics: [triadic relations, coupled actors, authority and composition]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/GCAT-BCAT
+    role: source
+    layer: distributed-authority
+    intended_mathematics: [governance scoring, boundary scoring, non-averaged authority]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/ECAT-ICAT
+    role: source
+    layer: distributed-authority
+    intended_mathematics: [experiential standing, inter-entity standing, bounded scores]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/IICT
+    role: source
+    layer: distributed-authority
+    intended_mathematics: [identity continuity, inter-entity continuity, transition identity]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/CTA
+    role: source
+    layer: distributed-authority
+    intended_mathematics: [consent, delegation, revocation, transition authority]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/HPS
+    role: source
+    layer: distributed-authority
+    intended_mathematics: [canonical expansion pending repository evidence]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/FI
+    role: source
+    layer: distributed-authority
+    intended_mathematics: [canonical expansion pending repository evidence]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/DaCo
+    role: source
+    layer: continuity-proof
+    intended_mathematics: [data continuity, custody chains, reconstruction, replay]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/IW
+    role: source
+    layer: continuity-proof
+    intended_mathematics: [inference windows, observability, evidence bounds]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/standing-proof-formalism
+    role: source
+    layer: continuity-proof
+    intended_mathematics: [proof standing, proof obligations, admissible evidence]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/core-lite
+    role: support
+    layer: validation-control
+    intended_mathematics: [bounded execution predicates, source coverage, ingestion contracts]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/validator
+    role: support
+    layer: validation-control
+    intended_mathematics: [validation predicates, soundness limits, completeness limits]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/tracker
+    role: support
+    layer: validation-control
+    intended_mathematics: [task-state transitions, stale-state predicates, claim ownership]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/telemetry
+    role: support
+    layer: validation-control
+    intended_mathematics: [sampling, loss, integrity, aggregation, reconstruction limits]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/ae-validation-factory
+    role: support
+    layer: validation-control
+    intended_mathematics: [independent validation, reproducibility, adversarial fixtures]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/ae-validation-research
+    role: empty
+    layer: validation-control
+    intended_mathematics: [research charter or durable deprecation required]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/validation-profile-registry
+    role: support
+    layer: validation-control
+    intended_mathematics: [profile identity, compatibility, inheritance, conflict resolution]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
+  - repository: Admissible-Existence/SOL
+    role: empty
+    layer: unresolved
+    intended_mathematics: [canonical expansion and role require durable evidence or deprecation]
+    mathematics_status: UNASSESSED
+    support_status: UNASSESSED
+    proof_candidate_status: NONE
+    touched: false
