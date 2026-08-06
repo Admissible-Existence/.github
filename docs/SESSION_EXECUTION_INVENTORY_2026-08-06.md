@@ -3,84 +3,81 @@
 **Program:** `AEX-PRINCIPLE-COMPLETENESS-001`  
 **Repository:** `Admissible-Existence/.github`  
 **Branch:** `main`  
-**Updated:** 2026-08-06T20:28:00Z  
-**Session state:** COMPLETE — ARCHIVE
+**Updated:** 2026-08-06T20:38:00Z  
+**Session state:** ACTIVE — DISTINCT WORKER ACTIVATION AND VALIDATION ROLE
 
 ## Primary goal
 
 Bring every non-archived repository under `Admissible-Existence/*` above the organization principle-completeness standard while preserving source authority, proof-status honesty, collision boundaries, and repository-native continuation.
 
+## User-confirmed archive condition
+
+This session must not be archived until either:
+
+1. all related repositories contain and validate their applicable formalism, mathematics, candidate-proof/support records, evidence, and handoffs; or
+2. automated workers operating from `Admissible-Existence/.github` are directly proven to inspect repositories, create or refresh durable repository-local tasks, persist reports and receipts, continue work toward the same goal, and report completed and blocked tasks without chat dependence.
+
 ## Canonical continuation
 
-MERGED INTO: `Admissible-Existence/.github/docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md`
+`Admissible-Existence/.github/docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md`
 
-Machine-readable claims and release conditions:
+Supporting machine records:
 
-`Admissible-Existence/.github/data/formalism-task-claims.json`
+- `data/organization-mathematics-registry.yaml`
+- `data/formalism-worker-registry.json`
+- `data/formalism-task-claims.json`
+- `reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md`
+- issue `Admissible-Existence/.github#4`
 
-Organization task and findings inventory:
-
-`Admissible-Existence/.github/reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md`
-
-## Session goals transferred
+## Session goals transferred or implemented
 
 1. Organization minimum standard — `docs/PRINCIPLE_COMPLETENESS_STANDARD.md`.
 2. Organization mathematical architecture — `docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md`.
 3. Thirty-two-repository mathematics and proof-status registry — `data/organization-mathematics-registry.yaml`.
-4. Touched/planned repository findings and fixes — `reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md`.
-5. Dynamic organization audit — `scripts/audit_formalism_coherence.py` and `.github/workflows/formalism-coherence-audit.yml`.
-6. Partial-visibility reconciliation — `scripts/reconcile_principle_coverage.py` and `.github/workflows/principle-completeness-reconciled.yml`.
-7. Organization registry validation — `scripts/validate_organization_mathematics.py` and `.github/workflows/organization-mathematics-registry.yml`.
-8. AE principle registry and validation lane — `Admissible-Existence/AE/docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md`.
-9. Existence principle registry, schema, validator, tests, RC1 regression workflow, and handoff — `Admissible-Existence/Existence/docs/EXISTENCE_MIRROR_HANDOFF.md`.
-10. Finite claims, collision boundaries, release conditions, and next actions — `data/formalism-task-claims.json`.
+4. Thirty-two-repository worker execution registry — `data/formalism-worker-registry.json`.
+5. Repository worker controller — `scripts/run_principle_completeness_workers.py`.
+6. Daily/manual worker workflow — `.github/workflows/principle-completeness-workers.yml`.
+7. Dynamic organization audit and partial-visibility reconciliation.
+8. AE and Existence repository-local formalism and validation lanes.
+9. Finite claims, collision boundaries, release conditions, and next actions.
+10. Explicit archive gate requiring completed repositories or proven automated continuation.
 
-## Authoritative evidence inspected
+## Worker implementation commits
 
-- Organization audit run `31124767311`, job `92693032673`: 12/12 static tests passed; audit observed four public repositories; validation failed because full organization visibility was unavailable; dispatch, persistence, and artifacts were skipped.
-- Later audit run `31124860079`, job `92693310588`: cancelled.
-- Organization mathematics workflow ID `328858341`: registered and active; no hosted run observed.
-- Reconciled audit workflow ID `328862629`: registered and active; no hosted run observed.
-- Existence RC1 run `30571386668`, job `90968719850`: successful historical RC1 evidence preserved.
+```text
+5c97ea6d3ee2c96f6a236412720a21dc52f1bf9b
+c2dd0c43dc237c4d9534ee4d7d735e5f05dc421e
+4d7941c7c7c20b4aff88332d1de26fbe669c4620
+5c9e7ef42dda228bf75334d1ffeb5e9cbb78a513
+```
 
-## Claims and continuation state
+## Current validation state
 
-All active claims are now finite and repository-native in `data/formalism-task-claims.json`. Each claim contains an expiration time, evidence, collision boundary, release condition, next executable action, and location. None lists this conversation as an archival dependency.
+- All 32 repositories are present in the mathematics registry and worker registry.
+- The worker controller is installed and statically inspectable.
+- The hosted worker workflow is installed with daily and manual triggers.
+- No hosted worker run has yet been inspected.
+- No organization-wide worker report has yet been committed or downloaded as an artifact.
+- Cross-repository issue creation requires a valid `STEGVERSE_WORKER_TOKEN`; absence must produce a read-only, fail-closed report.
+- Therefore automated continuation is implemented but not yet proven operational.
 
-Active lanes include:
+## Exact active task
 
-- `AEX-RTG-MACHINE-LANES` — machine-owned RTG work.
-- `AEX-ORG-COHERENCE-AUDIT` — blocked legacy audit lane.
-- `AEX-ORG-RECONCILED-AUDIT` — machine-owned reconciliation lane.
-- `AEX-ORG-MATHEMATICS-REGISTRY` — machine-owned registry validation lane.
-- `AEX-PC-AE-VALIDATION` — AE validation lane.
-- `AEX-PC-EXISTENCE-VALIDATION` — Existence validation and RC1 regression lane.
+**Task ID:** `AEX-ORG-PRINCIPLE-COMPLETENESS-WORKERS`  
+**Owner:** `Admissible-Existence/.github/.github/workflows/principle-completeness-workers.yml`  
+**Claim:** `CLAIMED_FOR_VALIDATION`  
+**Next action:** inspect the first hosted run; verify all accessible repositories are inspected, repository-local worker issues are created or refreshed, reports are committed, artifacts are uploaded, and blocked access remains visible.  
+**Release condition:** a directly inspected hosted run proves continued repository-native execution and reporting, or all 32 repositories independently satisfy the standard.
 
-## Existence implementation completed in final consolidation pass
+## Collision and authority boundaries
 
-Installed and committed:
-
-- `schemas/principle-registry.schema.json` — `1bcc1bcb3c798e9f90a95ea831a92ce250200f75`
-- `tools/validate_principle_registry.py` — `5b71c91a08387bc6217d757aa43ef51e8a10cf4a`
-- `tests/test_principle_registry.py` — `75b1a9338bdb9ace61866a5f73df823f42a469a6`
-- `.github/workflows/principle-completeness-validation.yml` — `61e354a139e2dbff263b5f96e70897b3b1dde83a`
-- synchronized handoff — `03edac91138523044575221274670ddb4af1fba0`
-
-The remaining hosted validation is owned by `AEX-PC-EXISTENCE-VALIDATION` and does not require chat history.
-
-## Duplicate and convergence handling
-
-- RTG implementation remains exclusively machine-owned; no competing renderer, theorem packet, evidence closure, or readiness worker was created.
-- AE publication issue `#20` remains separate from principle-completeness validation.
-- Existence RC1 completion remains valid only for its original RC1 scope.
-- Organization records coordinate and validate but do not create source mathematics or accept proofs.
-
-## Unresolved work and exact owners
-
-Every unresolved task is assigned in `data/formalism-task-claims.json` or the findings/fix plan. The remaining organization-wide repository sequence begins with the newest applicable handoff and claim check for `Admissible-Existence/GTG`, followed by the recorded dependency order. Empty repositories `Admissible-Existence/ae-validation-research` and `Admissible-Existence/SOL` retain explicit disposition requirements in the findings/fix plan.
+- RTG remains machine-owned and observe-only from the organization worker.
+- The controller may create work records and classify missing surfaces but may not invent source authority or accept proofs.
+- Candidate proofs remain `REVIEW_REQUIRED` until independent review.
+- File presence does not establish substantive completeness.
 
 ## Archive determination
 
-All unique requirements, implementation history, evidence, active claims, blockers, release conditions, and next actions from this conversation are durably installed. Repository-native workflows and finite claims own continuation. No undocumented implementation, validation, integration, propagation, reconciliation, or observation responsibility remains in this chat.
+**NOT READY FOR ARCHIVAL.**
 
-**COMPLETE — ARCHIVE.**
+The session retains a distinct validation role until automated continuation is directly proven or all repositories are complete. The previous archive conclusion is superseded by this record and the canonical handoff.
