@@ -1,25 +1,41 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "parent_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_session_goal": "Extend principle-completeness execution into every affected repository and notify dependent control planes and publication surfaces.",
   "coordination_repository": "Admissible-Existence/.github",
   "state": "ACTIVE",
   "created_at": "2026-08-06T21:39:00Z",
+  "updated_at": "2026-08-06T21:51:00Z",
   "summary": {
     "registered_repositories": 32,
     "control_plane": 1,
-    "direct_update_or_validation": 28,
+    "direct_update_or_validation_remaining": 27,
     "disposition_required": 2,
-    "observe_or_notify_only": 1,
+    "machine_owned_observe_only": 1,
+    "validated_complete_notify_only": 1,
     "immediate_external_dependencies": 2,
     "conditional_propagation_destinations": 5
   },
+  "completed_repositories": [
+    {
+      "repository": "Admissible-Existence/GTG",
+      "state": "COMPLETE_NOTIFY_ONLY",
+      "source_handoff": "Admissible-Existence/GTG@main:GTG_MIRROR_HANDOFF.md",
+      "handoff_commit": "13bc7cbacb99a26f02e479ea4427c59c7193d516",
+      "target_merge": "dbc42bd14be6ec3f8821189dbd7aa1b1e698f084",
+      "factory_merge": "Admissible-Existence/ae-validation-factory@ba3479355749bd996714845ec82f2826ccf1fd36",
+      "mirror_merge": "StegVerse-Labs/StegScholar@08b2f9c21605dd1cd778de839be15adca97007fc",
+      "closed_issue": "Admissible-Existence/GTG#14",
+      "remaining_role": "Notify only for separately admitted publication, additional propagation, or regression."
+    }
+  ],
   "routing_rules": {
     "source": "Install or update repository handoff, principle registry, dependency graph, proof candidates, theory map, notation, falsification limits, validation evidence, and integration state.",
     "support": "Install or update repository handoff, support-role and non-authority boundary, source coverage map, validation/support contract, and evidence state.",
     "empty": "Create an explicit implementation, deprecation, or migration disposition record before closure.",
     "machine_owned_observe_only": "Do not duplicate implementation; notify or observe the canonical machine lane and record evidence.",
+    "validated_complete_notify_only": "Preserve completion evidence and do not reopen source work absent a separately admitted propagation task or regression.",
     "coordination": "Maintain registry, claims, reports, routing, collision controls, and archive state."
   },
   "immediate_dependencies": [
@@ -31,18 +47,12 @@
     },
     {
       "repository": "StegVerse-Labs/TV",
-      "surface": "tasks/TV-CAPABILITY-RUNTIME-ASSIST-001.json",
+      "surface": "tasks/TV-CAPABILITY-RUNTIME-ASSIST-001.json and issues/3",
       "required_action": "Resolve and deliver a runtime-only bounded capability inside the authorized TVC invocation without persistence or disclosure.",
-      "state": "DEPENDENCY_REQUIRED"
+      "state": "CLAIMED_FOR_INTEGRATION"
     }
   ],
-  "conditional_propagation": [
-    "StegVerse-Labs/Site",
-    "GCAT-BCAT-Engine/Publisher",
-    "admissibility-wiki",
-    "stegguardian-wiki",
-    "master-records"
-  ],
+  "conditional_propagation": ["StegVerse-Labs/Site","GCAT-BCAT-Engine/Publisher","admissibility-wiki","stegguardian-wiki","master-records"],
   "propagation_gate": "No downstream propagation is claimed or executed until a repository is directly validated and a separately admitted propagation task exists.",
   "completion_condition": "All 31 non-control-plane repositories have a direct update, disposition, or observe-only completion receipt; immediate TV/TVC dependencies are validated; and every applicable downstream propagation task is completed or explicitly not applicable with evidence.",
   "archive_dependency": true
