@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "task_id": "AEX-PC-TVC-HOSTED-PROOF-ACTIVATION",
+  "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
+  "owner_repository": "StegVerse-Labs/TVC",
+  "consumer_repository": "Admissible-Existence/.github",
+  "claim_state": "BLOCKED",
+  "completion_state": "IMPLEMENTED_UNVALIDATED",
+  "blocker_owner": "StegVerse-Labs/TVC Actions policy and event-delivery lane",
+  "blocker_record": "StegVerse-Labs/TVC#13",
+  "workflow_id": 328881362,
+  "workflow_path": ".github/workflows/aex-principle-completeness-capability-proof.yml",
+  "activation_pull_request": "StegVerse-Labs/TVC#12",
+  "activation_head_sha": "a7fa20b832bb0fd6e1891ea1437e587acc519560",
+  "evidence": {
+    "workflow_registered_active": true,
+    "open_event_runs_observed": 0,
+    "reopen_event_runs_observed": 0,
+    "check_runs_observed": 0,
+    "older_tvc_pull_request_runs_exist": true
+  },
+  "release_condition": "Workflow ID 328881362 reports a hosted run; its jobs, logs, and sanitized artifact are inspected; the TVC task and both handoffs are updated.",
+  "next_action": "Resolve StegVerse-Labs/TVC#13 through repository-native Actions policy or event-delivery repair and trigger the proof workflow.",
+  "next_action_location": "StegVerse-Labs/TVC/issues/13",
+  "archival_dependency": true,
+  "authority_flags": {
+    "credential_value_recorded": false,
+    "secret_authority_created": false,
+    "execution_authority_granted": false,
+    "release_authority_granted": false
+  }
+}
