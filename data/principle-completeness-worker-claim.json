@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "task_id": "AEX-ORG-PRINCIPLE-COMPLETENESS-WORKERS",
+  "originating_goal": "Ensure all related repositories contain validated formalism, mathematics, candidate-proof or support records, and current handoffs",
+  "repository": "Admissible-Existence/.github",
+  "branch": "main",
+  "surfaces": [
+    "data/formalism-worker-registry.json",
+    "scripts/run_principle_completeness_workers.py",
+    ".github/workflows/principle-completeness-workers.yml",
+    "reports/formalism-worker-status-latest.json",
+    "reports/formalism-worker-status-latest.md"
+  ],
+  "claim_state": "CLAIMED_FOR_VALIDATION",
+  "completion_state": "IMPLEMENTED_UNVALIDATED",
+  "claimant": "principle-completeness-workers.yml",
+  "claim_created_at": "2026-08-06T20:38:00Z",
+  "claim_expires_at": "2026-08-13T20:38:00Z",
+  "release_condition": "A directly inspected hosted run proves 32-repository inspection, durable repository-local issue creation or distinct machine claims, committed reports, artifact upload, fail-closed blockers, and continued execution without chat dependence; alternatively all 32 repositories independently validate complete.",
+  "collision_boundary": "Do not duplicate RTG machine lanes, invent source mathematics, accept proofs, or treat artifact presence as substantive completion.",
+  "expected_evidence": [
+    "hosted workflow run id",
+    "job and step results",
+    "repository-local worker issue references",
+    "reports/formalism-worker-status-latest.json",
+    "reports/formalism-worker-status-latest.md",
+    "principle-completeness-worker-status artifact"
+  ],
+  "next_action": "Inspect the first hosted run and repair the first proven credential, access, reporting, persistence, or issue-upsert defect.",
+  "next_action_location": "Admissible-Existence/.github/.github/workflows/principle-completeness-workers.yml",
+  "archival_dependency": true
+}
