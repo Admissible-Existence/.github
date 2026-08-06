@@ -5,7 +5,7 @@
 **Branch:** `main`  
 **Program status:** `ACTIVE — TV/TVC-GOVERNED AUTOMATION INTEGRATION`  
 **Session state:** `BLOCKED — RETAIN UNTIL OPERATIONAL WORKER EVIDENCE`  
-**Updated:** 2026-08-06T21:14:00Z
+**Updated:** 2026-08-06T21:33:00Z
 
 ## Governing objective
 
@@ -31,7 +31,10 @@ Authoritative records:
 - `scripts/validate_tvc_worker_capability.py`
 - `tests/test_tvc_worker_capability.py`
 - `scripts/run_principle_completeness_workers.py`
+- `scripts/observe_principle_worker_activation.py`
 - `.github/workflows/principle-completeness-workers.yml`
+- `.github/workflows/principle-worker-activation-observer.yml`
+- `reports/hosted-worker-run-31128125108.md`
 - issue `Admissible-Existence/.github#4`
 - `StegVerse-Labs/TVC/tasks/TVC-AEX-PRINCIPLE-COMPLETENESS-CAPABILITY-001.json`
 - `StegVerse-Labs/TVC/docs/AEX_PRINCIPLE_COMPLETENESS_CAPABILITY_MIRROR_HANDOFF.md`
@@ -62,7 +65,7 @@ No static organization token, parallel vault, independent capability issuer, sou
 - `data/formalism-worker-registry.json`: all 32 repositories.
 - `scripts/run_principle_completeness_workers.py`: role-aware controller.
 - `.github/workflows/principle-completeness-workers.yml`: active workflow ID `328874742`.
-- `data/principle-completeness-worker-claim.json`: finite integration claim.
+- `data/principle-completeness-worker-claim.json`: finite blocked integration claim.
 
 The controller distinguishes source, support, coordination, empty, and machine-owned repositories and preserves RTG collision boundaries.
 
@@ -75,31 +78,79 @@ Installed:
 - `scripts/validate_tvc_worker_capability.py`
 - `tests/test_tvc_worker_capability.py`
 
-Latest integration commits:
+Integration commits:
 
 - `e0b363695a48f4eea04cba2f43c8445d6168c9b9` — validator aligned with the canonical TVC receipt.
 - `2821ce21c2eae41d905c7461ba9b57621f394825` — five fail-closed consumer contract tests.
 - `4c6ffba8278f247fa009ae1e97cc5f165578baac` — reusable TV/TVC worker invocation boundary.
-- `89078b795db2b009bb8ff78ea82b1335c41e3fcc` — integration claim advanced.
+- `62f8420fbccead05ca69e7e050ebd52807d171b0` — sixth receipt-hash contract test and activation probe.
 
-The consumer validator checks the canonical TVC receipt fields: exact request and receipt hashes, requester, repository scope, allowed operations, required denials, workflow-run ID and attempt, TTL, expiry, policy hash, revocation reference, TV custody, TVC authority, single-use posture, and non-disclosure flags.
+The obsolete `STEGVERSE_WORKER_TOKEN` path is removed. Apply mode requires an exact-run sanitized receipt and a runtime-only capability supplied by the authorized TV/TVC caller. Scheduled, push, and ordinary manual runs remain read-only.
 
-## Reusable TV/TVC invocation boundary
+## Hosted worker evidence
 
-The obsolete `STEGVERSE_WORKER_TOKEN` path is removed.
+First hosted run:
 
-`.github/workflows/principle-completeness-workers.yml` now provides:
+- workflow ID: `328874742`
+- run ID: `31128125108`
+- job ID: `92707591419`
+- head SHA: `4d7941c7c7c20b4aff88332d1de26fbe669c4620`
+- result: failure
 
-- `workflow_call` for the authorized TV/TVC lane;
-- required sanitized `receipt_json` input;
-- required runtime-only `runtime_capability` secret;
-- exact-run receipt validation before apply mode;
-- read-only scheduled, push, and ungoverned dispatch runs;
-- apply denial when either receipt or capability is absent;
-- persisted worker reports and capability-validation evidence;
-- fail-closed conclusions while work remains.
+Proven successful behavior:
 
-The runtime capability is not committed, written to reports, included in receipts, or exposed to ordinary workflow runs.
+- controller inputs validated;
+- all 32 repositories inspected;
+- state classification produced: `30 BLOCKED`, `1 CONTROL_PLANE`, `1 OBSERVE_ONLY`.
+
+First proven defect:
+
+- reports were generated and committed locally;
+- push was rejected because `main` advanced concurrently;
+- artifact upload was skipped.
+
+Repair:
+
+- `e7be2c5c7aea62cf7b9ef50731208f6883ac1dfc` — report persistence now saves generated files, resets to latest `origin/main`, restores only reports, and pushes a fast-forward commit.
+
+Post-repair activation probes:
+
+- repair commit itself: zero new runs observed;
+- watched-path probe `62f8420fbccead05ca69e7e050ebd52807d171b0`: zero new runs observed.
+
+The remaining read-only activation blocker is therefore event delivery or authorized trigger availability, not an undocumented code defect.
+
+## Machine-owned activation observer
+
+Installed:
+
+- `scripts/observe_principle_worker_activation.py`
+- `.github/workflows/principle-worker-activation-observer.yml`
+
+Commits:
+
+- `da7fd565a7ce1518686c4c3099ebb2573626fc36`
+- `96f97a8d526d07f1b3745bfdeb1b3543a6490ca1`
+
+Workflow registration:
+
+- workflow ID: `328894324`
+- state: active
+- triggers: hourly at minute 41, worker workflow completion, manual dispatch, and observer-file push
+
+The observer reads Actions metadata only and emits a sanitized receipt with one of:
+
+- `BLOCKED_NO_POST_REPAIR_RUN`
+- `RETRY_RUN_IN_PROGRESS`
+- `FAILED_HOSTED_RUN`
+- `REVIEW_REQUIRED_MISSING_ARTIFACT`
+- `REVIEW_REQUIRED_REPORTS_NOT_PERSISTED`
+- `COMPLETE_READ_ONLY_WORKER_EVIDENCE`
+- `FAILED_OBSERVER_REQUEST`
+
+It verifies the presence of both persisted report files and the `principle-completeness-worker-status` artifact, uploads `principle-worker-activation-observation`, comments issue `Admissible-Existence/.github#4`, and fails closed until the read-only evidence condition is complete.
+
+Observation ownership is now repository-native. This chat is not the only holder of the release condition.
 
 ## TVC implementation, proof, and observer lanes
 
@@ -121,18 +172,18 @@ Implementation claims are complete and released. Hosted validation remains block
 
 Canonical blocker: `StegVerse-Labs/TVC#13`.
 
-Machine-observable release condition: a proof or observer run appears; the proof run exposes inspectable jobs, logs, and sanitized artifact; the observer records and reports the resulting state.
-
 ## Claims
 
 ### Organization worker
 
 `data/principle-completeness-worker-claim.json`
 
-- state: `CLAIMED_FOR_INTEGRATION`
+- state: `BLOCKED`
 - completion: `IMPLEMENTED_UNVALIDATED`
 - expiration: `2026-08-13T20:49:00Z`
-- next action: TVC calls the reusable worker with an exact-run receipt and TV-resolved runtime capability after issue `StegVerse-Labs/TVC#13` is released.
+- read-only observer owner: workflow `328894324`
+- governed-apply owner: TV/TVC lane under `StegVerse-Labs/TVC#13`
+- release condition: observer reports `COMPLETE_READ_ONLY_WORKER_EVIDENCE`, then TVC invokes governed apply mode.
 
 ### TVC capability
 
@@ -145,13 +196,15 @@ Machine-observable release condition: a proof or observer run appears; the proof
 
 ## Exact next execution order
 
-1. Resolve `StegVerse-Labs/TVC#13` and produce a proof or observer run.
-2. Inspect its jobs, logs, and sanitized artifact.
-3. TV resolves the runtime-only capability inside the authorized TVC invocation.
-4. TVC calls `Admissible-Existence/.github/.github/workflows/principle-completeness-workers.yml` with the exact-run receipt and runtime capability.
-5. Inspect all 32 repositories and persist reports, repository-local task references or machine claims, logs, and artifacts.
-6. Continue repository-local formalism, mathematics, proof-candidate, support-contract, validation, and handoff work until 32/32 satisfy the standard.
-7. Resolve the two empty repositories by implementation or explicit deprecation and migration.
+1. Allow observer workflow `328894324` to execute by schedule, workflow completion, manual dispatch, or an authorized repository event.
+2. When a post-repair worker run appears, inspect its jobs, logs, persisted reports, and artifact.
+3. Require observer state `COMPLETE_READ_ONLY_WORKER_EVIDENCE` before releasing the read-only blocker.
+4. Resolve `StegVerse-Labs/TVC#13` and produce a TVC proof or observer run.
+5. TV resolves the runtime-only capability inside the authorized TVC invocation.
+6. TVC calls `Admissible-Existence/.github/.github/workflows/principle-completeness-workers.yml` with the exact-run receipt and runtime capability.
+7. Persist repository-local task references or distinct machine claims for the 30 blocked repositories.
+8. Continue repository-local formalism, mathematics, proof-candidate, support-contract, validation, and handoff work until 32/32 satisfy the standard.
+9. Resolve `ae-validation-research` and `SOL` through implementation or explicit deprecation and migration.
 
 ## Validation commands
 
@@ -159,10 +212,11 @@ Machine-observable release condition: a proof or observer run appears; the proof
 python -m py_compile scripts/validate_tvc_worker_capability.py
 python -m pytest -q tests/test_tvc_worker_capability.py
 python -m py_compile scripts/run_principle_completeness_workers.py
+python -m py_compile scripts/observe_principle_worker_activation.py
 python -m json.tool data/formalism-worker-registry.json
 ```
 
-Hosted validation remains authoritative only after direct run, job, log, and artifact inspection.
+Hosted validation remains authoritative only after direct run, job, log, report, and artifact inspection.
 
 ## Propagation
 
@@ -183,10 +237,10 @@ This session remains non-archiveable under the originating requirement until eit
 
 ## Completion metrics
 
-- developed files: 33/33
+- developed files: 36/36
 - scaffolding or stubs: 0
 - missing required files: 0
-- validation groups: 19/25
-- integration groups: 15/18
-- goal activation: 5/8
+- validation groups: 23/28
+- integration groups: 17/20
+- goal activation: 6/9
 - session consolidation: 10/10
