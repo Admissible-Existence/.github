@@ -1,0 +1,102 @@
+name: Principle completeness repository workers
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Create or refresh repository-local worker issues
+        required: false
+        default: true
+        type: boolean
+  schedule:
+    - cron: "23 5 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "data/formalism-worker-registry.json"
+      - "data/organization-mathematics-registry.yaml"
+      - "scripts/run_principle_completeness_workers.py"
+      - ".github/workflows/principle-completeness-workers.yml"
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: principle-completeness-workers
+  cancel-in-progress: false
+
+jobs:
+  coordinate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ secrets.STEGVERSE_WORKER_TOKEN }}
+    steps:
+      - name: Checkout coordination repository
+        uses: actions/checkout@v4
+
+      - name: Validate controller inputs
+        run: |
+          python -m py_compile scripts/run_principle_completeness_workers.py
+          python -m json.tool data/formalism-worker-registry.json >/dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          registry = json.loads(Path('data/formalism-worker-registry.json').read_text())
+          assert registry['schema_version'] == '2.0.0'
+          assert len(registry['repositories']) == 32
+          assert len({row['repository'] for row in registry['repositories']}) == 32
+          PY
+
+      - name: Verify organization worker credential
+        id: credential
+        run: |
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run repository workers
+        id: workers
+        run: |
+          set +e
+          if [ "${{ steps.credential.outputs.available }}" = "true" ]; then
+            python scripts/run_principle_completeness_workers.py --apply
+          else
+            unset GH_TOKEN
+            python scripts/run_principle_completeness_workers.py
+          fi
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Persist worker report
+        run: |
+          test -f reports/formalism-worker-status-latest.json
+          test -f reports/formalism-worker-status-latest.md
+          python -m json.tool reports/formalism-worker-status-latest.json >/dev/null
+          git config user.name "admissible-existence-worker"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/formalism-worker-status-latest.json reports/formalism-worker-status-latest.md
+          if ! git diff --cached --quiet; then
+            git commit -m "Record principle completeness worker status"
+            git push
+          fi
+
+      - name: Upload worker report
+        uses: actions/upload-artifact@v4
+        with:
+          name: principle-completeness-worker-status
+          path: |
+            reports/formalism-worker-status-latest.json
+            reports/formalism-worker-status-latest.md
+          if-no-files-found: error
+
+      - name: Fail closed while work remains
+        if: steps.workers.outputs.status != '0'
+        run: |
+          echo "Repository formalism, mathematics, proof-candidate, validation, or access work remains."
+          echo "The worker report was persisted before this fail-closed result."
+          exit 1
