@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "task_id": "AEX-PC-WORKER-ACTIVATION-OBSERVER-001",
+  "originating_goal": "Prove the repaired principle-completeness worker persists reports and artifacts without chat dependence",
+  "repository": "Admissible-Existence/.github",
+  "branch": "main",
+  "claim_state": "MACHINE_OWNED",
+  "completion_state": "INSTALLED_UNEXECUTED",
+  "claimant": ".github/workflows/principle-worker-activation-observer.yml",
+  "role": "VALIDATION_OBSERVER",
+  "claim_created_at": "2026-08-06T21:32:21Z",
+  "claim_expires_at": "2026-08-13T21:32:21Z",
+  "release_condition": "Workflow 328894324 emits COMPLETE_READ_ONLY_WORKER_EVIDENCE for a post-repair run of workflow 328874742 and records both persisted report paths and the principle-completeness-worker-status artifact.",
+  "surfaces": [
+    "scripts/observe_principle_worker_activation.py",
+    ".github/workflows/principle-worker-activation-observer.yml",
+    "reports/principle-worker-activation-observation.json",
+    "Admissible-Existence/.github/issues/4"
+  ],
+  "triggers": [
+    "schedule:41 * * * *",
+    "workflow_run:Principle completeness repository workers:completed",
+    "workflow_dispatch",
+    "push:observer files"
+  ],
+  "expected_evidence": [
+    "workflow_run_id",
+    "worker_run_id",
+    "worker_head_sha",
+    "persisted_reports",
+    "artifact_names",
+    "sanitized observation artifact",
+    "issue 4 state comment"
+  ],
+  "collision_boundary": "Observer reads Actions and repository metadata only; it does not resolve credentials, grant authority, mutate repository-local source work, or accept proofs.",
+  "next_task_after_release": "Advance AEX-PC-AUTOMATED-WORKERS-001 to TV/TVC-governed apply invocation under StegVerse-Labs/TVC#13.",
+  "current_evidence": [
+    "script_commit:da7fd565a7ce1518686c4c3099ebb2573626fc36",
+    "workflow_commit:96f97a8d526d07f1b3745bfdeb1b3543a6490ca1",
+    "workflow_id:328894324",
+    "workflow_state:active",
+    "runs_observed:0"
+  ]
+}
