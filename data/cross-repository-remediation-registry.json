@@ -1,19 +1,22 @@
 {
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "parent_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_session_goal": "Extend principle-completeness execution into every affected repository and notify dependent control planes and publication surfaces.",
   "coordination_repository": "Admissible-Existence/.github",
   "state": "ACTIVE",
   "created_at": "2026-08-06T21:39:00Z",
-  "updated_at": "2026-08-06T21:51:00Z",
+  "updated_at": "2026-08-06T22:28:00Z",
   "summary": {
     "registered_repositories": 32,
     "control_plane": 1,
-    "direct_update_or_validation_remaining": 27,
+    "direct_source_update_remaining": 18,
+    "direct_support_update_remaining": 6,
     "disposition_required": 2,
     "machine_owned_observe_only": 1,
-    "validated_complete_notify_only": 1,
+    "validated_complete_notify_only": 2,
+    "source_complete_integration_pending": 1,
+    "implementation_complete_hosted_validation_blocked": 1,
     "immediate_external_dependencies": 2,
     "conditional_propagation_destinations": 5
   },
@@ -26,8 +29,31 @@
       "target_merge": "dbc42bd14be6ec3f8821189dbd7aa1b1e698f084",
       "factory_merge": "Admissible-Existence/ae-validation-factory@ba3479355749bd996714845ec82f2826ccf1fd36",
       "mirror_merge": "StegVerse-Labs/StegScholar@08b2f9c21605dd1cd778de839be15adca97007fc",
-      "closed_issue": "Admissible-Existence/GTG#14",
-      "remaining_role": "Notify only for separately admitted publication, additional propagation, or regression."
+      "closed_issue": "Admissible-Existence/GTG#14"
+    },
+    {
+      "repository": "Admissible-Existence/ET",
+      "state": "COMPLETE_NOTIFY_ONLY",
+      "source_handoff": "Admissible-Existence/ET@main:ET_MIRROR_HANDOFF.md",
+      "task_state": "data/et-task-state.json",
+      "observation": "et-task-observation.report.json",
+      "session_close_receipt": "data/session-consolidation/transition-element-session-close-receipt.json",
+      "validation": "46 tests, return code 0, OK",
+      "remaining_role": "Consumer-owned propagation only through already named handoffs."
+    }
+  ],
+  "bounded_non_direct_states": [
+    {
+      "repository": "Admissible-Existence/TT",
+      "state": "INTEGRATION_NOTIFY_ONLY",
+      "owner": "Admissible-Existence/TT#2"
+    },
+    {
+      "repository": "Admissible-Existence/STCM",
+      "state": "HOSTED_VALIDATION_BLOCKED",
+      "owner": "Admissible-Existence organization or repository Actions administrator",
+      "blocker": "data/actions-activation-authority-blocker.json",
+      "deterministic_receipt": "Admissible-Existence/STCM@main:reports/stcm-deterministic-validation-receipt.json"
     }
   ],
   "routing_rules": {
@@ -36,6 +62,8 @@
     "empty": "Create an explicit implementation, deprecation, or migration disposition record before closure.",
     "machine_owned_observe_only": "Do not duplicate implementation; notify or observe the canonical machine lane and record evidence.",
     "validated_complete_notify_only": "Preserve completion evidence and do not reopen source work absent a separately admitted propagation task or regression.",
+    "source_complete_integration_pending": "Preserve source completion and continue only the named integration task.",
+    "implementation_complete_hosted_validation_blocked": "Preserve deterministic completion and await the named Actions-authority release condition; do not reopen implementation.",
     "coordination": "Maintain registry, claims, reports, routing, collision controls, and archive state."
   },
   "immediate_dependencies": [
@@ -54,6 +82,6 @@
   ],
   "conditional_propagation": ["StegVerse-Labs/Site","GCAT-BCAT-Engine/Publisher","admissibility-wiki","stegguardian-wiki","master-records"],
   "propagation_gate": "No downstream propagation is claimed or executed until a repository is directly validated and a separately admitted propagation task exists.",
-  "completion_condition": "All 31 non-control-plane repositories have a direct update, disposition, or observe-only completion receipt; immediate TV/TVC dependencies are validated; and every applicable downstream propagation task is completed or explicitly not applicable with evidence.",
+  "completion_condition": "All 31 non-control-plane repositories have a direct update, disposition, integration-only, hosted-validation-blocked, or observe-only completion receipt; immediate TV/TVC dependencies are validated; and every applicable downstream propagation task is completed or explicitly not applicable with evidence.",
   "archive_dependency": true
 }
