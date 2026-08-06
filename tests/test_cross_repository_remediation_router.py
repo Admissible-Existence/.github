@@ -14,13 +14,15 @@ spec.loader.exec_module(module)
 def test_source_routes_to_direct_source_update() -> None:
     action, next_action = module.classify({"role": "source", "worker_state": "required"})
     assert action == "DIRECT_SOURCE_UPDATE"
-    assert "formalism" in next_action and "mathematics" in next_action
+    assert "formalism" in next_action
+    assert "mathematics" in next_action
 
 
 def test_support_routes_to_direct_support_update() -> None:
     action, next_action = module.classify({"role": "support", "worker_state": "required"})
     assert action == "DIRECT_SUPPORT_UPDATE"
-    assert "support boundary" in next_action and "coverage map" in next_action
+    assert "support boundary" in next_action
+    assert "coverage map" in next_action
 
 
 def test_empty_routes_to_disposition() -> None:
@@ -35,10 +37,17 @@ def test_machine_owned_routes_to_observe_only_before_source_role() -> None:
     assert "do not duplicate" in next_action
 
 
-def test_validated_complete_routes_to_notify_only() -> None:
+def test_completed_source_routes_to_complete_notify_only() -> None:
     action, next_action = module.classify({"role": "source", "worker_state": "validated_complete_notify_only"})
     assert action == "COMPLETE_NOTIFY_ONLY"
     assert "Preserve completion evidence" in next_action
+
+
+def test_source_complete_with_open_integration_routes_to_integration_only() -> None:
+    action, next_action = module.classify({"role": "source", "worker_state": "source_complete_integration_pending"})
+    assert action == "INTEGRATION_NOTIFY_ONLY"
+    assert "completed source evidence" in next_action
+    assert "integration" in next_action
 
 
 def test_coordination_routes_to_control_plane() -> None:
