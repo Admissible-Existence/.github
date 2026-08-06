@@ -60,6 +60,8 @@ jobs:
     steps:
       - name: Checkout coordination repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Validate controller and capability contracts
         run: |
@@ -142,6 +144,19 @@ jobs:
           test -f reports/formalism-worker-status-latest.json
           test -f reports/formalism-worker-status-latest.md
           python -m json.tool reports/formalism-worker-status-latest.json >/dev/null
+
+          mkdir -p /tmp/principle-worker-reports
+          cp reports/formalism-worker-status-latest.json /tmp/principle-worker-reports/
+          cp reports/formalism-worker-status-latest.md /tmp/principle-worker-reports/
+          if [ -f reports/tvc-worker-capability-validation.json ]; then
+            cp reports/tvc-worker-capability-validation.json /tmp/principle-worker-reports/
+          fi
+
+          git fetch origin main
+          git reset --hard origin/main
+          mkdir -p reports
+          cp /tmp/principle-worker-reports/* reports/
+
           git config user.name "admissible-existence-worker"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add reports/formalism-worker-status-latest.json reports/formalism-worker-status-latest.md
@@ -150,7 +165,7 @@ jobs:
           fi
           if ! git diff --cached --quiet; then
             git commit -m "Record principle completeness worker status"
-            git push
+            git push origin HEAD:main
           fi
 
       - name: Upload worker evidence
