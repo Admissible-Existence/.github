@@ -78,3 +78,9 @@ def test_rejects_disclosure_flags() -> None:
     value["receipt_sha256"] = module.canonical_sha256({k: v for k, v in value.items() if k != "receipt_sha256"})
     errors = module.validate(value, request(), datetime(2026, 8, 6, 20, 5, tzinfo=timezone.utc))
     assert "mismatch:credentials_recorded" in errors
+
+
+def test_receipt_hash_is_canonical_hex() -> None:
+    value = receipt()
+    assert len(value["receipt_sha256"]) == 64
+    assert set(value["receipt_sha256"]).issubset(set("0123456789abcdef"))
