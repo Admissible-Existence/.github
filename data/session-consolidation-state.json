@@ -1,11 +1,11 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "session_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "canonical_continuation": "Admissible-Existence/.github@main:docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md",
-  "session_state": "BLOCKED_RETAIN_TEMPORARILY",
+  "session_state": "ACTIVE_UNIQUE_WORK_REMAINS",
   "unique_session_requirements_transferred": true,
-  "transferred_goal_count": 10,
-  "total_goal_count": 10,
+  "transferred_goal_count": 11,
+  "total_goal_count": 11,
   "active_unique_chat_only_knowledge": false,
   "remaining_execution_roles": [
     {
@@ -16,26 +16,44 @@
       "release_condition": "COMPLETE_READ_ONLY_WORKER_EVIDENCE"
     },
     {
+      "role": "CROSS_REPOSITORY_REMEDIATION_ROUTER",
+      "owner": "Admissible-Existence/.github/.github/workflows/cross-repository-remediation-router.yml",
+      "workflow_id": 328896970,
+      "state": "MACHINE_OWNED_INSTALLED_UNEXECUTED",
+      "release_condition": "Routing workflow persists the 31 non-control-plane routes and artifact, then governed local task creation begins"
+    },
+    {
       "role": "GOVERNED_APPLY_GRANT_AND_RUNTIME_RESOLUTION",
-      "owner": "StegVerse-Labs/TVC#13 with StegVerse-Labs/TV runtime custody",
+      "owner": "StegVerse-Labs/TVC#13 with StegVerse-Labs/TV#3 runtime custody",
       "state": "BLOCKED",
       "release_condition": "Hosted TVC receipt plus TV runtime-only capability invoke the reusable worker"
     },
     {
       "role": "REPOSITORY_LOCAL_COMPLETENESS_EXECUTION",
-      "owner": "Admissible-Existence/.github/data/formalism-worker-registry.json repository-native lanes",
-      "state": "30_BLOCKED_1_CONTROL_PLANE_1_OBSERVE_ONLY",
-      "release_condition": "32 of 32 repositories validate their applicable contracts"
+      "owner": "Admissible-Existence/.github/data/cross-repository-remediation-registry.json and data/formalism-worker-registry.json repository-native lanes",
+      "state": "28_DIRECT_UPDATE_2_DISPOSITION_1_OBSERVE_ONLY_1_CONTROL_PLANE",
+      "release_condition": "31 non-control-plane routes receive completion, disposition, or observe-only receipts and all 32 repositories validate their applicable contracts"
+    },
+    {
+      "role": "CONDITIONAL_PROPAGATION",
+      "owner": "Separately admitted tasks for StegVerse-Labs/Site, GCAT-BCAT-Engine/Publisher, admissibility-wiki, stegguardian-wiki, and master-records",
+      "state": "NOT_YET_ADMITTED",
+      "release_condition": "Each validated source repository receives an explicit propagation decision and evidence"
     }
   ],
-  "archive_gate": "Either 32/32 repositories validate complete or the TV/TVC-governed worker produces operational hosted evidence, durable reports, repository-local tasks or machine claims, and continued progress without chat dependence.",
+  "archive_gate": "Either 32/32 repositories validate complete with required propagation decisions, or the TV/TVC-governed worker and remediation router produce operational hosted evidence, durable reports, repository-local tasks or machine claims, and continued progress without chat dependence.",
   "evidence": [
     "worker_run:31128125108",
     "worker_job:92707591419",
     "worker_repair_commit:e7be2c5c7aea62cf7b9ef50731208f6883ac1dfc",
     "observer_workflow_id:328894324",
-    "observer_claim:data/principle-worker-activation-observer-claim.json",
-    "handoff_commit:bfe2ee897dfb0951c66f9f4c3cf26112d0112cd1"
+    "remediation_router_workflow_id:328896970",
+    "remediation_registry_commit:62864b48d73c118ff2f850b7cf41b1a9257f14fe",
+    "remediation_router_commit:21945cb8345909495001a3dd7e0369f74ebe5a03",
+    "remediation_workflow_commit:920617f6f41b04410f8e9e0f73f4ba04471dab65",
+    "remediation_handoff_commit:b4f16463c81208a3f6dd8c1c5be05446900eeb65",
+    "tv_runtime_issue:StegVerse-Labs/TV#3",
+    "tvc_activation_issue:StegVerse-Labs/TVC#13"
   ],
   "archive_ready": false
 }
