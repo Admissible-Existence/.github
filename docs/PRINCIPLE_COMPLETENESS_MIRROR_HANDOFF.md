@@ -2,164 +2,169 @@
 
 **Program:** `AEX-PRINCIPLE-COMPLETENESS-001`  
 **Repository:** `Admissible-Existence/.github`  
-**Status:** ACTIVE — ORGANIZATION MATHEMATICAL CONTROL PLANE INSTALLED  
+**Branch:** `main`  
+**Program status:** ACTIVE — REPOSITORY-NATIVE CONTINUATION  
+**Source-session state:** COMPLETE — ARCHIVE  
 **Updated:** 2026-08-06
 
 ## Governing objective
 
-Review every non-archived repository under `Admissible-Existence/*`. A repository is complete only when every principle has defined theory and mathematics and explicitly states how it contributes to the broader object embodied by the repository and to the wider Admissible-Existence ecosystem.
+Bring every non-archived repository under `Admissible-Existence/*` above the organization principle-completeness standard. Every source principle or bounded support obligation must have explicit identity, purpose, theory, mathematics where applicable, falsification or limits, dependencies, whole-repository placement, fully qualified ecosystem relationships, evidence binding, and current handoff binding.
 
-The `.github` repository additionally owns the organization-level mathematical representation that tracks intended mathematics, formalization maturity, executable support, proof candidates, reviewed proofs, evidence bindings, and repository-local completion gaps. It coordinates these records but does not create source-formalism or proof authority.
+`Admissible-Existence/.github` owns organization coordination, mathematical status tracking, task claims, collision prevention, reconciliation, and evidence routing. It does not create source-formalism authority or accept proofs.
 
-## Source of truth
+## Canonical continuation records
 
 1. `docs/PRINCIPLE_COMPLETENESS_STANDARD.md`
 2. `docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md`
 3. `data/organization-mathematics-registry.yaml`
-4. `reports/principle-completeness-baseline-2026-08-06.md`
+4. `data/formalism-task-claims.json`
 5. `reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md`
-6. `FORMALISM_MIRROR_HANDOFF.md` for pre-existing publication and RTG collision boundaries
-7. `data/formalism-task-claims.json`
-8. Current repository trees, commits, validators, receipts, workflows, issues, and pull requests
+6. `docs/SESSION_EXECUTION_INVENTORY_2026-08-06.md`
+7. issue `Admissible-Existence/.github#4`
+8. current repository trees, commits, handoffs, workflows, runs, logs, artifacts, and receipts
 
-No plan, percentage, receipt, registry, rendering, workflow success, or prose-only manuscript is sufficient by itself.
+MERGED INTO: `Admissible-Existence/.github/docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md`
 
-## Current verified state
+No chat history is required for continuation.
 
-- Organization repositories discovered: 32 non-archived.
-- Repositories proven COMPLETE against the new standard: 0.
-- Verified-complete ratio: 0/32.
-- Directly touched by this program: `Admissible-Existence/.github`, `Admissible-Existence/AE`, and `Admissible-Existence/Existence`.
-- Empty active repositories: `Admissible-Existence/ae-validation-research`, `Admissible-Existence/SOL`.
-- Known proof-candidate repositories currently represented at organization level: `Admissible-Existence/AE` and `Admissible-Existence/RTG`.
-- Older completion matrices and repository-local historical completion states remain valid only for their original goals unless revalidated under this program.
+## Current verified organization state
+
+- Non-archived repositories: 32.
+- Repositories represented in the organization mathematics registry: 32.
+- Repositories proven complete under the new standard: 0.
+- Directly touched by this program: `Admissible-Existence/.github`, `Admissible-Existence/AE`, `Admissible-Existence/Existence`.
+- Empty active repositories requiring disposition: `Admissible-Existence/ae-validation-research`, `Admissible-Existence/SOL`.
+- Proof-candidate repositories currently represented: `Admissible-Existence/AE`, `Admissible-Existence/RTG`.
+- Proof acceptance created by this program: none.
 
 ## Installed organization control plane
 
-- `docs/PRINCIPLE_COMPLETENESS_STANDARD.md`
-  - defines twelve mandatory dimensions per principle;
-  - distinguishes source, support, and coordination repositories;
-  - blocks empty, scaffold, registry-only, and prose-only completion claims.
-- `docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md`
-  - defines the organization mathematical status vector;
-  - defines mathematics, proof-candidate, reviewed-proof, executable-support, and support-contract coverage functions;
-  - separates proof candidates, proofs, simulations, validation, and receipts;
-  - organizes the intended mathematics into six cross-repository layers.
-- `data/organization-mathematics-registry.yaml`
-  - enumerates all 32 repositories;
-  - records role, layer, intended mathematics, mathematics status, support status, proof-candidate status, collision boundary, and touch state.
-- `scripts/validate_organization_mathematics.py`
-  - requires all 32 repositories exactly once;
-  - validates roles, status vocabularies, intended mathematics, proof-candidate tracking, and empty-repository visibility;
-  - emits `reports/organization-mathematics-validation.json` with a registry SHA-256 digest.
-- `.github/workflows/organization-mathematics-registry.yml`
-  - runs the validator in hosted CI;
-  - commits and uploads the validation receipt.
 - `scripts/audit_formalism_coherence.py`
-  - dynamically discovers the organization;
-  - applies twelve-dimension diagnostic scoring;
-  - emits machine-readable and Markdown gap reports.
+- `.github/workflows/formalism-coherence-audit.yml`
+- `scripts/reconcile_principle_coverage.py`
+- `.github/workflows/principle-completeness-reconciled.yml`
+- `scripts/validate_organization_mathematics.py`
+- `.github/workflows/organization-mathematics-registry.yml`
 - `tests/test_principle_completeness.py`
-  - tests role and completion classification boundaries.
 
-Key commits:
+The reconciler preserves all 32 registry entries when workflow credentials expose only a public subset. Registry-only entries remain `BLOCKED`; reconciliation cannot upgrade source completeness.
 
-- `881129c97849a06e32d54a819c4380216d664a36`
-- `47cd0a988232d4404de2cbd71f8927d3ff316490`
-- `1597338f64f9666c824d555c21930dade2a3c494`
-- `1939898ec956e56c21abd6622acabc8bbd30bbc0`
+## Hosted evidence inspected
 
-## Mathematical status model
-
-For each mathematical component `m`, the organization tracks:
+### Legacy/live organization audit
 
 ```text
-S(m) = (identity, theory, mathematics, falsification,
-        proof_candidate, reviewed_proof, witness,
-        validator, evidence_binding, handoff_binding)
+run: 31124767311
+job: 92693032673
+static tests: 12/12 passed
+audit observed repositories: 4
+expected repositories: 32
+result: failure
+failure cause: workflow token did not expose the private-repository inventory
+dispatch: skipped
+persistence: skipped
+artifact: none
 ```
 
-Proof states are:
+Later run `31124860079`, job `92693310588`, was cancelled.
+
+### Registered active workflows without observed runs
 
 ```text
-NONE | CANDIDATE | REVIEW_REQUIRED | ACCEPTED | REJECTED | SUPERSEDED
+organization mathematics registry workflow id: 328858341
+reconciled principle completeness workflow id: 328862629
+hosted runs observed: 0
 ```
 
-A deterministic witness, passing workflow, rendered manuscript, or receipt is not automatically a proof. Proof acceptance requires the exact candidate, premises, derivation, dependencies, artifact identity, and independent review evidence.
+Connected GitHub-app content writes did not create push-triggered runs. This is an activation boundary, not evidence of validator success or failure.
 
-## Active collision boundaries
+## Repository-local implementation state
 
-- `Admissible-Existence/RTG` rendering, evidence closure, theorem packet generation, and readiness convergence are machine-owned. Observe current receipts and repair only the first proven defect through the existing lane.
-- Organization-level records may inspect, classify, and route gaps but cannot create mathematical authority for a source repository.
-- New source mutations require the newest repository-specific handoff and claim check.
-- Publication, Site projection, Publisher propagation, wiki propagation, tags, and releases remain blocked until source completeness and separate propagation admission are directly verified.
+### `Admissible-Existence/AE`
 
-## Repository execution order
+Canonical continuation:
 
-1. Validate the organization mathematics registry and inspect the hosted receipt.
-2. Close `Admissible-Existence/AE` principle-registry validation.
-3. Install `Admissible-Existence/Existence` registry validation and receipt chain.
-4. Observe `Admissible-Existence/RTG` through its existing machine lane.
-5. Process `Admissible-Existence/GTG`.
-6. Process `Admissible-Existence/TT`.
-7. Process `Admissible-Existence/STCM`.
-8. Process `Admissible-Existence/IW`.
-9. Process `Admissible-Existence/BC`.
-10. Process `Admissible-Existence/RE`.
-11. Process remaining source repositories.
-12. Process support repositories.
-13. Resolve empty-repository disposition.
+`Admissible-Existence/AE/docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md`
 
-## Required source projection
+State: 31/31 registry records and validation workflow installed; hosted validation and receipt inspection pending under claim `AEX-PC-AE-VALIDATION`.
 
-Every source repository must install or verify:
+### `Admissible-Existence/Existence`
+
+Canonical continuation:
+
+`Admissible-Existence/Existence/docs/EXISTENCE_MIRROR_HANDOFF.md`
+
+Installed:
+
+- `formalism/principle-registry.yaml`
+- `docs/WHOLE_REPO_THEORY_MAP.md`
+- `schemas/principle-registry.schema.json`
+- `tools/validate_principle_registry.py`
+- `tests/test_principle_registry.py`
+- `.github/workflows/principle-completeness-validation.yml`
+
+Key final commits:
 
 ```text
-docs/<REPOSITORY>_MIRROR_HANDOFF.md
-formalism/principle-registry.yaml
-formalism/dependency-graph.yaml
-formalism/proof-candidates.yaml
-docs/WHOLE_REPO_THEORY_MAP.md
-docs/MATHEMATICAL_NOTATION.md
-docs/FALSIFICATION_AND_LIMITS.md
-proof and validation evidence
+1bcc1bcb3c798e9f90a95ea831a92ce250200f75
+5b71c91a08387bc6217d757aa43ef51e8a10cf4a
+75b1a9338bdb9ace61866a5f73df823f42a469a6
+61e354a139e2dbff263b5f96e70897b3b1dde83a
+03edac91138523044575221274670ddb4af1fba0
 ```
 
-Every support repository must install or verify:
+State: implementation complete for the current six-file completeness surface; hosted validation, SHA-256 receipt, RC1 regression evidence, and artifact inspection pending under claim `AEX-PC-EXISTENCE-VALIDATION`.
 
-```text
-docs/SUPPORT_ROLE_AND_NON_AUTHORITY.md
-data/source-coverage-map.yaml
-data/validation-or-support-contract.yaml
-docs/<REPOSITORY>_MIRROR_HANDOFF.md
-```
+## Active claims and expiration
 
-## Completion rule
+`data/formalism-task-claims.json` is authoritative for active work. Claims now include finite expiration or renewal dates, evidence, collision boundaries, release conditions, and exact next-action locations.
 
-Do not report a repository as 100% until:
+Active lanes:
 
-- every asserted principle or support obligation is enumerated;
-- every applicable minimum dimension is satisfied;
-- intended mathematics and current maturity are explicit;
-- proof candidates and reviewed proofs are separately tracked;
-- validators and fixtures pass;
-- proof status is independently reviewed or explicitly bounded;
-- all relationships are fully qualified and current;
-- the newest handoff binds the current evidence;
-- no unresolved placeholder, stub, ambiguous identity, or hidden empty repository affects a claim.
+- `AEX-RTG-MACHINE-LANES`
+- `AEX-ORG-COHERENCE-AUDIT`
+- `AEX-ORG-RECONCILED-AUDIT`
+- `AEX-ORG-MATHEMATICS-REGISTRY`
+- `AEX-PC-AE-VALIDATION`
+- `AEX-PC-EXISTENCE-VALIDATION`
 
-## Propagation and release rule
+No claim lists the originating chat as an archival dependency.
 
-When a repository reaches release-ready COMPLETE state:
+## Collision boundaries
 
-1. create or verify its tag/release;
-2. create a follow-up task to verify applicable updates in:
-   - `StegVerse-Labs/Site`
-   - `GCAT-BCAT-Engine/Publisher`
-   - `StegVerse-Labs/admissibility-wiki`
-   - `StegVerse-002/stegguardian-wiki`
-3. do not treat propagation as source completeness or authority.
+- RTG rendering, evidence closure, theorem packets, and readiness convergence remain machine-owned.
+- AE publication issue `#20` remains separate from principle-completeness validation.
+- Existence RC1 completion remains valid only for its original bounded RC1 goal.
+- Organization registries, validators, workflows, receipts, and audits do not create source mathematics, proof acceptance, publication authority, execution authority, or release authority.
 
-## Archive state
+## Exact next execution order
 
-**NOT READY FOR ARCHIVAL.** The organization mathematical registry, audit, repository-local handoffs, proof-candidate tracking, hosted validation receipts, and remaining repository implementation must continue from this record.
+1. Inspect the first hosted run of `.github/workflows/principle-completeness-reconciled.yml` or renew its blocked claim with current trigger evidence.
+2. Inspect the first hosted run of `.github/workflows/organization-mathematics-registry.yml`.
+3. Inspect AE hosted principle validation.
+4. Inspect Existence hosted principle validation and RC1 regression.
+5. Observe RTG only through its existing machine lane.
+6. Read the newest applicable `Admissible-Existence/GTG/*_MIRROR_HANDOFF.md` and claims before mutation.
+7. Continue through the dependency order recorded in the findings/fix plan.
+8. Resolve the two empty repositories through implementation or explicit deprecation/migration.
+
+## Propagation and release obligations
+
+No source-completeness result automatically authorizes tags, releases, publication, Site, Publisher, or wiki propagation. When a repository becomes independently complete and release-ready, create a separate propagation-verification task for applicable destinations:
+
+- `StegVerse-Labs/Site`
+- `GCAT-BCAT-Engine/Publisher`
+- `StegVerse-Labs/admissibility-wiki`
+- `StegVerse-002/stegguardian-wiki`
+- any master-record destination named by live contracts
+
+## Source-session consolidation
+
+All unique requirements, findings, implementation history, claims, blockers, release conditions, and next actions from the originating session are now durable in this handoff, `docs/SESSION_EXECUTION_INVENTORY_2026-08-06.md`, repository-local handoffs, issue `#4`, and `data/formalism-task-claims.json`.
+
+The **program remains active**, but the **originating session has no unique implementation, validation, integration, propagation, reconciliation, or observation responsibility**.
+
+## Program archive gate
+
+The organization program is not complete until every repository satisfies its applicable source/support contract and the evidence is independently validated. That continuing program state does not require retention of the originating conversation.
