@@ -10,6 +10,7 @@ on:
       - 'data/formalism-worker-registry.json'
       - 'data/cross-repository-remediation-registry.json'
       - 'scripts/route_cross_repository_remediation.py'
+      - 'tests/test_cross_repository_remediation_router.py'
       - '.github/workflows/cross-repository-remediation-router.yml'
 
 permissions:
@@ -22,12 +23,31 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Validate and route
+      - name: Validate router contract
         run: |
           python -m py_compile scripts/route_cross_repository_remediation.py
+          python -m pytest -q tests/test_cross_repository_remediation_router.py
           python -m json.tool data/cross-repository-remediation-registry.json >/dev/null
+      - name: Route repositories
+        run: |
           python scripts/route_cross_repository_remediation.py
           python -m json.tool reports/cross-repository-remediation-latest.json >/dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('reports/cross-repository-remediation-latest.json').read_text())
+          expected = {
+              'CONTROL_PLANE': 1,
+              'DIRECT_SOURCE_UPDATE': 22,
+              'DIRECT_SUPPORT_UPDATE': 6,
+              'DISPOSITION_REQUIRED': 2,
+              'OBSERVE_NOTIFY_ONLY': 1,
+          }
+          if report['counts'] != expected:
+              raise SystemExit(f"routing counts mismatch: {report['counts']} != {expected}")
+          if len(report['repositories']) != 32:
+              raise SystemExit(f"expected 32 repositories, got {len(report['repositories'])}")
+          PY
       - name: Persist routing report
         run: |
           mkdir -p /tmp/aex-routing
