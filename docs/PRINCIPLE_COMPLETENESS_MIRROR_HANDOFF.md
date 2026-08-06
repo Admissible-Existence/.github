@@ -4,8 +4,8 @@
 **Repository:** `Admissible-Existence/.github`  
 **Branch:** `main`  
 **Program status:** ACTIVE — TV/TVC-GOVERNED AUTOMATION INTEGRATION  
-**Source-session state:** ACTIVE — DISTINCT SUPPORT ROLE  
-**Updated:** 2026-08-06T20:57:00Z
+**Source-session state:** BLOCKED — RETAIN UNTIL WORKER PATH IS PROVEN  
+**Updated:** 2026-08-06T21:08:00Z
 
 ## Governing objective
 
@@ -22,14 +22,16 @@ Bring every non-archived repository under `Admissible-Existence/*` above the org
 5. `data/formalism-task-claims.json`
 6. `data/principle-completeness-worker-claim.json`
 7. `data/tvc-principle-completeness-capability-request.json`
-8. `schemas/tvc-capability-grant-receipt.schema.json`
-9. `scripts/validate_tvc_worker_capability.py`
-10. `scripts/run_principle_completeness_workers.py`
-11. `.github/workflows/principle-completeness-workers.yml`
-12. `reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md`
-13. issue `Admissible-Existence/.github#4`
-14. `StegVerse-Labs/TVC/tasks/TVC-AEX-PRINCIPLE-COMPLETENESS-CAPABILITY-001.json`
-15. `StegVerse-Labs/TVC/docs/AEX_PRINCIPLE_COMPLETENESS_CAPABILITY_MIRROR_HANDOFF.md`
+8. `data/tvc-capability-activation-blocker.json`
+9. `schemas/tvc-capability-grant-receipt.schema.json`
+10. `scripts/validate_tvc_worker_capability.py`
+11. `scripts/run_principle_completeness_workers.py`
+12. `.github/workflows/principle-completeness-workers.yml`
+13. `reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md`
+14. issue `Admissible-Existence/.github#4`
+15. `StegVerse-Labs/TVC/tasks/TVC-AEX-PRINCIPLE-COMPLETENESS-CAPABILITY-001.json`
+16. `StegVerse-Labs/TVC/docs/AEX_PRINCIPLE_COMPLETENESS_CAPABILITY_MIRROR_HANDOFF.md`
+17. `StegVerse-Labs/TVC/issues/13`
 
 MERGED INTO: `Admissible-Existence/.github/docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md`
 
@@ -39,9 +41,9 @@ MERGED INTO: `Admissible-Existence/.github/docs/PRINCIPLE_COMPLETENESS_MIRROR_HA
 - Mathematics-registry coverage: 32/32.
 - Worker-registry coverage: 32/32.
 - Repositories proven complete under the current standard: 0/32.
-- Directly formalized by this program: `Admissible-Existence/.github`, `Admissible-Existence/AE`, `Admissible-Existence/Existence`.
-- Empty active repositories requiring disposition: `Admissible-Existence/ae-validation-research`, `Admissible-Existence/SOL`.
-- Proof-candidate repositories represented: `Admissible-Existence/AE`, `Admissible-Existence/RTG`.
+- Directly formalized by this program: `Admissible-Existence/.github`, `Admissible-Existence/AE`, and `Admissible-Existence/Existence`.
+- Empty active repositories requiring disposition: `Admissible-Existence/ae-validation-research` and `Admissible-Existence/SOL`.
+- Proof-candidate repositories represented: `Admissible-Existence/AE` and `Admissible-Existence/RTG`.
 - Accepted proofs created by this program: none.
 
 ## Organization worker lane
@@ -63,7 +65,7 @@ The controller distinguishes source, support, coordination, empty, and machine-o
 
 No static organization PAT, parallel vault, or competing capability issuer is canonical.
 
-### Consumer-side contracts installed
+## Consumer contracts installed
 
 ```text
 data/tvc-principle-completeness-capability-request.json
@@ -79,7 +81,7 @@ Commits:
 ab4c5cbfba696e50451ba9e983afda34cdb2f6c0
 ```
 
-### TVC adapter lane implemented
+## TVC adapter and observer lanes
 
 Installed in `StegVerse-Labs/TVC`:
 
@@ -88,37 +90,56 @@ scripts/validate_aex_principle_completeness_capability.py
 tests/test_aex_principle_completeness_capability.py
 fixtures/aex-principle-completeness-capability-request.json
 .github/workflows/aex-principle-completeness-capability-proof.yml
+scripts/observe_aex_principle_completeness_capability.py
+.github/workflows/aex-capability-proof-observer.yml
 ```
 
-Commits:
+Implementation commits:
 
 ```text
 b2eacb8d65a54ea649268fc183eb5a5f0a4a2742
 e62d15770486b3bdb943588fb68ed6bf2222cac5
 86999487f00132f42deb7bdf1091f01ad2d1f6a7
 4469b4da5903431a4c79d53377c94dd0e99c5804
+5f7555dbfb84c3e8f215a7da90ef229a255e6649
+4316604d32f392cdaf29534633a10c2b83407e6a
+da07d5f29820aae93854290e9f184537ab2f6aa9
 ```
 
-Task/handoff synchronization:
+Task and handoff state:
 
 ```text
 StegVerse-Labs/TVC/tasks/TVC-AEX-PRINCIPLE-COMPLETENESS-CAPABILITY-001.json
-e5bb7dde9bc0182599a0cddf4848a5f525945a04
+cc4327f6dd7c7b766b1083a42278efd237caef9f
 StegVerse-Labs/TVC/docs/AEX_PRINCIPLE_COMPLETENESS_CAPABILITY_MIRROR_HANDOFF.md
-a5c188908ccd8de5c31c1a5aae113eaba55245b4
+50632fa85c3cbcbf7456c0b92e07ea4138601170
 ```
 
 The adapter validates exact requester, workflow, ref, repository pattern, operation set, explicit denials, TTL, revocation, replay posture, authority identities, request hash, policy hash, run ID, run attempt, and non-disclosure flags. Tests cover allow, scope drift, missing denial, expiry, replay, and tamper refusal.
 
-### Hosted TVC proof state
+The observer queries proof-run metadata only, emits a sanitized state receipt, uploads `aex-capability-proof-observation`, comments the result to TVC issue `#13`, and fails closed until the proof artifact exists. It runs hourly at minute 17, on proof-workflow completion, by manual dispatch, and on observer-file pushes.
 
-- Workflow: `StegVerse-Labs/TVC/.github/workflows/aex-principle-completeness-capability-proof.yml`
+## Hosted state
+
+### Proof workflow
+
 - Workflow ID: `328881362`
-- Registration state: `active`
-- Hosted runs observed: `0`
+- Registration state: active
+- Hosted runs observed: 0
 - Artifact observed: none
+- Activation PR: `StegVerse-Labs/TVC#12`
+- Initial open-event runs: 0
+- Reopen-event runs: 0
 
-Workflow registration is not validation success. The adapter remains `IMPLEMENTED_UNVALIDATED` until a hosted run, jobs, logs, and sanitized artifact are directly inspected.
+### Observer workflow
+
+- Workflow ID: `328885253`
+- Registration state: active
+- Hosted runs observed after installation push: 0
+- Scheduled trigger: hourly at minute 17
+- Blocker owner: `StegVerse-Labs/TVC#13`
+
+Workflow registration is not validation success. The shared evidence supports a current TVC Actions event-delivery, approval, or policy defect because older TVC pull requests produced Actions runs while the new proof and observer events produced none.
 
 ## Historical hosted evidence
 
@@ -156,13 +177,14 @@ principle completeness workers: 328874742
 
 ## Exact next execution order
 
-1. Inspect the first hosted run of `StegVerse-Labs/TVC/.github/workflows/aex-principle-completeness-capability-proof.yml`.
-2. Repair only the first directly proven adapter, fixture, test, receipt, or workflow defect.
-3. Prove TV runtime resolution without protected-value disclosure.
-4. Integrate the validated TVC receipt and runtime capability into `.github/workflows/principle-completeness-workers.yml` through the canonical boundary.
-5. Inspect all 32 repositories and persist reports, repository-local issue references or distinct machine claims, jobs, logs, and artifacts.
-6. Continue repository formalization and support-contract implementation until 32/32 validate complete.
-7. Resolve `Admissible-Existence/ae-validation-research` and `Admissible-Existence/SOL` through implementation or explicit deprecation/migration.
+1. Resolve `StegVerse-Labs/TVC#13` and restore an authorized Actions event path.
+2. Allow observer workflow `328885253` to report the first proof-run state.
+3. Inspect proof jobs, logs, and `aex-principle-completeness-capability-proof` artifact.
+4. Prove TV runtime resolution without protected-value disclosure.
+5. Integrate the validated TVC receipt and runtime capability into `.github/workflows/principle-completeness-workers.yml`.
+6. Inspect all 32 repositories and persist reports, repository-local issue references or distinct machine claims, jobs, logs, and artifacts.
+7. Continue repository formalization and support-contract implementation until 32/32 validate complete.
+8. Resolve `Admissible-Existence/ae-validation-research` and `Admissible-Existence/SOL` through implementation or explicit deprecation/migration.
 
 ## Archive gate
 
@@ -171,4 +193,4 @@ This session is not archive-ready until either:
 1. all 32 repositories independently satisfy their applicable contracts; or
 2. the TV/TVC-governed worker path is proven operational through hosted proof, TV runtime resolution, exact-run receipt validation, 32-repository coverage, durable reports, repository-local tasks or machine claims, sanitized artifacts, and continued progress without chat dependence.
 
-The adapter implementation is now durable. Hosted validation, runtime resolution, consumer integration, and organization-wide execution remain archival dependencies.
+All requirements, implementation history, blockers, machine owners, and release conditions are durable. The remaining reason to retain this session is the user's explicit archive gate requiring operational worker evidence, not missing project knowledge.
