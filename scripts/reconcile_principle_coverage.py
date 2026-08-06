@@ -19,6 +19,7 @@ REGISTRY = ROOT / "data" / "organization-mathematics-registry.yaml"
 LIVE = ROOT / "reports" / "principle-completeness-latest.json"
 OUTPUT = ROOT / "reports" / "principle-completeness-reconciled.json"
 SUMMARY = ROOT / "reports" / "principle-completeness-reconciled.md"
+ACTIVATION_ID = "AEX-PC-RECONCILE-20260806-01"
 
 
 def main() -> int:
@@ -73,6 +74,7 @@ def main() -> int:
 
     result = {
         "schema_version": "1.0.0",
+        "activation_id": ACTIVATION_ID,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
         "expected_repository_count": len(expected),
@@ -91,6 +93,7 @@ def main() -> int:
     lines = [
         "# Reconciled Principle Completeness Coverage",
         "",
+        f"- Activation: `{ACTIVATION_ID}`",
         f"- Expected repositories: **{result['expected_repository_count']}**",
         f"- Live-observed repositories: **{result['live_observed_repository_count']}**",
         f"- Reconciled repositories: **{result['reconciled_repository_count']}**",
@@ -108,6 +111,7 @@ def main() -> int:
     SUMMARY.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     print(json.dumps({
+        "activation_id": ACTIVATION_ID,
         "expected": result["expected_repository_count"],
         "observed": result["live_observed_repository_count"],
         "reconciled": result["reconciled_repository_count"],
