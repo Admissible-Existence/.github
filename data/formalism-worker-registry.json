@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.4.0",
+  "schema_version": "2.5.0",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "coordination_repository": "Admissible-Existence/.github",
   "execution_model": "central controller creates bounded repository-local implementation branches or reports BLOCKED",
@@ -19,7 +19,7 @@
     {"repository":"Admissible-Existence/STCM","role":"source","worker_state":"implementation_complete_hosted_validation_blocked","completion_evidence":{"handoff":"docs/STCM_MIRROR_HANDOFF.md","handoff_commit":"2feba62be339ef6174e5eb342eb8f66061b5bf40","deterministic_receipt":"reports/stcm-deterministic-validation-receipt.json","receipt_commit":"a455572a779ba481637465e48c17b34db5106a68","activation_pr":"Admissible-Existence/STCM#2","issue":"Admissible-Existence/STCM#1","blocker":"Admissible-Existence/.github:data/actions-activation-authority-blocker.json"}},
     {"repository":"Admissible-Existence/ET","role":"source","worker_state":"validated_complete_notify_only","completion_evidence":{"handoff":"ET_MIRROR_HANDOFF.md","task_state":"data/et-task-state.json","observation":"et-task-observation.report.json","session_close_receipt":"data/session-consolidation/transition-element-session-close-receipt.json","tests":"46 tests, return code 0, OK","remaining_role":"consumer-owned propagation only"}},
     {"repository":"Admissible-Existence/learning-transition-governance","role":"source","worker_state":"implementation_complete_hosted_validation_blocked","completion_evidence":{"handoff":"docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md","handoff_commit":"5a11a204e425654419f22a7ce67b56dbb30ca21c","deterministic_receipt":"reports/learning-transition-validation-receipt.json","receipt_commit":"a023d59985d63ab933c0c6ab5b807b3635a5048c","receipt_sha256":"e4fa6f40908473e47827d7ef086ef0cf2b30bb8b395a5ee7c1c3c3aab4933e05","closed_issue":"Admissible-Existence/learning-transition-governance#1","blocker":"Admissible-Existence/.github:data/actions-activation-authority-blocker.json"}},
-    {"repository":"Admissible-Existence/BC","role":"source","worker_state":"required"},
+    {"repository":"Admissible-Existence/BC","role":"source","worker_state":"implementation_complete_hosted_validation_blocked","completion_evidence":{"handoff":"docs/BC_MIRROR_HANDOFF.md","handoff_commit":"8274e84a0849aabcf58ac6f4e42a3f083b6163d3","formalism_manifest_commit":"e4be9ec9b7359c7bcc6449d12a2aa1180891eeff","repository_manifest_commit":"836dc118ed88a0132b9e1953b6cafc4e546897ed","deterministic_receipt":"reports/bc-deterministic-validation-receipt.json","receipt_commit":"3e8134088bac4f4aca85e33c023a427bf75af3c3","receipt_sha256":"7d3790c53ace2c2b500162eb19d3f47a460a34a8c880b6ce1a926f52fcf4b394","closed_issue":"Admissible-Existence/BC#1","blocker":"Admissible-Existence/.github:data/actions-activation-authority-blocker.json"}},
     {"repository":"Admissible-Existence/CHF","role":"source","worker_state":"required"},
     {"repository":"Admissible-Existence/RE","role":"source","worker_state":"required"},
     {"repository":"Admissible-Existence/RE-Reduction","role":"source","worker_state":"required"},
