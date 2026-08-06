@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "request_id": "AEX-PC-TVC-CAPABILITY-001",
+  "requester": {
+    "repository": "Admissible-Existence/.github",
+    "workflow": ".github/workflows/principle-completeness-workers.yml",
+    "ref": "refs/heads/main"
+  },
+  "purpose": "Inspect and coordinate principle-completeness work across all registered Admissible-Existence repositories.",
+  "requested_scope": {
+    "repository_pattern": "Admissible-Existence/*",
+    "operations": [
+      "metadata:read",
+      "contents:read",
+      "issues:read",
+      "issues:write",
+      "pull_requests:read",
+      "actions:read"
+    ],
+    "explicitly_denied": [
+      "secrets:read",
+      "secrets:write",
+      "administration:write",
+      "repository:delete",
+      "releases:write",
+      "packages:write",
+      "workflows:write",
+      "contents:write"
+    ]
+  },
+  "lease": {
+    "maximum_ttl_seconds": 3600,
+    "single_workflow_run": true,
+    "revocable": true,
+    "replay_allowed": false
+  },
+  "required_bindings": [
+    "request_id",
+    "requester.repository",
+    "requester.workflow",
+    "requester.ref",
+    "requested_scope.repository_pattern",
+    "requested_scope.operations",
+    "workflow_run_id",
+    "workflow_run_attempt"
+  ],
+  "required_decision": "ALLOW_CAPABILITY_LEASE",
+  "receipt_requirements": {
+    "credentials_recorded": false,
+    "protected_values_recorded": false,
+    "policy_hash_required": true,
+    "request_hash_required": true,
+    "issued_at_required": true,
+    "expires_at_required": true,
+    "revocation_reference_required": true
+  },
+  "authority_boundaries": {
+    "credential_custody": "StegVerse-Labs/TV",
+    "grant_authority": "StegVerse-Labs/TVC",
+    "consumer": "Admissible-Existence/.github",
+    "source_mathematics_authority": "repository-local"
+  },
+  "status": "REQUESTED"
+}
