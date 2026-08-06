@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "blocker_id": "AEX-ACTIONS-ACTIVATION-AUTHORITY-001",
+  "goal_ids": [
+    "AEX-PRINCIPLE-COMPLETENESS-001",
+    "AEX-CROSS-REPOSITORY-REMEDIATION-001",
+    "STCM-PRINCIPLE-COMPLETENESS-001"
+  ],
+  "state": "BLOCKED_ACTIONS_EVENT_DELIVERY_AND_PERMISSION_AUTHORITY",
+  "owner": "Admissible-Existence organization or repository GitHub Actions administrator",
+  "observed_at": "2026-08-06T22:23:00Z",
+  "evidence": {
+    "worker_workflow_id": 328874742,
+    "router_workflow_id": 328896970,
+    "observer_workflow_id": 328894324,
+    "stcm_workflow_id": 303566904,
+    "stcm_activation_pr": "Admissible-Existence/STCM#2",
+    "stcm_activation_head": "e7ab166d526fd9a682437df7e2582ef26810c7a6",
+    "stcm_activation_runs": 0,
+    "actions_permissions_endpoint_result": "403 Resource not accessible by integration",
+    "repository_content_admin_available": true,
+    "issue_branch_pr_admin_available": true
+  },
+  "diagnosis": "The connected integration can mutate repository content and coordination surfaces but cannot administer or directly dispatch GitHub Actions, and its authored events are not producing hosted workflow runs in the affected lanes.",
+  "release_condition": {
+    "required_authority_action": "Enable GitHub Actions event execution for affected repositories or authorize an approved repository-native actor to dispatch the registered workflows.",
+    "required_evidence": [
+      "post-repair worker run with persisted reports and artifact",
+      "router run with committed routing report and artifact",
+      "observer run with sanitized observation receipt",
+      "STCM run with jobs, logs, six matched PN cases, and stcm-closure-harness-receipt artifact"
+    ]
+  },
+  "next_executable_action_after_release": "Run and inspect workflows 328874742, 328896970, 328894324, and 303566904, then update claims and canonical handoffs.",
+  "security_boundary": "Do not place a PAT, token, secret, credential, or protected value in this record, an issue, a commit, a log, or an artifact.",
+  "archive_dependency": true
+}
