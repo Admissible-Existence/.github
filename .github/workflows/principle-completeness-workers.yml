@@ -1,13 +1,33 @@
 name: Principle completeness repository workers
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       apply:
         description: Create or refresh repository-local worker issues
         required: false
         default: true
         type: boolean
+      receipt_json:
+        description: Sanitized TVC receipt bound to this workflow run
+        required: true
+        type: string
+    secrets:
+      runtime_capability:
+        description: TV-resolved, TVC-authorized, runtime-only GitHub capability
+        required: true
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Request apply mode; denied unless a valid TVC receipt and runtime capability are present
+        required: false
+        default: false
+        type: boolean
+      receipt_json:
+        description: Sanitized TVC receipt JSON; no protected values
+        required: false
+        default: ""
+        type: string
   schedule:
     - cron: "23 5 * * *"
   push:
@@ -15,12 +35,16 @@ on:
     paths:
       - "data/formalism-worker-registry.json"
       - "data/organization-mathematics-registry.yaml"
+      - "data/tvc-principle-completeness-capability-request.json"
+      - "scripts/validate_tvc_worker_capability.py"
+      - "tests/test_tvc_worker_capability.py"
       - "scripts/run_principle_completeness_workers.py"
       - ".github/workflows/principle-completeness-workers.yml"
 
 permissions:
   contents: write
   issues: write
+  actions: read
 
 concurrency:
   group: principle-completeness-workers
@@ -31,15 +55,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
-      GH_TOKEN: ${{ secrets.STEGVERSE_WORKER_TOKEN }}
+      RECEIPT_JSON: ${{ inputs.receipt_json || '' }}
+      APPLY_REQUESTED: ${{ inputs.apply || false }}
     steps:
       - name: Checkout coordination repository
         uses: actions/checkout@v4
 
-      - name: Validate controller inputs
+      - name: Validate controller and capability contracts
         run: |
           python -m py_compile scripts/run_principle_completeness_workers.py
+          python -m py_compile scripts/validate_tvc_worker_capability.py
           python -m json.tool data/formalism-worker-registry.json >/dev/null
+          python -m json.tool data/tvc-principle-completeness-capability-request.json >/dev/null
+          python -m pytest -q tests/test_tvc_worker_capability.py
           python - <<'PY'
           import json
           from pathlib import Path
@@ -49,23 +77,60 @@ jobs:
           assert len({row['repository'] for row in registry['repositories']}) == 32
           PY
 
-      - name: Verify organization worker credential
-        id: credential
+      - name: Materialize sanitized receipt
+        id: receipt
         run: |
-          if [ -z "${GH_TOKEN:-}" ]; then
+          if [ -z "${RECEIPT_JSON:-}" ]; then
             echo "available=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "available=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          mkdir -p runtime
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          value = json.loads(os.environ['RECEIPT_JSON'])
+          assert value.get('credentials_recorded') is False
+          assert value.get('protected_values_recorded') is False
+          Path('runtime/tvc-capability-receipt.json').write_text(
+              json.dumps(value, indent=2, sort_keys=True) + '\n', encoding='utf-8'
+          )
+          PY
+          echo "available=true" >> "$GITHUB_OUTPUT"
+
+      - name: Validate exact-run TVC receipt
+        id: capability
+        if: steps.receipt.outputs.available == 'true'
+        continue-on-error: true
+        run: |
+          python scripts/validate_tvc_worker_capability.py \
+            --receipt runtime/tvc-capability-receipt.json \
+            --output reports/tvc-worker-capability-validation.json
+
+      - name: Determine bounded execution mode
+        id: mode
+        env:
+          RUNTIME_CAPABILITY: ${{ secrets.runtime_capability || '' }}
+        run: |
+          apply=false
+          if [ "${APPLY_REQUESTED}" = "true" ] && \
+             [ "${{ steps.capability.outcome }}" = "success" ] && \
+             [ -n "${RUNTIME_CAPABILITY:-}" ]; then
+            apply=true
+          fi
+          echo "apply=$apply" >> "$GITHUB_OUTPUT"
+          if [ "${APPLY_REQUESTED}" = "true" ] && [ "$apply" != "true" ]; then
+            echo "Apply mode denied: exact-run TVC receipt or runtime capability unavailable."
           fi
 
-      - name: Run repository workers
+      - name: Run repository workers in bounded mode
         id: workers
+        env:
+          GH_TOKEN: ${{ steps.mode.outputs.apply == 'true' && secrets.runtime_capability || github.token }}
         run: |
           set +e
-          if [ "${{ steps.credential.outputs.available }}" = "true" ]; then
+          if [ "${{ steps.mode.outputs.apply }}" = "true" ]; then
             python scripts/run_principle_completeness_workers.py --apply
           else
-            unset GH_TOKEN
             python scripts/run_principle_completeness_workers.py
           fi
           status=$?
@@ -80,21 +145,29 @@ jobs:
           git config user.name "admissible-existence-worker"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add reports/formalism-worker-status-latest.json reports/formalism-worker-status-latest.md
+          if [ -f reports/tvc-worker-capability-validation.json ]; then
+            git add reports/tvc-worker-capability-validation.json
+          fi
           if ! git diff --cached --quiet; then
             git commit -m "Record principle completeness worker status"
             git push
           fi
 
-      - name: Upload worker report
+      - name: Upload worker evidence
         uses: actions/upload-artifact@v4
         with:
           name: principle-completeness-worker-status
           path: |
             reports/formalism-worker-status-latest.json
             reports/formalism-worker-status-latest.md
+            reports/tvc-worker-capability-validation.json
           if-no-files-found: error
 
-      - name: Fail closed while work remains
+      - name: Fail closed when apply was requested but denied
+        if: env.APPLY_REQUESTED == 'true' && steps.mode.outputs.apply != 'true'
+        run: exit 1
+
+      - name: Fail closed while repository work remains
         if: steps.workers.outputs.status != '0'
         run: |
           echo "Repository formalism, mathematics, proof-candidate, validation, or access work remains."
