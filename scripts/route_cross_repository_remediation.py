@@ -26,6 +26,8 @@ def classify(entry: dict) -> tuple[str, str]:
         return "COMPLETE_NOTIFY_ONLY", "Preserve completion evidence; notify only for separately admitted propagation or regression."
     if state == "source_complete_integration_pending":
         return "INTEGRATION_NOTIFY_ONLY", "Preserve completed source evidence and continue only the named integration or destination-admission task."
+    if state == "implementation_complete_hosted_validation_blocked":
+        return "HOSTED_VALIDATION_BLOCKED", "Preserve deterministic completion evidence; await the named Actions-authority release condition and do not reopen implementation."
     if state == "machine_owned_observe_only":
         return "OBSERVE_NOTIFY_ONLY", "Observe canonical machine-owned work; do not duplicate implementation."
     if role == "empty":
@@ -58,7 +60,7 @@ def main() -> int:
             "completion_evidence": entry.get("completion_evidence"),
         })
     report = {
-        "schema_version": "1.2.0",
+        "schema_version": "1.3.0",
         "goal_id": routing["goal_id"],
         "parent_goal_id": routing["parent_goal_id"],
         "counts": counts,
