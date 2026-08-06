@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.3.0",
+  "schema_version": "1.4.0",
   "task_id": "AEX-PC-AUTOMATED-WORKERS-001",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_goal": "Ensure all related repositories contain validated formalism, mathematics, candidate-proof or support records, and current handoffs",
@@ -7,10 +7,10 @@
   "branch": "main",
   "claim_state": "BLOCKED",
   "completion_state": "IMPLEMENTED_UNVALIDATED",
-  "claimant": "principle-completeness-workers.yml with StegVerse-Labs/TV runtime custody and StegVerse-Labs/TVC grant authority",
+  "claimant": "principle-completeness-workers.yml with machine observer workflow 328894324, StegVerse-Labs/TV runtime custody, and StegVerse-Labs/TVC grant authority",
   "claim_created_at": "2026-08-06T20:40:00Z",
   "claim_expires_at": "2026-08-13T20:49:00Z",
-  "release_condition": "A post-repair hosted run of workflow ID 328874742 executes commit e7be2c5c7aea62cf7b9ef50731208f6883ac1dfc or later, persists reports/formalism-worker-status-latest.json and .md, uploads principle-completeness-worker-status, then an authorized TVC caller invokes apply mode with an exact-run sanitized receipt and TV-resolved runtime-only capability.",
+  "release_condition": "Observer workflow ID 328894324 records COMPLETE_READ_ONLY_WORKER_EVIDENCE for a post-repair run of worker workflow ID 328874742 that persists both reports and uploads principle-completeness-worker-status; then an authorized TVC caller invokes apply mode with an exact-run sanitized receipt and TV-resolved runtime-only capability.",
   "collision_boundary": "TV owns credential custody and packaging/distribution; TVC owns scoped grant, revocation, atomic consumption, and sanitized receipts; .github consumes but does not own protected values, source mathematics, proof acceptance, release authority, or repository administration.",
   "surfaces": [
     "data/formalism-worker-registry.json",
@@ -19,8 +19,11 @@
     "scripts/validate_tvc_worker_capability.py",
     "tests/test_tvc_worker_capability.py",
     "scripts/run_principle_completeness_workers.py",
+    "scripts/observe_principle_worker_activation.py",
     ".github/workflows/principle-completeness-workers.yml",
+    ".github/workflows/principle-worker-activation-observer.yml",
     "reports/hosted-worker-run-31128125108.md",
+    "reports/principle-worker-activation-observation.json",
     "StegVerse-Labs/TVC/tasks/TVC-AEX-PRINCIPLE-COMPLETENESS-CAPABILITY-001.json",
     "StegVerse-Labs/TVC/docs/AEX_PRINCIPLE_COMPLETENESS_CAPABILITY_MIRROR_HANDOFF.md",
     "StegVerse-Labs/TVC/issues/13"
@@ -35,6 +38,9 @@
     "repair_commit:e7be2c5c7aea62cf7b9ef50731208f6883ac1dfc",
     "activation_probe_commit:62f8420fbccead05ca69e7e050ebd52807d171b0",
     "post_repair_runs_observed:0",
+    "observer_script_commit:da7fd565a7ce1518686c4c3099ebb2573626fc36",
+    "observer_workflow_commit:96f97a8d526d07f1b3745bfdeb1b3543a6490ca1",
+    "observer_workflow_id:328894324",
     "tvc_proof_workflow_id:328881362",
     "tvc_observer_workflow_id:328885253",
     "tvc_issue:13"
@@ -47,11 +53,12 @@
     "apply mode requires exact-run receipt and runtime-only capability",
     "worker workflow exposed as reusable TV/TVC invocation target",
     "first hosted run inspected all 32 repositories",
-    "first hosted persistence race repaired"
+    "first hosted persistence race repaired",
+    "post-repair evidence observation assigned to an hourly repository-native workflow"
   ],
-  "blocker_owner": "Admissible-Existence/.github Actions event-delivery lane with TVC issue 13 for governed apply activation",
-  "machine_observable_release_condition": "Workflow runs endpoint for ID 328874742 reports a run whose head SHA includes the persistence repair and whose artifact endpoint contains principle-completeness-worker-status.",
-  "next_action": "Observe or trigger the next repository-native run of workflow 328874742, inspect report persistence and artifact creation, then invoke governed apply mode through TVC after issue 13 releases.",
-  "next_action_location": "Admissible-Existence/.github/.github/workflows/principle-completeness-workers.yml",
+  "blocker_owner": "Admissible-Existence/.github workflow 328894324 for read-only evidence observation; StegVerse-Labs/TVC issue 13 for governed apply activation",
+  "machine_observable_release_condition": "Observer workflow 328894324 emits COMPLETE_READ_ONLY_WORKER_EVIDENCE and its artifact contains the post-repair run ID, persisted report paths, and principle-completeness-worker-status artifact name.",
+  "next_action": "Allow workflow 328894324 to observe the next scheduled or authorized worker run; after COMPLETE_READ_ONLY_WORKER_EVIDENCE, invoke governed apply mode through TVC issue 13.",
+  "next_action_location": "Admissible-Existence/.github/.github/workflows/principle-worker-activation-observer.yml",
   "archival_dependency": true
 }
