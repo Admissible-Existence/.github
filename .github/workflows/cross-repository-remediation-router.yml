@@ -38,13 +38,13 @@ jobs:
           report = json.loads(Path('reports/cross-repository-remediation-latest.json').read_text())
           expected = {
               'CONTROL_PLANE': 1,
-              'DIRECT_SOURCE_UPDATE': 16,
+              'DIRECT_SOURCE_UPDATE': 15,
               'DIRECT_SUPPORT_UPDATE': 6,
               'DISPOSITION_REQUIRED': 2,
               'OBSERVE_NOTIFY_ONLY': 1,
               'COMPLETE_NOTIFY_ONLY': 2,
               'INTEGRATION_NOTIFY_ONLY': 1,
-              'HOSTED_VALIDATION_BLOCKED': 3,
+              'HOSTED_VALIDATION_BLOCKED': 4,
           }
           if report['counts'] != expected:
               raise SystemExit(f"routing counts mismatch: {report['counts']} != {expected}")
@@ -58,6 +58,7 @@ jobs:
               'Admissible-Existence/STCM': 'HOSTED_VALIDATION_BLOCKED',
               'Admissible-Existence/learning-transition-governance': 'HOSTED_VALIDATION_BLOCKED',
               'Admissible-Existence/BC': 'HOSTED_VALIDATION_BLOCKED',
+              'Admissible-Existence/CHF': 'HOSTED_VALIDATION_BLOCKED',
           }
           for repo, state in required_states.items():
               if by_repo[repo]['routing_state'] != state:
