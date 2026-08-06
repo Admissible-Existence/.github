@@ -38,19 +38,24 @@ jobs:
           report = json.loads(Path('reports/cross-repository-remediation-latest.json').read_text())
           expected = {
               'CONTROL_PLANE': 1,
-              'DIRECT_SOURCE_UPDATE': 21,
+              'DIRECT_SOURCE_UPDATE': 20,
               'DIRECT_SUPPORT_UPDATE': 6,
               'DISPOSITION_REQUIRED': 2,
               'OBSERVE_NOTIFY_ONLY': 1,
               'COMPLETE_NOTIFY_ONLY': 1,
+              'INTEGRATION_NOTIFY_ONLY': 1,
           }
           if report['counts'] != expected:
               raise SystemExit(f"routing counts mismatch: {report['counts']} != {expected}")
           if len(report['repositories']) != 32:
               raise SystemExit(f"expected 32 repositories, got {len(report['repositories'])}")
-          gtg = next(row for row in report['repositories'] if row['repository'] == 'Admissible-Existence/GTG')
-          if gtg['routing_state'] != 'COMPLETE_NOTIFY_ONLY' or not gtg['completion_evidence']:
-              raise SystemExit('GTG completion evidence missing or incorrectly routed')
+          by_repo = {row['repository']: row for row in report['repositories']}
+          if by_repo['Admissible-Existence/GTG']['routing_state'] != 'COMPLETE_NOTIFY_ONLY':
+              raise SystemExit('GTG must remain COMPLETE_NOTIFY_ONLY')
+          if by_repo['Admissible-Existence/TT']['routing_state'] != 'INTEGRATION_NOTIFY_ONLY':
+              raise SystemExit('TT must remain INTEGRATION_NOTIFY_ONLY')
+          if not by_repo['Admissible-Existence/TT']['completion_evidence']:
+              raise SystemExit('TT integration-only route requires completion evidence')
           PY
       - name: Persist routing report
         run: |
