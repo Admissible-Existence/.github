@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.15.0",
+  "schema_version": "3.16.0",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "coordination_repository": "Admissible-Existence/.github",
   "execution_model": "central controller creates bounded repository-local implementation branches or reports BLOCKED",
@@ -555,7 +555,26 @@
     {
       "repository": "Admissible-Existence/ae-validation-research",
       "role": "empty",
-      "worker_state": "disposition_required"
+      "worker_state": "validated_complete_notify_only",
+      "completion_evidence": {
+        "normalized_evidence": "data/ae-validation-research-disposition-evidence.json",
+        "disposition": "DEPRECATE",
+        "disposition_state": "DEPRECATED_NOTIFY_ONLY",
+        "handoff": "docs/AE_VALIDATION_RESEARCH_MIRROR_HANDOFF.md",
+        "handoff_commit": "66dc8cfe8368e2a0ec7d82ce172b614aaa3608c6",
+        "issue": "Admissible-Existence/ae-validation-research#1",
+        "receipt": "reports/disposition-receipt.json",
+        "receipt_commit": "99f7c9d842cd3a6e0b097e5b35c78eedd85c26b8",
+        "redirects": [
+          "Admissible-Existence/validation-profile-registry",
+          "Admissible-Existence/validator",
+          "Admissible-Existence/ae-validation-factory",
+          "Admissible-Existence/.github"
+        ],
+        "unique_artifacts_remaining": 0,
+        "creates_authority": false,
+        "commits_execution": false
+      }
     },
     {
       "repository": "Admissible-Existence/validation-profile-registry",

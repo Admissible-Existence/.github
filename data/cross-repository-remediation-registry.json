@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.19.0",
+  "schema_version": "1.20.0",
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "parent_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_session_goal": "Extend principle-completeness execution into every affected repository and notify dependent control planes and publication surfaces.",
@@ -12,9 +12,9 @@
     "control_plane": 1,
     "direct_source_update_remaining": 2,
     "direct_support_update_remaining": 0,
-    "disposition_required": 2,
+    "disposition_required": 1,
     "machine_owned_observe_only": 1,
-    "validated_complete_notify_only": 19,
+    "validated_complete_notify_only": 20,
     "source_complete_integration_pending": 1,
     "implementation_complete_hosted_validation_blocked": 6,
     "immediate_external_dependencies": 2,
@@ -321,6 +321,17 @@
       "artifact_id": 8999821310,
       "artifact_digest": "sha256:bda53fcc29a389d05e4cfefe520c22bd3d99090c749bb52fd3b5c23632cb5b4d",
       "normalized_evidence": "data/validation-profile-registry-completion-evidence.json"
+    },
+    {
+      "repository": "Admissible-Existence/ae-validation-research",
+      "state": "COMPLETE_NOTIFY_ONLY",
+      "source_handoff": "Admissible-Existence/ae-validation-research@main:docs/AE_VALIDATION_RESEARCH_MIRROR_HANDOFF.md",
+      "handoff_commit": "66dc8cfe8368e2a0ec7d82ce172b614aaa3608c6",
+      "issue": "Admissible-Existence/ae-validation-research#1",
+      "disposition": "DEPRECATE",
+      "receipt": "reports/disposition-receipt.json",
+      "receipt_commit": "99f7c9d842cd3a6e0b097e5b35c78eedd85c26b8",
+      "normalized_evidence": "data/ae-validation-research-disposition-evidence.json"
     }
   ],
   "bounded_non_direct_states": [

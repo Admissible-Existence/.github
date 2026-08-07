@@ -8,10 +8,10 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 19,
+    "COMPLETE_NOTIFY_ONLY": 20,
     "CONTROL_PLANE": 1,
     "DIRECT_SOURCE_UPDATE": 2,
-    "DISPOSITION_REQUIRED": 2,
+    "DISPOSITION_REQUIRED": 1,
     "HOSTED_VALIDATION_BLOCKED": 6,
     "INTEGRATION_NOTIFY_ONLY": 1,
     "OBSERVE_NOTIFY_ONLY": 1
@@ -646,13 +646,31 @@
       "worker_state": "validated_complete_notify_only"
     },
     {
-      "completion_evidence": null,
-      "next_action": "Create implementation, deprecation, or migration disposition.",
-      "owner": "Admissible-Existence/ae-validation-research",
+      "completion_evidence": {
+        "commits_execution": false,
+        "creates_authority": false,
+        "disposition": "DEPRECATE",
+        "disposition_state": "DEPRECATED_NOTIFY_ONLY",
+        "handoff": "docs/AE_VALIDATION_RESEARCH_MIRROR_HANDOFF.md",
+        "handoff_commit": "66dc8cfe8368e2a0ec7d82ce172b614aaa3608c6",
+        "issue": "Admissible-Existence/ae-validation-research#1",
+        "normalized_evidence": "data/ae-validation-research-disposition-evidence.json",
+        "receipt": "reports/disposition-receipt.json",
+        "receipt_commit": "99f7c9d842cd3a6e0b097e5b35c78eedd85c26b8",
+        "redirects": [
+          "Admissible-Existence/validation-profile-registry",
+          "Admissible-Existence/validator",
+          "Admissible-Existence/ae-validation-factory",
+          "Admissible-Existence/.github"
+        ],
+        "unique_artifacts_remaining": 0
+      },
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
+      "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/ae-validation-research",
       "role": "empty",
-      "routing_state": "DISPOSITION_REQUIRED",
-      "worker_state": "disposition_required"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": {
