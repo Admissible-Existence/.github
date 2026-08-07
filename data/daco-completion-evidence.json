@@ -1,0 +1,53 @@
+{
+  "schema_version": "admissible_existence.daco.central_completion_evidence.v1",
+  "goal_id": "DACO-PRINCIPLE-COMPLETENESS-001",
+  "repository": "Admissible-Existence/DaCo",
+  "handoff": "docs/DACO_MIRROR_HANDOFF.md",
+  "handoff_commit": "76e600899015284fc79ad410c1959b7c83425b3b",
+  "source_issue": "Admissible-Existence/DaCo#1",
+  "source_validation": {
+    "workflow_id": 329084749,
+    "run_id": 31152578496,
+    "job_id": 92785152312,
+    "conclusion": "success",
+    "w2_cases": "5/5 matched",
+    "principles": "4/4 valid",
+    "compact_layers_ready": true,
+    "receipt": "reports/daco-principle-completeness-validation.json",
+    "receipt_commit": "490a8f2c35aab8ae3143e5dd422ae64254d7046c",
+    "receipt_blob": "61b88bb15698574f6aa0a538187a9888127dd02d",
+    "artifact_id": 8983855166,
+    "artifact_digest": "sha256:1636fea0e19102f31ac8fc91e18cb128eaa4d286e33fb62f283a7c324e944712"
+  },
+  "central_activation": {
+    "worker_registry_commit": "af021f2f033e86393220d7a8641a02b203766f2a",
+    "remediation_registry_commit": "ba84ee5267505f969c8f20faa42b5d75742e73b9",
+    "router_commit": "fb6764690860a47f61355af0adf0f33331d210f0",
+    "router_run": 31156145477,
+    "router_job": 92795954849,
+    "router_conclusion": "success",
+    "router_tests": "9/9 passed",
+    "routing_counts": {
+      "CONTROL_PLANE": 1,
+      "DIRECT_SOURCE_UPDATE": 4,
+      "DIRECT_SUPPORT_UPDATE": 6,
+      "DISPOSITION_REQUIRED": 2,
+      "OBSERVE_NOTIFY_ONLY": 1,
+      "COMPLETE_NOTIFY_ONLY": 11,
+      "INTEGRATION_NOTIFY_ONLY": 1,
+      "HOSTED_VALIDATION_BLOCKED": 6
+    },
+    "routing_report_commit": "c1a02dd",
+    "artifact_id": 8985202430,
+    "artifact_digest": "sha256:96cd75e70208fef93542427c9c5698335e5cc3908aa94fe8c5fcab9ec08f6f11"
+  },
+  "authority_boundary": {
+    "continuity_equals_truth": false,
+    "cross_repository_validity_established": false,
+    "execution_authorized": false,
+    "publication_authorized": false,
+    "proofs_accepted": false
+  },
+  "routing_state": "COMPLETE_NOTIFY_ONLY",
+  "source_reopen_condition": "Direct regression evidence or a separately admitted destination-owned propagation task."
+}
