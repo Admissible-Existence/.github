@@ -1,0 +1,54 @@
+{
+  "schema_version": "admissible_existence.hps.central_completion_evidence.v1",
+  "goal_id": "HPS-PRINCIPLE-COMPLETENESS-001",
+  "parent_goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
+  "repository": "Admissible-Existence/HPS",
+  "state": "VALIDATED_COMPLETE_NOTIFY_ONLY",
+  "canonical_handoff": "HPS_MIRROR_HANDOFF.md",
+  "handoff_commit": "5e777b07c38c606c88097043969f458d6fa9ecb4",
+  "closed_issue": "Admissible-Existence/HPS#1",
+  "source_validation": {
+    "workflow_id": 309705066,
+    "run_id": 31150408401,
+    "job_id": 92778654507,
+    "conclusion": "success",
+    "unit_tests": "15/15 passed",
+    "principles": "4/4 valid",
+    "findings": [],
+    "receipt": "reports/hps-principle-completeness-validation.json",
+    "receipt_commit": "1d49631",
+    "receipt_blob": "7ef41ce757b39083884e28a6073d24a0de610465",
+    "artifact_id": 8983060766,
+    "artifact_digest": "sha256:bc69384446e97dfdb84b987de39c664c32ffe75703832008128b2548f5fc5b74"
+  },
+  "control_plane_activation": {
+    "worker_registry_commit": "86d6aacd99d14afcb81465a9fe9997c1687bc39e",
+    "worker_registry_diff": "schema 3.4.0->3.5.0 and HPS required->validated_complete_notify_only only",
+    "remediation_registry_commit": "9a59e3bbe9c8c4313a065365b4d9439c8863dc37",
+    "router_commit": "01737a51108396a527a269a2c13c9c3dccc1b5af",
+    "router_run_id": 31150716738,
+    "router_job_id": 92779562484,
+    "router_conclusion": "success",
+    "router_tests": "9 passed",
+    "routing_counts": {
+      "CONTROL_PLANE": 1,
+      "DIRECT_SOURCE_UPDATE": 6,
+      "DIRECT_SUPPORT_UPDATE": 6,
+      "DISPOSITION_REQUIRED": 2,
+      "OBSERVE_NOTIFY_ONLY": 1,
+      "COMPLETE_NOTIFY_ONLY": 9,
+      "INTEGRATION_NOTIFY_ONLY": 1,
+      "HOSTED_VALIDATION_BLOCKED": 6
+    },
+    "routing_report_commit": "92ec576",
+    "routing_artifact_id": 8983169954,
+    "routing_artifact_digest": "sha256:9456ffee06c262ed0883e930e7321af00ee3472ba43646b7569bb8f43731492b"
+  },
+  "authority": {
+    "execution_authorized": false,
+    "publication_authorized": false,
+    "proofs_accepted": false,
+    "downstream_activation_authorized": false
+  },
+  "reopen_condition": "Direct regression evidence or a separately admitted destination-owned propagation task."
+}
