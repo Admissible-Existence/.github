@@ -1,0 +1,41 @@
+{
+  "schema_version": "admissible_existence.validator.completion_evidence.v1",
+  "goal_id": "VALIDATOR-SUPPORT-COMPLETENESS-001",
+  "repository": "Admissible-Existence/validator",
+  "role": "support",
+  "state": "VALIDATED_COMPLETE_NOTIFY_ONLY",
+  "handoff": "docs/VALIDATOR_MIRROR_HANDOFF.md",
+  "handoff_commit": "bc7a6c11f351f875c1294a5c49385416fb8e57a0",
+  "issue": "Admissible-Existence/validator#3",
+  "canonical_worker": "AEX-VALID-20260729-01",
+  "canonical_worker_preserved": true,
+  "adapters": {
+    "support_role_commit": "54b7dfd3ac475fb3fc809e06968f8feb1c3565f7",
+    "source_coverage_commit": "6cbe386e6734adf6de9de092ae9feca3ef2adc90",
+    "support_contract_commit": "3b56fee6444777c36e852820b51395b6c9bd6a39",
+    "checker_commit": "898124069367e3e2b0d96b86727718c51a64374f",
+    "workflow_commit": "c1145c4e1b6ae38d90cbfd3045d8bcc0464aee40",
+    "receipt_commit": "befd914fde9280b31a75689e1f7fed2e6e47d244"
+  },
+  "validation": {
+    "workflow_id": 302985597,
+    "run_id": 31188248490,
+    "job_id": 92898192340,
+    "conclusion": "success",
+    "artifact_id": 8997658972,
+    "artifact_digest": "sha256:10b2089eb283f1ffcaa08bac3f357a24f1dac541a4298bd9e48961319b5cdb48",
+    "canonical_contract_check": "PASS",
+    "support_adapter_check": "PASS",
+    "tt_fixture": "VALIDATED",
+    "unbound_re_fixture": "INSUFFICIENT_EVIDENCE",
+    "unbound_re_reduction_fixture": "INSUFFICIENT_EVIDENCE"
+  },
+  "receipt": "reports/validator-support-completeness-validation.json",
+  "boundaries": {
+    "creates_authority": false,
+    "commits_execution": false,
+    "publication_authorized": false,
+    "proofs_accepted": false
+  },
+  "central_activation_pending": true
+}
