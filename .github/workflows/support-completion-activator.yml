@@ -20,6 +20,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install router test dependency
+        run: python -m pip install --disable-pip-version-check pytest
+
       - name: Activate validated support evidence
         run: |
           python -m py_compile scripts/activate_support_completions.py
@@ -28,13 +31,45 @@ jobs:
           python -m json.tool data/cross-repository-remediation-registry.json >/dev/null
           python -m json.tool reports/support-completion-activation-latest.json >/dev/null
 
-      - name: Persist activation state
+      - name: Verify resulting organization routing
+        run: |
+          python -m py_compile scripts/route_cross_repository_remediation.py
+          python -m pytest -q tests/test_cross_repository_remediation_router.py
+          python scripts/route_cross_repository_remediation.py
+          python -m json.tool reports/cross-repository-remediation-latest.json >/dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          remediation = json.loads(Path('data/cross-repository-remediation-registry.json').read_text())
+          report = json.loads(Path('reports/cross-repository-remediation-latest.json').read_text())
+          summary = remediation['summary']
+          expected = {
+              'CONTROL_PLANE': summary['control_plane'],
+              'DIRECT_SOURCE_UPDATE': summary['direct_source_update_remaining'],
+              'DIRECT_SUPPORT_UPDATE': summary['direct_support_update_remaining'],
+              'DISPOSITION_REQUIRED': summary['disposition_required'],
+              'OBSERVE_NOTIFY_ONLY': summary['machine_owned_observe_only'],
+              'COMPLETE_NOTIFY_ONLY': summary['validated_complete_notify_only'],
+              'INTEGRATION_NOTIFY_ONLY': summary['source_complete_integration_pending'],
+              'HOSTED_VALIDATION_BLOCKED': summary['implementation_complete_hosted_validation_blocked'],
+          }
+          if report['counts'] != expected:
+              raise SystemExit(f"routing counts mismatch: {report['counts']} != {expected}")
+          if len(report['repositories']) != summary['registered_repositories']:
+              raise SystemExit('routing repository count mismatch')
+          for row in report['repositories']:
+              if row['routing_state'] == 'COMPLETE_NOTIFY_ONLY' and not row['completion_evidence']:
+                  raise SystemExit(f"completed repository lacks evidence: {row['repository']}")
+          print(json.dumps(expected, sort_keys=True))
+          PY
+
+      - name: Persist activation and routing state
         run: |
           git config user.name "admissible-existence-support-activator"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/formalism-worker-registry.json data/cross-repository-remediation-registry.json reports/support-completion-activation-latest.json
+          git add data/formalism-worker-registry.json data/cross-repository-remediation-registry.json reports/support-completion-activation-latest.json reports/cross-repository-remediation-latest.json
           if ! git diff --cached --quiet; then
-            git commit -m "Activate validated support completion"
+            git commit -m "Activate and route validated support completion"
             git push origin HEAD:main
           fi
 
@@ -42,4 +77,10 @@ jobs:
         with:
           name: support-completion-activation
           path: reports/support-completion-activation-latest.json
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: support-completion-routing
+          path: reports/cross-repository-remediation-latest.json
           if-no-files-found: error
