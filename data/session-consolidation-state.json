@@ -1,14 +1,14 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "session_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
+  "active_clarification_goal_id": "AEX-MATHEMATICAL-COMPLETENESS-AUDIT-002",
   "canonical_continuation": "Admissible-Existence/.github@main:docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md",
   "parent_continuation": "Admissible-Existence/.github@main:docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md",
-  "session_state": "MERGED_INTO_CANONICAL_WORKSTREAM",
-  "program_state": "ACTIVE_DURABLE_OWNERS_REMAIN",
-  "unique_session_requirements_transferred": true,
-  "transferred_goal_count": 11,
-  "total_goal_count": 11,
+  "session_state": "ACTIVE_UNIQUE_MATHEMATICAL_COMPLETENESS_WORK",
+  "program_state": "ACTIVE_MATHEMATICAL_COMPLETENESS_NOT_YET_PROVEN",
+  "unique_session_requirements_transferred": false,
   "active_unique_chat_only_knowledge": false,
+  "clarified_completion_rule": "Do not archive this session until every registered repository has been audited against role-appropriate formal declaration, mathematical derivation, proof-candidate, falsification, validation, and integration requirements; mathematics/proof may be N/A only for explicitly non-source roles with a durable rationale.",
   "current_routing": {
     "registered_repositories": 32,
     "control_plane": 1,
@@ -20,116 +20,14 @@
     "direct_support_update": 0,
     "disposition_required": 0
   },
-  "completed_or_transferred_in_this_session": [
-    "support completion cohort activated and released",
-    "ae-validation-research disposition resolved and activated",
-    "SOL disposition resolved and activated",
-    "RE-Reduction consumer integration hosted validated and centrally activated",
-    "RE hosted validated, consumer integration completed, unsupported 24/24 aggregate corrected to explicit 19/19 bounded fixtures, centrally activated",
-    "STCM hosted validation observed and centrally activated",
-    "learning-transition-governance repository-owned hosted validation lane installed, validated, centrally activated",
-    "CHF repository-owned hosted validation lane installed, validated, centrally activated",
-    "BC stale generated output repaired from log-proven evidence only, hosted validated, centrally activated",
-    "TT hosted source proof reconciled and remaining destination dependencies assigned to Site#101 and stegguardian-wiki#9",
-    "central remediation handoff and repository issue records synchronized"
+  "new_required_evidence": [
+    "data/mathematical-completeness-policy.json",
+    "reports/mathematical-completeness-matrix.json",
+    "reports/mathematical-completeness-matrix.md",
+    "scripts/audit_mathematical_completeness.py",
+    ".github/workflows/mathematical-completeness-audit.yml"
   ],
-  "remaining_execution_roles": [
-    {
-      "role": "AE_PUBLICATION_INTEGRATION",
-      "owner": "Admissible-Existence/AE#20",
-      "claim_state": "CLAIMED_FOR_INTEGRATION",
-      "release_condition": "Governed Coherent Life publication workflow evidence, visual review, bibliographic review, frozen release receipt and readiness evidence satisfy AE#20",
-      "session_role": "MERGED_NO_DUPLICATE_EXECUTION"
-    },
-    {
-      "role": "CTA_PROVENANCE_BOUND_INTEGRATION",
-      "owner": "Admissible-Existence/CTA#1",
-      "claim_state": "ACTIVE_CANONICAL_OWNER",
-      "release_condition": "Externally grounded adapters/provenance and remaining CTA integration requirements satisfy CTA#1",
-      "session_role": "MERGED_NO_DUPLICATE_EXECUTION"
-    },
-    {
-      "role": "RTG_MACHINE_OBSERVATION",
-      "owner": "Admissible-Existence/RTG#2 with child issues #3, #4, #5 and repository workflows",
-      "claim_state": "MACHINE_OWNED",
-      "release_condition": "RTG machine lanes satisfy their render, evidence-closure and readiness gates",
-      "session_role": "MERGED_OBSERVE_ONLY"
-    },
-    {
-      "role": "TT_DESTINATION_INTEGRATION",
-      "owner": "Admissible-Existence/TT#2",
-      "claim_state": "CLAIMED_FOR_INTEGRATION",
-      "release_condition": "Destination ledger reaches 4/4 receipts or evidence-backed not-applicable equivalents",
-      "dependencies": [
-        "StegVerse-Labs/Site#101",
-        "StegVerse-002/stegguardian-wiki#9"
-      ],
-      "session_role": "MERGED_NO_WAITING_SESSION_REQUIRED"
-    },
-    {
-      "role": "SITE_TT_DESTINATION_ADMISSION",
-      "owner": "StegVerse-Labs/Site#101 and Site orchestration",
-      "claim_state": "QUEUED_NOT_ADMITTED",
-      "release_condition": "Site orchestrator admits TT candidate and commits Site-owned intake/admission receipt",
-      "session_role": "MERGED_COLLISION_BOUNDARY_PRESERVED"
-    },
-    {
-      "role": "GUARDIAN_TT_DESTINATION_AWARENESS",
-      "owner": "StegVerse-002/stegguardian-wiki#9",
-      "claim_state": "DEPENDENCY_BLOCKED",
-      "release_condition": "Upstream Guardian dependencies satisfy current handoff and Guardian-owned TT awareness receipt is committed",
-      "session_role": "MERGED_COLLISION_BOUNDARY_PRESERVED"
-    },
-    {
-      "role": "GOVERNED_APPLY_GRANT",
-      "owner": "StegVerse-Labs/TVC#13",
-      "claim_state": "BLOCKED",
-      "release_condition": "Workflow 328881362 produces inspectable run, job, logs and sanitized capability-proof artifact",
-      "session_role": "MERGED_DURABLE_BLOCKER"
-    },
-    {
-      "role": "RUNTIME_ONLY_CAPABILITY_CUSTODY",
-      "owner": "StegVerse-Labs/TV#3",
-      "claim_state": "CLAIMED_FOR_INTEGRATION_DEPENDENCY_BLOCKED",
-      "release_condition": "TVC#13 issues exact-run sanitized grant and TV resolves bounded ephemeral capability inside that invocation",
-      "session_role": "MERGED_DURABLE_BLOCKER"
-    },
-    {
-      "role": "READ_ONLY_WORKER_EVIDENCE_OBSERVER",
-      "owner": "Admissible-Existence/.github/.github/workflows/principle-worker-activation-observer.yml",
-      "workflow_id": 328894324,
-      "claim_state": "MACHINE_OWNED_ACTIVE_FAILING",
-      "release_condition": "Observer emits its admitted completion state or durable first-defect evidence; latest scheduled runs remain inspectable",
-      "session_role": "MERGED_MACHINE_OWNED"
-    },
-    {
-      "role": "CONDITIONAL_PROPAGATION",
-      "owner": "Destination-owned Site, Publisher, admissibility-wiki, stegguardian-wiki and master-records tasks only when admitted",
-      "claim_state": "CONDITIONAL_DESTINATION_OWNED",
-      "release_condition": "Each propagation target explicitly admits work and persists destination-owned evidence",
-      "session_role": "MERGED_NO_INFERRED_PROPAGATION"
-    }
-  ],
-  "archive_gate": "This conversation is archive-safe when every unique session requirement is durable and every unresolved program task has a named canonical owner, claim/blocker state and machine-observable release condition. Broader program completion is not required to retain this chat when no unique chat-owned execution role remains.",
-  "archive_gate_satisfied": true,
-  "evidence": [
-    "central_handoff:c45a378c534dbb3aade357a4407e215e2c3e41a5",
-    "hosted_final_routing_persistence:ff75341",
-    "hosted_final_activation_run:31214454109",
-    "hosted_final_activation_job:92984583643",
-    "hosted_final_activation_artifact:9007934419",
-    "hosted_final_routing_artifact:9007934932",
-    "tt_handoff:3ebd988ea4a7aaa3128e148a5f0d477a5df6f044",
-    "tt_integration_issue:Admissible-Existence/TT#2",
-    "ae_owner:Admissible-Existence/AE#20",
-    "cta_owner:Admissible-Existence/CTA#1",
-    "rtg_owner:Admissible-Existence/RTG#2",
-    "site_tt_owner:StegVerse-Labs/Site#101",
-    "guardian_tt_owner:StegVerse-002/stegguardian-wiki#9",
-    "tv_runtime_issue:StegVerse-Labs/TV#3",
-    "tvc_activation_issue:StegVerse-Labs/TVC#13",
-    "observer_workflow_id:328894324",
-    "remediation_router_workflow_id:328896970"
-  ],
-  "archive_ready": true
+  "archive_gate": "Archive only after the mathematical-completeness matrix covers all registered repositories, every source repository passes formal declaration + dependency derivation + theory map + mathematical notation/derivation + proof candidate + falsification/limits, every non-source repository has validated role-specific support/coordination/disposition contracts with mathematics/proof explicitly N/A where appropriate, every failed row has been completed or durably assigned, and no unique execution responsibility remains in this session.",
+  "archive_gate_satisfied": false,
+  "archive_ready": false
 }
