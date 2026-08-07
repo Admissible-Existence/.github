@@ -1,7 +1,5 @@
 {
-  "changes": [
-    "Admissible-Existence/telemetry"
-  ],
+  "changes": [],
   "complete": true,
   "counts": {
     "control_plane": 1,
