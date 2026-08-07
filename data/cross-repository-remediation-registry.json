@@ -1,20 +1,20 @@
 {
-  "schema_version": "1.3.0",
+  "schema_version": "1.4.0",
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "parent_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_session_goal": "Extend principle-completeness execution into every affected repository and notify dependent control planes and publication surfaces.",
   "coordination_repository": "Admissible-Existence/.github",
   "state": "ACTIVE",
   "created_at": "2026-08-06T21:39:00Z",
-  "updated_at": "2026-08-07T02:11:00Z",
+  "updated_at": "2026-08-07T02:20:00Z",
   "summary": {
     "registered_repositories": 32,
     "control_plane": 1,
-    "direct_source_update_remaining": 12,
+    "direct_source_update_remaining": 11,
     "direct_support_update_remaining": 6,
     "disposition_required": 2,
     "machine_owned_observe_only": 1,
-    "validated_complete_notify_only": 3,
+    "validated_complete_notify_only": 4,
     "source_complete_integration_pending": 1,
     "implementation_complete_hosted_validation_blocked": 6,
     "immediate_external_dependencies": 2,
@@ -52,51 +52,30 @@
       "hosted_job": 92748610309,
       "hosted_conclusion": "success",
       "closed_issue": "Admissible-Existence/DC#1"
+    },
+    {
+      "repository": "Admissible-Existence/Existence",
+      "state": "COMPLETE_NOTIFY_ONLY",
+      "source_handoff": "Admissible-Existence/Existence@main:docs/EXISTENCE_MIRROR_HANDOFF.md",
+      "handoff_commit": "62855c4535604c96643e031483093001df558d3c",
+      "hosted_run": 31140771106,
+      "hosted_job": 92750005203,
+      "hosted_conclusion": "success",
+      "receipt": "Admissible-Existence/Existence@main:receipts/principle-completeness-validation.json",
+      "receipt_blob": "db26caa7a61b6cdbe09b7e66eb490b8ade531aef",
+      "artifact_id": 8979707371,
+      "artifact_digest": "sha256:d386cfb469be812ba234bd61a4b327e6d616691009960f1d288c7be2b3ff154e",
+      "principles": "10/10 valid"
     }
   ],
   "bounded_non_direct_states": [
-    {
-      "repository": "Admissible-Existence/TT",
-      "state": "INTEGRATION_NOTIFY_ONLY",
-      "owner": "Admissible-Existence/TT#2"
-    },
-    {
-      "repository": "Admissible-Existence/STCM",
-      "state": "HOSTED_VALIDATION_BLOCKED",
-      "owner": "Admissible-Existence organization or repository Actions administrator",
-      "blocker": "data/actions-activation-authority-blocker.json",
-      "deterministic_receipt": "Admissible-Existence/STCM@main:reports/stcm-deterministic-validation-receipt.json"
-    },
-    {
-      "repository": "Admissible-Existence/learning-transition-governance",
-      "state": "HOSTED_VALIDATION_BLOCKED",
-      "blocker": "data/actions-activation-authority-blocker.json",
-      "deterministic_receipt": "Admissible-Existence/learning-transition-governance@main:reports/learning-transition-validation-receipt.json"
-    },
-    {
-      "repository": "Admissible-Existence/BC",
-      "state": "HOSTED_VALIDATION_BLOCKED",
-      "blocker": "data/actions-activation-authority-blocker.json",
-      "deterministic_receipt": "Admissible-Existence/BC@main:reports/bc-deterministic-validation-receipt.json"
-    },
-    {
-      "repository": "Admissible-Existence/CHF",
-      "state": "HOSTED_VALIDATION_BLOCKED",
-      "blocker": "data/actions-activation-authority-blocker.json",
-      "deterministic_receipt": "Admissible-Existence/CHF@main:reports/chf-deterministic-validation-receipt.json"
-    },
-    {
-      "repository": "Admissible-Existence/RE",
-      "state": "HOSTED_VALIDATION_BLOCKED",
-      "blocker": "data/actions-activation-authority-blocker.json",
-      "source_handoff": "Admissible-Existence/RE@main:docs/RE_MIRROR_HANDOFF.md"
-    },
-    {
-      "repository": "Admissible-Existence/RE-Reduction",
-      "state": "HOSTED_VALIDATION_BLOCKED",
-      "blocker": "data/actions-activation-authority-blocker.json",
-      "source_handoff": "Admissible-Existence/RE-Reduction@main:docs/RE_REDUCTION_MIRROR_HANDOFF.md"
-    }
+    {"repository":"Admissible-Existence/TT","state":"INTEGRATION_NOTIFY_ONLY","owner":"Admissible-Existence/TT#2"},
+    {"repository":"Admissible-Existence/STCM","state":"HOSTED_VALIDATION_BLOCKED","owner":"Admissible-Existence organization or repository Actions administrator","blocker":"data/actions-activation-authority-blocker.json","deterministic_receipt":"Admissible-Existence/STCM@main:reports/stcm-deterministic-validation-receipt.json"},
+    {"repository":"Admissible-Existence/learning-transition-governance","state":"HOSTED_VALIDATION_BLOCKED","blocker":"data/actions-activation-authority-blocker.json","deterministic_receipt":"Admissible-Existence/learning-transition-governance@main:reports/learning-transition-validation-receipt.json"},
+    {"repository":"Admissible-Existence/BC","state":"HOSTED_VALIDATION_BLOCKED","blocker":"data/actions-activation-authority-blocker.json","deterministic_receipt":"Admissible-Existence/BC@main:reports/bc-deterministic-validation-receipt.json"},
+    {"repository":"Admissible-Existence/CHF","state":"HOSTED_VALIDATION_BLOCKED","blocker":"data/actions-activation-authority-blocker.json","deterministic_receipt":"Admissible-Existence/CHF@main:reports/chf-deterministic-validation-receipt.json"},
+    {"repository":"Admissible-Existence/RE","state":"HOSTED_VALIDATION_BLOCKED","blocker":"data/actions-activation-authority-blocker.json","source_handoff":"Admissible-Existence/RE@main:docs/RE_MIRROR_HANDOFF.md"},
+    {"repository":"Admissible-Existence/RE-Reduction","state":"HOSTED_VALIDATION_BLOCKED","blocker":"data/actions-activation-authority-blocker.json","source_handoff":"Admissible-Existence/RE-Reduction@main:docs/RE_REDUCTION_MIRROR_HANDOFF.md"}
   ],
   "routing_rules": {
     "source": "Install or update repository handoff, principle registry, dependency graph, proof candidates, theory map, notation, falsification limits, validation evidence, and integration state.",
@@ -109,18 +88,8 @@
     "coordination": "Maintain registry, claims, reports, routing, collision controls, and archive state."
   },
   "immediate_dependencies": [
-    {
-      "repository": "StegVerse-Labs/TVC",
-      "surface": "issues/13 and tasks/TVC-AEX-PRINCIPLE-COMPLETENESS-CAPABILITY-001.json",
-      "required_action": "Activate hosted grant proof and provide sanitized exact-run receipt authority.",
-      "state": "BLOCKED"
-    },
-    {
-      "repository": "StegVerse-Labs/TV",
-      "surface": "tasks/TV-CAPABILITY-RUNTIME-ASSIST-001.json and issues/3",
-      "required_action": "Resolve and deliver a runtime-only bounded capability inside the authorized TVC invocation without persistence or disclosure.",
-      "state": "CLAIMED_FOR_INTEGRATION"
-    }
+    {"repository":"StegVerse-Labs/TVC","surface":"issues/13 and tasks/TVC-AEX-PRINCIPLE-COMPLETENESS-CAPABILITY-001.json","required_action":"Activate hosted grant proof and provide sanitized exact-run receipt authority.","state":"BLOCKED"},
+    {"repository":"StegVerse-Labs/TV","surface":"tasks/TV-CAPABILITY-RUNTIME-ASSIST-001.json and issues/3","required_action":"Resolve and deliver a runtime-only bounded capability inside the authorized TVC invocation without persistence or disclosure.","state":"CLAIMED_FOR_INTEGRATION"}
   ],
   "conditional_propagation": ["StegVerse-Labs/Site","GCAT-BCAT-Engine/Publisher","admissibility-wiki","stegguardian-wiki","master-records"],
   "propagation_gate": "No downstream propagation is claimed or executed until a repository is directly validated and a separately admitted propagation task exists.",
