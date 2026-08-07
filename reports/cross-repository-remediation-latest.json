@@ -8,9 +8,9 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 3,
+    "COMPLETE_NOTIFY_ONLY": 4,
     "CONTROL_PLANE": 1,
-    "DIRECT_SOURCE_UPDATE": 12,
+    "DIRECT_SOURCE_UPDATE": 11,
     "DIRECT_SUPPORT_UPDATE": 6,
     "DISPOSITION_REQUIRED": 2,
     "HOSTED_VALIDATION_BLOCKED": 6,
@@ -54,13 +54,30 @@
       "worker_state": "validation_required"
     },
     {
-      "completion_evidence": null,
-      "next_action": "Create or validate source formalism, mathematics, proof-candidate, evidence, and handoff artifacts.",
-      "owner": "Admissible-Existence/Existence",
+      "completion_evidence": {
+        "artifact_digest": "sha256:d386cfb469be812ba234bd61a4b327e6d616691009960f1d288c7be2b3ff154e",
+        "artifact_id": 8979707371,
+        "execution_authorized": false,
+        "handoff": "docs/EXISTENCE_MIRROR_HANDOFF.md",
+        "handoff_commit": "62855c4535604c96643e031483093001df558d3c",
+        "principles": "10/10 valid",
+        "proofs_accepted": false,
+        "publication_authorized": false,
+        "receipt": "receipts/principle-completeness-validation.json",
+        "receipt_blob": "db26caa7a61b6cdbe09b7e66eb490b8ade531aef",
+        "registry_sha256": "1131d6b75a0c9d43111a8da68a9e9b19372f441398874be02e27f03c3c056c46",
+        "schema_sha256": "98361e1bdd2ca5e9a2604c39884f4870136bf13c77416c633859824e8b981dcb",
+        "theory_map_sha256": "51d8725b82e426a52f577005c5b8f0cf67cae4b8d8f36dcda9054e3ed79b7189",
+        "validation_conclusion": "success",
+        "validation_job": 92750005203,
+        "validation_run": 31140771106
+      },
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
+      "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/Existence",
       "role": "source",
-      "routing_state": "DIRECT_SOURCE_UPDATE",
-      "worker_state": "validation_required"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": null,
