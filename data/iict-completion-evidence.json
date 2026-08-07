@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0.0",
+  "goal_id": "IICT-PRINCIPLE-COMPLETENESS-001",
+  "repository": "Admissible-Existence/IICT",
+  "state": "VALIDATED_COMPLETE_NOTIFY_ONLY_PENDING_ROUTER_SYNC",
+  "canonical_handoff": "IICT_MIRROR_HANDOFF.md",
+  "handoff_commit": "591597e94f2fbe190eb029b719cfc2d3b9ed3161",
+  "closed_issue": "Admissible-Existence/IICT#1",
+  "primary_passing_validation": {
+    "run": 31148656959,
+    "job": 92773495445,
+    "conclusion": "success",
+    "receipt": "reports/iict-principle-completeness-validation.json",
+    "receipt_commit": "bf5bc1e",
+    "receipt_blob": "ee908de4deba28a48be61763cd12e641295e0931",
+    "artifact_id": 8982454392,
+    "artifact_digest": "sha256:32000e3f59b7db344a1a446e7918bee9e03dada06e112524dc59706922f535d2"
+  },
+  "final_handoff_regression": {
+    "run": 31148798684,
+    "job": 92773928388,
+    "conclusion": "success",
+    "artifact_id": 8982503045,
+    "artifact_digest": "sha256:2b7d99c1e236bda0c3d5c5b4dffc9ef3e91d1ab6f1cef968c346985506cd198a"
+  },
+  "bounded_results": {
+    "baseline_cases": "5/5 passed",
+    "principles": "4/4 valid",
+    "findings": 0,
+    "theorem_status": "candidate_not_proven",
+    "generated_outputs_reproducible": true,
+    "execution_authorized": false,
+    "publication_authorized": false,
+    "proofs_accepted": false
+  },
+  "defects_repaired": [
+    {
+      "surface": "dist/iict-readiness.json",
+      "cause": "committed generated output stale relative to tools/build_iict_readiness.py, then formatting mismatch relative to canonical json.dumps(indent=2) output",
+      "repair_commits": ["ccf69cd761aab52640432df139824d0da742fde8", "ee98910efd15067f3300316955f9226ade4a7013"]
+    },
+    {
+      "surface": "dist/theorem-evaluation-index.json",
+      "cause": "committed generated output omitted current theorem and source_file fields",
+      "repair_commit": "c79aee5c2d0b76d6ec9f7aecda23d51bfbdf3a00"
+    }
+  ],
+  "installed_completeness_commits": {
+    "principle_registry": "c1871391751e7ec4beac7bae08c1e5fceb08cf41",
+    "dependency_graph": "186fd4d279522ae72184f86aab89535fe5efd52d",
+    "proof_candidates": "08f303860768d5c2be42edc3396ef886632c22c5",
+    "theory_map": "fac5d633f9312d1c58a3155da4be13ef77672321",
+    "mathematical_notation": "51c59eff326c1b4f2c1f2f47984a54c7d0b34b76",
+    "falsification_limits": "8d633ffe5e7b2b1a16396b35eaf07ec7b9496acf",
+    "validator": "87bca2b6849227ad731ccc0054d25fdff93969b1",
+    "workflow_integration": "31d25d2d0a0498e9e85790f5310ca3d7b4390878"
+  },
+  "next_control_plane_action": "Reclassify IICT from required to validated_complete_notify_only in data/formalism-worker-registry.json, update remediation summary/router from 8-direct/7-complete to 7-direct/8-complete, inspect the exact resulting router run/job/log/report/artifact, then activate CTA subject to its live handoff/claim state."
+}
