@@ -1,0 +1,62 @@
+{
+  "schema_version": "admissible_existence.iw.central_completion_evidence.v1",
+  "goal_id": "IW-PRINCIPLE-COMPLETENESS-001",
+  "parent_goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
+  "repository": "Admissible-Existence/IW",
+  "state": "COMPLETE_NOTIFY_ONLY",
+  "source": {
+    "handoff": "Admissible-Existence/IW@main:IW_MIRROR_HANDOFF.md",
+    "handoff_commit": "ddb74f4ec975ef20df3ec2f315bda4640c006fc4",
+    "issue": "Admissible-Existence/IW#1",
+    "workflow_id": 302529403,
+    "run_id": 31157110222,
+    "job_id": 92798902766,
+    "conclusion": "success",
+    "release_receipt": "artifacts/iw-release-verification.json",
+    "release_receipt_commit": "7636a792354b38119495e20e717c613ee998975e",
+    "release_receipt_blob": "fd32d0c2f447e0607cb051abe75d500666ea61ac",
+    "completeness_receipt": "reports/iw-principle-completeness-validation.json",
+    "completeness_receipt_blob": "3fc9ac74440829087ab27c257aea321a494e125d",
+    "principles_valid": "4/4",
+    "tests_passed": "42/42",
+    "release_ready": true,
+    "clean_main": true,
+    "artifact_id": 8985563715,
+    "artifact_digest": "sha256:1f0f11814c0369caa076a25c7ef0a32c661f46394ba8bc79dc293a6be28e386c"
+  },
+  "control_plane": {
+    "worker_registry_commit": "10c7ddce6b39003f0f76e137bb4febeaa4c7918c",
+    "remediation_registry_commit": "3ed4e43f992ec4c754836ac60d83db55ec95450a",
+    "router_commit": "e8224a9379f6f1350cc3ed5b248636bc1c4b9345",
+    "router_run_id": 31178852249,
+    "router_job_id": 92867039144,
+    "router_conclusion": "success",
+    "router_tests_passed": "9/9",
+    "routing_counts": {
+      "CONTROL_PLANE": 1,
+      "DIRECT_SOURCE_UPDATE": 3,
+      "DIRECT_SUPPORT_UPDATE": 6,
+      "DISPOSITION_REQUIRED": 2,
+      "OBSERVE_NOTIFY_ONLY": 1,
+      "COMPLETE_NOTIFY_ONLY": 12,
+      "INTEGRATION_NOTIFY_ONLY": 1,
+      "HOSTED_VALIDATION_BLOCKED": 6
+    },
+    "routing_report_commit": "bdae358",
+    "artifact_id": 8993915887,
+    "artifact_digest": "sha256:b8ded78de4dd536e5b29c0b2a12d023be8c69a06d701bf94ac73d76113070dbd"
+  },
+  "boundaries": {
+    "execution_authorized": false,
+    "publication_authorized": false,
+    "tag_authorized": false,
+    "proofs_accepted": false,
+    "claims_universal_irreversibility_boundary": false,
+    "destination_application_reopened": false
+  },
+  "continuation": {
+    "source_lane_released": true,
+    "reopen_condition": "direct regression evidence or a separately admitted destination-owned task",
+    "next_control_plane_direct_source": "Admissible-Existence/standing-proof-formalism"
+  }
+}
