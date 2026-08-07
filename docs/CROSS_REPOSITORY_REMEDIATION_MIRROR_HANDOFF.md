@@ -3,8 +3,8 @@
 **Goal:** `AEX-CROSS-REPOSITORY-REMEDIATION-001`  
 **Parent goal:** `AEX-PRINCIPLE-COMPLETENESS-001`  
 **Repository / branch:** `Admissible-Existence/.github` / `main`  
-**Status:** `ACTIVE — DIRECT SUPPORT EXHAUSTED; 2 DISPOSITION ROUTES NEXT; 2 SOURCE ROUTES COLLISION-BOUNDED; SIX HOSTED REOBSERVATIONS REMAIN`  
-**Updated:** 2026-08-07T10:42:00-05:00
+**Status:** `ACTIVE — SUPPORT AND DISPOSITION ROUTES EXHAUSTED; 2 SOURCE ROUTES COLLISION-BOUNDED; SIX HOSTED REOBSERVATIONS AND ONE INTEGRATION ROUTE REMAIN`  
+**Updated:** 2026-08-07T11:15:00-05:00
 
 ## Originating Session Goal
 
@@ -16,13 +16,17 @@ Complete organization-wide principle-completeness implementation, validation, in
 data/formalism-worker-registry.json
 data/cross-repository-remediation-registry.json
 data/*-completion-evidence.json
+data/*-disposition-evidence.json
 scripts/route_cross_repository_remediation.py
 tests/test_cross_repository_remediation_router.py
 scripts/activate_support_completions.py
+scripts/activate_repository_dispositions.py
 .github/workflows/cross-repository-remediation-router.yml
 .github/workflows/support-completion-activator.yml
+.github/workflows/repository-disposition-activator.yml
 reports/cross-repository-remediation-latest.json
 reports/support-completion-activation-latest.json
+reports/repository-disposition-activation-latest.json
 data/actions-activation-authority-blocker.json
 issue: Admissible-Existence/.github#4
 ```
@@ -33,9 +37,9 @@ issue: Admissible-Existence/.github#4
 CONTROL_PLANE: 1
 DIRECT_SOURCE_UPDATE: 2
 DIRECT_SUPPORT_UPDATE: 0
-DISPOSITION_REQUIRED: 2
+DISPOSITION_REQUIRED: 0
 OBSERVE_NOTIFY_ONLY: 1
-COMPLETE_NOTIFY_ONLY: 19
+COMPLETE_NOTIFY_ONLY: 21
 INTEGRATION_NOTIFY_ONLY: 1
 HOSTED_VALIDATION_BLOCKED: 6
 TOTAL: 32
@@ -44,25 +48,19 @@ TOTAL: 32
 Latest successful central activation:
 
 ```text
-normalized_input_commit: a5b121efd6431b3501542e5e6cac7daadc6fa792
-activated_repository: Admissible-Existence/validation-profile-registry
-support_activator_workflow_id: 329389047
-successful_run: 31193792038
-successful_job: 92916920488
+activated_repository: Admissible-Existence/SOL
+normalized_input_commit: f0ef56642db41021286203de70a15b52cd93cc1b
+repository_disposition_workflow_id: 329434905
+successful_run: 31196379541
+successful_job: 92925486719
 conclusion: success
 router_tests_inside_activator: 9/9 passed
-persisted_activation_and_routing_commit: dc68c9b
-activation_artifact_id: 8999912905
-activation_artifact_digest: sha256:25282a146c1225181626f60b22aa2854c0ec436f3deab5c6fc8aefc6ae294d76
-routing_artifact_id: 8999913462
-routing_artifact_digest: sha256:ceecc8f2564fd93e688e5fc01c4f2d1a80356cf605871465e661a1be15cb7554
+persisted_activation_and_routing_commit: b7455fd
+activation_artifact_id: 9000949963
+activation_artifact_digest: sha256:411d7df1700fcca5bc6bc06d93d794cef672aa9496fe45035d1a1ddcfb47cef0
+routing_artifact_id: 9000950318
+routing_artifact_digest: sha256:e237d6cbc8081debe1c399ed51266f6d990d1f832f74d11dcd9a859c5cdb67d2
 ```
-
-## Zero-count fail-closed repair
-
-The initial profile-registry activation run `31193679749` correctly stopped before persistence because the router omits classes with zero repositories while the activator verifier expected an explicit `DIRECT_SUPPORT_UPDATE: 0` key. Evidence ingestion succeeded, routing verification failed, and persistence/artifact steps were skipped.
-
-The verifier was repaired at commit `f9a13ac957c24fe977c6ece57895079889ae9c4b` to compare the router's observed nonzero representation while preserving all zero counts in the authoritative registry summary. The subsequent hosted run above proved the repair and completed activation.
 
 ## Completed Support Activations
 
@@ -75,42 +73,56 @@ Admissible-Existence/ae-validation-factory
 Admissible-Existence/validation-profile-registry
 ```
 
-The support category is now exhausted. Completed lanes must not reopen without direct regression evidence or a separately admitted integration/propagation task.
+Support routing is exhausted. Completed lanes must not reopen without direct regression evidence or a separately admitted integration/propagation task.
 
-### Validation Profile Registry
+## Completed Repository Dispositions
+
+### ae-validation-research
 
 ```text
-canonical_handoff: Admissible-Existence/validation-profile-registry@main:docs/VALIDATION_PROFILE_REGISTRY_MIRROR_HANDOFF.md
-final_handoff_commit: 6570604c1592d559dbec6736909b0d7daab8ccca
-support_issue: validation-profile-registry#1 closed completed
-receipt: reports/profile-registry-support-completeness-validation.json
-receipt_commit: 015aae0240d7a0577532623eb901d55ca916b350
-repository_run: 31193568994
-repository_job: 92916176345
-repository_artifact_id: 8999821310
-repository_artifact_digest: sha256:bda53fcc29a389d05e4cfefe520c22bd3d99090c749bb52fd3b5c23632cb5b4d
-registered_profiles_preserved: 4
-normalized_evidence: data/validation-profile-registry-completion-evidence.json
-central_activation_run: 31193792038
-central_activation_job: 92916920488
-central_persistence_commit: dc68c9b
+disposition: DEPRECATE
+repository_state: COMPLETE_NOTIFY_ONLY
+final_handoff: Admissible-Existence/ae-validation-research@e4770d0aefb824b4d119d12a9f4b35b321032e38:docs/AE_VALIDATION_RESEARCH_MIRROR_HANDOFF.md
+issue: ae-validation-research#1 closed completed
+receipt: reports/disposition-receipt.json @ 99f7c9d842cd3a6e0b097e5b35c78eedd85c26b8
+normalized_evidence: data/ae-validation-research-disposition-evidence.json
+central_run: 31194405681
+central_job: 92918965703
+central_persistence_commit: 0ed8b5e
+activation_artifact: 9000165129
+routing_artifact: 9000165825
+unique_artifacts_remaining: 0
 ```
 
-Profile ownership remains in the registry; Validator remains evaluator; Factory remains orchestrator. No standing/execution/publication/certification/master-record authority was created.
+The empty research repository was not populated with invented implementation. Existing validation functions remain with validation-profile-registry, validator, ae-validation-factory, and the central coordination plane.
+
+### SOL
+
+```text
+disposition: DEPRECATE
+repository_state: COMPLETE_NOTIFY_ONLY
+final_handoff: Admissible-Existence/SOL@101ec3dbeccd428c32ac26e221acc0c62d705cc6:docs/SOL_MIRROR_HANDOFF.md
+issue: SOL#1 closed completed
+receipt: reports/disposition-receipt.json @ 82ce1569e139df1ef1c11ed0262492d81bba1e13
+normalized_evidence: data/sol-disposition-evidence.json @ f0ef56642db41021286203de70a15b52cd93cc1b
+central_run: 31196379541
+central_job: 92925486719
+central_persistence_commit: b7455fd
+activation_artifact: 9000949963
+routing_artifact: 9000950318
+unique_artifacts_remaining: 0
+```
+
+No meaning was inferred from the `SOL` repository name. No durable capability existed; future use requires a separately admitted reactivation decision.
+
+The earlier SOL activator run `31196204148` completed as a no-op because the initial normalized evidence lacked fields required by the admitted disposition contract. It did not reclassify SOL. Evidence was corrected at `f0ef56642db41021286203de70a15b52cd93cc1b`, then the successful run above produced the actual state transition.
 
 ## Direct Source Convergence / Collision Controls
 
 - `AE`: existing owner `AE#20`; coordinator may take only distinct non-overlapping validation/integration work.
 - `CTA`: existing owner `CTA#1`; organization completeness is merged into that canonical claim and must not be duplicated.
 
-## Disposition Required — Next Executable Lanes
-
-```text
-Admissible-Existence/ae-validation-research
-Admissible-Existence/SOL
-```
-
-For each: read/create canonical mirror handoff first, inspect repository contents/claims/uses, and make a durable determination among active capability, support/integration owner, intentionally archival/empty, superseded/merged, or another evidence-backed classification. Do not create implementation merely to eliminate a disposition state.
+These two direct-source counts are active collision-bounded owners, not permission for duplicate implementation from this session.
 
 ## Other Durable Lanes
 
@@ -125,7 +137,7 @@ RE -> HOSTED_VALIDATION_BLOCKED
 RE-Reduction -> HOSTED_VALIDATION_BLOCKED
 ```
 
-Each hosted-blocked repository needs its own exact hosted release evidence. Success elsewhere is not substitute evidence.
+Each hosted-blocked repository needs its own exact hosted release evidence. Success in support/disposition workflows is not substitute evidence for repository-specific hosted validation.
 
 ## Immediate Dependencies
 
@@ -136,39 +148,38 @@ StegVerse-Labs/TV -> issues/3 + tasks/TV-CAPABILITY-RUNTIME-ASSIST-001.json -> C
 
 ## Conditional Propagation
 
-Potential destinations remain `StegVerse-Labs/Site`, `GCAT-BCAT-Engine/Publisher`, `admissibility-wiki`, `stegguardian-wiki`, and `master-records`. No propagation is inferred; each requires an explicit destination-owned task and evidence.
+Potential destinations remain `StegVerse-Labs/Site`, `GCAT-BCAT-Engine/Publisher`, `admissibility-wiki`, `stegguardian-wiki`, and `master-records`. No propagation is inferred; each requires an explicit destination-owned task and direct evidence.
 
 ## Automation
 
-Support-completion activation is now proven across the full support cohort. The router/activator remain repository-native coordination paths and fail closed when routing evidence disagrees.
+The support-completion activator and repository-disposition activator are proven repository-native continuation paths. They consume normalized evidence, fail closed on invalid/missing authority boundaries or mismatched routing, persist registry/report state, run router tests, and upload inspectable artifacts.
 
 ## Session Consolidation
 
 `MERGED INTO: Admissible-Existence/.github/docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md`
 
-Support work no longer requires this chat. The session's current distinct role is disposition resolution and subsequent assigned integration/observation/revalidation work.
+Support and disposition histories no longer require this chat. The current distinct role is observation/revalidation/integration only where no canonical active claimant already owns implementation.
 
 ## Exact Next Executable Order
 
-1. Resolve `Admissible-Existence/ae-validation-research` disposition.
-2. Resolve `Admissible-Existence/SOL` disposition.
-3. Observe RTG; do not duplicate machine-owned work.
-4. Reobserve the six hosted-blocked repositories against exact release conditions.
-5. Complete TT/TV/TVC integration/activation only with direct evidence.
-6. Admit propagation only through explicit destination-owned tasks.
+1. Observe `Admissible-Existence/RTG` through its canonical machine lane; do not duplicate implementation.
+2. Reobserve `STCM`, `learning-transition-governance`, `BC`, `CHF`, `RE`, and `RE-Reduction` against each repository's exact hosted release condition.
+3. Continue only distinct integration/validation work around `AE#20`, `CTA#1`, and `TT#2`; do not collide with active implementation owners.
+4. Inspect TV/TVC governed integration/activation only against direct hosted grant/runtime evidence.
+5. Admit propagation only through explicit destination-owned tasks.
 
 ## Archive Conditions
 
-The complete session is not archive-ready. Disposition, integration/observe, hosted-blocked and dependency lanes remain; they must be completed or durably transferred with no stale claims or chat-only requirements.
+The complete session is not archive-ready. Support and disposition lanes are fully transferred and complete, but source-owner, observe-only, hosted-blocked, integration, TV/TVC dependency, and conditional propagation obligations still require either completion or sufficient durable machine-owned continuation evidence such that this session no longer owns unique execution responsibility.
 
 ## Current Metrics
 
 ```text
 routing_inventory: 32/32 classified
-complete_notify_only: 19/32
+complete_notify_only: 21/32
 direct_source: 2/32 collision-bounded
 direct_support: 0/32
-disposition: 2/32
+disposition: 0/32
 observe_only: 1/32
 integration_only: 1/32
 hosted_blocked: 6/32
