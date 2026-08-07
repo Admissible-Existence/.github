@@ -1,0 +1,45 @@
+{
+  "schema_version": "admissible_existence.core_lite.completion_evidence.v1",
+  "goal_id": "CORE-LITE-SUPPORT-HARDENING-001",
+  "repository": "Admissible-Existence/core-lite",
+  "role": "support",
+  "state": "VALIDATED_COMPLETE_NOTIFY_ONLY",
+  "handoff": "docs/CORE_LITE_MIRROR_HANDOFF.md",
+  "handoff_commit": "f21ef19b8c24130f38df403bd9e792c78b6255a1",
+  "issue": "Admissible-Existence/core-lite#1",
+  "mutations": {
+    "readme_handoff_binding_commit": "961afaa5ec7a61044ae446bd90d2b11d1d64e077",
+    "task_registry_commit": "7f62708b3fae8d5a2376c9e94f6685bac5dabd0f",
+    "workflow_docs_watch_commit": "a824622f4d03155789a872a3cb6bb1fa6b5b0b77",
+    "self_managed_completion_status_commit": "34d965bdafe22029032bd7816874f8e935d810f4",
+    "self_managed_checker_commit": "c739122bca3114f208e88e9453c3d8c439ecdb17",
+    "workflow_remainder_resolution_commit": "26686ea2ad02b66bded6f7688c77dc058fa7128b",
+    "receipt_bound_status_commit": "52bf1ea5fb3c62aef1e247afc82da40991c191be",
+    "next_step_status_commit": "c674af9061a1829a7a0ba031643909ab6b73b0d6"
+  },
+  "validation": {
+    "workflow_id": 295608859,
+    "run_id": 31186849871,
+    "job_id": 92893445777,
+    "conclusion": "success",
+    "head_sha": "c739122bca3114f208e88e9453c3d8c439ecdb17",
+    "dispatcher_tasks": 16,
+    "dispatcher_tasks_passed": 16,
+    "dispatcher_unexpected": 0,
+    "dispatcher_saturated": true,
+    "artifact_id": 8997081938,
+    "artifact_name": "core-lite-reports",
+    "artifact_files_uploaded": 84,
+    "artifact_digest": "sha256:a6b5744bb019866e7bebbcb79d43bbac3e5e62818d5754fc17a335925a7c6689"
+  },
+  "boundaries": {
+    "creates_authority": false,
+    "commits_execution": false,
+    "claims_final_cross_repository_validity": false,
+    "receiver_declaration_required": true,
+    "execution_authority_receipt_required": true,
+    "production_next_step_receipt_writer_activated": false
+  },
+  "production_next_step_receipt_release_condition": "A concrete downstream receiver declaration exists and validates, and an execution-authority receipt is present for any executable action.",
+  "central_activation_pending": true
+}
