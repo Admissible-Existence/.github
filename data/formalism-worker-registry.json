@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.16.0",
+  "schema_version": "3.17.0",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "coordination_repository": "Admissible-Existence/.github",
   "execution_model": "central controller creates bounded repository-local implementation branches or reports BLOCKED",
@@ -597,7 +597,23 @@
     {
       "repository": "Admissible-Existence/SOL",
       "role": "empty",
-      "worker_state": "disposition_required"
+      "worker_state": "validated_complete_notify_only",
+      "completion_evidence": {
+        "normalized_evidence": "data/sol-disposition-evidence.json",
+        "disposition": "DEPRECATE",
+        "disposition_state": "DEPRECATED_NOTIFY_ONLY",
+        "handoff": "docs/SOL_MIRROR_HANDOFF.md",
+        "handoff_commit": "8361d4b7ef2e1f5646027551688765910d204b97",
+        "issue": "Admissible-Existence/SOL#1",
+        "receipt": "reports/disposition-receipt.json",
+        "receipt_commit": "82ce1569e139df1ef1c11ed0262492d81bba1e13",
+        "redirects": [
+          "Admissible-Existence/.github"
+        ],
+        "unique_artifacts_remaining": 0,
+        "creates_authority": false,
+        "commits_execution": false
+      }
     }
   ]
 }

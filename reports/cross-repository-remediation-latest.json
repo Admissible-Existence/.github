@@ -8,10 +8,9 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 20,
+    "COMPLETE_NOTIFY_ONLY": 21,
     "CONTROL_PLANE": 1,
     "DIRECT_SOURCE_UPDATE": 2,
-    "DISPOSITION_REQUIRED": 1,
     "HOSTED_VALIDATION_BLOCKED": 6,
     "INTEGRATION_NOTIFY_ONLY": 1,
     "OBSERVE_NOTIFY_ONLY": 1
@@ -694,13 +693,28 @@
       "worker_state": "validated_complete_notify_only"
     },
     {
-      "completion_evidence": null,
-      "next_action": "Create implementation, deprecation, or migration disposition.",
-      "owner": "Admissible-Existence/SOL",
+      "completion_evidence": {
+        "commits_execution": false,
+        "creates_authority": false,
+        "disposition": "DEPRECATE",
+        "disposition_state": "DEPRECATED_NOTIFY_ONLY",
+        "handoff": "docs/SOL_MIRROR_HANDOFF.md",
+        "handoff_commit": "8361d4b7ef2e1f5646027551688765910d204b97",
+        "issue": "Admissible-Existence/SOL#1",
+        "normalized_evidence": "data/sol-disposition-evidence.json",
+        "receipt": "reports/disposition-receipt.json",
+        "receipt_commit": "82ce1569e139df1ef1c11ed0262492d81bba1e13",
+        "redirects": [
+          "Admissible-Existence/.github"
+        ],
+        "unique_artifacts_remaining": 0
+      },
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
+      "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/SOL",
       "role": "empty",
-      "routing_state": "DISPOSITION_REQUIRED",
-      "worker_state": "disposition_required"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     }
   ],
   "schema_version": "1.3.0"
