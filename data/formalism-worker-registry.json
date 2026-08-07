@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.22.0",
+  "schema_version": "3.23.0",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "coordination_repository": "Admissible-Existence/.github",
   "execution_model": "central controller creates bounded repository-local implementation branches or reports BLOCKED",
@@ -165,17 +165,28 @@
     {
       "repository": "Admissible-Existence/BC",
       "role": "source",
-      "worker_state": "implementation_complete_hosted_validation_blocked",
+      "worker_state": "validated_complete_notify_only",
       "completion_evidence": {
+        "normalized_evidence": "data/bc-hosted-completion-evidence.json",
         "handoff": "docs/BC_MIRROR_HANDOFF.md",
-        "handoff_commit": "8274e84a0849aabcf58ac6f4e42a3f083b6163d3",
-        "formalism_manifest_commit": "e4be9ec9b7359c7bcc6449d12a2aa1180891eeff",
-        "repository_manifest_commit": "836dc118ed88a0132b9e1953b6cafc4e546897ed",
-        "deterministic_receipt": "reports/bc-deterministic-validation-receipt.json",
+        "handoff_commit": "68858843e86ad5925d7f6c299ec4af8f8a8237cf",
+        "validation_run": 31214359263,
+        "validation_job": 92984287785,
+        "validation_conclusion": "success",
+        "workflow": ".github/workflows/bc-build.yml",
+        "validated_checks": [
+          "tools/run_bc_build.py -> PASS BC fixtures; PASS BC build",
+          "git diff --exit-code -- dist -> generated outputs current",
+          "stale generated fixture report corrected only to the output demonstrated by prior failing hosted run",
+          "no Boundary-Coherence source semantics changed"
+        ],
+        "artifact_policy": "none_by_workflow_design",
+        "artifact_id": null,
+        "artifact_digest": null,
+        "receipt": "reports/bc-deterministic-validation-receipt.json",
         "receipt_commit": "3e8134088bac4f4aca85e33c023a427bf75af3c3",
-        "receipt_sha256": "7d3790c53ace2c2b500162eb19d3f47a460a34a8c880b6ce1a926f52fcf4b394",
-        "closed_issue": "Admissible-Existence/BC#1",
-        "blocker": "Admissible-Existence/.github:data/actions-activation-authority-blocker.json"
+        "creates_authority": false,
+        "commits_execution": false
       }
     },
     {

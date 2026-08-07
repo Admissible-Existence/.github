@@ -8,10 +8,9 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 26,
+    "COMPLETE_NOTIFY_ONLY": 27,
     "CONTROL_PLANE": 1,
     "DIRECT_SOURCE_UPDATE": 2,
-    "HOSTED_VALIDATION_BLOCKED": 1,
     "INTEGRATION_NOTIFY_ONLY": 1,
     "OBSERVE_NOTIFY_ONLY": 1
   },
@@ -195,22 +194,33 @@
     },
     {
       "completion_evidence": {
-        "blocker": "Admissible-Existence/.github:data/actions-activation-authority-blocker.json",
-        "closed_issue": "Admissible-Existence/BC#1",
-        "deterministic_receipt": "reports/bc-deterministic-validation-receipt.json",
-        "formalism_manifest_commit": "e4be9ec9b7359c7bcc6449d12a2aa1180891eeff",
+        "artifact_digest": null,
+        "artifact_id": null,
+        "artifact_policy": "none_by_workflow_design",
+        "commits_execution": false,
+        "creates_authority": false,
         "handoff": "docs/BC_MIRROR_HANDOFF.md",
-        "handoff_commit": "8274e84a0849aabcf58ac6f4e42a3f083b6163d3",
+        "handoff_commit": "68858843e86ad5925d7f6c299ec4af8f8a8237cf",
+        "normalized_evidence": "data/bc-hosted-completion-evidence.json",
+        "receipt": "reports/bc-deterministic-validation-receipt.json",
         "receipt_commit": "3e8134088bac4f4aca85e33c023a427bf75af3c3",
-        "receipt_sha256": "7d3790c53ace2c2b500162eb19d3f47a460a34a8c880b6ce1a926f52fcf4b394",
-        "repository_manifest_commit": "836dc118ed88a0132b9e1953b6cafc4e546897ed"
+        "validated_checks": [
+          "tools/run_bc_build.py -> PASS BC fixtures; PASS BC build",
+          "git diff --exit-code -- dist -> generated outputs current",
+          "stale generated fixture report corrected only to the output demonstrated by prior failing hosted run",
+          "no Boundary-Coherence source semantics changed"
+        ],
+        "validation_conclusion": "success",
+        "validation_job": 92984287785,
+        "validation_run": 31214359263,
+        "workflow": ".github/workflows/bc-build.yml"
       },
-      "next_action": "Preserve deterministic completion evidence; await the named Actions-authority release condition and do not reopen implementation.",
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
       "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/BC",
       "role": "source",
-      "routing_state": "HOSTED_VALIDATION_BLOCKED",
-      "worker_state": "implementation_complete_hosted_validation_blocked"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": {

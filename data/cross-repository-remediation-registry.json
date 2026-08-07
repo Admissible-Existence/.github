@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.26.0",
+  "schema_version": "1.27.0",
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "parent_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_session_goal": "Extend principle-completeness execution into every affected repository and notify dependent control planes and publication surfaces.",
@@ -14,9 +14,9 @@
     "direct_support_update_remaining": 0,
     "disposition_required": 0,
     "machine_owned_observe_only": 1,
-    "validated_complete_notify_only": 26,
+    "validated_complete_notify_only": 27,
     "source_complete_integration_pending": 1,
-    "implementation_complete_hosted_validation_blocked": 1,
+    "implementation_complete_hosted_validation_blocked": 0,
     "immediate_external_dependencies": 2,
     "conditional_propagation_destinations": 5
   },
@@ -413,6 +413,20 @@
       "artifact_id": 9007757529,
       "artifact_digest": "sha256:62293e84137ee375c12c32655fdf4d1f802206356ac93ed828bd8c90cd1a1ac7",
       "normalized_evidence": "data/chf-hosted-completion-evidence.json"
+    },
+    {
+      "repository": "Admissible-Existence/BC",
+      "state": "COMPLETE_NOTIFY_ONLY",
+      "source_handoff": "Admissible-Existence/BC@main:docs/BC_MIRROR_HANDOFF.md",
+      "handoff_commit": "68858843e86ad5925d7f6c299ec4af8f8a8237cf",
+      "validation_run": 31214359263,
+      "validation_job": 92984287785,
+      "validation_conclusion": "success",
+      "workflow": ".github/workflows/bc-build.yml",
+      "artifact_policy": "none_by_workflow_design",
+      "artifact_id": null,
+      "artifact_digest": null,
+      "normalized_evidence": "data/bc-hosted-completion-evidence.json"
     }
   ],
   "bounded_non_direct_states": [
