@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.18.0",
+  "schema_version": "1.19.0",
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "parent_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_session_goal": "Extend principle-completeness execution into every affected repository and notify dependent control planes and publication surfaces.",
@@ -11,10 +11,10 @@
     "registered_repositories": 32,
     "control_plane": 1,
     "direct_source_update_remaining": 2,
-    "direct_support_update_remaining": 1,
+    "direct_support_update_remaining": 0,
     "disposition_required": 2,
     "machine_owned_observe_only": 1,
-    "validated_complete_notify_only": 18,
+    "validated_complete_notify_only": 19,
     "source_complete_integration_pending": 1,
     "implementation_complete_hosted_validation_blocked": 6,
     "immediate_external_dependencies": 2,
@@ -308,6 +308,19 @@
       "artifact_id": 8999541037,
       "artifact_digest": "sha256:8d5c7b26a19c98fc5dc7373fb7cddc6417666e8811fd85779615b3af2a486c25",
       "normalized_evidence": "data/ae-validation-factory-completion-evidence.json"
+    },
+    {
+      "repository": "Admissible-Existence/validation-profile-registry",
+      "state": "COMPLETE_NOTIFY_ONLY",
+      "source_handoff": "Admissible-Existence/validation-profile-registry@main:docs/VALIDATION_PROFILE_REGISTRY_MIRROR_HANDOFF.md",
+      "handoff_commit": "014cdfc038dc05719b23cef75e8e2ced455ff60a",
+      "issue": "Admissible-Existence/validation-profile-registry#1",
+      "hosted_run": 31193568994,
+      "hosted_job": 92916176345,
+      "hosted_conclusion": "success",
+      "artifact_id": 8999821310,
+      "artifact_digest": "sha256:bda53fcc29a389d05e4cfefe520c22bd3d99090c749bb52fd3b5c23632cb5b4d",
+      "normalized_evidence": "data/validation-profile-registry-completion-evidence.json"
     }
   ],
   "bounded_non_direct_states": [

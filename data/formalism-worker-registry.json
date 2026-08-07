@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.14.0",
+  "schema_version": "3.15.0",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "coordination_repository": "Admissible-Existence/.github",
   "execution_model": "central controller creates bounded repository-local implementation branches or reports BLOCKED",
@@ -560,7 +560,20 @@
     {
       "repository": "Admissible-Existence/validation-profile-registry",
       "role": "support",
-      "worker_state": "required"
+      "worker_state": "validated_complete_notify_only",
+      "completion_evidence": {
+        "normalized_evidence": "data/validation-profile-registry-completion-evidence.json",
+        "handoff": "docs/VALIDATION_PROFILE_REGISTRY_MIRROR_HANDOFF.md",
+        "handoff_commit": "014cdfc038dc05719b23cef75e8e2ced455ff60a",
+        "issue": "Admissible-Existence/validation-profile-registry#1",
+        "validation_run": 31193568994,
+        "validation_job": 92916176345,
+        "validation_conclusion": "success",
+        "artifact_id": 8999821310,
+        "artifact_digest": "sha256:bda53fcc29a389d05e4cfefe520c22bd3d99090c749bb52fd3b5c23632cb5b4d",
+        "creates_authority": false,
+        "commits_execution": false
+      }
     },
     {
       "repository": "Admissible-Existence/SOL",
