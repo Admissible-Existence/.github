@@ -40,11 +40,11 @@ jobs:
           report = json.loads(Path('reports/cross-repository-remediation-latest.json').read_text())
           expected = {
               'CONTROL_PLANE': 1,
-              'DIRECT_SOURCE_UPDATE': 4,
+              'DIRECT_SOURCE_UPDATE': 3,
               'DIRECT_SUPPORT_UPDATE': 6,
               'DISPOSITION_REQUIRED': 2,
               'OBSERVE_NOTIFY_ONLY': 1,
-              'COMPLETE_NOTIFY_ONLY': 11,
+              'COMPLETE_NOTIFY_ONLY': 12,
               'INTEGRATION_NOTIFY_ONLY': 1,
               'HOSTED_VALIDATION_BLOCKED': 6,
           }
@@ -65,6 +65,7 @@ jobs:
               'Admissible-Existence/HPS': 'COMPLETE_NOTIFY_ONLY',
               'Admissible-Existence/FI': 'COMPLETE_NOTIFY_ONLY',
               'Admissible-Existence/DaCo': 'COMPLETE_NOTIFY_ONLY',
+              'Admissible-Existence/IW': 'COMPLETE_NOTIFY_ONLY',
               'Admissible-Existence/TT': 'INTEGRATION_NOTIFY_ONLY',
               'Admissible-Existence/STCM': 'HOSTED_VALIDATION_BLOCKED',
               'Admissible-Existence/learning-transition-governance': 'HOSTED_VALIDATION_BLOCKED',
