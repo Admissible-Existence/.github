@@ -3,8 +3,8 @@
 **Goal:** `AEX-CROSS-REPOSITORY-REMEDIATION-001`  
 **Parent goal:** `AEX-PRINCIPLE-COMPLETENESS-001`  
 **Repository / branch:** `Admissible-Existence/.github` / `main`  
-**Status:** `ACTIVE — 3 DIRECT SOURCE ROUTES REMAIN; CTA MERGED INTO EXISTING CLAIM; SIX REPOSITORIES REQUIRE HOSTED REOBSERVATION`  
-**Updated:** 2026-08-07T07:38:00-05:00
+**Status:** `ACTIVE — 2 DIRECT SOURCE ROUTES REMAIN BUT BOTH ARE COLLISION-BOUNDED; 6 SUPPORT ROUTES REMAIN; SIX REPOSITORIES REQUIRE HOSTED REOBSERVATION`  
+**Updated:** 2026-08-07T07:56:00-05:00
 
 ## Originating session goal
 
@@ -14,7 +14,7 @@ Extend principle-completeness execution into every affected repository; preserve
 
 - `data/formalism-worker-registry.json`
 - `data/cross-repository-remediation-registry.json`
-- normalized evidence under `data/*-completion-evidence.json`, including `data/daco-completion-evidence.json` and `data/iw-completion-evidence.json`
+- normalized evidence under `data/*-completion-evidence.json`, including `data/standing-proof-formalism-completion-evidence.json`
 - `data/actions-activation-authority-blocker.json`
 - `scripts/route_cross_repository_remediation.py`
 - `tests/test_cross_repository_remediation_router.py`
@@ -25,112 +25,108 @@ Extend principle-completeness execution into every affected repository; preserve
 
 ## Current authoritative routing
 
-Worker registry schema `3.8.0`, remediation registry schema `1.12.0`, router commit `e8224a9379f6f1350cc3ed5b248636bc1c4b9345`, and hosted run `31178852249` establish:
+Worker registry schema `3.9.0`, remediation registry schema `1.13.0`, router commit `b8b95e5de681d2c4e3190c77ff4819c932e88c32`, and hosted run `31180111656` establish:
 
-- 3 `DIRECT_SOURCE_UPDATE`: `AE`, `CTA`, `standing-proof-formalism`
+- 2 `DIRECT_SOURCE_UPDATE`: `AE`, `CTA`
 - 6 `DIRECT_SUPPORT_UPDATE`: `core-lite`, `validator`, `tracker`, `telemetry`, `ae-validation-factory`, `validation-profile-registry`
 - 2 `DISPOSITION_REQUIRED`: `ae-validation-research`, `SOL`
 - 1 `OBSERVE_NOTIFY_ONLY`: `RTG`
-- 12 `COMPLETE_NOTIFY_ONLY`: `GTG`, `ET`, `DC`, `Existence`, `Triad`, `GCAT-BCAT`, `ECAT-ICAT`, `IICT`, `HPS`, `FI`, `DaCo`, `IW`
+- 13 `COMPLETE_NOTIFY_ONLY`: `GTG`, `ET`, `DC`, `Existence`, `Triad`, `GCAT-BCAT`, `ECAT-ICAT`, `IICT`, `HPS`, `FI`, `DaCo`, `IW`, `standing-proof-formalism`
 - 1 `INTEGRATION_NOTIFY_ONLY`: `TT`
 - 6 `HOSTED_VALIDATION_BLOCKED`: `STCM`, `learning-transition-governance`, `BC`, `CHF`, `RE`, `RE-Reduction`
 - 1 `CONTROL_PLANE`: `.github`
 
-AE remains bounded by `AE#20`, which owns a distinct publication/review integration lane. CTA source implementation is already owned by `CTA#1`, where this session's organization-completeness requirement was transferred; do not duplicate either claim.
+`AE` remains collision-bounded by `AE#20`, which owns a distinct publication/review integration lane. `CTA` source implementation remains owned by `CTA#1`; this session's organization-completeness requirement is already merged into that workstream. Do not duplicate either claim.
 
-## Newly completed activation: IW
+## Newly completed activation: standing-proof-formalism
 
-`IW-PRINCIPLE-COMPLETENESS-001` is source-complete, hosted validated, centrally activated, and claim-released.
+`STANDING-PROOF-PRINCIPLE-COMPLETENESS-001` is source-complete, hosted validated, centrally activated, and claim-released.
 
 Source evidence:
 
-- canonical handoff `Admissible-Existence/IW@main:IW_MIRROR_HANDOFF.md`
-- finalized handoff commit `6702fcd41c9b415ef3624eb67777c51dd9db6b78`
-- `Admissible-Existence/IW#1` closed completed
-- organization completeness adapters installed without superseding `docs/irreversibility.md`
-- existing `IW Validation` workflow extended rather than duplicated
-- workflow ID `302529403`, final workflow commit `04a8f8289a864f7e0e1dde1cbb90bdd79b048ecd`
-- hosted run `31157110222`, job `92798902766`, conclusion `success`
-- clean `main=true`; verification return code `0`; `errors=[]`; `release_ready=true`; `authority=false`
-- 42/42 tests passed; 4/4 governance cases passed; 4/4 irreversibility receipts replayed; downstream manifest valid
-- release receipt `artifacts/iw-release-verification.json`, commit `7636a792354b38119495e20e717c613ee998975e`, blob `fd32d0c2f447e0607cb051abe75d500666ea61ac`
-- completeness receipt `reports/iw-principle-completeness-validation.json`, blob `3fc9ac74440829087ab27c257aea321a494e125d`, principles 4/4, zero findings
-- source artifact `8985563715`, digest `sha256:1f0f11814c0369caa076a25c7ef0a32c661f46394ba8bc79dc293a6be28e386c`
-- execution/publication/tag authority false; proofs accepted false; universal irreversibility claim false
-
-All four IW downstream applications were already complete and were not reopened. Release readiness does not authorize a release/tag.
+- canonical handoff `Admissible-Existence/standing-proof-formalism@main:docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md`
+- final source handoff commit `469d03a061e406c73427b2ad34f3f518df286a19`
+- compatibility redirect `docs/STANDING_PROOF_MIRROR_HANDOFF.md` is explicitly superseded by the canonical handoff
+- `Admissible-Existence/standing-proof-formalism#1` closed completed
+- existing missing integration checker implemented
+- principle registry, dependency graph, proof candidates, theory map, notation, falsification limits, executable cases, case checker, completeness validator, and repository-native hosted workflow installed
+- workflow ID `329305789`, run `31179576449`, job `92869363401`, conclusion `success`
+- compact surfaces/results/integration 3/3 PASS
+- 8/8 falsifiable standing cases matched, zero errors
+- principle completeness 4/4, zero findings, `valid=true`
+- receipt `reports/standing-proof-principle-completeness-validation.json`, commit `fc06d7e0229f58463c9def2eb12aa9f9ce476e64`, blob `172addb7c53902bf2260681f7e2a86256f53cd76`
+- source artifact `8994192908`, digest `sha256:abba57628b1a046b82e2aaf6a9719986f98354e17963cd32647b5ede414266b0`
+- `prior_review_inherits_standing=false`
+- execution/publication/proof acceptance/final cross-repository validity remain false
 
 Central activation evidence:
 
-- worker registry commit `10c7ddce6b39003f0f76e137bb4febeaa4c7918c`
-- remediation registry commit `3ed4e43f992ec4c754836ac60d83db55ec95450a`
-- router contract commit `e8224a9379f6f1350cc3ed5b248636bc1c4b9345`
-- hosted router run `31178852249`, job `92867039144`, conclusion `success`
-- router tests 9/9 passed
-- exact routing counts `{COMPLETE_NOTIFY_ONLY: 12, CONTROL_PLANE: 1, DIRECT_SOURCE_UPDATE: 3, DIRECT_SUPPORT_UPDATE: 6, DISPOSITION_REQUIRED: 2, HOSTED_VALIDATION_BLOCKED: 6, INTEGRATION_NOTIFY_ONLY: 1, OBSERVE_NOTIFY_ONLY: 1}`
-- routing report persistence commit `bdae358`
-- routing artifact `8993915887`, digest `sha256:b8ded78de4dd536e5b29c0b2a12d023be8c69a06d701bf94ac73d76113070dbd`
-- normalized central evidence `data/iw-completion-evidence.json`, commit `e9d48436b9807307c0c6079b35d061eaefc11a27`
+- worker registry commit `74a002f356e947380a7d1a493c7c1ce512bddf06`
+- remediation registry commit `9628ba5cd47fdf487c69c4ab67d7f6ee26477aff`
+- router contract commit `b8b95e5de681d2c4e3190c77ff4819c932e88c32`
+- hosted router run `31180111656`, job `92871090308`, conclusion `success`
+- router tests 9/9 PASS
+- exact counts `{COMPLETE_NOTIFY_ONLY: 13, CONTROL_PLANE: 1, DIRECT_SOURCE_UPDATE: 2, DIRECT_SUPPORT_UPDATE: 6, DISPOSITION_REQUIRED: 2, HOSTED_VALIDATION_BLOCKED: 6, INTEGRATION_NOTIFY_ONLY: 1, OBSERVE_NOTIFY_ONLY: 1}`
+- routing report commit `1da7e07`
+- routing artifact `8994404101`, digest `sha256:fcc26e483db6800259d44f994f256d73c9c079c33ae917ed9e0650397bb3246b`
+- normalized evidence `data/standing-proof-formalism-completion-evidence.json`, commit `9aa9a7e679167ec4fb81ca9aeeee6496aa41f9f9`
 
-IW is `COMPLETE_NOTIFY_ONLY`; do not reopen source work absent direct regression evidence or a separately admitted destination-owned task.
+The source lane is `COMPLETE_NOTIFY_ONLY` and must not reopen absent direct regression evidence or a separately admitted destination-owned task.
 
 ## Completed source repositories
 
-`GTG`, `ET`, `DC`, `Existence`, `Triad`, `GCAT-BCAT` root, `ECAT-ICAT`, `IICT`, `HPS`, `FI` root, `DaCo`, and `IW` are `COMPLETE_NOTIFY_ONLY`. Their source lanes no longer depend on chat history.
+`GTG`, `ET`, `DC`, `Existence`, `Triad`, `GCAT-BCAT` root, `ECAT-ICAT`, `IICT`, `HPS`, `FI` root, `DaCo`, `IW`, and `standing-proof-formalism` are `COMPLETE_NOTIFY_ONLY` and do not depend on this chat for continuation.
 
-FI root completion remains separate from `FI#1` destination bootstrap and `Data-Continuation/formalism-tests#4` canonical continuity execution. GCAT-BCAT Decision Envelope remains separately owned under its own handoff/work-claims.
+FI root completion remains separate from `FI#1` destination bootstrap and `Data-Continuation/formalism-tests#4` continuity execution. GCAT-BCAT Decision Envelope remains separately owned.
+
+## Claims and collision controls
+
+- `.github`: `ACTIVE_CONTROL_PLANE`
+- `AE#20`: distinct publication/review integration claim; no collision permitted
+- `CTA#1`: broad source formalism/provenance/release/integration claim; organization-completeness requirement merged there
+- `FI#1`: destination bootstrap lane
+- `Data-Continuation/formalism-tests#4`: FI continuity lane
+- `TT#2`: integration-only
+- `TVC#13`: blocked until exact hosted grant evidence
+- `TV#3` / `tasks/TV-CAPABILITY-RUNTIME-ASSIST-001.json`: integration claim
+- disposition owners: `ae-validation-research#1`, `SOL#1`
 
 ## Hosted reobservation group
 
 `STCM`, `learning-transition-governance`, `BC`, `CHF`, `RE`, and `RE-Reduction` retain deterministic/local completion evidence but require their own exact hosted release evidence. Shared observer record: `data/actions-activation-authority-blocker.json`; repository-specific release conditions remain authoritative.
 
-## Claims, convergence, and collision controls
-
-- `.github`: `ACTIVE_CONTROL_PLANE`
-- `AE#20`: distinct publication/review integration claim; avoid collision
-- `CTA#1`: broad CTA formalism/provenance/release/integration claim; organization-completeness requirement already merged there
-- `FI#1`: destination bootstrap lane, independent from completed FI root
-- `Data-Continuation/formalism-tests#4`: canonical FI continuity lane
-- GCAT-BCAT Decision Envelope: separately active
-- `TT#2`: integration-only continuation
-- `TVC#13`: blocked until exact hosted grant evidence
-- `TV#3` / `tasks/TV-CAPABILITY-RUNTIME-ASSIST-001.json`: claimed for integration
-- disposition owners: `ae-validation-research#1`, `SOL#1`
-
-The coordinator may classify, route, preserve claims, activate installed validation paths, and repair directly proven integration defects. It does not create source-formalism authority, proof acceptance, publication authority, credential custody, operational validity, or universal admissibility.
-
 ## Next executable order
 
-1. Inspect `Admissible-Existence/standing-proof-formalism` canonical mirror handoff and live claims; take only an unclaimed/nonconflicting bounded source-completeness role.
+1. Because the two remaining source routes are collision-bounded, inspect the six direct-support repositories and take the first unclaimed bounded support lane, beginning with `core-lite` unless its canonical handoff/claims route elsewhere.
 2. Handle AE only outside `AE#20`; observe/merge CTA through `CTA#1` rather than duplicate implementation.
-3. Complete six direct-support repositories.
-4. Resolve two disposition repositories.
+3. Complete remaining support repositories.
+4. Resolve `ae-validation-research` and `SOL` dispositions.
 5. Observe RTG without duplicate implementation.
-6. Reobserve six hosted-validation-blocked repositories against exact release conditions.
-7. Complete TV/TVC governed activation only with exact direct evidence.
+6. Reobserve the six hosted-blocked repositories against exact release conditions.
+7. Complete TT integration and TV/TVC governed activation only with direct evidence.
 8. Admit downstream propagation only through separately admitted destination-owned tasks.
 
 ## Automation
 
-Router workflow `328896970` is scheduled and push-triggered, fail-closed, validates registry/report shape, enforces exact routing counts and required completed-state evidence, persists `reports/cross-repository-remediation-latest.json`, and uploads an inspectable routing artifact. It is hosted-green for the current 3-direct/12-complete state.
+Router workflow `328896970` is scheduled and push-triggered, fail-closed, enforces exact routing counts and required completed-state evidence, persists `reports/cross-repository-remediation-latest.json`, and uploads an inspectable artifact. It is hosted-green for the current 2-direct/13-complete state.
 
 ## Session consolidation
 
 `MERGED INTO: Admissible-Existence/.github/docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md`
 
-Completed source lanes listed above, including IW, are durable outside chat. CTA and broader FI requirements are assigned to existing canonical owners rather than duplicated here. Current unique session work is the remaining organization remediation routed above.
+Completed source lanes are durable outside chat. The remaining unique session role is organization-level support/disposition/integration/observation/hosted-reobservation execution under the routing above.
 
 ## Archive conditions
 
-This session is not archive-ready. Archive requires every non-control repository to have durable completion, disposition, integration-only, observe-only, hosted-blocked, or merged/superseded evidence; TV/TVC responsibilities to be proven or fully transferred; applicable propagation completed or explicitly not applicable with evidence; no stale/conflicting claim; and no unique requirement existing only in chat.
+This session is not archive-ready. Archive requires every non-control repository to have durable completion, disposition, integration-only, observe-only, hosted-blocked, or merged/superseded evidence; TV/TVC responsibilities to be proven or fully transferred; applicable propagation completed or explicitly not applicable; no stale/conflicting claim; and no unique requirement existing only in chat.
 
 ## Metrics
 
-- developed control-plane files: 26/26 including normalized IW evidence
+- developed control-plane files: 27/27 including normalized standing-proof evidence
 - routing inventory: 32/32 classified
-- direct-source remaining: 3/32, with CTA converged into `CTA#1` and AE bounded by `AE#20`
+- direct-source remaining: 2/32, both collision-bounded
 - direct-support remaining: 6/32
-- complete notify-only: 12/32
+- complete notify-only: 13/32
 - hosted reobservation required: 6/32
 - integration-only: 1/32
 - observe-only: 1/32
