@@ -3,8 +3,8 @@
 **Goal:** `AEX-CROSS-REPOSITORY-REMEDIATION-001`  
 **Parent goal:** `AEX-PRINCIPLE-COMPLETENESS-001`  
 **Repository / branch:** `Admissible-Existence/.github` / `main`  
-**Status:** `ACTIVE — 7 DIRECT SOURCE ROUTES REMAIN; CTA MERGED INTO EXISTING CLAIM; SIX REPOSITORIES REQUIRE HOSTED REOBSERVATION`  
-**Updated:** 2026-08-07T05:13:00Z
+**Status:** `ACTIVE — 6 DIRECT SOURCE ROUTES REMAIN; CTA MERGED INTO EXISTING CLAIM; SIX REPOSITORIES REQUIRE HOSTED REOBSERVATION`  
+**Updated:** 2026-08-07T05:30:00Z
 
 ## Originating session goal
 
@@ -16,6 +16,7 @@ Extend principle-completeness execution into every affected repository; preserve
 - `data/cross-repository-remediation-registry.json`
 - `data/ecat-icat-completion-evidence.json`
 - `data/iict-completion-evidence.json`
+- `data/hps-completion-evidence.json`
 - `data/actions-activation-authority-blocker.json`
 - `scripts/route_cross_repository_remediation.py`
 - `tests/test_cross_repository_remediation_router.py`
@@ -26,13 +27,13 @@ Extend principle-completeness execution into every affected repository; preserve
 
 ## Current authoritative routing
 
-Worker registry schema `3.4.0`, remediation registry schema `1.8.0`, router commit `1b5ac7340cfeeb93bbfb056f28aee1bb3049bf41`, and hosted run `31149827227` establish:
+Worker registry schema `3.5.0`, remediation registry schema `1.9.0`, router commit `01737a51108396a527a269a2c13c9c3dccc1b5af`, and hosted run `31150716738` establish:
 
-- 7 `DIRECT_SOURCE_UPDATE`
+- 6 `DIRECT_SOURCE_UPDATE`
 - 6 `DIRECT_SUPPORT_UPDATE`
 - 2 `DISPOSITION_REQUIRED`
 - 1 `OBSERVE_NOTIFY_ONLY`: `RTG`
-- 8 `COMPLETE_NOTIFY_ONLY`: `GTG`, `ET`, `DC`, `Existence`, `Triad`, `GCAT-BCAT`, `ECAT-ICAT`, `IICT`
+- 9 `COMPLETE_NOTIFY_ONLY`: `GTG`, `ET`, `DC`, `Existence`, `Triad`, `GCAT-BCAT`, `ECAT-ICAT`, `IICT`, `HPS`
 - 1 `INTEGRATION_NOTIFY_ONLY`: `TT`
 - 6 `HOSTED_VALIDATION_BLOCKED`: `STCM`, `learning-transition-governance`, `BC`, `CHF`, `RE`, `RE-Reduction`
 - 1 `CONTROL_PLANE`: `.github`
@@ -41,71 +42,57 @@ AE remains `validation_required`, but `Admissible-Existence/AE#20` owns a distin
 
 CTA remains a central `required` route for organization-completeness evidence, but live CTA state has converged with an existing broader implementation claim. `docs/CTA_MIRROR_HANDOFF.md` is the current CTA continuation source of truth and `CTA#1` owns formalism, provenance, release automation, external-adapter boundaries, and remaining integration work. Central completeness requirements were transferred into CTA#1 comment `5212709338`; this coordinator must not duplicate CTA source implementation while that claim remains active. Central release condition for CTA is equivalent completeness evidence or an explicit machine-checkable supersession/not-applicable disposition.
 
-## Newly completed activation: IICT
+## Newly completed activation: HPS
 
-`IICT-PRINCIPLE-COMPLETENESS-001` is repository-locally complete and centrally activated.
+`HPS-PRINCIPLE-COMPLETENESS-001` is source-complete, hosted validated, claim-released, and centrally activated.
 
-Canonical IICT evidence:
+Canonical HPS evidence:
 
-- handoff: `Admissible-Existence/IICT@main:IICT_MIRROR_HANDOFF.md`
-- handoff commit: `591597e94f2fbe190eb029b719cfc2d3b9ed3161`
-- issue `Admissible-Existence/IICT#1`: closed completed
-- final hosted validation run: `31148798684`
-- job: `92773928388`
-- conclusion: `success`
-- receipt: `reports/iict-principle-completeness-validation.json`
-- receipt commit: `bf5bc1e`
-- receipt blob: `ee908de4deba28a48be61763cd12e641295e0931`
-- principles: `4/4 valid`
-- baseline cases: `5/5 passed`
-- theorem status: `candidate_not_proven`
-- artifact: `8982503045`
-- artifact digest: `sha256:2b7d99c1e236bda0c3d5c5b4dffc9ef3e91d1ab6f1cef968c346985506cd198a`
-- normalized central evidence: `data/iict-completion-evidence.json`
+- handoff: `Admissible-Existence/HPS@main:HPS_MIRROR_HANDOFF.md`;
+- handoff commit: `5e777b07c38c606c88097043969f458d6fa9ecb4`;
+- issue `Admissible-Existence/HPS#1`: closed completed;
+- existing HPS doctrine, schemas, verifiers, fixtures, 15-test suite, workflow intent, and iOS-safe workflow mirror preserved;
+- six missing organization-completeness adapters installed plus `tools/validate_principle_completeness.py`;
+- historical stale CI-pending handoff statement corrected from direct run evidence;
+- final hosted run `31150408401`;
+- job `92778654507`;
+- conclusion `success`;
+- existing unit tests: 15/15 passed;
+- direct heartbeat/window/expiration/standing/visualization fixture commands passed;
+- principle completeness: 4/4 valid, zero findings;
+- receipt: `reports/hps-principle-completeness-validation.json`;
+- receipt commit: `1d49631`;
+- receipt blob: `7ef41ce757b39083884e28a6073d24a0de610465`;
+- artifact `8983060766`, digest `sha256:bc69384446e97dfdb84b987de39c664c32ffe75703832008128b2548f5fc5b74`;
+- all authority flags remain false;
+- normalized central evidence: `data/hps-completion-evidence.json`.
 
-IICT source work must not be reopened absent direct regression evidence or a separately admitted destination-owned propagation task.
+The final handoff run used the final handoff as a receipt input, validated the refreshed receipt content, committed that exact receipt, and uploaded it. GitHub correctly did not recursively trigger another Actions run from the workflow-authored `GITHUB_TOKEN` receipt commit; no unobserved run is being treated as required evidence.
 
-### IICT control-plane activation evidence
+### HPS control-plane activation evidence
 
-- worker-registry commit `165ba742de0a6c0208f5d7813d74aafe58b6f30c`; commit diff proves only schema `3.3.0 -> 3.4.0` and IICT `required -> validated_complete_notify_only` changed.
-- remediation-registry commit `983086db08d5167928531c81d5eb8ab0a468e5df` sets 7 direct-source / 8 complete-notify-only.
-- router contract commit `1b5ac7340cfeeb93bbfb056f28aee1bb3049bf41` requires the same exact counts and explicitly asserts IICT `COMPLETE_NOTIFY_ONLY` with completion evidence.
-- hosted router run `31149827227`, job `92776993733`, conclusion `success`.
-- logs show 9 router tests passed and exact counts `{COMPLETE_NOTIFY_ONLY: 8, CONTROL_PLANE: 1, DIRECT_SOURCE_UPDATE: 7, DIRECT_SUPPORT_UPDATE: 6, DISPOSITION_REQUIRED: 2, HOSTED_VALIDATION_BLOCKED: 6, INTEGRATION_NOTIFY_ONLY: 1, OBSERVE_NOTIFY_ONLY: 1}`.
-- report persistence commit `bd827bc`.
-- routing artifact `8982866197`, digest `sha256:eeda6dade7b5f90fb220621819d183c6d1b6c396dbeb00a39bdfcb73422b4a6f`.
+- worker-registry commit `86d6aacd99d14afcb81465a9fe9997c1687bc39e`; immediate-parent patch proves only schema `3.4.0 -> 3.5.0` and HPS `required -> validated_complete_notify_only` changed;
+- remediation-registry commit `9a59e3bbe9c8c4313a065365b4d9439c8863dc37` sets 6 direct-source / 9 complete-notify-only;
+- router contract commit `01737a51108396a527a269a2c13c9c3dccc1b5af` enforces that exact state and explicitly asserts HPS `COMPLETE_NOTIFY_ONLY` with completion evidence;
+- hosted router run `31150716738`, job `92779562484`, conclusion `success`;
+- logs show 9 router tests passed and exact counts `{COMPLETE_NOTIFY_ONLY: 9, CONTROL_PLANE: 1, DIRECT_SOURCE_UPDATE: 6, DIRECT_SUPPORT_UPDATE: 6, DISPOSITION_REQUIRED: 2, HOSTED_VALIDATION_BLOCKED: 6, INTEGRATION_NOTIFY_ONLY: 1, OBSERVE_NOTIFY_ONLY: 1}`;
+- report persistence commit `92ec576`;
+- routing artifact `8983169954`, digest `sha256:9456ffee06c262ed0883e930e7321af00ee3472ba43646b7569bb8f43731492b`.
 
-This satisfies IICT's previously unfinished control-plane activation requirement.
+HPS source work must not be reopened absent direct regression evidence or a separately admitted destination-owned propagation task.
 
-## Previously completed source repositories
+## Other completed source repositories
 
-### GTG
+- **GTG:** canonical `GTG_MIRROR_HANDOFF.md`; issue `GTG#14` closed; source/factory/mirror evidence durable.
+- **ET:** canonical `ET_MIRROR_HANDOFF.md`; 46 tests passing; source idle; consumer-owned propagation only.
+- **DC:** `docs/DC_MIRROR_HANDOFF.md`; deterministic receipt; hosted run `31140305512`, job `92748610309`, success; `DC#1` closed.
+- **Existence:** `docs/EXISTENCE_MIRROR_HANDOFF.md`; hosted run `31140771106`, job `92750005203`; 10/10 principles; artifact `8979707371`.
+- **Triad:** `docs/TRIAD_MIRROR_HANDOFF.md`; hosted run `31141903362`, job `92753392924`; 3/3 principles; `Triad#1` closed.
+- **GCAT-BCAT root:** `GCAT_BCAT_MIRROR_HANDOFF.md`; hosted run `31142667444`, job `92755615423`; 4/4 principles; root issue closed. Decision Envelope remains separately owned by its own handoff/work-claims.
+- **ECAT-ICAT:** `docs/ECAT_ICAT_MIRROR_HANDOFF.md`; final run `31147884502`, job `92771133359`; issue closed; exact evidence normalized in `data/ecat-icat-completion-evidence.json`.
+- **IICT:** `IICT_MIRROR_HANDOFF.md`; final run `31148798684`, job `92773928388`; theorem remains `candidate_not_proven`; exact evidence normalized in `data/iict-completion-evidence.json`.
 
-Root completeness and downstream StegScholar mirror are complete. Canonical continuation: `GTG_MIRROR_HANDOFF.md`; issue `GTG#14` closed.
-
-### ET
-
-Canonical continuation: `ET_MIRROR_HANDOFF.md`; 46 tests passing; source task state idle; remaining work is consumer-owned propagation only.
-
-### DC
-
-Canonical handoff `docs/DC_MIRROR_HANDOFF.md`; deterministic receipt and hosted run `31140305512` / job `92748610309` succeeded; issue `DC#1` closed.
-
-### Existence
-
-Canonical handoff `docs/EXISTENCE_MIRROR_HANDOFF.md`; hosted run `31140771106`, job `92750005203`, success; committed receipt validates 10/10 principles; artifact `8979707371`.
-
-### Triad
-
-Canonical handoff `docs/TRIAD_MIRROR_HANDOFF.md`; issue `Triad#1` closed; hosted run `31141903362`, job `92753392924`, success; 3/3 principles; artifacts `8980083324`, `8980083511`, `8980083689`.
-
-### GCAT-BCAT root formalism
-
-Canonical handoff `GCAT_BCAT_MIRROR_HANDOFF.md`; issue `GCAT-BCAT#2` closed; hosted run `31142667444`, job `92755615423`, success; root receipt valid for 4/4 principles; artifact `8980325382`. Decision Envelope remains separately owned by `docs/DECISION_ENVELOPE_MIRROR_HANDOFF.md` and `papers/decision-envelope/work_claims.json`.
-
-### ECAT-ICAT
-
-Canonical handoff `docs/ECAT_ICAT_MIRROR_HANDOFF.md`; issue `ECAT-ICAT#1` closed; final regression run `31147884502`, job `92771133359`, success; receipt commit `dcebc84`; artifacts `8982157390`, `8982157565`, `8982157735`. Exact evidence and registry-recovery history remain in `data/ecat-icat-completion-evidence.json`.
+Completed source repositories are `COMPLETE_NOTIFY_ONLY`; do not reopen them absent regression evidence or separately admitted propagation/integration work.
 
 ## Hosted reobservation group
 
@@ -129,9 +116,9 @@ The coordinator may classify, route, preserve claims, activate installed validat
 
 ## Next executable order
 
-1. Skip duplicate CTA implementation while `CTA#1` remains active; observe its transferred organization-completeness requirement through comment `5212709338`.
-2. Inspect `Admissible-Existence/HPS` newest applicable mirror handoff, claims, source surfaces, validators, and hosted workflows; take only an unclaimed or distinct bounded completeness role.
-3. Continue remaining nonconflicting direct-source repositories (`FI`, `DaCo`, `IW`, `standing-proof-formalism`, plus AE only outside AE#20 collision boundaries).
+1. Skip duplicate CTA implementation while `CTA#1` remains active; observe its transferred organization-completeness requirement.
+2. Inspect `Admissible-Existence/FI` newest applicable mirror handoff, claims, source surfaces, validators, and hosted workflows; take only an unclaimed or distinct bounded completeness role.
+3. Continue remaining nonconflicting direct-source repositories (`DaCo`, `IW`, `standing-proof-formalism`, plus AE only outside AE#20 collision boundaries).
 4. Complete six direct-support repositories.
 5. Resolve two disposition repositories.
 6. Observe RTG without duplicate implementation.
@@ -141,7 +128,7 @@ The coordinator may classify, route, preserve claims, activate installed validat
 
 ## Automation
 
-Router workflow `328896970` is scheduled and push-triggered, fail-closed, validates registry/report shape, enforces exact state counts, persists `reports/cross-repository-remediation-latest.json`, and uploads an inspectable routing artifact. It is currently hosted-green for the 7-direct/8-complete state.
+Router workflow `328896970` is scheduled and push-triggered, fail-closed, validates registry/report shape, enforces exact state counts, persists `reports/cross-repository-remediation-latest.json`, and uploads an inspectable routing artifact. It is hosted-green for the current 6-direct/9-complete state.
 
 ## Validation commands
 
@@ -156,7 +143,7 @@ python -m json.tool reports/cross-repository-remediation-latest.json
 
 `MERGED INTO: Admissible-Existence/.github/docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md`
 
-Completed GTG, ET, DC, Existence, Triad, GCAT-BCAT root, ECAT-ICAT, and IICT source/completion state no longer depend on this chat. CTA's organization-completeness requirement is durably transferred into `Admissible-Existence/CTA#1` comment `5212709338`, so this session does not own duplicate CTA implementation.
+Completed GTG, ET, DC, Existence, Triad, GCAT-BCAT root, ECAT-ICAT, IICT, and HPS source/completion state no longer depend on this chat. CTA's organization-completeness requirement is durably transferred into `Admissible-Existence/CTA#1` comment `5212709338`, so this session does not own duplicate CTA implementation.
 
 ## Archive conditions
 
@@ -164,15 +151,15 @@ This session is not archive-ready. Archive requires every non-control repository
 
 ## Metrics
 
-- developed control-plane files: 22/22 including normalized ECAT and IICT evidence records
-- routing inventory: 32/32 classified
-- direct-source remaining: 7/32, with CTA currently converged into active `CTA#1`
-- direct-support remaining: 6/32
-- complete notify-only: 8/32
-- hosted reobservation required: 6/32
-- integration-only: 1/32
-- observe-only: 1/32
-- disposition-required: 2/32
-- propagation: 0/5 conditional destinations
-- session inventory transfer: complete
-- archive readiness: false
+- developed control-plane files: 23/23 including normalized ECAT, IICT, and HPS evidence records;
+- routing inventory: 32/32 classified;
+- direct-source remaining: 6/32, with CTA currently converged into active `CTA#1`;
+- direct-support remaining: 6/32;
+- complete notify-only: 9/32;
+- hosted reobservation required: 6/32;
+- integration-only: 1/32;
+- observe-only: 1/32;
+- disposition-required: 2/32;
+- propagation: 0/5 conditional destinations;
+- session inventory transfer: complete;
+- archive readiness: false.
