@@ -8,10 +8,10 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 13,
+    "COMPLETE_NOTIFY_ONLY": 14,
     "CONTROL_PLANE": 1,
     "DIRECT_SOURCE_UPDATE": 2,
-    "DIRECT_SUPPORT_UPDATE": 6,
+    "DIRECT_SUPPORT_UPDATE": 5,
     "DISPOSITION_REQUIRED": 2,
     "HOSTED_VALIDATION_BLOCKED": 6,
     "INTEGRATION_NOTIFY_ONLY": 1,
@@ -536,13 +536,31 @@
       "worker_state": "validated_complete_notify_only"
     },
     {
-      "completion_evidence": null,
-      "next_action": "Create or validate support boundary, coverage map, contract, evidence, and handoff artifacts.",
-      "owner": "Admissible-Existence/core-lite",
+      "completion_evidence": {
+        "artifact_digest": "sha256:a6b5744bb019866e7bebbcb79d43bbac3e5e62818d5754fc17a335925a7c6689",
+        "artifact_id": 8997081938,
+        "claims_final_cross_repository_validity": false,
+        "dispatcher_tasks": "16/16 passed",
+        "dispatcher_unexpected": 0,
+        "execution_authority_required": true,
+        "execution_authorized": false,
+        "handoff": "docs/CORE_LITE_MIRROR_HANDOFF.md",
+        "handoff_commit": "f21ef19b8c24130f38df403bd9e792c78b6255a1",
+        "issue": "Admissible-Existence/core-lite#1",
+        "receiver_declaration_required": true,
+        "registry_commit": "7f62708b3fae8d5a2376c9e94f6685bac5dabd0f",
+        "self_managed_checker_commit": "c739122bca3114f208e88e9453c3d8c439ecdb17",
+        "validation_conclusion": "success",
+        "validation_job": 92893445777,
+        "validation_run": 31186849871,
+        "workflow_commit": "a824622f4d03155789a872a3cb6bb1fa6b5b0b77"
+      },
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
+      "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/core-lite",
       "role": "support",
-      "routing_state": "DIRECT_SUPPORT_UPDATE",
-      "worker_state": "required"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": null,
