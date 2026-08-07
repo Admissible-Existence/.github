@@ -1,20 +1,20 @@
 {
-  "schema_version": "1.12.0",
+  "schema_version": "1.13.0",
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "parent_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_session_goal": "Extend principle-completeness execution into every affected repository and notify dependent control planes and publication surfaces.",
   "coordination_repository": "Admissible-Existence/.github",
   "state": "ACTIVE",
   "created_at": "2026-08-06T21:39:00Z",
-  "updated_at": "2026-08-07T07:35:00-05:00",
+  "updated_at": "2026-08-07T07:48:00-05:00",
   "summary": {
     "registered_repositories": 32,
     "control_plane": 1,
-    "direct_source_update_remaining": 3,
+    "direct_source_update_remaining": 2,
     "direct_support_update_remaining": 6,
     "disposition_required": 2,
     "machine_owned_observe_only": 1,
-    "validated_complete_notify_only": 12,
+    "validated_complete_notify_only": 13,
     "source_complete_integration_pending": 1,
     "implementation_complete_hosted_validation_blocked": 6,
     "immediate_external_dependencies": 2,
@@ -32,7 +32,8 @@
     {"repository":"Admissible-Existence/HPS","state":"COMPLETE_NOTIFY_ONLY","source_handoff":"Admissible-Existence/HPS@main:HPS_MIRROR_HANDOFF.md","handoff_commit":"5e777b07c38c606c88097043969f458d6fa9ecb4","closed_issue":"Admissible-Existence/HPS#1","hosted_run":31150408401,"hosted_job":92778654507,"hosted_conclusion":"success","receipt":"Admissible-Existence/HPS@main:reports/hps-principle-completeness-validation.json","receipt_commit":"1d49631","receipt_blob":"7ef41ce757b39083884e28a6073d24a0de610465","principles":"4/4 valid","unit_tests":"15/15 passed","artifact_id":8983060766,"artifact_digest":"sha256:bc69384446e97dfdb84b987de39c664c32ffe75703832008128b2548f5fc5b74"},
     {"repository":"Admissible-Existence/FI","state":"COMPLETE_NOTIFY_ONLY","source_handoff":"Admissible-Existence/FI@main:docs/FI_MIRROR_HANDOFF.md","handoff_commit":"cdc8a582744988f0d7afe52a1dbb64a6bc502068","root_issue":"Admissible-Existence/FI#2","hosted_run":31151412185,"hosted_job":92781662553,"hosted_conclusion":"success","receipt":"Admissible-Existence/FI@main:reports/fi-principle-completeness-validation.json","receipt_commit":"d73e56f99505777ce9dd675efd75e3691431fee3","receipt_blob":"53e33270a0ab1aabfea438c973aabcca8c78ef4f","principles":"3/3 candidate valid","first_transition_suite":"7/7 passed","artifact_id":8983422586,"artifact_digest":"sha256:6b7443a2e495e6670a8551451b2d448f307b2ad418c0fda4d4fbea323b21c438","external_prerequisites_satisfied":false,"separate_destination_owner":"Admissible-Existence/FI#1","separate_continuity_owner":"Data-Continuation/formalism-tests#4"},
     {"repository":"Admissible-Existence/DaCo","state":"COMPLETE_NOTIFY_ONLY","source_handoff":"Admissible-Existence/DaCo@main:docs/DACO_MIRROR_HANDOFF.md","handoff_commit":"76e600899015284fc79ad410c1959b7c83425b3b","issue":"Admissible-Existence/DaCo#1","hosted_run":31152578496,"hosted_job":92785152312,"hosted_conclusion":"success","receipt":"Admissible-Existence/DaCo@main:reports/daco-principle-completeness-validation.json","receipt_commit":"490a8f2c35aab8ae3143e5dd422ae64254d7046c","receipt_blob":"61b88bb15698574f6aa0a538187a9888127dd02d","principles":"4/4 valid","w2_cases":"5/5 matched","compact_layers_ready":true,"artifact_id":8983855166,"artifact_digest":"sha256:1636fea0e19102f31ac8fc91e18cb128eaa4d286e33fb62f283a7c324e944712","continuity_equals_truth":false,"cross_repository_validity_established":false},
-    {"repository":"Admissible-Existence/IW","state":"COMPLETE_NOTIFY_ONLY","source_handoff":"Admissible-Existence/IW@main:IW_MIRROR_HANDOFF.md","handoff_commit":"ddb74f4ec975ef20df3ec2f315bda4640c006fc4","issue":"Admissible-Existence/IW#1","hosted_run":31157110222,"hosted_job":92798902766,"hosted_conclusion":"success","release_receipt":"Admissible-Existence/IW@main:artifacts/iw-release-verification.json","release_receipt_commit":"7636a792354b38119495e20e717c613ee998975e","release_receipt_blob":"fd32d0c2f447e0607cb051abe75d500666ea61ac","completeness_receipt":"Admissible-Existence/IW@main:reports/iw-principle-completeness-validation.json","completeness_receipt_blob":"3fc9ac74440829087ab27c257aea321a494e125d","principles":"4/4 valid","unit_tests":"42/42 passed","release_ready":true,"clean_main":true,"artifact_id":8985563715,"artifact_digest":"sha256:1f0f11814c0369caa076a25c7ef0a32c661f46394ba8bc79dc293a6be28e386c","execution_authorized":false,"publication_authorized":false,"tag_authorized":false,"proofs_accepted":false,"claims_universal_irreversibility_boundary":false}
+    {"repository":"Admissible-Existence/IW","state":"COMPLETE_NOTIFY_ONLY","source_handoff":"Admissible-Existence/IW@main:IW_MIRROR_HANDOFF.md","handoff_commit":"6702fcd41c9b415ef3624eb67777c51dd9db6b78","issue":"Admissible-Existence/IW#1","hosted_run":31157110222,"hosted_job":92798902766,"hosted_conclusion":"success","release_receipt":"Admissible-Existence/IW@main:artifacts/iw-release-verification.json","release_receipt_commit":"7636a792354b38119495e20e717c613ee998975e","release_receipt_blob":"fd32d0c2f447e0607cb051abe75d500666ea61ac","completeness_receipt":"Admissible-Existence/IW@main:reports/iw-principle-completeness-validation.json","completeness_receipt_blob":"3fc9ac74440829087ab27c257aea321a494e125d","principles":"4/4 valid","unit_tests":"42/42 passed","release_ready":true,"clean_main":true,"artifact_id":8985563715,"artifact_digest":"sha256:1f0f11814c0369caa076a25c7ef0a32c661f46394ba8bc79dc293a6be28e386c","execution_authorized":false,"publication_authorized":false,"tag_authorized":false,"proofs_accepted":false,"claims_universal_irreversibility_boundary":false},
+    {"repository":"Admissible-Existence/standing-proof-formalism","state":"COMPLETE_NOTIFY_ONLY","source_handoff":"Admissible-Existence/standing-proof-formalism@main:docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md","handoff_commit":"6704efd99896387a0a33269eba1c19469609d41c","issue":"Admissible-Existence/standing-proof-formalism#1","hosted_run":31179576449,"hosted_job":92869363401,"hosted_conclusion":"success","receipt":"Admissible-Existence/standing-proof-formalism@main:reports/standing-proof-principle-completeness-validation.json","receipt_commit":"fc06d7e0229f58463c9def2eb12aa9f9ce476e64","receipt_blob":"172addb7c53902bf2260681f7e2a86256f53cd76","principles":"4/4 valid","standing_cases":"8/8 matched","compact_contracts":"3/3 passed","artifact_id":8994192908,"artifact_digest":"sha256:abba57628b1a046b82e2aaf6a9719986f98354e17963cd32647b5ede414266b0","prior_review_inherits_standing":false,"execution_authorized":false,"publication_authorized":false,"proofs_accepted":false,"claims_final_cross_repository_validity":false}
   ],
   "bounded_non_direct_states": [
     {"repository":"Admissible-Existence/TT","state":"INTEGRATION_NOTIFY_ONLY","owner":"Admissible-Existence/TT#2"},
