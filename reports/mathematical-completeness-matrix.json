@@ -1,0 +1,803 @@
+{
+  "authority_boundary": {
+    "proof_candidate_is_proof": false,
+    "routing_completion_is_mathematical_completion": false,
+    "support_contract_is_source_mathematics": false,
+    "validation_is_execution_authority": false
+  },
+  "evidence_registry_schema_version": "1.0.0",
+  "goal_id": "AEX-MATHEMATICAL-COMPLETENESS-AUDIT-002",
+  "policy_schema_version": "1.0.0",
+  "ready": false,
+  "registry_schema_version": "3.23.0",
+  "repositories": [
+    {
+      "audit": {
+        "evidence": null,
+        "gaps": [
+          "role_specific_completeness_evidence"
+        ],
+        "mathematical_complete": false,
+        "na_rationale": "Non-source repository: mathematics and independent proof candidates are not required; the repository must instead prove its declared support, coordination, observation, integration, or disposition role without creating source authority.",
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": "N/A",
+          "falsification_and_limits": "N/A",
+          "formal_declaration": "N/A",
+          "mathematical_derivation_evidence": "N/A",
+          "mathematical_notation": "N/A",
+          "proof_candidate": "N/A",
+          "whole_repo_theory": "N/A"
+        },
+        "state": "PENDING_EVIDENCE",
+        "worker_state": "active_control_plane"
+      },
+      "repository": "Admissible-Existence/.github",
+      "role": "coordination",
+      "worker_state": "active_control_plane"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/AE",
+      "role": "source",
+      "worker_state": "validation_required"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/Existence",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/RTG",
+      "role": "source",
+      "worker_state": "machine_owned_observe_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/GTG",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "evidence": {
+          "artifact": 9010004019,
+          "artifact_digest": "sha256:71484dda84617af7656e420f1c56314fbaa9da77429597f2441c790b9ce6a4ed",
+          "conclusion": "success",
+          "dependency_derivation": true,
+          "execution_authorized": false,
+          "falsification_and_limits": true,
+          "formal_declaration": true,
+          "goal": "TT-MATHEMATICAL-COMPLETENESS-002",
+          "handoff": "docs/TT_MIRROR_HANDOFF.md",
+          "handoff_commit": "bd1022003fcd9b045f81e0d0fcc2f2a92444a684",
+          "job": 93002429199,
+          "mathematical_derivation_evidence": true,
+          "mathematical_notation": true,
+          "proof_candidate": true,
+          "proof_maturity": "6/6 candidate_not_proven",
+          "receipt": "reports/tt-mathematical-completeness-receipt.json",
+          "receipt_blob": "747fce8b4612718a705beb5d4975ad2b43670dd9",
+          "receipt_commit": "86245b5",
+          "role": "source",
+          "run": 31220058740,
+          "state": "PASS",
+          "whole_repo_theory": true,
+          "workflow": ".github/workflows/mathematical-completeness-self-audit.yml"
+        },
+        "gaps": [],
+        "mathematical_complete": true,
+        "proof_candidate_is_proof": false,
+        "proof_maturity": "6/6 candidate_not_proven",
+        "semantic": {
+          "dependency_derivation": true,
+          "falsification_and_limits": true,
+          "formal_declaration": true,
+          "mathematical_derivation_evidence": true,
+          "mathematical_notation": true,
+          "proof_candidate": true,
+          "whole_repo_theory": true
+        },
+        "state": "PASS"
+      },
+      "repository": "Admissible-Existence/TT",
+      "role": "source",
+      "worker_state": "source_complete_integration_pending"
+    },
+    {
+      "audit": {
+        "evidence": {
+          "artifact": 9010145162,
+          "artifact_digest": "sha256:9e54add663b1015213a31f1f9a9982aca12d142ccf4d0c0e5d95a8e07975438d",
+          "conclusion": "success",
+          "dependency_derivation": true,
+          "execution_authorized": false,
+          "falsification_and_limits": true,
+          "formal_declaration": true,
+          "goal": "STCM-MATHEMATICAL-COMPLETENESS-002",
+          "handoff": "docs/STCM_MIRROR_HANDOFF.md",
+          "handoff_commit": "caf3ed973bc20c6b2f48ddfdd801853966a9a9c4",
+          "job": 93003591849,
+          "mathematical_derivation_evidence": true,
+          "mathematical_notation": true,
+          "proof_candidate": true,
+          "proof_maturity": "6/6 candidate_not_proven",
+          "receipt": "reports/stcm-mathematical-completeness-receipt.json",
+          "receipt_blob": "8cd43d8ccfc2817f4a64f56697ea529169d130af",
+          "receipt_commit": "a578350",
+          "role": "source",
+          "run": 31220433932,
+          "state": "PASS",
+          "whole_repo_theory": true,
+          "workflow": ".github/workflows/mathematical-completeness-self-audit.yml"
+        },
+        "gaps": [],
+        "mathematical_complete": true,
+        "proof_candidate_is_proof": false,
+        "proof_maturity": "6/6 candidate_not_proven",
+        "semantic": {
+          "dependency_derivation": true,
+          "falsification_and_limits": true,
+          "formal_declaration": true,
+          "mathematical_derivation_evidence": true,
+          "mathematical_notation": true,
+          "proof_candidate": true,
+          "whole_repo_theory": true
+        },
+        "state": "PASS"
+      },
+      "repository": "Admissible-Existence/STCM",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/ET",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/learning-transition-governance",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/BC",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/CHF",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/RE",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/RE-Reduction",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/DC",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/Triad",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/GCAT-BCAT",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/ECAT-ICAT",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/IICT",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/CTA",
+      "role": "source",
+      "worker_state": "required"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/HPS",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/FI",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/DaCo",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/IW",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "gaps": [
+          "repository_local_self_audit_evidence"
+        ],
+        "mathematical_complete": false,
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": false,
+          "falsification_and_limits": false,
+          "formal_declaration": false,
+          "mathematical_derivation_evidence": false,
+          "mathematical_notation": false,
+          "proof_candidate": false,
+          "whole_repo_theory": false
+        },
+        "state": "PENDING_EVIDENCE"
+      },
+      "repository": "Admissible-Existence/standing-proof-formalism",
+      "role": "source",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "evidence": null,
+        "gaps": [
+          "role_specific_completeness_evidence"
+        ],
+        "mathematical_complete": false,
+        "na_rationale": "Non-source repository: mathematics and independent proof candidates are not required; the repository must instead prove its declared support, coordination, observation, integration, or disposition role without creating source authority.",
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": "N/A",
+          "falsification_and_limits": "N/A",
+          "formal_declaration": "N/A",
+          "mathematical_derivation_evidence": "N/A",
+          "mathematical_notation": "N/A",
+          "proof_candidate": "N/A",
+          "whole_repo_theory": "N/A"
+        },
+        "state": "PENDING_EVIDENCE",
+        "worker_state": "validated_complete_notify_only"
+      },
+      "repository": "Admissible-Existence/core-lite",
+      "role": "support",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "evidence": null,
+        "gaps": [
+          "role_specific_completeness_evidence"
+        ],
+        "mathematical_complete": false,
+        "na_rationale": "Non-source repository: mathematics and independent proof candidates are not required; the repository must instead prove its declared support, coordination, observation, integration, or disposition role without creating source authority.",
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": "N/A",
+          "falsification_and_limits": "N/A",
+          "formal_declaration": "N/A",
+          "mathematical_derivation_evidence": "N/A",
+          "mathematical_notation": "N/A",
+          "proof_candidate": "N/A",
+          "whole_repo_theory": "N/A"
+        },
+        "state": "PENDING_EVIDENCE",
+        "worker_state": "validated_complete_notify_only"
+      },
+      "repository": "Admissible-Existence/validator",
+      "role": "support",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "evidence": null,
+        "gaps": [
+          "role_specific_completeness_evidence"
+        ],
+        "mathematical_complete": false,
+        "na_rationale": "Non-source repository: mathematics and independent proof candidates are not required; the repository must instead prove its declared support, coordination, observation, integration, or disposition role without creating source authority.",
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": "N/A",
+          "falsification_and_limits": "N/A",
+          "formal_declaration": "N/A",
+          "mathematical_derivation_evidence": "N/A",
+          "mathematical_notation": "N/A",
+          "proof_candidate": "N/A",
+          "whole_repo_theory": "N/A"
+        },
+        "state": "PENDING_EVIDENCE",
+        "worker_state": "validated_complete_notify_only"
+      },
+      "repository": "Admissible-Existence/tracker",
+      "role": "support",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "evidence": null,
+        "gaps": [
+          "role_specific_completeness_evidence"
+        ],
+        "mathematical_complete": false,
+        "na_rationale": "Non-source repository: mathematics and independent proof candidates are not required; the repository must instead prove its declared support, coordination, observation, integration, or disposition role without creating source authority.",
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": "N/A",
+          "falsification_and_limits": "N/A",
+          "formal_declaration": "N/A",
+          "mathematical_derivation_evidence": "N/A",
+          "mathematical_notation": "N/A",
+          "proof_candidate": "N/A",
+          "whole_repo_theory": "N/A"
+        },
+        "state": "PENDING_EVIDENCE",
+        "worker_state": "validated_complete_notify_only"
+      },
+      "repository": "Admissible-Existence/telemetry",
+      "role": "support",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "evidence": null,
+        "gaps": [
+          "role_specific_completeness_evidence"
+        ],
+        "mathematical_complete": false,
+        "na_rationale": "Non-source repository: mathematics and independent proof candidates are not required; the repository must instead prove its declared support, coordination, observation, integration, or disposition role without creating source authority.",
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": "N/A",
+          "falsification_and_limits": "N/A",
+          "formal_declaration": "N/A",
+          "mathematical_derivation_evidence": "N/A",
+          "mathematical_notation": "N/A",
+          "proof_candidate": "N/A",
+          "whole_repo_theory": "N/A"
+        },
+        "state": "PENDING_EVIDENCE",
+        "worker_state": "validated_complete_notify_only"
+      },
+      "repository": "Admissible-Existence/ae-validation-factory",
+      "role": "support",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "evidence": null,
+        "gaps": [
+          "role_specific_completeness_evidence"
+        ],
+        "mathematical_complete": false,
+        "na_rationale": "Non-source repository: mathematics and independent proof candidates are not required; the repository must instead prove its declared support, coordination, observation, integration, or disposition role without creating source authority.",
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": "N/A",
+          "falsification_and_limits": "N/A",
+          "formal_declaration": "N/A",
+          "mathematical_derivation_evidence": "N/A",
+          "mathematical_notation": "N/A",
+          "proof_candidate": "N/A",
+          "whole_repo_theory": "N/A"
+        },
+        "state": "PENDING_EVIDENCE",
+        "worker_state": "validated_complete_notify_only"
+      },
+      "repository": "Admissible-Existence/ae-validation-research",
+      "role": "empty",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "evidence": null,
+        "gaps": [
+          "role_specific_completeness_evidence"
+        ],
+        "mathematical_complete": false,
+        "na_rationale": "Non-source repository: mathematics and independent proof candidates are not required; the repository must instead prove its declared support, coordination, observation, integration, or disposition role without creating source authority.",
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": "N/A",
+          "falsification_and_limits": "N/A",
+          "formal_declaration": "N/A",
+          "mathematical_derivation_evidence": "N/A",
+          "mathematical_notation": "N/A",
+          "proof_candidate": "N/A",
+          "whole_repo_theory": "N/A"
+        },
+        "state": "PENDING_EVIDENCE",
+        "worker_state": "validated_complete_notify_only"
+      },
+      "repository": "Admissible-Existence/validation-profile-registry",
+      "role": "support",
+      "worker_state": "validated_complete_notify_only"
+    },
+    {
+      "audit": {
+        "evidence": null,
+        "gaps": [
+          "role_specific_completeness_evidence"
+        ],
+        "mathematical_complete": false,
+        "na_rationale": "Non-source repository: mathematics and independent proof candidates are not required; the repository must instead prove its declared support, coordination, observation, integration, or disposition role without creating source authority.",
+        "proof_candidate_is_proof": false,
+        "semantic": {
+          "dependency_derivation": "N/A",
+          "falsification_and_limits": "N/A",
+          "formal_declaration": "N/A",
+          "mathematical_derivation_evidence": "N/A",
+          "mathematical_notation": "N/A",
+          "proof_candidate": "N/A",
+          "whole_repo_theory": "N/A"
+        },
+        "state": "PENDING_EVIDENCE",
+        "worker_state": "validated_complete_notify_only"
+      },
+      "repository": "Admissible-Existence/SOL",
+      "role": "empty",
+      "worker_state": "validated_complete_notify_only"
+    }
+  ],
+  "schema_version": "2.0.0",
+  "summary": {
+    "gap_repositories": 30,
+    "non_source": 9,
+    "non_source_complete": 0,
+    "registered": 32,
+    "source": 23,
+    "source_complete": 2
+  }
+}
