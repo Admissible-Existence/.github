@@ -8,9 +8,9 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 10,
+    "COMPLETE_NOTIFY_ONLY": 11,
     "CONTROL_PLANE": 1,
-    "DIRECT_SOURCE_UPDATE": 5,
+    "DIRECT_SOURCE_UPDATE": 4,
     "DIRECT_SUPPORT_UPDATE": 6,
     "DISPOSITION_REQUIRED": 2,
     "HOSTED_VALIDATION_BLOCKED": 6,
@@ -445,13 +445,33 @@
       "worker_state": "validated_complete_notify_only"
     },
     {
-      "completion_evidence": null,
-      "next_action": "Create or validate source formalism, mathematics, proof-candidate, evidence, and handoff artifacts.",
-      "owner": "Admissible-Existence/DaCo",
+      "completion_evidence": {
+        "artifact_digest": "sha256:1636fea0e19102f31ac8fc91e18cb128eaa4d286e33fb62f283a7c324e944712",
+        "artifact_id": 8983855166,
+        "compact_layers_ready": true,
+        "continuity_equals_truth": false,
+        "cross_repository_validity_established": false,
+        "execution_authorized": false,
+        "handoff": "docs/DACO_MIRROR_HANDOFF.md",
+        "handoff_commit": "76e600899015284fc79ad410c1959b7c83425b3b",
+        "issue": "Admissible-Existence/DaCo#1",
+        "principles": "4/4 valid",
+        "proofs_accepted": false,
+        "publication_authorized": false,
+        "receipt": "reports/daco-principle-completeness-validation.json",
+        "receipt_blob": "61b88bb15698574f6aa0a538187a9888127dd02d",
+        "receipt_commit": "490a8f2c35aab8ae3143e5dd422ae64254d7046c",
+        "validation_conclusion": "success",
+        "validation_job": 92785152312,
+        "validation_run": 31152578496,
+        "w2_cases": "5/5 matched"
+      },
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
+      "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/DaCo",
       "role": "source",
-      "routing_state": "DIRECT_SOURCE_UPDATE",
-      "worker_state": "required"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": null,
