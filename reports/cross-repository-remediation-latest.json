@@ -8,10 +8,10 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 25,
+    "COMPLETE_NOTIFY_ONLY": 26,
     "CONTROL_PLANE": 1,
     "DIRECT_SOURCE_UPDATE": 2,
-    "HOSTED_VALIDATION_BLOCKED": 2,
+    "HOSTED_VALIDATION_BLOCKED": 1,
     "INTEGRATION_NOTIFY_ONLY": 1,
     "OBSERVE_NOTIFY_ONLY": 1
   },
@@ -214,20 +214,36 @@
     },
     {
       "completion_evidence": {
-        "blocker": "Admissible-Existence/.github:data/actions-activation-authority-blocker.json",
-        "closed_issue": "Admissible-Existence/CHF#1",
-        "deterministic_receipt": "reports/chf-deterministic-validation-receipt.json",
+        "artifact_digest": "sha256:62293e84137ee375c12c32655fdf4d1f802206356ac93ed828bd8c90cd1a1ac7",
+        "artifact_id": 9007757529,
+        "artifact_policy": "required",
+        "commits_execution": false,
+        "creates_authority": false,
         "handoff": "docs/CHF_MIRROR_HANDOFF.md",
-        "handoff_commit": "dd6048b6c4290e21c6418421ccf598de99cb8d37",
+        "handoff_commit": "96cbdc31e6cf288249d88096f044abfba5e8eccf",
+        "normalized_evidence": "data/chf-hosted-completion-evidence.json",
+        "receipt": "reports/chf-deterministic-validation-receipt.json",
         "receipt_commit": "269f6b757e6108e3f22f65f64f27bec4c8b02469",
-        "receipt_sha256": "e90d916b940ec123a2b8ffc1b93e1e928ace7f3dce5f598705f4d6cd65c6ef97"
+        "validated_checks": [
+          "tools/check_chf_conditions.py -> valid: CHF conditions",
+          "tools/check_chf_thresholds.py -> valid: CHF thresholds",
+          "tools/check_chf_proof_surfaces.py -> valid: CHF proof surfaces",
+          "tools/check_chf_cross_domain.py -> valid: CHF cross domain",
+          "tools/check_chf_integration.py -> valid: CHF integration",
+          "tools/check_chf_mirror_handoff.py -> valid: CHF mirror handoff",
+          "reports/chf-deterministic-validation-receipt.json parsed successfully"
+        ],
+        "validation_conclusion": "success",
+        "validation_job": 92983064033,
+        "validation_run": 31213968412,
+        "workflow": ".github/workflows/chf-validation.yml"
       },
-      "next_action": "Preserve deterministic completion evidence; await the named Actions-authority release condition and do not reopen implementation.",
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
       "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/CHF",
       "role": "source",
-      "routing_state": "HOSTED_VALIDATION_BLOCKED",
-      "worker_state": "implementation_complete_hosted_validation_blocked"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": {
