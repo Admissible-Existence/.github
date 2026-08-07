@@ -3,8 +3,8 @@
 **Goal:** `AEX-CROSS-REPOSITORY-REMEDIATION-001`  
 **Parent goal:** `AEX-PRINCIPLE-COMPLETENESS-001`  
 **Repository / branch:** `Admissible-Existence/.github` / `main`  
-**Status:** `ACTIVE — 2 DIRECT SOURCE ROUTES COLLISION-BOUNDED; 2 DIRECT SUPPORT ROUTES REMAIN; SIX HOSTED REOBSERVATIONS REMAIN`  
-**Updated:** 2026-08-07T10:08:00-05:00
+**Status:** `ACTIVE — 2 DIRECT SOURCE ROUTES COLLISION-BOUNDED; 1 DIRECT SUPPORT ROUTE REMAINS; SIX HOSTED REOBSERVATIONS REMAIN`  
+**Updated:** 2026-08-07T10:33:00-05:00
 
 ## Originating Session Goal
 
@@ -27,109 +27,77 @@ data/actions-activation-authority-blocker.json
 issue: Admissible-Existence/.github#4
 ```
 
-## Current Authoritative Routing
-
-Hosted-green state:
+## Current Hosted-Proven Routing
 
 ```text
 CONTROL_PLANE: 1
 DIRECT_SOURCE_UPDATE: 2
-DIRECT_SUPPORT_UPDATE: 2
+DIRECT_SUPPORT_UPDATE: 1
 DISPOSITION_REQUIRED: 2
 OBSERVE_NOTIFY_ONLY: 1
-COMPLETE_NOTIFY_ONLY: 17
+COMPLETE_NOTIFY_ONLY: 18
 INTEGRATION_NOTIFY_ONLY: 1
 HOSTED_VALIDATION_BLOCKED: 6
 TOTAL: 32
 ```
 
-Latest activation evidence:
+Latest central activation:
 
 ```text
-normalized_input_commit: 0ca892e7aeae4880f0844c165b5243a73dc4be82
+normalized_input_commit: 7fcf8893b9b4b43d1a316935b8b4c9759f974b7d
+activated_repository: Admissible-Existence/ae-validation-factory
 support_activator_workflow_id: 329389047
-support_activator_run: 31190767292
-support_activator_job: 92906692694
+support_activator_run: 31192981392
+support_activator_job: 92914169703
 support_activator_conclusion: success
-activated_repository: Admissible-Existence/telemetry
 router_tests_inside_activator: 9/9 passed
-persisted_activation_and_routing_commit: 6dd436a
-activation_artifact_id: 8998693719
-activation_artifact_digest: sha256:eea70746c995fdce093634450d3f4cf2c5ebc20d34fef39bc217e89ae951fede
-routing_artifact_id: 8998694100
-routing_artifact_digest: sha256:3446021bc4d516f58e2bdb45b18ea91daf09aeb324591190c52b7981b2287cd3
+persisted_activation_and_routing_commit: c12faa5
+activation_artifact_id: 8999590545
+activation_artifact_digest: sha256:26326405f80b8c027594a5ecb450a4bc9f314d10f8584736af0132849f353b5f
+routing_artifact_id: 8999590843
+routing_artifact_digest: sha256:bcb895c59d7c94338829674989bd9c705623fcb67b2799ef7ad7c63a6c37b5df
 ```
 
-The activator derives expected router counts from the live remediation summary and verifies routing in the same hosted job. It does not rely on recursive workflow triggering from bot-authored commits.
+The activator derives expected routing from live registries, runs the router tests in the same hosted job, persists the resulting registries/reports, and uploads inspectable activation/routing artifacts.
 
 ## Completed Support Activations
 
-### Core-Lite
+Completed and returned to `COMPLETE_NOTIFY_ONLY`:
 
 ```text
-repository: Admissible-Existence/core-lite
-state: COMPLETE_NOTIFY_ONLY
-handoff: docs/CORE_LITE_MIRROR_HANDOFF.md
-final_handoff_commit: 72c638ac376e5408c9d6362874164ac77ac5fdc1
-issue: core-lite#1 closed completed
-hosted_run: 31186849871
-hosted_job: 92893445777
-artifact_id: 8997081938
-artifact_digest: sha256:a6b5744bb019866e7bebbcb79d43bbac3e5e62818d5754fc17a335925a7c6689
+Admissible-Existence/core-lite
+Admissible-Existence/validator
+Admissible-Existence/tracker
+Admissible-Existence/telemetry
+Admissible-Existence/ae-validation-factory
 ```
 
-### Validator
+### AE Validation Factory
+
+The factory support lane was reconciled around an already-complete independent-validation workstream rather than duplicating it.
 
 ```text
-repository: Admissible-Existence/validator
-state: COMPLETE_NOTIFY_ONLY
-canonical_worker: AEX-VALID-20260729-01 preserved complete
-handoff: docs/VALIDATOR_MIRROR_HANDOFF.md
-final_handoff_commit: abe989a65b235bf4e5928ba92ae44f4b0fd39591
-issue: validator#3 closed completed
-hosted_run: 31188248490
-hosted_job: 92898192340
-artifact_id: 8997658972
-artifact_digest: sha256:10b2089eb283f1ffcaa08bac3f357a24f1dac541a4298bd9e48961319b5cdb48
+canonical_handoff: Admissible-Existence/ae-validation-factory@main:AE_VALIDATION_FACTORY_MIRROR_HANDOFF.md
+final_handoff_commit: 43298e45b52a0850479bbcaa4bee82350a517083
+completed R3-R5 issue: ae-validation-factory#8 closed completed
+support issue: ae-validation-factory#12 closed completed
+R3 merge: ac53fae0dada9946903d615715425624acaf1ac9
+R4 merge: 54f5269dd583dcd193222a5f712b0c1654b3e920
+R5 merge: ba3479355749bd996714845ec82f2826ccf1fd36
+R5 StegScholar propagation: complete
+support receipt: reports/factory-support-completeness-validation.json
+support receipt commit: 448aaa0c221e9418a196341549c2a45ce45d3374
+repository run: 31192843630
+repository job: 92913713251
+repository artifact: 8999541037
+repository artifact digest: sha256:8d5c7b26a19c98fc5dc7373fb7cddc6417666e8811fd85779615b3af2a486c25
+normalized evidence: data/ae-validation-factory-completion-evidence.json
+central activation run: 31192981392
+central activation job: 92914169703
+central persistence commit: c12faa5
 ```
 
-### Tracker
-
-```text
-repository: Admissible-Existence/tracker
-state: COMPLETE_NOTIFY_ONLY
-handoff: docs/TRACKER_MIRROR_HANDOFF.md
-final_handoff_commit: dd306debc6f6ab25384fb4f0ec1d05db3297b0b6
-issue: tracker#1 closed completed
-hosted_run: 31189709724
-hosted_job: 92903122304
-artifact_id: 8998251269
-artifact_digest: sha256:f983b682a91b8f34cc3fa840ed99f11063ff528817ca57a508edfdc294c6f761
-central_activation_run: 31189879012
-central_persistence_commit: 69bc5c3
-```
-
-### Telemetry
-
-```text
-repository: Admissible-Existence/telemetry
-state: COMPLETE_NOTIFY_ONLY
-handoff: docs/TELEMETRY_MIRROR_HANDOFF.md
-final_handoff_commit: 434d4644a323812c3798d1a081e7368758dd1707
-issue: telemetry#1 closed completed
-receipt: reports/telemetry-support-completeness-validation.json
-receipt_commit: fcefcfdb159af43a667c3a34453be5797b3adbe6
-repository_run: 31190517090
-repository_job: 92905851128
-repository_artifact_id: 8998587285
-repository_artifact_digest: sha256:4b245f8c8895badb373df1d4affb83d01ebd299f83962d257ed5354317107461
-normalized_evidence: data/telemetry-completion-evidence.json
-central_activation_run: 31190767292
-central_activation_job: 92906692694
-central_persistence_commit: 6dd436a
-```
-
-Telemetry remains `record-preservation-only`, preserves an intentionally empty receipt list at expected count zero, and claims neither validation/execution/publication nor master-record authority.
+Factory boundaries remain false for execution authority, certification authority, publication authority, mathematical closure, empirical validity, master-record custody, and universal admissibility.
 
 ## Completed Notify-Only Repositories
 
@@ -151,6 +119,7 @@ core-lite
 validator
 tracker
 telemetry
+ae-validation-factory
 ```
 
 Completed lanes must not reopen without direct regression evidence or a separately admitted integration/propagation task.
@@ -160,14 +129,13 @@ Completed lanes must not reopen without direct regression evidence or a separate
 - `AE`: existing distinct owner `AE#20`; this coordinator may take only non-overlapping validation/integration work.
 - `CTA`: existing owner `CTA#1`; organization-completeness requirements are merged into that canonical claim and must not be duplicated.
 
-## Remaining Direct Support Routes
+## Remaining Direct Support Route
 
 ```text
-Admissible-Existence/ae-validation-factory
 Admissible-Existence/validation-profile-registry
 ```
 
-Before mutation, read newest applicable `*_MIRROR_HANDOFF.md` and inspect live claims/issues/workflows. Merge into existing owner when work is already claimed; otherwise use a finite nonconflicting support-completeness claim.
+Before mutation, read the newest applicable `*_MIRROR_HANDOFF.md` and inspect live claims/issues/workflows. Merge into an existing owner if claimed; otherwise use a finite nonconflicting support-completeness claim.
 
 ## Other Durable Lanes
 
@@ -211,37 +179,34 @@ No propagation is inferred from source/support completion. A separately admitted
 
 ## Automation
 
-The cross-repository router and support-completion activator are repository-native continuation paths. The activator consumes normalized hosted-success support evidence, rejects missing or authority-creating evidence, updates both central registries, validates resulting organization routing, persists reports, uploads inspectable artifacts, and returns completed lanes to notify-only observation.
-
-Completed lanes therefore no longer require a chat session merely to keep central state synchronized.
+The cross-repository router and support-completion activator are active repository-native continuation paths. Completed support lanes no longer require a chat session for routine central synchronization.
 
 ## Session Consolidation
 
 `MERGED INTO: Admissible-Existence/.github/docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md`
 
-The primary and adjacent session goals are durably represented by this handoff, worker/remediation registries, repository-specific handoffs, normalized evidence records, issues, hosted artifacts, workflows, and dependency records.
+Primary and adjacent session goals are represented by this handoff, worker/remediation registries, repository-specific handoffs, normalized evidence, issues, hosted artifacts, workflows, and dependency records.
 
 ## Exact Next Executable Order
 
-1. Inspect `Admissible-Existence/ae-validation-factory` canonical handoff and live claims; take only an unclaimed/nonconflicting support role.
-2. Inspect/complete `Admissible-Existence/validation-profile-registry` under the same collision rules.
-3. Resolve `ae-validation-research` and `SOL` dispositions durably.
-4. Observe RTG; do not duplicate it.
-5. Reobserve six hosted-blocked repositories against repository-specific release conditions.
-6. Complete TT/TV/TVC integration/activation only with direct evidence.
-7. Admit destination propagation only through explicit destination-owned tasks.
+1. Inspect/complete `Admissible-Existence/validation-profile-registry` under collision rules.
+2. Resolve `ae-validation-research` and `SOL` dispositions durably.
+3. Observe RTG; do not duplicate it.
+4. Reobserve six hosted-blocked repositories against repository-specific release conditions.
+5. Complete TT/TV/TVC integration/activation only with direct evidence.
+6. Admit destination propagation only through explicit destination-owned tasks.
 
 ## Archive Conditions
 
-The complete session is not archive-ready. Archive requires remaining support/disposition/integration/observe/hosted-blocked lanes to be completed or fully transferred, TV/TVC dependencies proven or durably machine-owned with sufficient continuation state, propagation completed or explicitly not applicable, no stale/conflicting claim, and no unique session requirement existing only in chat.
+The complete session is not archive-ready. Archive requires the remaining support route plus disposition/integration/observe/hosted-blocked lanes to be completed or fully transferred, TV/TVC dependencies proven or durably machine-owned with sufficient continuation state, propagation completed or explicitly not applicable, no stale/conflicting claim, and no unique session requirement existing only in chat.
 
 ## Current Metrics
 
 ```text
 routing_inventory: 32/32 classified
-complete_notify_only: 17/32
+complete_notify_only: 18/32
 direct_source: 2/32 collision-bounded
-direct_support: 2/32
+direct_support: 1/32
 disposition: 2/32
 observe_only: 1/32
 integration_only: 1/32
