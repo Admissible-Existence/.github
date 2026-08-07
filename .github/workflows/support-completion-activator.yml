@@ -43,7 +43,7 @@ jobs:
           remediation = json.loads(Path('data/cross-repository-remediation-registry.json').read_text())
           report = json.loads(Path('reports/cross-repository-remediation-latest.json').read_text())
           summary = remediation['summary']
-          expected = {
+          expected_all = {
               'CONTROL_PLANE': summary['control_plane'],
               'DIRECT_SOURCE_UPDATE': summary['direct_source_update_remaining'],
               'DIRECT_SUPPORT_UPDATE': summary['direct_support_update_remaining'],
@@ -53,6 +53,10 @@ jobs:
               'INTEGRATION_NOTIFY_ONLY': summary['source_complete_integration_pending'],
               'HOSTED_VALIDATION_BLOCKED': summary['implementation_complete_hosted_validation_blocked'],
           }
+          # The router reports observed routing classes; a class with zero repositories is
+          # intentionally omitted rather than serialized with a zero count. Compare the same
+          # normalized representation while still preserving zeros in the registry summary.
+          expected = {key: value for key, value in expected_all.items() if value != 0}
           if report['counts'] != expected:
               raise SystemExit(f"routing counts mismatch: {report['counts']} != {expected}")
           if len(report['repositories']) != summary['registered_repositories']:
@@ -60,7 +64,7 @@ jobs:
           for row in report['repositories']:
               if row['routing_state'] == 'COMPLETE_NOTIFY_ONLY' and not row['completion_evidence']:
                   raise SystemExit(f"completed repository lacks evidence: {row['repository']}")
-          print(json.dumps(expected, sort_keys=True))
+          print(json.dumps(expected_all, sort_keys=True))
           PY
 
       - name: Persist activation and routing state
