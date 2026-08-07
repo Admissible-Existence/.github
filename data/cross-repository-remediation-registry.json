@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.17.0",
+  "schema_version": "1.18.0",
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "parent_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_session_goal": "Extend principle-completeness execution into every affected repository and notify dependent control planes and publication surfaces.",
@@ -11,10 +11,10 @@
     "registered_repositories": 32,
     "control_plane": 1,
     "direct_source_update_remaining": 2,
-    "direct_support_update_remaining": 2,
+    "direct_support_update_remaining": 1,
     "disposition_required": 2,
     "machine_owned_observe_only": 1,
-    "validated_complete_notify_only": 17,
+    "validated_complete_notify_only": 18,
     "source_complete_integration_pending": 1,
     "implementation_complete_hosted_validation_blocked": 6,
     "immediate_external_dependencies": 2,
@@ -295,6 +295,19 @@
       "artifact_id": 8998587285,
       "artifact_digest": "sha256:4b245f8c8895badb373df1d4affb83d01ebd299f83962d257ed5354317107461",
       "normalized_evidence": "data/telemetry-completion-evidence.json"
+    },
+    {
+      "repository": "Admissible-Existence/ae-validation-factory",
+      "state": "COMPLETE_NOTIFY_ONLY",
+      "source_handoff": "Admissible-Existence/ae-validation-factory@main:AE_VALIDATION_FACTORY_MIRROR_HANDOFF.md",
+      "handoff_commit": "e7431d126e2d72f07c44b799c86795b418a22853",
+      "issue": "Admissible-Existence/ae-validation-factory#12",
+      "hosted_run": 31192843630,
+      "hosted_job": 92913713251,
+      "hosted_conclusion": "success",
+      "artifact_id": 8999541037,
+      "artifact_digest": "sha256:8d5c7b26a19c98fc5dc7373fb7cddc6417666e8811fd85779615b3af2a486c25",
+      "normalized_evidence": "data/ae-validation-factory-completion-evidence.json"
     }
   ],
   "bounded_non_direct_states": [

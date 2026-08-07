@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.13.0",
+  "schema_version": "3.14.0",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "coordination_repository": "Admissible-Existence/.github",
   "execution_model": "central controller creates bounded repository-local implementation branches or reports BLOCKED",
@@ -537,7 +537,20 @@
     {
       "repository": "Admissible-Existence/ae-validation-factory",
       "role": "support",
-      "worker_state": "required"
+      "worker_state": "validated_complete_notify_only",
+      "completion_evidence": {
+        "normalized_evidence": "data/ae-validation-factory-completion-evidence.json",
+        "handoff": "AE_VALIDATION_FACTORY_MIRROR_HANDOFF.md",
+        "handoff_commit": "e7431d126e2d72f07c44b799c86795b418a22853",
+        "issue": "Admissible-Existence/ae-validation-factory#12",
+        "validation_run": 31192843630,
+        "validation_job": 92913713251,
+        "validation_conclusion": "success",
+        "artifact_id": 8999541037,
+        "artifact_digest": "sha256:8d5c7b26a19c98fc5dc7373fb7cddc6417666e8811fd85779615b3af2a486c25",
+        "creates_authority": false,
+        "commits_execution": false
+      }
     },
     {
       "repository": "Admissible-Existence/ae-validation-research",
