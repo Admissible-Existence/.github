@@ -1,0 +1,33 @@
+{
+  "schema_version": "admissible_existence.hosted_completion_evidence.v1",
+  "repository": "Admissible-Existence/learning-transition-governance",
+  "role": "source",
+  "complete": true,
+  "handoff": "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md",
+  "handoff_commit": "ad246736059f86f55d660858f1c2456aaa87c6e5",
+  "workflow": ".github/workflows/learning-transition-validation.yml",
+  "validation_run": 31213952783,
+  "validation_job": 92983014790,
+  "validation_conclusion": "success",
+  "validated_checks": [
+    "tools/check_learning_stages.py -> valid: learning transition stages",
+    "tools/check_learning_outcomes.py -> valid: learning transition outcomes",
+    "reports/learning-transition-validation-receipt.json parsed successfully",
+    "required hosted validation receipt artifact uploaded successfully"
+  ],
+  "artifact_policy": "required",
+  "artifact_id": 9007753458,
+  "artifact_digest": "sha256:c3ca96f6b94a76742db64209a79ccd20f5be529886c62018ba7f1e8f6a2f93a9",
+  "receipt": "reports/learning-transition-validation-receipt.json",
+  "receipt_commit": "a023d59985d63ab933c0c6ab5b807b3635a5048c",
+  "boundaries": {
+    "creates_authority": false,
+    "commits_execution": false,
+    "issues_standing": false,
+    "accepts_proofs": false,
+    "publication_authorized": false,
+    "certification_authority": false,
+    "universal_admissibility": false,
+    "claims_master_record_authority": false
+  }
+}
