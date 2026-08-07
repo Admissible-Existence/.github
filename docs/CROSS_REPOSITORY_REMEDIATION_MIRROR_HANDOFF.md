@@ -3,8 +3,8 @@
 **Goal:** `AEX-CROSS-REPOSITORY-REMEDIATION-001`  
 **Parent goal:** `AEX-PRINCIPLE-COMPLETENESS-001`  
 **Repository / branch:** `Admissible-Existence/.github` / `main`  
-**Status:** `ACTIVE — 2 DIRECT SOURCE ROUTES COLLISION-BOUNDED; 5 DIRECT SUPPORT ROUTES REMAIN; SIX HOSTED REOBSERVATIONS REMAIN`  
-**Updated:** 2026-08-07T09:27:00-05:00
+**Status:** `ACTIVE — 2 DIRECT SOURCE ROUTES COLLISION-BOUNDED; 4 DIRECT SUPPORT ROUTES REMAIN; SIX HOSTED REOBSERVATIONS REMAIN`  
+**Updated:** 2026-08-07T09:46:00-05:00
 
 ## Originating Session Goal
 
@@ -18,8 +18,11 @@ data/cross-repository-remediation-registry.json
 data/*-completion-evidence.json
 scripts/route_cross_repository_remediation.py
 tests/test_cross_repository_remediation_router.py
+scripts/activate_support_completions.py
 .github/workflows/cross-repository-remediation-router.yml
+.github/workflows/support-completion-activator.yml
 reports/cross-repository-remediation-latest.json
+reports/support-completion-activation-latest.json
 data/actions-activation-authority-blocker.json
 issue: Admissible-Existence/.github#4
 ```
@@ -31,10 +34,10 @@ The current hosted-green state is:
 ```text
 CONTROL_PLANE: 1
 DIRECT_SOURCE_UPDATE: 2
-DIRECT_SUPPORT_UPDATE: 5
+DIRECT_SUPPORT_UPDATE: 4
 DISPOSITION_REQUIRED: 2
 OBSERVE_NOTIFY_ONLY: 1
-COMPLETE_NOTIFY_ONLY: 14
+COMPLETE_NOTIFY_ONLY: 15
 INTEGRATION_NOTIFY_ONLY: 1
 HOSTED_VALIDATION_BLOCKED: 6
 TOTAL: 32
@@ -43,44 +46,65 @@ TOTAL: 32
 Evidence:
 
 ```text
-worker_registry_schema: 3.10.0
-worker_registry_commit: 160289040a3eef00558bda368778ea9cc8e48fb9
-remediation_registry_schema: 1.14.0
-remediation_registry_commit: c4f5660e2fdb1ebaaa4d8b61d9821f9dad1cb035
-router_contract_commit: a88be1483d1dc7a9c39ed0c7f17120f574135e67
-router_workflow_id: 328896970
-router_run: 31187507539
-router_job: 92895686946
-router_conclusion: success
-router_tests: 9/9 passed
-routing_report_commit: 93ce86e
-routing_artifact_id: 8997356109
-routing_artifact_digest: sha256:6aa146e5e4d51bcb001db8f43073a2fad511f65de37113f04465d1beeed124c7
+worker_registry_schema: 3.11.0
+support_activation_commit: abe3b9e
+support_activator_hardening_commit: f0fc5e6d72edceb235a54e40f97817483922e7ee
+support_activator_workflow_id: 329389047
+support_activator_verification_run: 31188732813
+support_activator_verification_job: 92899823142
+support_activator_verification_conclusion: success
+router_tests_inside_activator: 9/9 passed
+persisted_activation_and_routing_commit: eb297ba
+activation_artifact_id: 8997857549
+activation_artifact_digest: sha256:7c07ce5033ae4c7e1711c341a6f9d32adc9c64aef873971e9270c04a97e813d3
+routing_artifact_id: 8997857992
+routing_artifact_digest: sha256:b492b640ad64c1e14d93f558bd7b2f9a0f1e7ca56b99870b6ad60d088620ab41
 ```
 
-## Newly Completed Support Activation: Core-Lite
+The activator derives expected router counts from the live remediation summary and verifies the router in the same hosted job. It does not rely on recursive workflow triggering from a bot-authored commit.
 
-`Admissible-Existence/core-lite` is now `COMPLETE_NOTIFY_ONLY`.
+## Completed Support Activations
 
-Canonical evidence:
+### Core-Lite
+
+`Admissible-Existence/core-lite` is `COMPLETE_NOTIFY_ONLY`.
 
 ```text
 handoff: Admissible-Existence/core-lite@main:docs/CORE_LITE_MIRROR_HANDOFF.md
 final_handoff_commit: 72c638ac376e5408c9d6362874164ac77ac5fdc1
 issue: Admissible-Existence/core-lite#1 closed completed
-hosted_workflow_id: 295608859
 hosted_run: 31186849871
 hosted_job: 92893445777
 hosted_conclusion: success
 dispatcher_tasks: 16/16 passed
-dispatcher_unexpected: 0
 artifact_id: 8997081938
 artifact_digest: sha256:a6b5744bb019866e7bebbcb79d43bbac3e5e62818d5754fc17a335925a7c6689
 normalized_evidence: data/core-lite-completion-evidence.json
-normalized_evidence_commit: 5c7096af6e5561f55743c91820b5f43dd837f999
 ```
 
-Completed Core-Lite hardening included direct README handoff binding, five missing registry entries, `docs/**` workflow watching, final-state self-managed validation, and removal of obsolete connector-safety deferrals. Completion does not activate a production next-step receipt writer and does not create execution authority.
+### Validator
+
+`Admissible-Existence/validator` is `COMPLETE_NOTIFY_ONLY` without reopening its previously completed canonical worker `AEX-VALID-20260729-01`.
+
+```text
+canonical_handoff: Admissible-Existence/validator@main:docs/VALIDATOR_MIRROR_HANDOFF.md
+final_handoff_commit: abe989a65b235bf4e5928ba92ae44f4b0fd39591
+support_issue: Admissible-Existence/validator#3 closed completed
+support_receipt: Admissible-Existence/validator@main:reports/validator-support-completeness-validation.json
+receipt_commit: befd914fde9280b31a75689e1f7fed2e6e47d244
+validator_run: 31188248490
+validator_job: 92898192340
+validator_conclusion: success
+validator_artifact_id: 8997658972
+validator_artifact_digest: sha256:10b2089eb283f1ffcaa08bac3f357a24f1dac541a4298bd9e48961319b5cdb48
+normalized_evidence: data/validator-completion-evidence.json
+central_activation_commit: abe3b9e
+central_verification_run: 31188732813
+central_verification_job: 92899823142
+central_verification_conclusion: success
+```
+
+The validator support adapters preserve `creates_authority=false`, `commits_execution=false`, profile ownership, factory non-override, master-record non-rewrite, fail-closed unbound RE/RE-Reduction behavior, and publication non-authority.
 
 ## Completed Notify-Only Repositories
 
@@ -99,6 +123,7 @@ DaCo
 IW
 standing-proof-formalism
 core-lite
+validator
 ```
 
 These lanes must not reopen without direct regression evidence or a separately admitted integration/propagation task.
@@ -113,7 +138,6 @@ The two remaining `DIRECT_SOURCE_UPDATE` routes are not free implementation lane
 ## Remaining Direct Support Routes
 
 ```text
-Admissible-Existence/validator
 Admissible-Existence/tracker
 Admissible-Existence/telemetry
 Admissible-Existence/ae-validation-factory
@@ -164,20 +188,20 @@ No propagation is inferred from source/support completion. A separately admitted
 
 ## Automation
 
-Router workflow `328896970` is push-triggered, scheduled, fail-closed, validates registry/report shape, requires evidence for completed states, persists the latest routing report, and uploads an inspectable artifact. It is hosted-green for the present 2-source / 5-support / 14-complete state.
+The cross-repository router and support-completion activator are repository-native continuation paths. The activator consumes normalized hosted-success support evidence, rejects missing or authority-creating evidence, updates both central registries, validates the resulting organization routing, persists both reports, uploads inspectable artifacts, and returns completed lanes to notify-only observation.
 
-Repository-native workflows/dispatchers remain the preferred continuation mechanism. Completed lanes revert to machine-owned regression observation rather than requiring chat ownership.
+Completed lanes therefore no longer require a chat session merely to keep central state synchronized.
 
 ## Session Consolidation
 
 `MERGED INTO: Admissible-Existence/.github/docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md`
 
-The primary and adjacent session goals are durably represented by this handoff, the worker/remediation registries, repository-specific handoffs, normalized evidence records, issues, workflow evidence, and dependency records. Completed repository histories do not require this chat to remain open.
+The primary and adjacent session goals are durably represented by this handoff, worker/remediation registries, repository-specific handoffs, normalized evidence records, issues, hosted artifacts, workflows, and dependency records. Completed repository histories do not require this chat to remain open.
 
 ## Exact Next Executable Order
 
-1. Inspect `Admissible-Existence/validator` canonical handoff and live claims; take only an unclaimed/nonconflicting support-completeness role.
-2. Continue `tracker`, `telemetry`, `ae-validation-factory`, and `validation-profile-registry` under the same collision rules.
+1. Inspect `Admissible-Existence/tracker` canonical handoff and live claims; take only an unclaimed/nonconflicting support-completeness role.
+2. Continue `telemetry`, `ae-validation-factory`, and `validation-profile-registry` under the same collision rules.
 3. Resolve `ae-validation-research` and `SOL` dispositions durably.
 4. Observe RTG; do not duplicate it.
 5. Reobserve the six hosted-blocked repositories against repository-specific release conditions.
@@ -192,9 +216,9 @@ This complete session is not archive-ready yet. Archive requires all remaining s
 
 ```text
 routing_inventory: 32/32 classified
-complete_notify_only: 14/32
+complete_notify_only: 15/32
 direct_source: 2/32 collision-bounded
-direct_support: 5/32
+direct_support: 4/32
 disposition: 2/32
 observe_only: 1/32
 integration_only: 1/32
