@@ -8,9 +8,9 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 4,
+    "COMPLETE_NOTIFY_ONLY": 5,
     "CONTROL_PLANE": 1,
-    "DIRECT_SOURCE_UPDATE": 11,
+    "DIRECT_SOURCE_UPDATE": 10,
     "DIRECT_SUPPORT_UPDATE": 6,
     "DISPOSITION_REQUIRED": 2,
     "HOSTED_VALIDATION_BLOCKED": 6,
@@ -269,13 +269,31 @@
       "worker_state": "validated_complete_notify_only"
     },
     {
-      "completion_evidence": null,
-      "next_action": "Create or validate source formalism, mathematics, proof-candidate, evidence, and handoff artifacts.",
-      "owner": "Admissible-Existence/Triad",
+      "completion_evidence": {
+        "artifact_digest": "sha256:d53444cda072b22bc52d8d1d4ecb3652b2ce6a189bfcee64351578810c5b2d95",
+        "artifact_id": 8980083324,
+        "closed_issue": "Admissible-Existence/Triad#1",
+        "completion_artifact": 8980083689,
+        "execution_authorized": false,
+        "handoff": "docs/TRIAD_MIRROR_HANDOFF.md",
+        "handoff_commit": "f4faf9a9d8133d750070c813b7b944f20e26a600",
+        "principles": "3/3 valid",
+        "proofs_accepted": false,
+        "publication_authorized": false,
+        "rc1_receipt_artifact": 8980083511,
+        "receipt": "receipts/triad-principle-completeness-validation.json",
+        "receipt_blob": "9c93e8f8ba1c8155c9e250197d516c40eb7a1508",
+        "receipt_commit": "f0eb703",
+        "validation_conclusion": "success",
+        "validation_job": 92753392924,
+        "validation_run": 31141903362
+      },
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
+      "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/Triad",
       "role": "source",
-      "routing_state": "DIRECT_SOURCE_UPDATE",
-      "worker_state": "required"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": null,
