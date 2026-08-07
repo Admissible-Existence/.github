@@ -1,0 +1,31 @@
+{
+  "schema_version": "admissible_existence.repository_disposition_evidence.v1",
+  "repository": "Admissible-Existence/ae-validation-research",
+  "role": "empty",
+  "disposition": "DEPRECATE",
+  "state": "DEPRECATED_NOTIFY_ONLY",
+  "complete": true,
+  "handoff": "docs/AE_VALIDATION_RESEARCH_MIRROR_HANDOFF.md",
+  "handoff_commit": "66dc8cfe8368e2a0ec7d82ce172b614aaa3608c6",
+  "issue": "Admissible-Existence/ae-validation-research#1",
+  "receipt": "reports/disposition-receipt.json",
+  "receipt_commit": "99f7c9d842cd3a6e0b097e5b35c78eedd85c26b8",
+  "redirects": [
+    "Admissible-Existence/validation-profile-registry",
+    "Admissible-Existence/validator",
+    "Admissible-Existence/ae-validation-factory",
+    "Admissible-Existence/.github"
+  ],
+  "unique_artifacts_remaining": 0,
+  "boundaries": {
+    "creates_authority": false,
+    "commits_execution": false,
+    "accepts_proofs": false,
+    "issues_standing": false,
+    "publication_authorized": false,
+    "certification_authority": false,
+    "mathematical_closure": false,
+    "empirical_validity": false,
+    "claims_master_record_authority": false
+  }
+}
