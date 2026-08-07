@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.9.0",
+  "schema_version": "3.0.0",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "coordination_repository": "Admissible-Existence/.github",
   "execution_model": "central controller creates bounded repository-local implementation branches or reports BLOCKED",
@@ -12,7 +12,7 @@
   "repositories": [
     {"repository":"Admissible-Existence/.github","role":"coordination","worker_state":"active_control_plane"},
     {"repository":"Admissible-Existence/AE","role":"source","worker_state":"validation_required"},
-    {"repository":"Admissible-Existence/Existence","role":"source","worker_state":"validation_required"},
+    {"repository":"Admissible-Existence/Existence","role":"source","worker_state":"validated_complete_notify_only","completion_evidence":{"handoff":"docs/EXISTENCE_MIRROR_HANDOFF.md","handoff_commit":"62855c4535604c96643e031483093001df558d3c","validation_run":31140771106,"validation_job":92750005203,"validation_conclusion":"success","receipt":"receipts/principle-completeness-validation.json","receipt_blob":"db26caa7a61b6cdbe09b7e66eb490b8ade531aef","registry_sha256":"1131d6b75a0c9d43111a8da68a9e9b19372f441398874be02e27f03c3c056c46","schema_sha256":"98361e1bdd2ca5e9a2604c39884f4870136bf13c77416c633859824e8b981dcb","theory_map_sha256":"51d8725b82e426a52f577005c5b8f0cf67cae4b8d8f36dcda9054e3ed79b7189","artifact_id":8979707371,"artifact_digest":"sha256:d386cfb469be812ba234bd61a4b327e6d616691009960f1d288c7be2b3ff154e","principles":"10/10 valid","publication_authorized":false,"execution_authorized":false,"proofs_accepted":false}},
     {"repository":"Admissible-Existence/RTG","role":"source","worker_state":"machine_owned_observe_only"},
     {"repository":"Admissible-Existence/GTG","role":"source","worker_state":"validated_complete_notify_only","completion_evidence":{"handoff":"GTG_MIRROR_HANDOFF.md","handoff_commit":"13bc7cbacb99a26f02e479ea4427c59c7193d516","target_merge":"dbc42bd14be6ec3f8821189dbd7aa1b1e698f084","factory_merge":"Admissible-Existence/ae-validation-factory@ba3479355749bd996714845ec82f2826ccf1fd36","mirror_merge":"StegVerse-Labs/StegScholar@08b2f9c21605dd1cd778de839be15adca97007fc","issue":"Admissible-Existence/GTG#14"}},
     {"repository":"Admissible-Existence/TT","role":"source","worker_state":"source_complete_integration_pending","completion_evidence":{"handoff":"docs/TT_MIRROR_HANDOFF.md","handoff_commit":"1c5c385d9edaba358ef6bf45cabbe8fa8e0f5a7b","source_issue":"Admissible-Existence/TT#9","integration_issue":"Admissible-Existence/TT#2","coordination_commit":"a60d4cafee7dd17f8a24ce82c033347554b5d31d"}},
