@@ -36,5 +36,9 @@
     "proofs_accepted": false,
     "claims_master_record_authority": false
   },
+  "activation_observation": {
+    "requested_at": "2026-08-07T10:03:00-05:00",
+    "reason": "prior watched-path evidence commit had no observable workflow run or commit status; request fresh machine-observable activation attempt"
+  },
   "central_activation_pending": true
 }
