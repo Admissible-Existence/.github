@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "blocker_id": "AEX-MATH-ACTIONS-SCHEDULER-003",
+  "goal_id": "AEX-MATHEMATICAL-COMPLETENESS-AUDIT-002",
+  "state": "BLOCKED_ACTIONS_BEFORE_STEP_1",
+  "observed_at": "2026-08-07T17:16:00-05:00",
+  "owner": "Admissible-Existence organization/repository Actions administration and execution path",
+  "scope": "repository-local hosted revalidation for mathematical-completeness rows whose canonical hash-bound inputs changed after their last successful receipt",
+  "evidence": [
+    {
+      "repository": "Admissible-Existence/ET",
+      "workflow": ".github/workflows/mathematical-completeness-self-audit.yml",
+      "run": 31222811755,
+      "job": 93010809891,
+      "commit": "f556889a4b006974639acc400b9fc4c9a20bfc15",
+      "conclusion": "failure",
+      "recorded_steps": 0
+    },
+    {
+      "repository": "Admissible-Existence/ET",
+      "workflow": ".github/workflows/validate.yml",
+      "run": 31222811742,
+      "job": 93010809703,
+      "commit": "f556889a4b006974639acc400b9fc4c9a20bfc15",
+      "conclusion": "failure",
+      "recorded_steps": 0
+    },
+    {
+      "repository": "Admissible-Existence/HPS",
+      "workflow": ".github/workflows/hps-verify.yml",
+      "run": 31223119110,
+      "job": 93011735124,
+      "commit": "f29fe3d800fb1bbedf1e6382687d9ff3a286fc3e",
+      "conclusion": "failure",
+      "recorded_steps": 0
+    }
+  ],
+  "interpretation": "The same failure-before-step-1 signature is reproduced across two repositories and both new and pre-existing workflows. It must not be interpreted as a source test or mathematical validation failure.",
+  "machine_observable_release_condition": "A subsequent affected-repository Actions run records at least one executed step. Repository-specific blockers then rerun their canonical self-audit/verification workflow and require successful tests, current hash-bound receipt persistence, and direct run/job/log/artifact inspection.",
+  "fail_closed_rule": "Do not promote a PENDING/BLOCKED mathematical-completeness row to PASS while its current canonical hash-bound inputs have not been revalidated after a change.",
+  "repository_owners": {
+    "Admissible-Existence/ET": "data/claims/ET-MATHEMATICAL-COMPLETENESS-002.json",
+    "Admissible-Existence/HPS": "issues/2"
+  },
+  "next_executable_action": "Continue unblocked source mathematics implementation/standardization. Re-test affected hosted lanes only when the machine-observable release condition becomes true."
+}
