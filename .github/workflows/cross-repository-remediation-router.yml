@@ -23,6 +23,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Install test dependency
+        run: python -m pip install --disable-pip-version-check pytest
       - name: Validate router contract
         run: |
           python -m py_compile scripts/route_cross_repository_remediation.py
