@@ -1,0 +1,32 @@
+{
+  "schema_version": "admissible_existence.hosted_completion_evidence.v1",
+  "repository": "Admissible-Existence/RE-Reduction",
+  "role": "source",
+  "complete": true,
+  "handoff": "docs/RE_REDUCTION_MIRROR_HANDOFF.md",
+  "handoff_commit": "14488f3953dd4d502d6bda08b56e9155a0027d93",
+  "workflow": ".github/workflows/reduction-smoke.yml",
+  "validation_run": 31136926164,
+  "validation_job": 92738228539,
+  "validation_conclusion": "success",
+  "validated_checks": [
+    "tools/reduce_disorder.py examples/reduced-disorder-input.json -> REDUCED, score 5.0 to 2.0, delta 3.0, lineage_preserved=true, standing_reentry_required=true, execution_authority_granted=false",
+    "tools/check_expected_reduction.py -> ready=true",
+    "validators/validate_re_consumer.py -> 5/5 matched, authority=false"
+  ],
+  "artifact_policy": "none_by_workflow_design",
+  "artifact_id": null,
+  "artifact_digest": null,
+  "receipt": "reports/re-reduction-consumer-integration-receipt.json",
+  "receipt_commit": "dce1947cdfd0d14b982aba17252ae1cdb1573de2",
+  "boundaries": {
+    "creates_authority": false,
+    "commits_execution": false,
+    "issues_standing": false,
+    "accepts_proofs": false,
+    "publication_authorized": false,
+    "certification_authority": false,
+    "universal_admissibility": false,
+    "claims_master_record_authority": false
+  }
+}
