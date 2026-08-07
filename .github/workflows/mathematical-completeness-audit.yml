@@ -1,0 +1,86 @@
+name: Mathematical completeness audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 5 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'data/formalism-worker-registry.json'
+      - 'data/mathematical-completeness-policy.json'
+      - 'scripts/audit_mathematical_completeness.py'
+      - '.github/workflows/mathematical-completeness-audit.yml'
+      - 'docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md'
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: mathematical-completeness-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Audit all registered repositories
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python scripts/audit_mathematical_completeness.py
+
+      - name: Validate generated matrix shape
+        run: |
+          python - <<'PY'
+          import json
+          p='reports/mathematical-completeness-matrix.json'
+          d=json.load(open(p, encoding='utf-8'))
+          assert d['summary']['registered'] == 32, d['summary']
+          assert len(d['repositories']) == 32
+          assert d['goal_id'] == 'AEX-MATHEMATICAL-COMPLETENESS-AUDIT-002'
+          assert all('audit' in r and 'mathematical_complete' in r['audit'] for r in d['repositories'])
+          print(json.dumps(d['summary'], sort_keys=True))
+          print('ready=', d['ready'])
+          PY
+
+      - name: Persist latest matrices
+        run: |
+          if git diff --quiet -- reports/mathematical-completeness-matrix.json reports/mathematical-completeness-matrix.md; then
+            echo 'mathematical completeness matrices unchanged'
+            exit 0
+          fi
+          git config user.name 'admissible-existence-math-auditor'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add reports/mathematical-completeness-matrix.json reports/mathematical-completeness-matrix.md
+          git commit -m 'Persist mathematical completeness matrix'
+          git push
+
+      - name: Upload mathematical completeness evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mathematical-completeness-matrix
+          path: |
+            reports/mathematical-completeness-matrix.json
+            reports/mathematical-completeness-matrix.md
+          if-no-files-found: error
+
+      - name: Fail closed until mathematically complete
+        run: |
+          python - <<'PY'
+          import json, sys
+          d=json.load(open('reports/mathematical-completeness-matrix.json', encoding='utf-8'))
+          if not d['ready']:
+              print('Mathematical completeness is NOT yet proven organization-wide.')
+              for r in d['repositories']:
+                  if r['audit']['gaps']:
+                      print(r['repository'], '=>', ', '.join(r['audit']['gaps']))
+              sys.exit(1)
+          print('Mathematical completeness is proven for all role-applicable repository requirements.')
+          PY
