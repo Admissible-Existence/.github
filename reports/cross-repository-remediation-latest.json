@@ -8,10 +8,10 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 14,
+    "COMPLETE_NOTIFY_ONLY": 15,
     "CONTROL_PLANE": 1,
     "DIRECT_SOURCE_UPDATE": 2,
-    "DIRECT_SUPPORT_UPDATE": 5,
+    "DIRECT_SUPPORT_UPDATE": 4,
     "DISPOSITION_REQUIRED": 2,
     "HOSTED_VALIDATION_BLOCKED": 6,
     "INTEGRATION_NOTIFY_ONLY": 1,
@@ -563,13 +563,25 @@
       "worker_state": "validated_complete_notify_only"
     },
     {
-      "completion_evidence": null,
-      "next_action": "Create or validate support boundary, coverage map, contract, evidence, and handoff artifacts.",
-      "owner": "Admissible-Existence/validator",
+      "completion_evidence": {
+        "artifact_digest": "sha256:10b2089eb283f1ffcaa08bac3f357a24f1dac541a4298bd9e48961319b5cdb48",
+        "artifact_id": 8997658972,
+        "commits_execution": false,
+        "creates_authority": false,
+        "handoff": "docs/VALIDATOR_MIRROR_HANDOFF.md",
+        "handoff_commit": "bc7a6c11f351f875c1294a5c49385416fb8e57a0",
+        "issue": "Admissible-Existence/validator#3",
+        "normalized_evidence": "data/validator-completion-evidence.json",
+        "validation_conclusion": "success",
+        "validation_job": 92898192340,
+        "validation_run": 31188248490
+      },
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
+      "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/validator",
       "role": "support",
-      "routing_state": "DIRECT_SUPPORT_UPDATE",
-      "worker_state": "required"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": null,
