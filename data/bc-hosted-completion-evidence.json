@@ -1,0 +1,33 @@
+{
+  "schema_version": "admissible_existence.hosted_completion_evidence.v1",
+  "repository": "Admissible-Existence/BC",
+  "role": "source",
+  "complete": true,
+  "handoff": "docs/BC_MIRROR_HANDOFF.md",
+  "handoff_commit": "68858843e86ad5925d7f6c299ec4af8f8a8237cf",
+  "workflow": ".github/workflows/bc-build.yml",
+  "validation_run": 31214359263,
+  "validation_job": 92984287785,
+  "validation_conclusion": "success",
+  "validated_checks": [
+    "tools/run_bc_build.py -> PASS BC fixtures; PASS BC build",
+    "git diff --exit-code -- dist -> generated outputs current",
+    "stale generated fixture report corrected only to the output demonstrated by prior failing hosted run",
+    "no Boundary-Coherence source semantics changed"
+  ],
+  "artifact_policy": "none_by_workflow_design",
+  "artifact_id": null,
+  "artifact_digest": null,
+  "receipt": "reports/bc-deterministic-validation-receipt.json",
+  "receipt_commit": "3e8134088bac4f4aca85e33c023a427bf75af3c3",
+  "boundaries": {
+    "creates_authority": false,
+    "commits_execution": false,
+    "issues_standing": false,
+    "accepts_proofs": false,
+    "publication_authorized": false,
+    "certification_authority": false,
+    "universal_admissibility": false,
+    "claims_master_record_authority": false
+  }
+}
