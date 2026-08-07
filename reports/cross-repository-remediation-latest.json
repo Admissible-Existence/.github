@@ -8,10 +8,10 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 21,
+    "COMPLETE_NOTIFY_ONLY": 22,
     "CONTROL_PLANE": 1,
     "DIRECT_SOURCE_UPDATE": 2,
-    "HOSTED_VALIDATION_BLOCKED": 6,
+    "HOSTED_VALIDATION_BLOCKED": 5,
     "INTEGRATION_NOTIFY_ONLY": 1,
     "OBSERVE_NOTIFY_ONLY": 1
   },
@@ -226,24 +226,32 @@
     },
     {
       "completion_evidence": {
-        "blocker": "Admissible-Existence/.github:data/actions-activation-authority-blocker.json",
-        "consumer_cases": "5/5 matched",
-        "consumer_profile_commit": "87a261609e3c6878c6d2c5c11f7484b41b7c7d47",
-        "consumer_validator_commit": "6b577077e408dc44fb4141cb9f2756c759774f30",
-        "deterministic_receipt": "reports/re-reduction-consumer-integration-receipt.json",
+        "artifact_digest": null,
+        "artifact_id": null,
+        "artifact_policy": "none_by_workflow_design",
+        "commits_execution": false,
+        "creates_authority": false,
         "handoff": "docs/RE_REDUCTION_MIRROR_HANDOFF.md",
         "handoff_commit": "14488f3953dd4d502d6bda08b56e9155a0027d93",
-        "hosted_runs_for_workflow_commit": 0,
-        "issue": "Admissible-Existence/RE-Reduction#1",
+        "normalized_evidence": "data/re-reduction-hosted-completion-evidence.json",
+        "receipt": "reports/re-reduction-consumer-integration-receipt.json",
         "receipt_commit": "dce1947cdfd0d14b982aba17252ae1cdb1573de2",
-        "workflow_commit": "c302176bfe646ad8ea4c5d55f7c3bab0c737652e"
+        "validated_checks": [
+          "tools/reduce_disorder.py examples/reduced-disorder-input.json -> REDUCED, score 5.0 to 2.0, delta 3.0, lineage_preserved=true, standing_reentry_required=true, execution_authority_granted=false",
+          "tools/check_expected_reduction.py -> ready=true",
+          "validators/validate_re_consumer.py -> 5/5 matched, authority=false"
+        ],
+        "validation_conclusion": "success",
+        "validation_job": 92738228539,
+        "validation_run": 31136926164,
+        "workflow": ".github/workflows/reduction-smoke.yml"
       },
-      "next_action": "Preserve deterministic completion evidence; await the named Actions-authority release condition and do not reopen implementation.",
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
       "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/RE-Reduction",
       "role": "source",
-      "routing_state": "HOSTED_VALIDATION_BLOCKED",
-      "worker_state": "implementation_complete_hosted_validation_blocked"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": {

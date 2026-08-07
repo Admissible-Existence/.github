@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.21.0",
+  "schema_version": "1.22.0",
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "parent_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_session_goal": "Extend principle-completeness execution into every affected repository and notify dependent control planes and publication surfaces.",
@@ -14,9 +14,9 @@
     "direct_support_update_remaining": 0,
     "disposition_required": 0,
     "machine_owned_observe_only": 1,
-    "validated_complete_notify_only": 21,
+    "validated_complete_notify_only": 22,
     "source_complete_integration_pending": 1,
-    "implementation_complete_hosted_validation_blocked": 6,
+    "implementation_complete_hosted_validation_blocked": 5,
     "immediate_external_dependencies": 2,
     "conditional_propagation_destinations": 5
   },
@@ -343,6 +343,20 @@
       "receipt": "reports/disposition-receipt.json",
       "receipt_commit": "82ce1569e139df1ef1c11ed0262492d81bba1e13",
       "normalized_evidence": "data/sol-disposition-evidence.json"
+    },
+    {
+      "repository": "Admissible-Existence/RE-Reduction",
+      "state": "COMPLETE_NOTIFY_ONLY",
+      "source_handoff": "Admissible-Existence/RE-Reduction@main:docs/RE_REDUCTION_MIRROR_HANDOFF.md",
+      "handoff_commit": "14488f3953dd4d502d6bda08b56e9155a0027d93",
+      "validation_run": 31136926164,
+      "validation_job": 92738228539,
+      "validation_conclusion": "success",
+      "workflow": ".github/workflows/reduction-smoke.yml",
+      "artifact_policy": "none_by_workflow_design",
+      "artifact_id": null,
+      "artifact_digest": null,
+      "normalized_evidence": "data/re-reduction-hosted-completion-evidence.json"
     }
   ],
   "bounded_non_direct_states": [
