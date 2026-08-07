@@ -1,0 +1,16 @@
+{
+  "changes": [],
+  "complete": true,
+  "counts": {
+    "control_plane": 1,
+    "direct_source_update_remaining": 2,
+    "direct_support_update_remaining": 0,
+    "disposition_required": 2,
+    "implementation_complete_hosted_validation_blocked": 6,
+    "machine_owned_observe_only": 1,
+    "source_complete_integration_pending": 1,
+    "validated_complete_notify_only": 19
+  },
+  "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
+  "schema_version": "admissible_existence.repository_disposition_activation.v1"
+}
