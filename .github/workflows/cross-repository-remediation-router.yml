@@ -41,10 +41,10 @@ jobs:
           expected = {
               'CONTROL_PLANE': 1,
               'DIRECT_SOURCE_UPDATE': 2,
-              'DIRECT_SUPPORT_UPDATE': 6,
+              'DIRECT_SUPPORT_UPDATE': 5,
               'DISPOSITION_REQUIRED': 2,
               'OBSERVE_NOTIFY_ONLY': 1,
-              'COMPLETE_NOTIFY_ONLY': 13,
+              'COMPLETE_NOTIFY_ONLY': 14,
               'INTEGRATION_NOTIFY_ONLY': 1,
               'HOSTED_VALIDATION_BLOCKED': 6,
           }
@@ -67,6 +67,7 @@ jobs:
               'Admissible-Existence/DaCo': 'COMPLETE_NOTIFY_ONLY',
               'Admissible-Existence/IW': 'COMPLETE_NOTIFY_ONLY',
               'Admissible-Existence/standing-proof-formalism': 'COMPLETE_NOTIFY_ONLY',
+              'Admissible-Existence/core-lite': 'COMPLETE_NOTIFY_ONLY',
               'Admissible-Existence/TT': 'INTEGRATION_NOTIFY_ONLY',
               'Admissible-Existence/STCM': 'HOSTED_VALIDATION_BLOCKED',
               'Admissible-Existence/learning-transition-governance': 'HOSTED_VALIDATION_BLOCKED',
