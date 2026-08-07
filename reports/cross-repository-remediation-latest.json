@@ -8,10 +8,10 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 23,
+    "COMPLETE_NOTIFY_ONLY": 24,
     "CONTROL_PLANE": 1,
     "DIRECT_SOURCE_UPDATE": 2,
-    "HOSTED_VALIDATION_BLOCKED": 4,
+    "HOSTED_VALIDATION_BLOCKED": 3,
     "INTEGRATION_NOTIFY_ONLY": 1,
     "OBSERVE_NOTIFY_ONLY": 1
   },
@@ -119,20 +119,33 @@
     },
     {
       "completion_evidence": {
-        "activation_pr": "Admissible-Existence/STCM#2",
-        "blocker": "Admissible-Existence/.github:data/actions-activation-authority-blocker.json",
-        "deterministic_receipt": "reports/stcm-deterministic-validation-receipt.json",
+        "artifact_digest": "sha256:015c36e12058a2e20bb8aaaedb17ce73ff71ab617aedb5a4cbb7e9740f29ff4d",
+        "artifact_id": 8975456952,
+        "artifact_policy": "required",
+        "commits_execution": false,
+        "creates_authority": false,
         "handoff": "docs/STCM_MIRROR_HANDOFF.md",
         "handoff_commit": "2feba62be339ef6174e5eb342eb8f66061b5bf40",
-        "issue": "Admissible-Existence/STCM#1",
-        "receipt_commit": "a455572a779ba481637465e48c17b34db5106a68"
+        "normalized_evidence": "data/stcm-hosted-completion-evidence.json",
+        "receipt": "reports/stcm-deterministic-validation-receipt.json",
+        "receipt_commit": "a455572a779ba481637465e48c17b34db5106a68",
+        "validated_checks": [
+          "tools/run_stcm_build.py -> PASS AE intake; PASS STCM build",
+          "closure-harness/run_closure_harness.py -> 6/6 matched, unexpected=0, saturated=true, authority_effect=false",
+          "git diff --exit-code -- dist -> generated outputs current",
+          "required artifact stcm-closure-harness-receipt uploaded successfully"
+        ],
+        "validation_conclusion": "success",
+        "validation_job": 92714131659,
+        "validation_run": 31129276523,
+        "workflow": ".github/workflows/stcm-build.yml"
       },
-      "next_action": "Preserve deterministic completion evidence; await the named Actions-authority release condition and do not reopen implementation.",
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
       "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/STCM",
       "role": "source",
-      "routing_state": "HOSTED_VALIDATION_BLOCKED",
-      "worker_state": "implementation_complete_hosted_validation_blocked"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": {

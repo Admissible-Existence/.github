@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.23.0",
+  "schema_version": "1.24.0",
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "parent_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_session_goal": "Extend principle-completeness execution into every affected repository and notify dependent control planes and publication surfaces.",
@@ -14,9 +14,9 @@
     "direct_support_update_remaining": 0,
     "disposition_required": 0,
     "machine_owned_observe_only": 1,
-    "validated_complete_notify_only": 23,
+    "validated_complete_notify_only": 24,
     "source_complete_integration_pending": 1,
-    "implementation_complete_hosted_validation_blocked": 4,
+    "implementation_complete_hosted_validation_blocked": 3,
     "immediate_external_dependencies": 2,
     "conditional_propagation_destinations": 5
   },
@@ -371,6 +371,20 @@
       "artifact_id": null,
       "artifact_digest": null,
       "normalized_evidence": "data/re-hosted-completion-evidence.json"
+    },
+    {
+      "repository": "Admissible-Existence/STCM",
+      "state": "COMPLETE_NOTIFY_ONLY",
+      "source_handoff": "Admissible-Existence/STCM@main:docs/STCM_MIRROR_HANDOFF.md",
+      "handoff_commit": "2feba62be339ef6174e5eb342eb8f66061b5bf40",
+      "validation_run": 31129276523,
+      "validation_job": 92714131659,
+      "validation_conclusion": "success",
+      "workflow": ".github/workflows/stcm-build.yml",
+      "artifact_policy": "required",
+      "artifact_id": 8975456952,
+      "artifact_digest": "sha256:015c36e12058a2e20bb8aaaedb17ce73ff71ab617aedb5a4cbb7e9740f29ff4d",
+      "normalized_evidence": "data/stcm-hosted-completion-evidence.json"
     }
   ],
   "bounded_non_direct_states": [

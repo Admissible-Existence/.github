@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.19.0",
+  "schema_version": "3.20.0",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "coordination_repository": "Admissible-Existence/.github",
   "execution_model": "central controller creates bounded repository-local implementation branches or reports BLOCKED",
@@ -98,15 +98,28 @@
     {
       "repository": "Admissible-Existence/STCM",
       "role": "source",
-      "worker_state": "implementation_complete_hosted_validation_blocked",
+      "worker_state": "validated_complete_notify_only",
       "completion_evidence": {
+        "normalized_evidence": "data/stcm-hosted-completion-evidence.json",
         "handoff": "docs/STCM_MIRROR_HANDOFF.md",
         "handoff_commit": "2feba62be339ef6174e5eb342eb8f66061b5bf40",
-        "deterministic_receipt": "reports/stcm-deterministic-validation-receipt.json",
+        "validation_run": 31129276523,
+        "validation_job": 92714131659,
+        "validation_conclusion": "success",
+        "workflow": ".github/workflows/stcm-build.yml",
+        "validated_checks": [
+          "tools/run_stcm_build.py -> PASS AE intake; PASS STCM build",
+          "closure-harness/run_closure_harness.py -> 6/6 matched, unexpected=0, saturated=true, authority_effect=false",
+          "git diff --exit-code -- dist -> generated outputs current",
+          "required artifact stcm-closure-harness-receipt uploaded successfully"
+        ],
+        "artifact_policy": "required",
+        "artifact_id": 8975456952,
+        "artifact_digest": "sha256:015c36e12058a2e20bb8aaaedb17ce73ff71ab617aedb5a4cbb7e9740f29ff4d",
+        "receipt": "reports/stcm-deterministic-validation-receipt.json",
         "receipt_commit": "a455572a779ba481637465e48c17b34db5106a68",
-        "activation_pr": "Admissible-Existence/STCM#2",
-        "issue": "Admissible-Existence/STCM#1",
-        "blocker": "Admissible-Existence/.github:data/actions-activation-authority-blocker.json"
+        "creates_authority": false,
+        "commits_execution": false
       }
     },
     {
