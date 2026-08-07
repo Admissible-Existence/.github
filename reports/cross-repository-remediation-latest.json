@@ -8,9 +8,9 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 11,
+    "COMPLETE_NOTIFY_ONLY": 12,
     "CONTROL_PLANE": 1,
-    "DIRECT_SOURCE_UPDATE": 4,
+    "DIRECT_SOURCE_UPDATE": 3,
     "DIRECT_SUPPORT_UPDATE": 6,
     "DISPOSITION_REQUIRED": 2,
     "HOSTED_VALIDATION_BLOCKED": 6,
@@ -474,13 +474,37 @@
       "worker_state": "validated_complete_notify_only"
     },
     {
-      "completion_evidence": null,
-      "next_action": "Create or validate source formalism, mathematics, proof-candidate, evidence, and handoff artifacts.",
-      "owner": "Admissible-Existence/IW",
+      "completion_evidence": {
+        "artifact_digest": "sha256:1f0f11814c0369caa076a25c7ef0a32c661f46394ba8bc79dc293a6be28e386c",
+        "artifact_id": 8985563715,
+        "clean_main": true,
+        "completeness_receipt": "reports/iw-principle-completeness-validation.json",
+        "completeness_receipt_blob": "3fc9ac74440829087ab27c257aea321a494e125d",
+        "destination_application_reopened": false,
+        "execution_authorized": false,
+        "handoff": "IW_MIRROR_HANDOFF.md",
+        "handoff_commit": "ddb74f4ec975ef20df3ec2f315bda4640c006fc4",
+        "issue": "Admissible-Existence/IW#1",
+        "principles": "4/4 valid",
+        "proofs_accepted": false,
+        "publication_authorized": false,
+        "receipt_commit": "7636a792354b38119495e20e717c613ee998975e",
+        "release_authority": false,
+        "release_ready": true,
+        "release_receipt": "artifacts/iw-release-verification.json",
+        "release_receipt_blob": "fd32d0c2f447e0607cb051abe75d500666ea61ac",
+        "repository_tests": "42/42 passed",
+        "tag_authorized": false,
+        "validation_conclusion": "success",
+        "validation_job": 92798902766,
+        "validation_run": 31157110222
+      },
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
+      "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/IW",
       "role": "source",
-      "routing_state": "DIRECT_SOURCE_UPDATE",
-      "worker_state": "required"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": null,
