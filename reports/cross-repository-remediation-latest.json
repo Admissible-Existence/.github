@@ -8,9 +8,9 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 12,
+    "COMPLETE_NOTIFY_ONLY": 13,
     "CONTROL_PLANE": 1,
-    "DIRECT_SOURCE_UPDATE": 3,
+    "DIRECT_SOURCE_UPDATE": 2,
     "DIRECT_SUPPORT_UPDATE": 6,
     "DISPOSITION_REQUIRED": 2,
     "HOSTED_VALIDATION_BLOCKED": 6,
@@ -483,7 +483,7 @@
         "destination_application_reopened": false,
         "execution_authorized": false,
         "handoff": "IW_MIRROR_HANDOFF.md",
-        "handoff_commit": "ddb74f4ec975ef20df3ec2f315bda4640c006fc4",
+        "handoff_commit": "6702fcd41c9b415ef3624eb67777c51dd9db6b78",
         "issue": "Admissible-Existence/IW#1",
         "principles": "4/4 valid",
         "proofs_accepted": false,
@@ -507,13 +507,33 @@
       "worker_state": "validated_complete_notify_only"
     },
     {
-      "completion_evidence": null,
-      "next_action": "Create or validate source formalism, mathematics, proof-candidate, evidence, and handoff artifacts.",
-      "owner": "Admissible-Existence/standing-proof-formalism",
+      "completion_evidence": {
+        "artifact_digest": "sha256:abba57628b1a046b82e2aaf6a9719986f98354e17963cd32647b5ede414266b0",
+        "artifact_id": 8994192908,
+        "claims_final_cross_repository_validity": false,
+        "compact_contracts": "3/3 passed",
+        "execution_authorized": false,
+        "handoff": "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md",
+        "handoff_commit": "6704efd99896387a0a33269eba1c19469609d41c",
+        "issue": "Admissible-Existence/standing-proof-formalism#1",
+        "principles": "4/4 valid",
+        "prior_review_inherits_standing": false,
+        "proofs_accepted": false,
+        "publication_authorized": false,
+        "receipt": "reports/standing-proof-principle-completeness-validation.json",
+        "receipt_blob": "172addb7c53902bf2260681f7e2a86256f53cd76",
+        "receipt_commit": "fc06d7e0229f58463c9def2eb12aa9f9ce476e64",
+        "standing_cases": "8/8 matched",
+        "validation_conclusion": "success",
+        "validation_job": 92869363401,
+        "validation_run": 31179576449
+      },
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
+      "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/standing-proof-formalism",
       "role": "source",
-      "routing_state": "DIRECT_SOURCE_UPDATE",
-      "worker_state": "required"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": null,
