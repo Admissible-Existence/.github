@@ -1,59 +1,135 @@
 {
-  "schema_version": "1.1.0",
+  "schema_version": "2.0.0",
   "session_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
-  "canonical_continuation": "Admissible-Existence/.github@main:docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md",
-  "session_state": "ACTIVE_UNIQUE_WORK_REMAINS",
+  "canonical_continuation": "Admissible-Existence/.github@main:docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md",
+  "parent_continuation": "Admissible-Existence/.github@main:docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md",
+  "session_state": "MERGED_INTO_CANONICAL_WORKSTREAM",
+  "program_state": "ACTIVE_DURABLE_OWNERS_REMAIN",
   "unique_session_requirements_transferred": true,
   "transferred_goal_count": 11,
   "total_goal_count": 11,
   "active_unique_chat_only_knowledge": false,
+  "current_routing": {
+    "registered_repositories": 32,
+    "control_plane": 1,
+    "complete_notify_only": 27,
+    "direct_source_update": 2,
+    "integration_notify_only": 1,
+    "observe_notify_only": 1,
+    "hosted_validation_blocked": 0,
+    "direct_support_update": 0,
+    "disposition_required": 0
+  },
+  "completed_or_transferred_in_this_session": [
+    "support completion cohort activated and released",
+    "ae-validation-research disposition resolved and activated",
+    "SOL disposition resolved and activated",
+    "RE-Reduction consumer integration hosted validated and centrally activated",
+    "RE hosted validated, consumer integration completed, unsupported 24/24 aggregate corrected to explicit 19/19 bounded fixtures, centrally activated",
+    "STCM hosted validation observed and centrally activated",
+    "learning-transition-governance repository-owned hosted validation lane installed, validated, centrally activated",
+    "CHF repository-owned hosted validation lane installed, validated, centrally activated",
+    "BC stale generated output repaired from log-proven evidence only, hosted validated, centrally activated",
+    "TT hosted source proof reconciled and remaining destination dependencies assigned to Site#101 and stegguardian-wiki#9",
+    "central remediation handoff and repository issue records synchronized"
+  ],
   "remaining_execution_roles": [
+    {
+      "role": "AE_PUBLICATION_INTEGRATION",
+      "owner": "Admissible-Existence/AE#20",
+      "claim_state": "CLAIMED_FOR_INTEGRATION",
+      "release_condition": "Governed Coherent Life publication workflow evidence, visual review, bibliographic review, frozen release receipt and readiness evidence satisfy AE#20",
+      "session_role": "MERGED_NO_DUPLICATE_EXECUTION"
+    },
+    {
+      "role": "CTA_PROVENANCE_BOUND_INTEGRATION",
+      "owner": "Admissible-Existence/CTA#1",
+      "claim_state": "ACTIVE_CANONICAL_OWNER",
+      "release_condition": "Externally grounded adapters/provenance and remaining CTA integration requirements satisfy CTA#1",
+      "session_role": "MERGED_NO_DUPLICATE_EXECUTION"
+    },
+    {
+      "role": "RTG_MACHINE_OBSERVATION",
+      "owner": "Admissible-Existence/RTG#2 with child issues #3, #4, #5 and repository workflows",
+      "claim_state": "MACHINE_OWNED",
+      "release_condition": "RTG machine lanes satisfy their render, evidence-closure and readiness gates",
+      "session_role": "MERGED_OBSERVE_ONLY"
+    },
+    {
+      "role": "TT_DESTINATION_INTEGRATION",
+      "owner": "Admissible-Existence/TT#2",
+      "claim_state": "CLAIMED_FOR_INTEGRATION",
+      "release_condition": "Destination ledger reaches 4/4 receipts or evidence-backed not-applicable equivalents",
+      "dependencies": [
+        "StegVerse-Labs/Site#101",
+        "StegVerse-002/stegguardian-wiki#9"
+      ],
+      "session_role": "MERGED_NO_WAITING_SESSION_REQUIRED"
+    },
+    {
+      "role": "SITE_TT_DESTINATION_ADMISSION",
+      "owner": "StegVerse-Labs/Site#101 and Site orchestration",
+      "claim_state": "QUEUED_NOT_ADMITTED",
+      "release_condition": "Site orchestrator admits TT candidate and commits Site-owned intake/admission receipt",
+      "session_role": "MERGED_COLLISION_BOUNDARY_PRESERVED"
+    },
+    {
+      "role": "GUARDIAN_TT_DESTINATION_AWARENESS",
+      "owner": "StegVerse-002/stegguardian-wiki#9",
+      "claim_state": "DEPENDENCY_BLOCKED",
+      "release_condition": "Upstream Guardian dependencies satisfy current handoff and Guardian-owned TT awareness receipt is committed",
+      "session_role": "MERGED_COLLISION_BOUNDARY_PRESERVED"
+    },
+    {
+      "role": "GOVERNED_APPLY_GRANT",
+      "owner": "StegVerse-Labs/TVC#13",
+      "claim_state": "BLOCKED",
+      "release_condition": "Workflow 328881362 produces inspectable run, job, logs and sanitized capability-proof artifact",
+      "session_role": "MERGED_DURABLE_BLOCKER"
+    },
+    {
+      "role": "RUNTIME_ONLY_CAPABILITY_CUSTODY",
+      "owner": "StegVerse-Labs/TV#3",
+      "claim_state": "CLAIMED_FOR_INTEGRATION_DEPENDENCY_BLOCKED",
+      "release_condition": "TVC#13 issues exact-run sanitized grant and TV resolves bounded ephemeral capability inside that invocation",
+      "session_role": "MERGED_DURABLE_BLOCKER"
+    },
     {
       "role": "READ_ONLY_WORKER_EVIDENCE_OBSERVER",
       "owner": "Admissible-Existence/.github/.github/workflows/principle-worker-activation-observer.yml",
       "workflow_id": 328894324,
-      "state": "MACHINE_OWNED_INSTALLED_UNEXECUTED",
-      "release_condition": "COMPLETE_READ_ONLY_WORKER_EVIDENCE"
-    },
-    {
-      "role": "CROSS_REPOSITORY_REMEDIATION_ROUTER",
-      "owner": "Admissible-Existence/.github/.github/workflows/cross-repository-remediation-router.yml",
-      "workflow_id": 328896970,
-      "state": "MACHINE_OWNED_INSTALLED_UNEXECUTED",
-      "release_condition": "Routing workflow persists the 31 non-control-plane routes and artifact, then governed local task creation begins"
-    },
-    {
-      "role": "GOVERNED_APPLY_GRANT_AND_RUNTIME_RESOLUTION",
-      "owner": "StegVerse-Labs/TVC#13 with StegVerse-Labs/TV#3 runtime custody",
-      "state": "BLOCKED",
-      "release_condition": "Hosted TVC receipt plus TV runtime-only capability invoke the reusable worker"
-    },
-    {
-      "role": "REPOSITORY_LOCAL_COMPLETENESS_EXECUTION",
-      "owner": "Admissible-Existence/.github/data/cross-repository-remediation-registry.json and data/formalism-worker-registry.json repository-native lanes",
-      "state": "28_DIRECT_UPDATE_2_DISPOSITION_1_OBSERVE_ONLY_1_CONTROL_PLANE",
-      "release_condition": "31 non-control-plane routes receive completion, disposition, or observe-only receipts and all 32 repositories validate their applicable contracts"
+      "claim_state": "MACHINE_OWNED_ACTIVE_FAILING",
+      "release_condition": "Observer emits its admitted completion state or durable first-defect evidence; latest scheduled runs remain inspectable",
+      "session_role": "MERGED_MACHINE_OWNED"
     },
     {
       "role": "CONDITIONAL_PROPAGATION",
-      "owner": "Separately admitted tasks for StegVerse-Labs/Site, GCAT-BCAT-Engine/Publisher, admissibility-wiki, stegguardian-wiki, and master-records",
-      "state": "NOT_YET_ADMITTED",
-      "release_condition": "Each validated source repository receives an explicit propagation decision and evidence"
+      "owner": "Destination-owned Site, Publisher, admissibility-wiki, stegguardian-wiki and master-records tasks only when admitted",
+      "claim_state": "CONDITIONAL_DESTINATION_OWNED",
+      "release_condition": "Each propagation target explicitly admits work and persists destination-owned evidence",
+      "session_role": "MERGED_NO_INFERRED_PROPAGATION"
     }
   ],
-  "archive_gate": "Either 32/32 repositories validate complete with required propagation decisions, or the TV/TVC-governed worker and remediation router produce operational hosted evidence, durable reports, repository-local tasks or machine claims, and continued progress without chat dependence.",
+  "archive_gate": "This conversation is archive-safe when every unique session requirement is durable and every unresolved program task has a named canonical owner, claim/blocker state and machine-observable release condition. Broader program completion is not required to retain this chat when no unique chat-owned execution role remains.",
+  "archive_gate_satisfied": true,
   "evidence": [
-    "worker_run:31128125108",
-    "worker_job:92707591419",
-    "worker_repair_commit:e7be2c5c7aea62cf7b9ef50731208f6883ac1dfc",
-    "observer_workflow_id:328894324",
-    "remediation_router_workflow_id:328896970",
-    "remediation_registry_commit:62864b48d73c118ff2f850b7cf41b1a9257f14fe",
-    "remediation_router_commit:21945cb8345909495001a3dd7e0369f74ebe5a03",
-    "remediation_workflow_commit:920617f6f41b04410f8e9e0f73f4ba04471dab65",
-    "remediation_handoff_commit:b4f16463c81208a3f6dd8c1c5be05446900eeb65",
+    "central_handoff:c45a378c534dbb3aade357a4407e215e2c3e41a5",
+    "hosted_final_routing_persistence:ff75341",
+    "hosted_final_activation_run:31214454109",
+    "hosted_final_activation_job:92984583643",
+    "hosted_final_activation_artifact:9007934419",
+    "hosted_final_routing_artifact:9007934932",
+    "tt_handoff:3ebd988ea4a7aaa3128e148a5f0d477a5df6f044",
+    "tt_integration_issue:Admissible-Existence/TT#2",
+    "ae_owner:Admissible-Existence/AE#20",
+    "cta_owner:Admissible-Existence/CTA#1",
+    "rtg_owner:Admissible-Existence/RTG#2",
+    "site_tt_owner:StegVerse-Labs/Site#101",
+    "guardian_tt_owner:StegVerse-002/stegguardian-wiki#9",
     "tv_runtime_issue:StegVerse-Labs/TV#3",
-    "tvc_activation_issue:StegVerse-Labs/TVC#13"
+    "tvc_activation_issue:StegVerse-Labs/TVC#13",
+    "observer_workflow_id:328894324",
+    "remediation_router_workflow_id:328896970"
   ],
-  "archive_ready": false
+  "archive_ready": true
 }
