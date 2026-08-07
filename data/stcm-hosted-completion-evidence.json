@@ -1,0 +1,33 @@
+{
+  "schema_version": "admissible_existence.hosted_completion_evidence.v1",
+  "repository": "Admissible-Existence/STCM",
+  "role": "source",
+  "complete": true,
+  "handoff": "docs/STCM_MIRROR_HANDOFF.md",
+  "handoff_commit": "2feba62be339ef6174e5eb342eb8f66061b5bf40",
+  "workflow": ".github/workflows/stcm-build.yml",
+  "validation_run": 31129276523,
+  "validation_job": 92714131659,
+  "validation_conclusion": "success",
+  "validated_checks": [
+    "tools/run_stcm_build.py -> PASS AE intake; PASS STCM build",
+    "closure-harness/run_closure_harness.py -> 6/6 matched, unexpected=0, saturated=true, authority_effect=false",
+    "git diff --exit-code -- dist -> generated outputs current",
+    "required artifact stcm-closure-harness-receipt uploaded successfully"
+  ],
+  "artifact_policy": "required",
+  "artifact_id": 8975456952,
+  "artifact_digest": "sha256:015c36e12058a2e20bb8aaaedb17ce73ff71ab617aedb5a4cbb7e9740f29ff4d",
+  "receipt": "reports/stcm-deterministic-validation-receipt.json",
+  "receipt_commit": "a455572a779ba481637465e48c17b34db5106a68",
+  "boundaries": {
+    "creates_authority": false,
+    "commits_execution": false,
+    "issues_standing": false,
+    "accepts_proofs": false,
+    "publication_authorized": false,
+    "certification_authority": false,
+    "universal_admissibility": false,
+    "claims_master_record_authority": false
+  }
+}
