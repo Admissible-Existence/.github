@@ -1,0 +1,59 @@
+{
+  "schema_version": "admissible_existence.standing.central_completion_evidence.v1",
+  "goal_id": "STANDING-PROOF-PRINCIPLE-COMPLETENESS-001",
+  "parent_goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
+  "repository": "Admissible-Existence/standing-proof-formalism",
+  "state": "COMPLETE_NOTIFY_ONLY",
+  "source": {
+    "handoff": "Admissible-Existence/standing-proof-formalism@main:docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md",
+    "handoff_commit": "6704efd99896387a0a33269eba1c19469609d41c",
+    "issue": "Admissible-Existence/standing-proof-formalism#1",
+    "workflow_id": 329305789,
+    "run_id": 31179576449,
+    "job_id": 92869363401,
+    "conclusion": "success",
+    "receipt": "reports/standing-proof-principle-completeness-validation.json",
+    "receipt_commit": "fc06d7e0229f58463c9def2eb12aa9f9ce476e64",
+    "receipt_blob": "172addb7c53902bf2260681f7e2a86256f53cd76",
+    "principles_valid": "4/4",
+    "standing_cases": "8/8 matched",
+    "compact_contracts": "3/3 passed",
+    "artifact_id": 8994192908,
+    "artifact_digest": "sha256:abba57628b1a046b82e2aaf6a9719986f98354e17963cd32647b5ede414266b0"
+  },
+  "control_plane": {
+    "worker_registry_commit": "74a002f356e947380a7d1a493c7c1ce512bddf06",
+    "remediation_registry_commit": "9628ba5cd47fdf487c69c4ab67d7f6ee26477aff",
+    "router_commit": "b8b95e5de681d2c4e3190c77ff4819c932e88c32",
+    "router_run_id": 31180111656,
+    "router_job_id": 92871090308,
+    "router_conclusion": "success",
+    "router_tests_passed": "9/9",
+    "routing_counts": {
+      "CONTROL_PLANE": 1,
+      "DIRECT_SOURCE_UPDATE": 2,
+      "DIRECT_SUPPORT_UPDATE": 6,
+      "DISPOSITION_REQUIRED": 2,
+      "OBSERVE_NOTIFY_ONLY": 1,
+      "COMPLETE_NOTIFY_ONLY": 13,
+      "INTEGRATION_NOTIFY_ONLY": 1,
+      "HOSTED_VALIDATION_BLOCKED": 6
+    },
+    "routing_report_commit": "1da7e07",
+    "artifact_id": 8994404101,
+    "artifact_digest": "sha256:fcc26e483db6800259d44f994f256d73c9c079c33ae917ed9e0650397bb3246b"
+  },
+  "boundaries": {
+    "prior_review_inherits_standing": false,
+    "execution_authorized": false,
+    "publication_authorized": false,
+    "proofs_accepted": false,
+    "claims_final_cross_repository_validity": false
+  },
+  "continuation": {
+    "source_lane_released": true,
+    "reopen_condition": "direct regression evidence or a separately admitted destination-owned task",
+    "remaining_direct_sources": ["Admissible-Existence/AE", "Admissible-Existence/CTA"],
+    "collision_note": "AE#20 and CTA#1 own existing bounded work; do not duplicate those claims."
+  }
+}
