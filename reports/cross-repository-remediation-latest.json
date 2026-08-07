@@ -8,9 +8,9 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 8,
+    "COMPLETE_NOTIFY_ONLY": 9,
     "CONTROL_PLANE": 1,
-    "DIRECT_SOURCE_UPDATE": 7,
+    "DIRECT_SOURCE_UPDATE": 6,
     "DIRECT_SUPPORT_UPDATE": 6,
     "DISPOSITION_REQUIRED": 2,
     "HOSTED_VALIDATION_BLOCKED": 6,
@@ -385,13 +385,31 @@
       "worker_state": "required"
     },
     {
-      "completion_evidence": null,
-      "next_action": "Create or validate source formalism, mathematics, proof-candidate, evidence, and handoff artifacts.",
-      "owner": "Admissible-Existence/HPS",
+      "completion_evidence": {
+        "artifact_digest": "sha256:bc69384446e97dfdb84b987de39c664c32ffe75703832008128b2548f5fc5b74",
+        "artifact_id": 8983060766,
+        "closed_issue": "Admissible-Existence/HPS#1",
+        "downstream_activation_authorized": false,
+        "execution_authorized": false,
+        "handoff": "HPS_MIRROR_HANDOFF.md",
+        "handoff_commit": "5e777b07c38c606c88097043969f458d6fa9ecb4",
+        "principles": "4/4 valid",
+        "proofs_accepted": false,
+        "publication_authorized": false,
+        "receipt": "reports/hps-principle-completeness-validation.json",
+        "receipt_blob": "7ef41ce757b39083884e28a6073d24a0de610465",
+        "receipt_commit": "1d49631",
+        "unit_tests": "15/15 passed",
+        "validation_conclusion": "success",
+        "validation_job": 92778654507,
+        "validation_run": 31150408401
+      },
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
+      "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/HPS",
       "role": "source",
-      "routing_state": "DIRECT_SOURCE_UPDATE",
-      "worker_state": "required"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": null,
