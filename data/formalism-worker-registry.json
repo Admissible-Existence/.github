@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.20.0",
+  "schema_version": "3.21.0",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "coordination_repository": "Admissible-Existence/.github",
   "execution_model": "central controller creates bounded repository-local implementation branches or reports BLOCKED",
@@ -138,15 +138,28 @@
     {
       "repository": "Admissible-Existence/learning-transition-governance",
       "role": "source",
-      "worker_state": "implementation_complete_hosted_validation_blocked",
+      "worker_state": "validated_complete_notify_only",
       "completion_evidence": {
+        "normalized_evidence": "data/learning-transition-governance-hosted-completion-evidence.json",
         "handoff": "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md",
-        "handoff_commit": "5a11a204e425654419f22a7ce67b56dbb30ca21c",
-        "deterministic_receipt": "reports/learning-transition-validation-receipt.json",
+        "handoff_commit": "ad246736059f86f55d660858f1c2456aaa87c6e5",
+        "validation_run": 31213952783,
+        "validation_job": 92983014790,
+        "validation_conclusion": "success",
+        "workflow": ".github/workflows/learning-transition-validation.yml",
+        "validated_checks": [
+          "tools/check_learning_stages.py -> valid: learning transition stages",
+          "tools/check_learning_outcomes.py -> valid: learning transition outcomes",
+          "reports/learning-transition-validation-receipt.json parsed successfully",
+          "required hosted validation receipt artifact uploaded successfully"
+        ],
+        "artifact_policy": "required",
+        "artifact_id": 9007753458,
+        "artifact_digest": "sha256:c3ca96f6b94a76742db64209a79ccd20f5be529886c62018ba7f1e8f6a2f93a9",
+        "receipt": "reports/learning-transition-validation-receipt.json",
         "receipt_commit": "a023d59985d63ab933c0c6ab5b807b3635a5048c",
-        "receipt_sha256": "e4fa6f40908473e47827d7ef086ef0cf2b30bb8b395a5ee7c1c3c3aab4933e05",
-        "closed_issue": "Admissible-Existence/learning-transition-governance#1",
-        "blocker": "Admissible-Existence/.github:data/actions-activation-authority-blocker.json"
+        "creates_authority": false,
+        "commits_execution": false
       }
     },
     {

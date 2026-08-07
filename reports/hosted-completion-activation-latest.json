@@ -1,6 +1,6 @@
 {
   "changes": [
-    "Admissible-Existence/STCM"
+    "Admissible-Existence/learning-transition-governance"
   ],
   "complete": true,
   "counts": {
@@ -8,10 +8,10 @@
     "direct_source_update_remaining": 2,
     "direct_support_update_remaining": 0,
     "disposition_required": 0,
-    "implementation_complete_hosted_validation_blocked": 3,
+    "implementation_complete_hosted_validation_blocked": 2,
     "machine_owned_observe_only": 1,
     "source_complete_integration_pending": 1,
-    "validated_complete_notify_only": 24
+    "validated_complete_notify_only": 25
   },
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "schema_version": "admissible_existence.hosted_completion_activation.v1"

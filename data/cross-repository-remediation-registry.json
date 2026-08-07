@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.24.0",
+  "schema_version": "1.25.0",
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "parent_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_session_goal": "Extend principle-completeness execution into every affected repository and notify dependent control planes and publication surfaces.",
@@ -14,9 +14,9 @@
     "direct_support_update_remaining": 0,
     "disposition_required": 0,
     "machine_owned_observe_only": 1,
-    "validated_complete_notify_only": 24,
+    "validated_complete_notify_only": 25,
     "source_complete_integration_pending": 1,
-    "implementation_complete_hosted_validation_blocked": 3,
+    "implementation_complete_hosted_validation_blocked": 2,
     "immediate_external_dependencies": 2,
     "conditional_propagation_destinations": 5
   },
@@ -385,6 +385,20 @@
       "artifact_id": 8975456952,
       "artifact_digest": "sha256:015c36e12058a2e20bb8aaaedb17ce73ff71ab617aedb5a4cbb7e9740f29ff4d",
       "normalized_evidence": "data/stcm-hosted-completion-evidence.json"
+    },
+    {
+      "repository": "Admissible-Existence/learning-transition-governance",
+      "state": "COMPLETE_NOTIFY_ONLY",
+      "source_handoff": "Admissible-Existence/learning-transition-governance@main:docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md",
+      "handoff_commit": "ad246736059f86f55d660858f1c2456aaa87c6e5",
+      "validation_run": 31213952783,
+      "validation_job": 92983014790,
+      "validation_conclusion": "success",
+      "workflow": ".github/workflows/learning-transition-validation.yml",
+      "artifact_policy": "required",
+      "artifact_id": 9007753458,
+      "artifact_digest": "sha256:c3ca96f6b94a76742db64209a79ccd20f5be529886c62018ba7f1e8f6a2f93a9",
+      "normalized_evidence": "data/learning-transition-governance-hosted-completion-evidence.json"
     }
   ],
   "bounded_non_direct_states": [
