@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "goal_id": "ECAT-ICAT-PRINCIPLE-COMPLETENESS-001",
+  "repository": "Admissible-Existence/ECAT-ICAT",
+  "state": "VALIDATED_COMPLETE_NOTIFY_ONLY",
+  "canonical_handoff": "docs/ECAT_ICAT_MIRROR_HANDOFF.md",
+  "handoff_commit": "26a340573ad9670b4719adade3dd4cd55cc9f17d",
+  "closed_issue": "Admissible-Existence/ECAT-ICAT#1",
+  "primary_validation": {
+    "run": 31147813783,
+    "job": 92770919160,
+    "conclusion": "success",
+    "receipt_commit": "f2d6791",
+    "principle_artifact_id": 8982133384,
+    "principle_artifact_digest": "sha256:4a85c8b75cecc36b54e0829fbfe37686d5badc8d026547c1c2f058df6f573b11",
+    "rc1_receipt_artifact_id": 8982133708,
+    "completion_artifact_id": 8982134028
+  },
+  "final_handoff_regression": {
+    "run": 31147884502,
+    "job": 92771133359,
+    "conclusion": "success",
+    "receipt_commit": "dcebc84",
+    "principle_artifact_id": 8982157390,
+    "principle_artifact_digest": "sha256:8206e9cc2d409cffe3a5e9ca06975cac974ac6fdaafa334d2c940689f5720667",
+    "rc1_receipt_artifact_id": 8982157565,
+    "rc1_receipt_artifact_digest": "sha256:dd686e2c0866d2e67672fefc0f8de9338d5aa1cd96250be980c1350834a6ed1e",
+    "completion_artifact_id": 8982157735,
+    "completion_artifact_digest": "sha256:de1d04d660d0b47a4795230d8d4a131497fb083128255025365089930417e0ba"
+  },
+  "bounded_results": {
+    "profile_fixtures": "4 total / 2 valid / 2 invalid",
+    "schema_conformance": "4/4 matched",
+    "principles": "4/4 valid",
+    "findings": 0,
+    "release_structure": "33/33 present",
+    "execution_authorized": false,
+    "publication_authorized": false,
+    "proofs_accepted": false
+  },
+  "central_sync_note": "This file is the exact evidence record for ECAT-ICAT. Any older summary row that mixes the primary-run job/artifact identifiers with the final-handoff regression run identifier is superseded by this record and the canonical cross-repository handoff until that summary row is normalized.",
+  "worker_registry_recovery": {
+    "accidental_placeholder_commit": "40b78481d3c6f000ec64323da3a8972c9bf7c857",
+    "exact_restore_commit": "31dd079f539a76922625828a2d672145000e0905",
+    "clean_ecat_reclassification_commit": "7cc1ecdf15b808e8c4c62ddf7f94d29cf9b5c8da",
+    "verification": "compare against restored baseline showed only schema-version and ECAT-ICAT-row semantic changes after correction"
+  }
+}
