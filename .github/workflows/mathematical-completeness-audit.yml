@@ -9,6 +9,7 @@ on:
     paths:
       - 'data/formalism-worker-registry.json'
       - 'data/mathematical-completeness-policy.json'
+      - 'data/mathematical-completeness-evidence-registry.json'
       - 'scripts/audit_mathematical_completeness.py'
       - '.github/workflows/mathematical-completeness-audit.yml'
       - 'docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md'
@@ -29,11 +30,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Audit all registered repositories
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          python scripts/audit_mathematical_completeness.py
+      - name: Build matrix from durable repository-local evidence
+        run: python scripts/audit_mathematical_completeness.py
 
       - name: Validate generated matrix shape
         run: |
@@ -51,7 +49,7 @@ jobs:
 
       - name: Persist latest matrices
         run: |
-          if git diff --quiet -- reports/mathematical-completeness-matrix.json reports/mathematical-completeness-matrix.md; then
+          if [ -z "$(git status --porcelain -- reports/mathematical-completeness-matrix.json reports/mathematical-completeness-matrix.md)" ]; then
             echo 'mathematical completeness matrices unchanged'
             exit 0
           fi
