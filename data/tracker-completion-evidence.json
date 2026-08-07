@@ -1,0 +1,39 @@
+{
+  "schema_version": "admissible_existence.tracker.completion_evidence.v1",
+  "goal_id": "TRACKER-SUPPORT-COMPLETENESS-001",
+  "repository": "Admissible-Existence/tracker",
+  "role": "support",
+  "state": "VALIDATED_COMPLETE_NOTIFY_ONLY",
+  "handoff": "docs/TRACKER_MIRROR_HANDOFF.md",
+  "handoff_commit": "57234138679c17f4ef76ca804fca15c8b0af4f8d",
+  "issue": "Admissible-Existence/tracker#1",
+  "adapters": {
+    "support_role_commit": "0e6bee5e05ffa086b1e361d786c991092d644310",
+    "source_coverage_commit": "e6851b38e89bca6b66483743cde403a85a7d1b42",
+    "support_contract_commit": "f311365f87869c76d3c22ffab9d63c79d0baefad",
+    "cost_event_schema_commit": "fb393208d032fd130a92eb52ad8f6fcc6cab8f6b",
+    "checker_commit": "664cd8937de279574a92e971436241517c22c48a",
+    "workflow_commit": "c85a1acce5e5f01e2d92b43a8fed16fdedfe3840",
+    "receipt_commit": "1568a1f4e5ef4dd80a559a466da29241ad342a48"
+  },
+  "validation": {
+    "workflow_id": 329398747,
+    "run_id": 31189709724,
+    "job_id": 92903122304,
+    "conclusion": "success",
+    "artifact_id": 8998251269,
+    "artifact_digest": "sha256:f983b682a91b8f34cc3fa840ed99f11063ff528817ca57a508edfdc294c6f761",
+    "cost_class_check": "PASS",
+    "result_vocabulary_check": "PASS",
+    "support_completeness_check": "PASS",
+    "json_contract_checks": "PASS"
+  },
+  "receipt": "reports/tracker-support-completeness-validation.json",
+  "boundaries": {
+    "creates_authority": false,
+    "commits_execution": false,
+    "publication_authorized": false,
+    "proofs_accepted": false
+  },
+  "central_activation_pending": true
+}
