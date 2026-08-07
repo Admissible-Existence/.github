@@ -1,20 +1,20 @@
 {
-  "schema_version": "1.6.0",
+  "schema_version": "1.7.0",
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "parent_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_session_goal": "Extend principle-completeness execution into every affected repository and notify dependent control planes and publication surfaces.",
   "coordination_repository": "Admissible-Existence/.github",
   "state": "ACTIVE",
   "created_at": "2026-08-06T21:39:00Z",
-  "updated_at": "2026-08-07T02:55:00Z",
+  "updated_at": "2026-08-07T04:37:00Z",
   "summary": {
     "registered_repositories": 32,
     "control_plane": 1,
-    "direct_source_update_remaining": 9,
+    "direct_source_update_remaining": 8,
     "direct_support_update_remaining": 6,
     "disposition_required": 2,
     "machine_owned_observe_only": 1,
-    "validated_complete_notify_only": 6,
+    "validated_complete_notify_only": 7,
     "source_complete_integration_pending": 1,
     "implementation_complete_hosted_validation_blocked": 6,
     "immediate_external_dependencies": 2,
@@ -26,7 +26,8 @@
     {"repository":"Admissible-Existence/DC","state":"COMPLETE_NOTIFY_ONLY","source_handoff":"Admissible-Existence/DC@main:docs/DC_MIRROR_HANDOFF.md","handoff_commit":"b1024ed5ded2dea6d997c5671c2d8980e9f57e44","deterministic_receipt":"Admissible-Existence/DC@main:reports/dc-deterministic-validation-receipt.json","receipt_commit":"7996042bb511fdb7077e2ec28f97734f7450f4ab","hosted_run":31140305512,"hosted_job":92748610309,"hosted_conclusion":"success","closed_issue":"Admissible-Existence/DC#1"},
     {"repository":"Admissible-Existence/Existence","state":"COMPLETE_NOTIFY_ONLY","source_handoff":"Admissible-Existence/Existence@main:docs/EXISTENCE_MIRROR_HANDOFF.md","handoff_commit":"62855c4535604c96643e031483093001df558d3c","hosted_run":31140771106,"hosted_job":92750005203,"hosted_conclusion":"success","receipt":"Admissible-Existence/Existence@main:receipts/principle-completeness-validation.json","receipt_blob":"db26caa7a61b6cdbe09b7e66eb490b8ade531aef","artifact_id":8979707371,"artifact_digest":"sha256:d386cfb469be812ba234bd61a4b327e6d616691009960f1d288c7be2b3ff154e","principles":"10/10 valid"},
     {"repository":"Admissible-Existence/Triad","state":"COMPLETE_NOTIFY_ONLY","source_handoff":"Admissible-Existence/Triad@main:docs/TRIAD_MIRROR_HANDOFF.md","handoff_commit":"f4faf9a9d8133d750070c813b7b944f20e26a600","closed_issue":"Admissible-Existence/Triad#1","hosted_run":31141903362,"hosted_job":92753392924,"hosted_conclusion":"success","receipt":"Admissible-Existence/Triad@main:receipts/triad-principle-completeness-validation.json","receipt_commit":"f0eb703","receipt_blob":"9c93e8f8ba1c8155c9e250197d516c40eb7a1508","principles":"3/3 valid","artifact_id":8980083324,"artifact_digest":"sha256:d53444cda072b22bc52d8d1d4ecb3652b2ce6a189bfcee64351578810c5b2d95","rc1_receipt_artifact":8980083511,"completion_artifact":8980083689},
-    {"repository":"Admissible-Existence/GCAT-BCAT","state":"COMPLETE_NOTIFY_ONLY","source_handoff":"Admissible-Existence/GCAT-BCAT@main:GCAT_BCAT_MIRROR_HANDOFF.md","handoff_commit":"19b44c2bfbb0c045d4d993036596d0e6b5c5447d","closed_issue":"Admissible-Existence/GCAT-BCAT#2","hosted_run":31142667444,"hosted_job":92755615423,"hosted_conclusion":"success","receipt":"Admissible-Existence/GCAT-BCAT@main:reports/gcat-bcat-principle-completeness-validation.json","receipt_commit":"4b23709","principles":"4/4 valid","artifact_id":8980325382,"artifact_digest":"sha256:12192dccbac677c0f9532dd305a14e2779534cb7574d9c50eff8d1f34bcf40c0","decision_envelope_claims_satisfied":false,"decision_envelope_handoff":"Admissible-Existence/GCAT-BCAT@main:docs/DECISION_ENVELOPE_MIRROR_HANDOFF.md","decision_envelope_claim_registry":"Admissible-Existence/GCAT-BCAT@main:papers/decision-envelope/work_claims.json"}
+    {"repository":"Admissible-Existence/GCAT-BCAT","state":"COMPLETE_NOTIFY_ONLY","source_handoff":"Admissible-Existence/GCAT-BCAT@main:GCAT_BCAT_MIRROR_HANDOFF.md","handoff_commit":"19b44c2bfbb0c045d4d993036596d0e6b5c5447d","closed_issue":"Admissible-Existence/GCAT-BCAT#2","hosted_run":31142667444,"hosted_job":92755615423,"hosted_conclusion":"success","receipt":"Admissible-Existence/GCAT-BCAT@main:reports/gcat-bcat-principle-completeness-validation.json","receipt_commit":"4b23709","principles":"4/4 valid","artifact_id":8980325382,"artifact_digest":"sha256:12192dccbac677c0f9532dd305a14e2779534cb7574d9c50eff8d1f34bcf40c0","decision_envelope_claims_satisfied":false,"decision_envelope_handoff":"Admissible-Existence/GCAT-BCAT@main:docs/DECISION_ENVELOPE_MIRROR_HANDOFF.md","decision_envelope_claim_registry":"Admissible-Existence/GCAT-BCAT@main:papers/decision-envelope/work_claims.json"},
+    {"repository":"Admissible-Existence/ECAT-ICAT","state":"COMPLETE_NOTIFY_ONLY","source_handoff":"Admissible-Existence/ECAT-ICAT@main:docs/ECAT_ICAT_MIRROR_HANDOFF.md","handoff_commit":"26a340573ad9670b4719adade3dd4cd55cc9f17d","closed_issue":"Admissible-Existence/ECAT-ICAT#1","hosted_run":31147884502,"hosted_job":92770919160,"hosted_conclusion":"success","receipt":"Admissible-Existence/ECAT-ICAT@main:reports/ecat-icat-principle-completeness-validation.json","receipt_commit":"f2d6791","principles":"4/4 valid","artifact_id":8982133384,"artifact_digest":"sha256:4a85c8b75cecc36b54e0829fbfe37686d5badc8d026547c1c2f058df6f573b11","rc1_receipt_artifact":8982133708,"completion_artifact":8982134028}
   ],
   "bounded_non_direct_states": [
     {"repository":"Admissible-Existence/TT","state":"INTEGRATION_NOTIFY_ONLY","owner":"Admissible-Existence/TT#2"},
