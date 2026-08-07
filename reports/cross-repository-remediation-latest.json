@@ -8,9 +8,9 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 5,
+    "COMPLETE_NOTIFY_ONLY": 6,
     "CONTROL_PLANE": 1,
-    "DIRECT_SOURCE_UPDATE": 10,
+    "DIRECT_SOURCE_UPDATE": 9,
     "DIRECT_SUPPORT_UPDATE": 6,
     "DISPOSITION_REQUIRED": 2,
     "HOSTED_VALIDATION_BLOCKED": 6,
@@ -296,13 +296,31 @@
       "worker_state": "validated_complete_notify_only"
     },
     {
-      "completion_evidence": null,
-      "next_action": "Create or validate source formalism, mathematics, proof-candidate, evidence, and handoff artifacts.",
-      "owner": "Admissible-Existence/GCAT-BCAT",
+      "completion_evidence": {
+        "artifact_digest": "sha256:12192dccbac677c0f9532dd305a14e2779534cb7574d9c50eff8d1f34bcf40c0",
+        "artifact_id": 8980325382,
+        "closed_issue": "Admissible-Existence/GCAT-BCAT#2",
+        "decision_envelope_claim_registry": "papers/decision-envelope/work_claims.json",
+        "decision_envelope_claims_satisfied": false,
+        "decision_envelope_handoff": "docs/DECISION_ENVELOPE_MIRROR_HANDOFF.md",
+        "execution_authorized": false,
+        "handoff": "GCAT_BCAT_MIRROR_HANDOFF.md",
+        "handoff_commit": "19b44c2bfbb0c045d4d993036596d0e6b5c5447d",
+        "principles": "4/4 valid",
+        "proofs_accepted": false,
+        "publication_authorized": false,
+        "receipt": "reports/gcat-bcat-principle-completeness-validation.json",
+        "receipt_commit": "4b23709",
+        "validation_conclusion": "success",
+        "validation_job": 92755615423,
+        "validation_run": 31142667444
+      },
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
+      "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/GCAT-BCAT",
       "role": "source",
-      "routing_state": "DIRECT_SOURCE_UPDATE",
-      "worker_state": "required"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": null,
