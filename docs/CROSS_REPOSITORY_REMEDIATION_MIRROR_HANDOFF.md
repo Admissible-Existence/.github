@@ -3,8 +3,8 @@
 **Goal:** `AEX-CROSS-REPOSITORY-REMEDIATION-001`  
 **Parent goal:** `AEX-PRINCIPLE-COMPLETENESS-001`  
 **Repository / branch:** `Admissible-Existence/.github` / `main`  
-**Status:** `ACTIVE — 5 DIRECT SOURCE ROUTES REMAIN; CTA MERGED INTO EXISTING CLAIM; SIX REPOSITORIES REQUIRE HOSTED REOBSERVATION`  
-**Updated:** 2026-08-07T05:50:00Z
+**Status:** `ACTIVE — 4 DIRECT SOURCE ROUTES REMAIN; CTA MERGED INTO EXISTING CLAIM; SIX REPOSITORIES REQUIRE HOSTED REOBSERVATION`  
+**Updated:** 2026-08-07T07:05:00Z
 
 ## Originating session goal
 
@@ -14,10 +14,7 @@ Extend principle-completeness execution into every affected repository; preserve
 
 - `data/formalism-worker-registry.json`
 - `data/cross-repository-remediation-registry.json`
-- `data/ecat-icat-completion-evidence.json`
-- `data/iict-completion-evidence.json`
-- `data/hps-completion-evidence.json`
-- `data/fi-completion-evidence.json`
+- normalized evidence under `data/*-completion-evidence.json`, including `data/fi-completion-evidence.json` and `data/daco-completion-evidence.json`
 - `data/actions-activation-authority-blocker.json`
 - `scripts/route_cross_repository_remediation.py`
 - `tests/test_cross_repository_remediation_router.py`
@@ -28,94 +25,70 @@ Extend principle-completeness execution into every affected repository; preserve
 
 ## Current authoritative routing
 
-Worker registry schema `3.6.0`, remediation registry schema `1.10.0`, router commit `763845c7ac40f12cc770a943459689ed4a8c1c5e`, and hosted run `31151805649` establish:
+Worker registry schema `3.7.0`, remediation registry schema `1.11.0`, router commit `fb6764690860a47f61355af0adf0f33331d210f0`, and hosted run `31156145477` establish:
 
-- 5 `DIRECT_SOURCE_UPDATE`
-- 6 `DIRECT_SUPPORT_UPDATE`
-- 2 `DISPOSITION_REQUIRED`
+- 4 `DIRECT_SOURCE_UPDATE`: `AE`, `CTA`, `IW`, `standing-proof-formalism`
+- 6 `DIRECT_SUPPORT_UPDATE`: `core-lite`, `validator`, `tracker`, `telemetry`, `ae-validation-factory`, `validation-profile-registry`
+- 2 `DISPOSITION_REQUIRED`: `ae-validation-research`, `SOL`
 - 1 `OBSERVE_NOTIFY_ONLY`: `RTG`
-- 10 `COMPLETE_NOTIFY_ONLY`: `GTG`, `ET`, `DC`, `Existence`, `Triad`, `GCAT-BCAT`, `ECAT-ICAT`, `IICT`, `HPS`, `FI`
+- 11 `COMPLETE_NOTIFY_ONLY`: `GTG`, `ET`, `DC`, `Existence`, `Triad`, `GCAT-BCAT`, `ECAT-ICAT`, `IICT`, `HPS`, `FI`, `DaCo`
 - 1 `INTEGRATION_NOTIFY_ONLY`: `TT`
 - 6 `HOSTED_VALIDATION_BLOCKED`: `STCM`, `learning-transition-governance`, `BC`, `CHF`, `RE`, `RE-Reduction`
 - 1 `CONTROL_PLANE`: `.github`
 
-Direct-source routes remain `AE`, `CTA`, `DaCo`, `IW`, and `standing-proof-formalism`. AE#20 owns a distinct publication/review lane. CTA#1 owns the broad CTA formalism/provenance/release/integration lane and already contains the transferred organization-completeness requirement in comment `5212709338`; do not duplicate either claim.
+AE remains bounded by `AE#20`, which owns a distinct publication/review integration lane. CTA remains routed direct only because organization-completeness evidence is not yet centrally released; source implementation is already owned by `CTA#1`, where this session's completeness requirement was transferred in comment `5212709338`. Do not duplicate either active claim.
 
-## Newly completed activation: FI root completeness
+## Newly completed activation: DaCo
 
-`FI-PRINCIPLE-COMPLETENESS-001` is source-complete, hosted validated, claim-released, and centrally activated **for repository-root principle completeness only**.
+`DACO-PRINCIPLE-COMPLETENESS-001` is source-complete, hosted validated, claim-released, and centrally activated.
 
-Source evidence:
+Canonical source evidence:
 
-- handoff `Admissible-Existence/FI@main:docs/FI_MIRROR_HANDOFF.md`
-- source handoff completion commit `e20a3467ab4b78427f5633230658d9dbd5aafaf9`
-- FI#2 closed completed
-- eight root-completeness deliverables installed
-- canonical/iOS-safe FI validation workflows synchronized
-- source run `31151412185`, job `92781662553`, success
-- first-transition suite 7/7 passed
-- existing bootstrap, receipt-contract, activation-ledger, activation-completion, domain-intake, and cross-domain-assessment validation gates remained successful
-- receipt `reports/fi-principle-completeness-validation.json`, commit `d73e56f99505777ce9dd675efd75e3691431fee3`, blob `53e33270a0ab1aabfea438c973aabcca8c78ef4f`
-- receipt validates 3/3 candidate principles with zero findings
-- source artifact `8983422586`, digest `sha256:6b7443a2e495e6670a8551451b2d448f307b2ad418c0fda4d4fbea323b21c438`
+- handoff `Admissible-Existence/DaCo@main:docs/DACO_MIRROR_HANDOFF.md`
+- final source handoff commit `2fbef81f5b3a415a17faa51202051538e7ad4d92`
+- `DaCo#1` closed completed
+- compact layers `data/daco-receipt-surface.json` and `data/daco-state-links.json` installed
+- six organization-completeness adapters, validator, and hosted workflow installed
+- source workflow ID `329084749`, run `31152578496`, job `92785152312`, conclusion `success`
+- existing W2 classifier 5/5 matched, zero unexpected, saturated true
+- principle completeness 4/4 valid, zero findings, compact layers ready
+- receipt `reports/daco-principle-completeness-validation.json`, commit `490a8f2c35aab8ae3143e5dd422ae64254d7046c`, blob `61b88bb15698574f6aa0a538187a9888127dd02d`
+- source artifact `8983855166`, digest `sha256:1636fea0e19102f31ac8fc91e18cb128eaa4d286e33fb62f283a7c324e944712`
+- continuity-equals-truth false; cross-repository validity false; execution/publication/proof authority false
 
-FI root completion explicitly does **not** satisfy broader FI activation. The source receipt and hosted activation reports preserve:
+Central DaCo activation evidence:
 
-- `external_prerequisites_satisfied=false`
-- `destination_bootstrap_completed=false`
-- `canonical_continuity_execution_completed=false`
-- `cross_domain_support_established=false`
-- `universal_law_established=false`
-- execution/publication/proof authority false
+- worker registry commit `af021f2f033e86393220d7a8641a02b203766f2a`; immediate-parent patch proves only schema `3.6.0 -> 3.7.0` and DaCo `required -> validated_complete_notify_only` changed
+- remediation registry commit `ba84ee5267505f969c8f20faa42b5d75742e73b9`
+- router contract commit `fb6764690860a47f61355af0adf0f33331d210f0`
+- hosted router run `31156145477`, job `92795954849`, conclusion `success`
+- router tests `9/9 passed`
+- exact routing counts `{COMPLETE_NOTIFY_ONLY: 11, CONTROL_PLANE: 1, DIRECT_SOURCE_UPDATE: 4, DIRECT_SUPPORT_UPDATE: 6, DISPOSITION_REQUIRED: 2, HOSTED_VALIDATION_BLOCKED: 6, INTEGRATION_NOTIFY_ONLY: 1, OBSERVE_NOTIFY_ONLY: 1}`
+- report persistence commit `c1a02dd`
+- routing artifact `8985202430`, digest `sha256:96cd75e70208fef93542427c9c5698335e5cc3908aa94fe8c5fcab9ec08f6f11`
+- normalized central evidence `data/daco-completion-evidence.json`, commit `98fc1234ecc7d48328f0a5401741098b43796065`
 
-Separate canonical owners remain:
+DaCo source work must not reopen absent direct regression evidence or a separately admitted destination-owned propagation task.
 
-- `Admissible-Existence/FI#1` — `CREATE_AND_BOOTSTRAP_FIOR`
-- `Data-Continuation/formalism-tests#4` — `VERIFY_CANONICAL_CONTINUITY_INTEROP`
+## Completed source repositories
 
-Cross-domain intake remains blocked until both independently valid completion receipts exist.
+`GTG`, `ET`, `DC`, `Existence`, `Triad`, `GCAT-BCAT` root, `ECAT-ICAT`, `IICT`, `HPS`, `FI` root, and `DaCo` are `COMPLETE_NOTIFY_ONLY`. Each has canonical source handoff and/or normalized completion evidence. Their source lanes do not depend on chat history.
 
-### FI control-plane activation evidence
-
-- worker-registry commit `af6cacb404f2c54df2e49dcb07d7eea1ed6862e1`; immediate-parent patch proves only schema `3.5.0 -> 3.6.0` and FI `required -> validated_complete_notify_only` changed
-- remediation-registry commit `f9f363ec2e817bbb123cacd5f6e4bae3e0121c54` sets 5 direct / 10 complete
-- router contract commit `763845c7ac40f12cc770a943459689ed4a8c1c5e` explicitly asserts FI `COMPLETE_NOTIFY_ONLY`
-- hosted router run `31151805649`, job `92782817671`, success
-- router tests 9/9 passed
-- exact counts `{COMPLETE_NOTIFY_ONLY: 10, CONTROL_PLANE: 1, DIRECT_SOURCE_UPDATE: 5, DIRECT_SUPPORT_UPDATE: 6, DISPOSITION_REQUIRED: 2, HOSTED_VALIDATION_BLOCKED: 6, INTEGRATION_NOTIFY_ONLY: 1, OBSERVE_NOTIFY_ONLY: 1}`
-- routing report persistence commit `98834ab`
-- routing artifact `8983568377`, digest `sha256:dfd96a78592ad7ba381bc67bc0c7ab6827c4cb80a2c84f119a1a8f7631f24189`
-- normalized central evidence `data/fi-completion-evidence.json`, commit `dc045870d3ba0131d0d28a2a03b639cec305109f`
-
-FI root source work is `COMPLETE_NOTIFY_ONLY` and must not reopen absent direct regression evidence. FI#1 and formalism-tests#4 continue independently.
-
-## Previously completed source repositories
-
-- **GTG:** `GTG_MIRROR_HANDOFF.md`; source/factory/mirror evidence complete; issue GTG#14 closed.
-- **ET:** `ET_MIRROR_HANDOFF.md`; 46 tests passing; consumer-owned propagation only.
-- **DC:** `docs/DC_MIRROR_HANDOFF.md`; hosted run `31140305512`, job `92748610309`, success.
-- **Existence:** `docs/EXISTENCE_MIRROR_HANDOFF.md`; hosted run `31140771106`, job `92750005203`; 10/10 principles.
-- **Triad:** `docs/TRIAD_MIRROR_HANDOFF.md`; hosted run `31141903362`, job `92753392924`; 3/3 principles.
-- **GCAT-BCAT root:** `GCAT_BCAT_MIRROR_HANDOFF.md`; hosted run `31142667444`, job `92755615423`; root complete; Decision Envelope remains separately owned.
-- **ECAT-ICAT:** `docs/ECAT_ICAT_MIRROR_HANDOFF.md`; final run `31147884502`; normalized completion evidence installed.
-- **IICT:** `IICT_MIRROR_HANDOFF.md`; final run `31148798684`; theorem remains candidate_not_proven; normalized evidence installed.
-- **HPS:** `HPS_MIRROR_HANDOFF.md`; final run `31150408401`; 15/15 tests plus 4/4 completeness; normalized evidence installed.
-
-Completed source repositories are `COMPLETE_NOTIFY_ONLY`; do not reopen them absent regression evidence or separately admitted destination-owned work.
+FI root completion remains explicitly separate from `FI#1` destination bootstrap and `Data-Continuation/formalism-tests#4` canonical continuity execution. FI cross-domain intake remains fail-closed until both external completion receipts validate.
 
 ## Hosted reobservation group
 
-`STCM`, `learning-transition-governance`, `BC`, `CHF`, `RE`, and `RE-Reduction` retain deterministic/local implementation evidence but require their own exact hosted release evidence. Success elsewhere is not proof for these repositories. Canonical shared observer record remains `data/actions-activation-authority-blocker.json` plus repository-specific release conditions.
+`STCM`, `learning-transition-governance`, `BC`, `CHF`, `RE`, and `RE-Reduction` retain deterministic/local completion evidence but require their own exact hosted release evidence. Success elsewhere is not proof for these repositories. Shared observer record: `data/actions-activation-authority-blocker.json`; repository-specific release conditions remain authoritative.
 
 ## Claims, convergence, and collision controls
 
 - `.github`: `ACTIVE_CONTROL_PLANE`
-- `AE#20`: distinct publication/review integration claim; do not duplicate
-- `CTA#1`: broad CTA claim; organization-completeness requirement merged into comment `5212709338`
-- `FI#1`: destination bootstrap lane, separate from completed FI root lane
+- `AE#20`: distinct publication/review integration claim; avoid collision
+- `CTA#1`: broad CTA formalism/provenance/release/integration claim; organization-completeness requirement already merged there
+- `FI#1`: destination bootstrap lane, independent from completed FI root
 - `Data-Continuation/formalism-tests#4`: canonical FI continuity lane
-- GCAT-BCAT Decision Envelope: separately active handoff/work-claims
-- `TT#2`: integration-only
+- GCAT-BCAT Decision Envelope: separately active under its own handoff/work-claims
+- `TT#2`: integration-only continuation
 - `TVC#13`: blocked until exact hosted grant evidence
 - `TV#3` / `tasks/TV-CAPABILITY-RUNTIME-ASSIST-001.json`: claimed for integration
 - disposition owners: `ae-validation-research#1`, `SOL#1`
@@ -124,19 +97,19 @@ The coordinator may classify, route, preserve claims, activate installed validat
 
 ## Next executable order
 
-1. Inspect `Admissible-Existence/DaCo` canonical mirror handoff and live claims; take only an unclaimed or nonconflicting bounded principle-completeness role.
-2. Continue `IW` and `standing-proof-formalism` direct-source lanes.
-3. Handle AE only outside AE#20 collision boundaries; observe CTA via CTA#1 rather than duplicate implementation.
+1. Inspect `Admissible-Existence/IW` canonical mirror handoff and live claims; take only an unclaimed/nonconflicting bounded source-completeness role.
+2. Continue `standing-proof-formalism` direct source.
+3. Handle AE only outside `AE#20`; observe/merge CTA through `CTA#1` rather than duplicate implementation.
 4. Complete six direct-support repositories.
 5. Resolve two disposition repositories.
 6. Observe RTG without duplicate implementation.
 7. Reobserve six hosted-validation-blocked repositories against exact release conditions.
-8. Complete TV/TVC governed activation only with direct exact-run evidence.
+8. Complete TV/TVC governed activation only with exact direct evidence.
 9. Admit downstream propagation only through separately admitted destination-owned tasks.
 
 ## Automation
 
-Router workflow `328896970` is scheduled and push-triggered, fail-closed, validates registry/report shape, enforces exact state counts, persists `reports/cross-repository-remediation-latest.json`, and uploads an inspectable routing artifact. It is hosted-green for 5-direct/10-complete state.
+Router workflow `328896970` is scheduled and push-triggered, fail-closed, validates registry/report shape, enforces exact routing counts and required completed-state evidence, persists `reports/cross-repository-remediation-latest.json`, and uploads an inspectable routing artifact. It is hosted-green for the current 4-direct/11-complete state.
 
 ## Validation commands
 
@@ -151,19 +124,19 @@ python -m json.tool reports/cross-repository-remediation-latest.json
 
 `MERGED INTO: Admissible-Existence/.github/docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md`
 
-Completed GTG, ET, DC, Existence, Triad, GCAT-BCAT root, ECAT-ICAT, IICT, HPS, and FI-root state no longer depend on chat history. CTA and FI broader requirements are durably assigned to their existing canonical owners rather than duplicated here.
+All completed source lanes listed above, including FI-root and DaCo, are durable outside chat. CTA and broader FI requirements are assigned to existing canonical owners rather than duplicated here. Current unique session work is the remaining organization remediation routed above.
 
 ## Archive conditions
 
-This session is not archive-ready. Archive requires every non-control repository to have durable completion, disposition, integration-only, observe-only, hosted-blocked, or merged/superseded evidence; TV/TVC responsibilities to be proven or fully transferred; applicable propagation to be completed or explicitly not applicable with evidence; no stale/conflicting claim to remain; and no unique requirement to exist only in chat.
+This session is not archive-ready. Archive requires every non-control repository to have durable completion, disposition, integration-only, observe-only, hosted-blocked, or merged/superseded evidence; TV/TVC responsibilities to be proven or fully transferred; applicable propagation completed or explicitly not applicable with evidence; no stale/conflicting claim; and no unique requirement existing only in chat.
 
 ## Metrics
 
-- developed control-plane files: 24/24 including normalized ECAT, IICT, HPS, and FI evidence records
+- developed control-plane files: 25/25 including normalized ECAT, IICT, HPS, FI, and DaCo evidence records
 - routing inventory: 32/32 classified
-- direct-source remaining: 5/32, with CTA converged into CTA#1 and AE bounded by AE#20 collision rules
+- direct-source remaining: 4/32, with CTA converged into `CTA#1` and AE bounded by `AE#20`
 - direct-support remaining: 6/32
-- complete notify-only: 10/32
+- complete notify-only: 11/32
 - hosted reobservation required: 6/32
 - integration-only: 1/32
 - observe-only: 1/32
