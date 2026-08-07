@@ -8,9 +8,9 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 9,
+    "COMPLETE_NOTIFY_ONLY": 10,
     "CONTROL_PLANE": 1,
-    "DIRECT_SOURCE_UPDATE": 6,
+    "DIRECT_SOURCE_UPDATE": 5,
     "DIRECT_SUPPORT_UPDATE": 6,
     "DISPOSITION_REQUIRED": 2,
     "HOSTED_VALIDATION_BLOCKED": 6,
@@ -412,13 +412,37 @@
       "worker_state": "validated_complete_notify_only"
     },
     {
-      "completion_evidence": null,
-      "next_action": "Create or validate source formalism, mathematics, proof-candidate, evidence, and handoff artifacts.",
-      "owner": "Admissible-Existence/FI",
+      "completion_evidence": {
+        "artifact_digest": "sha256:6b7443a2e495e6670a8551451b2d448f307b2ad418c0fda4d4fbea323b21c438",
+        "artifact_id": 8983422586,
+        "canonical_continuity_execution_completed": false,
+        "cross_domain_support_established": false,
+        "destination_bootstrap_completed": false,
+        "execution_authorized": false,
+        "external_prerequisites_satisfied": false,
+        "first_transition_suite": "7/7 passed",
+        "handoff": "docs/FI_MIRROR_HANDOFF.md",
+        "handoff_commit": "cdc8a582744988f0d7afe52a1dbb64a6bc502068",
+        "principles": "3/3 candidate valid",
+        "proofs_accepted": false,
+        "publication_authorized": false,
+        "receipt": "reports/fi-principle-completeness-validation.json",
+        "receipt_blob": "53e33270a0ab1aabfea438c973aabcca8c78ef4f",
+        "receipt_commit": "d73e56f99505777ce9dd675efd75e3691431fee3",
+        "root_issue": "Admissible-Existence/FI#2",
+        "separate_continuity_owner": "Data-Continuation/formalism-tests#4",
+        "separate_destination_owner": "Admissible-Existence/FI#1",
+        "universal_law_established": false,
+        "validation_conclusion": "success",
+        "validation_job": 92781662553,
+        "validation_run": 31151412185
+      },
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
+      "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/FI",
       "role": "source",
-      "routing_state": "DIRECT_SOURCE_UPDATE",
-      "worker_state": "required"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": null,
