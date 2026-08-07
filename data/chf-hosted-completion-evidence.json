@@ -1,0 +1,36 @@
+{
+  "schema_version": "admissible_existence.hosted_completion_evidence.v1",
+  "repository": "Admissible-Existence/CHF",
+  "role": "source",
+  "complete": true,
+  "handoff": "docs/CHF_MIRROR_HANDOFF.md",
+  "handoff_commit": "96cbdc31e6cf288249d88096f044abfba5e8eccf",
+  "workflow": ".github/workflows/chf-validation.yml",
+  "validation_run": 31213968412,
+  "validation_job": 92983064033,
+  "validation_conclusion": "success",
+  "validated_checks": [
+    "tools/check_chf_conditions.py -> valid: CHF conditions",
+    "tools/check_chf_thresholds.py -> valid: CHF thresholds",
+    "tools/check_chf_proof_surfaces.py -> valid: CHF proof surfaces",
+    "tools/check_chf_cross_domain.py -> valid: CHF cross domain",
+    "tools/check_chf_integration.py -> valid: CHF integration",
+    "tools/check_chf_mirror_handoff.py -> valid: CHF mirror handoff",
+    "reports/chf-deterministic-validation-receipt.json parsed successfully"
+  ],
+  "artifact_policy": "required",
+  "artifact_id": 9007757529,
+  "artifact_digest": "sha256:62293e84137ee375c12c32655fdf4d1f802206356ac93ed828bd8c90cd1a1ac7",
+  "receipt": "reports/chf-deterministic-validation-receipt.json",
+  "receipt_commit": "269f6b757e6108e3f22f65f64f27bec4c8b02469",
+  "boundaries": {
+    "creates_authority": false,
+    "commits_execution": false,
+    "issues_standing": false,
+    "accepts_proofs": false,
+    "publication_authorized": false,
+    "certification_authority": false,
+    "universal_admissibility": false,
+    "claims_master_record_authority": false
+  }
+}
