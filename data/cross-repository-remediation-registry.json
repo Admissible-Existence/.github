@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.22.0",
+  "schema_version": "1.23.0",
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "parent_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_session_goal": "Extend principle-completeness execution into every affected repository and notify dependent control planes and publication surfaces.",
@@ -14,9 +14,9 @@
     "direct_support_update_remaining": 0,
     "disposition_required": 0,
     "machine_owned_observe_only": 1,
-    "validated_complete_notify_only": 22,
+    "validated_complete_notify_only": 23,
     "source_complete_integration_pending": 1,
-    "implementation_complete_hosted_validation_blocked": 5,
+    "implementation_complete_hosted_validation_blocked": 4,
     "immediate_external_dependencies": 2,
     "conditional_propagation_destinations": 5
   },
@@ -357,6 +357,20 @@
       "artifact_id": null,
       "artifact_digest": null,
       "normalized_evidence": "data/re-reduction-hosted-completion-evidence.json"
+    },
+    {
+      "repository": "Admissible-Existence/RE",
+      "state": "COMPLETE_NOTIFY_ONLY",
+      "source_handoff": "Admissible-Existence/RE@main:docs/RE_MIRROR_HANDOFF.md",
+      "handoff_commit": "3920706845779fdc581a99fa08257dcccbc8864f",
+      "validation_run": 31135034479,
+      "validation_job": 92732381808,
+      "validation_conclusion": "success",
+      "workflow": ".github/workflows/re-proof-obligations.yml",
+      "artifact_policy": "none_by_workflow_design",
+      "artifact_id": null,
+      "artifact_digest": null,
+      "normalized_evidence": "data/re-hosted-completion-evidence.json"
     }
   ],
   "bounded_non_direct_states": [

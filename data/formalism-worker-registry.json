@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.18.0",
+  "schema_version": "3.19.0",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "coordination_repository": "Admissible-Existence/.github",
   "execution_model": "central controller creates bounded repository-local implementation branches or reports BLOCKED",
@@ -169,19 +169,28 @@
     {
       "repository": "Admissible-Existence/RE",
       "role": "source",
-      "worker_state": "implementation_complete_hosted_validation_blocked",
+      "worker_state": "validated_complete_notify_only",
       "completion_evidence": {
+        "normalized_evidence": "data/re-hosted-completion-evidence.json",
         "handoff": "docs/RE_MIRROR_HANDOFF.md",
-        "handoff_commit": "15664dad0929ca12dbd54d25d13b3628bbc62019",
-        "proof_registry_commit": "1d0fc0aa43a78ff38d8d247afe5423f20f1d5fc3",
-        "proof_obligations": "5/5 tested_not_proven",
-        "bounded_cases": "24/24 matched",
-        "base_checks": "4/4 passed",
-        "closed_issue": "Admissible-Existence/RE#2",
-        "consumer_owner": "Admissible-Existence/RE-Reduction",
-        "consumer_handoff": "docs/RE_REDUCTION_MIRROR_HANDOFF.md",
-        "consumer_handoff_commit": "14488f3953dd4d502d6bda08b56e9155a0027d93",
-        "hosted_blocker": "Admissible-Existence/.github:data/actions-activation-authority-blocker.json"
+        "handoff_commit": "3920706845779fdc581a99fa08257dcccbc8864f",
+        "validation_run": 31135034479,
+        "validation_job": 92732381808,
+        "validation_conclusion": "success",
+        "workflow": ".github/workflows/re-proof-obligations.yml",
+        "validated_checks": [
+          "tools/validate_re_proof_obligations.py -> ready=true, errors=[]",
+          "tools/check_expected_re_proof_obligations.py -> ready=true, errors=[]",
+          "five proof obligations remain tested_not_proven; direct bounded fixture aggregate corrected to 19/19 from explicit 3+4+4+4+4 receipts",
+          "consumer integration complete in Admissible-Existence/RE-Reduction with hosted 5/5 consumer compatibility"
+        ],
+        "artifact_policy": "none_by_workflow_design",
+        "artifact_id": null,
+        "artifact_digest": null,
+        "receipt": "reports/re-deterministic-validation-receipt.json",
+        "receipt_commit": "8f7a595d1ad7edf2a8e24445b91a5038034cb2f9",
+        "creates_authority": false,
+        "commits_execution": false
       }
     },
     {
