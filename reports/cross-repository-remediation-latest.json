@@ -8,9 +8,9 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 6,
+    "COMPLETE_NOTIFY_ONLY": 7,
     "CONTROL_PLANE": 1,
-    "DIRECT_SOURCE_UPDATE": 9,
+    "DIRECT_SOURCE_UPDATE": 8,
     "DIRECT_SUPPORT_UPDATE": 6,
     "DISPOSITION_REQUIRED": 2,
     "HOSTED_VALIDATION_BLOCKED": 6,
@@ -323,13 +323,30 @@
       "worker_state": "validated_complete_notify_only"
     },
     {
-      "completion_evidence": null,
-      "next_action": "Create or validate source formalism, mathematics, proof-candidate, evidence, and handoff artifacts.",
-      "owner": "Admissible-Existence/ECAT-ICAT",
+      "completion_evidence": {
+        "artifact_digest": "sha256:4a85c8b75cecc36b54e0829fbfe37686d5badc8d026547c1c2f058df6f573b11",
+        "artifact_id": 8982133384,
+        "closed_issue": "Admissible-Existence/ECAT-ICAT#1",
+        "completion_artifact": 8982134028,
+        "execution_authorized": false,
+        "handoff": "docs/ECAT_ICAT_MIRROR_HANDOFF.md",
+        "handoff_commit": "26a340573ad9670b4719adade3dd4cd55cc9f17d",
+        "principles": "4/4 valid",
+        "proofs_accepted": false,
+        "publication_authorized": false,
+        "rc1_receipt_artifact": 8982133708,
+        "receipt": "reports/ecat-icat-principle-completeness-validation.json",
+        "receipt_commit": "f2d6791",
+        "validation_conclusion": "success",
+        "validation_job": 92770919160,
+        "validation_run": 31147884502
+      },
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
+      "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/ECAT-ICAT",
       "role": "source",
-      "routing_state": "DIRECT_SOURCE_UPDATE",
-      "worker_state": "required"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": null,
