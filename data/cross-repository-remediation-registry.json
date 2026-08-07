@@ -1,22 +1,22 @@
 {
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "parent_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_session_goal": "Extend principle-completeness execution into every affected repository and notify dependent control planes and publication surfaces.",
   "coordination_repository": "Admissible-Existence/.github",
   "state": "ACTIVE",
   "created_at": "2026-08-06T21:39:00Z",
-  "updated_at": "2026-08-06T22:28:00Z",
+  "updated_at": "2026-08-07T02:11:00Z",
   "summary": {
     "registered_repositories": 32,
     "control_plane": 1,
-    "direct_source_update_remaining": 18,
+    "direct_source_update_remaining": 12,
     "direct_support_update_remaining": 6,
     "disposition_required": 2,
     "machine_owned_observe_only": 1,
-    "validated_complete_notify_only": 2,
+    "validated_complete_notify_only": 3,
     "source_complete_integration_pending": 1,
-    "implementation_complete_hosted_validation_blocked": 1,
+    "implementation_complete_hosted_validation_blocked": 6,
     "immediate_external_dependencies": 2,
     "conditional_propagation_destinations": 5
   },
@@ -40,6 +40,18 @@
       "session_close_receipt": "data/session-consolidation/transition-element-session-close-receipt.json",
       "validation": "46 tests, return code 0, OK",
       "remaining_role": "Consumer-owned propagation only through already named handoffs."
+    },
+    {
+      "repository": "Admissible-Existence/DC",
+      "state": "COMPLETE_NOTIFY_ONLY",
+      "source_handoff": "Admissible-Existence/DC@main:docs/DC_MIRROR_HANDOFF.md",
+      "handoff_commit": "b1024ed5ded2dea6d997c5671c2d8980e9f57e44",
+      "deterministic_receipt": "Admissible-Existence/DC@main:reports/dc-deterministic-validation-receipt.json",
+      "receipt_commit": "7996042bb511fdb7077e2ec28f97734f7450f4ab",
+      "hosted_run": 31140305512,
+      "hosted_job": 92748610309,
+      "hosted_conclusion": "success",
+      "closed_issue": "Admissible-Existence/DC#1"
     }
   ],
   "bounded_non_direct_states": [
@@ -54,6 +66,36 @@
       "owner": "Admissible-Existence organization or repository Actions administrator",
       "blocker": "data/actions-activation-authority-blocker.json",
       "deterministic_receipt": "Admissible-Existence/STCM@main:reports/stcm-deterministic-validation-receipt.json"
+    },
+    {
+      "repository": "Admissible-Existence/learning-transition-governance",
+      "state": "HOSTED_VALIDATION_BLOCKED",
+      "blocker": "data/actions-activation-authority-blocker.json",
+      "deterministic_receipt": "Admissible-Existence/learning-transition-governance@main:reports/learning-transition-validation-receipt.json"
+    },
+    {
+      "repository": "Admissible-Existence/BC",
+      "state": "HOSTED_VALIDATION_BLOCKED",
+      "blocker": "data/actions-activation-authority-blocker.json",
+      "deterministic_receipt": "Admissible-Existence/BC@main:reports/bc-deterministic-validation-receipt.json"
+    },
+    {
+      "repository": "Admissible-Existence/CHF",
+      "state": "HOSTED_VALIDATION_BLOCKED",
+      "blocker": "data/actions-activation-authority-blocker.json",
+      "deterministic_receipt": "Admissible-Existence/CHF@main:reports/chf-deterministic-validation-receipt.json"
+    },
+    {
+      "repository": "Admissible-Existence/RE",
+      "state": "HOSTED_VALIDATION_BLOCKED",
+      "blocker": "data/actions-activation-authority-blocker.json",
+      "source_handoff": "Admissible-Existence/RE@main:docs/RE_MIRROR_HANDOFF.md"
+    },
+    {
+      "repository": "Admissible-Existence/RE-Reduction",
+      "state": "HOSTED_VALIDATION_BLOCKED",
+      "blocker": "data/actions-activation-authority-blocker.json",
+      "source_handoff": "Admissible-Existence/RE-Reduction@main:docs/RE_REDUCTION_MIRROR_HANDOFF.md"
     }
   ],
   "routing_rules": {
