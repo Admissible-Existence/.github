@@ -3,8 +3,8 @@
 **Goal:** `AEX-CROSS-REPOSITORY-REMEDIATION-001`  
 **Parent goal:** `AEX-PRINCIPLE-COMPLETENESS-001`  
 **Repository / branch:** `Admissible-Existence/.github` / `main`  
-**Status:** `ACTIVE — 10 DIRECT SOURCE REMEDIATIONS REMAIN; SIX REPOSITORIES REQUIRE HOSTED REOBSERVATION`  
-**Updated:** 2026-08-07T02:41:00Z
+**Status:** `ACTIVE — 9 DIRECT SOURCE REMEDIATIONS REMAIN; SIX REPOSITORIES REQUIRE HOSTED REOBSERVATION`  
+**Updated:** 2026-08-07T02:56:00Z
 
 ## Originating session goal
 
@@ -21,136 +21,110 @@ Extend principle-completeness work into every affected repository; preserve comp
 - `reports/cross-repository-remediation-latest.json`
 - `data/session-consolidation-state.json`
 - issue `Admissible-Existence/.github#4`
-- issue `StegVerse-Labs/TVC#13`
-- issue `StegVerse-Labs/TV#3`
 
 ## Current authoritative routing
 
-Derived from worker registry schema `3.1.0` and router contract:
+Worker registry schema `3.2.0` and remediation registry schema `1.6.0` require:
 
-- 10 `DIRECT_SOURCE_UPDATE`
+- 9 `DIRECT_SOURCE_UPDATE`
 - 6 `DIRECT_SUPPORT_UPDATE`
 - 2 `DISPOSITION_REQUIRED`
-- 1 `OBSERVE_NOTIFY_ONLY`: `Admissible-Existence/RTG`
-- 5 `COMPLETE_NOTIFY_ONLY`: `Admissible-Existence/GTG`, `ET`, `DC`, `Existence`, `Triad`
-- 1 `INTEGRATION_NOTIFY_ONLY`: `Admissible-Existence/TT`
-- 6 `HOSTED_VALIDATION_BLOCKED` / repository-specific reobservation required: `STCM`, `learning-transition-governance`, `BC`, `CHF`, `RE`, `RE-Reduction`
-- 1 `CONTROL_PLANE`: `Admissible-Existence/.github`
+- 1 `OBSERVE_NOTIFY_ONLY`: `RTG`
+- 6 `COMPLETE_NOTIFY_ONLY`: `GTG`, `ET`, `DC`, `Existence`, `Triad`, `GCAT-BCAT`
+- 1 `INTEGRATION_NOTIFY_ONLY`: `TT`
+- 6 repository-specific hosted reobservations: `STCM`, `learning-transition-governance`, `BC`, `CHF`, `RE`, `RE-Reduction`
+- 1 `CONTROL_PLANE`: `.github`
 
-AE remains `validation_required`, but its current publication/review integration lane is separately claimed under `Admissible-Existence/AE#20`; do not collide with that work. After checking live handoffs/claims, the first unclaimed direct-source candidate is `Admissible-Existence/GCAT-BCAT`, followed by `ECAT-ICAT`, `IICT`, `CTA`, `HPS`, `FI`, `DaCo`, `IW`, and `standing-proof-formalism`.
+AE remains `validation_required`, but its current publication/review integration lane is separately claimed under `Admissible-Existence/AE#20`; do not collide with that work. The next direct-source candidate is `Admissible-Existence/ECAT-ICAT`, subject to its live handoff and claims.
 
-## Completed and converged repositories
+## Completed repositories and durable evidence
 
 ### GTG
 
-Target R3-R5 work, independent factory validation, and StegScholar mirror are complete. Canonical evidence is retained in `GTG_MIRROR_HANDOFF.md`; issue `GTG#14` is closed. Source implementation must not be reopened absent regression evidence.
+GTG target R3-R5, independent factory validation, and StegScholar mirror are complete. Canonical continuation is `GTG_MIRROR_HANDOFF.md`; issue `GTG#14` is closed.
 
 ### ET
 
-`ET_MIRROR_HANDOFF.md` records all ET tasks complete, 46 tests passing, task state `IDLE`, no active claims, complete session consolidation, and repository-level archive readiness. Remaining propagation is consumer-owned through already named handoffs.
+`ET_MIRROR_HANDOFF.md` records source completion, 46 tests passing, `IDLE` task state, no active source claim, and consumer-owned propagation only.
 
 ### DC
 
-`DC-PRINCIPLE-COMPLETENESS-001` is repository-locally complete and hosted validated. Canonical handoff `Admissible-Existence/DC@main:docs/DC_MIRROR_HANDOFF.md` is at `b1024ed5ded2dea6d997c5671c2d8980e9f57e44`; deterministic receipt is at `reports/dc-deterministic-validation-receipt.json`; final hosted run `31140305512`, job `92748610309`, completed `success`. DC#1 is closed.
+Canonical handoff `docs/DC_MIRROR_HANDOFF.md` at `b1024ed5ded2dea6d997c5671c2d8980e9f57e44`; deterministic receipt `reports/dc-deterministic-validation-receipt.json`; hosted run `31140305512`, job `92748610309`, success; `DC#1` closed.
 
 ### Existence
 
-Existence principle completeness is hosted validated. Canonical handoff is `docs/EXISTENCE_MIRROR_HANDOFF.md` at `62855c4535604c96643e031483093001df558d3c`; hosted run `31140771106`, job `92750005203`, completed `success`; committed receipt `receipts/principle-completeness-validation.json` is valid for 10/10 principles; artifact `8979707371` is inspectable. Final-handoff regression run `31140917361` also succeeded. Existence must not be reopened absent direct regression evidence or a separately admitted consumer/propagation task.
+Canonical handoff `docs/EXISTENCE_MIRROR_HANDOFF.md` at `62855c4535604c96643e031483093001df558d3c`; hosted run `31140771106`, job `92750005203`, success; committed receipt valid for 10/10 principles; artifact `8979707371`; final-handoff regression run `31140917361` also succeeded.
 
 ### Triad
 
-`TRIAD-PRINCIPLE-COMPLETENESS-001` is repository-locally complete and hosted validated. No mirror handoff existed at activation, so `docs/TRIAD_MIRROR_HANDOFF.md` was correctly installed as the first mutation. Existing RC1, management, archive, ECAT-ICAT, GCAT-BCAT, SPE, schema, fixture, and validator surfaces were preserved rather than replaced.
+Canonical handoff `docs/TRIAD_MIRROR_HANDOFF.md` at `f4faf9a9d8133d750070c813b7b944f20e26a600`; issue `Triad#1` closed; hosted run `31141903362`, job `92753392924`, success; receipt valid for 3/3 principles; artifacts `8980083324`, `8980083511`, `8980083689`. A stale expected RC1 fixture inventory was directly proven and repaired without weakening validation.
 
-Installed organization completeness adapters:
+### GCAT-BCAT root formalism
 
-- `formalism/principle-registry.yaml` — Subject Standing, Boundary Standing, Governance Standing;
-- `formalism/dependency-graph.yaml`;
-- `formalism/proof-candidates.yaml`;
-- `docs/WHOLE_REPO_THEORY_MAP.md`;
-- `docs/MATHEMATICAL_NOTATION.md`;
-- `docs/FALSIFICATION_AND_LIMITS.md`;
-- `tools/validate_principle_completeness.py`, integrated into the existing `.github/workflows/rc1-validation.yml`.
+`GCAT-BCAT-PRINCIPLE-COMPLETENESS-001` is complete and hosted validated for the repository-root commit-time governance/cost-of-state-transitions formalism. Its root continuation is `GCAT_BCAT_MIRROR_HANDOFF.md`; the Decision Envelope child workstream remains separately owned by `docs/DECISION_ENVELOPE_MIRROR_HANDOFF.md` and `papers/decision-envelope/work_claims.json`.
 
-Hosted run `31141789424` exposed a real pre-existing RC1 evidence drift: the validator evaluated eight fixtures while `tests/expected/rc1_validation_report.json` listed only six. The checker was not weakened. The expected inventory was reconciled in commit `c14c8cd653d7bb1496ce8890b43207a65fe866b2`, preserving the intended `fail_unknown_governance` fail-closed case.
+Installed root completeness adapters:
 
-Passing hosted evidence:
+- `formalism/principle-registry.yaml`
+- `formalism/dependency-graph.yaml`
+- `formalism/proof-candidates.yaml`
+- `docs/WHOLE_REPO_THEORY_MAP.md`
+- `docs/MATHEMATICAL_NOTATION.md`
+- `docs/FALSIFICATION_AND_LIMITS.md`
+- `tools/validate_principle_completeness.py`, integrated into `.github/workflows/build.yml`.
 
-- run `31141831561`, job `92753176606`, conclusion `success`;
-- every RC1, management, integration, lock, consolidation, coverage, and principle-completeness step passed;
-- workflow persisted `receipts/triad-principle-completeness-validation.json` at commit `f0eb703`;
-- receipt reported 3/3 principles, `valid=true`, empty findings, and execution/publication/proof-acceptance effects false;
-- artifacts `8980060914`, `8980061124`, `8980061301` were inspectable;
-- final handoff commit `f4faf9a9d8133d750070c813b7b944f20e26a600` triggered run `31141903362`, job `92753392924`, which also completed `success` and produced fresh artifacts `8980083324`, `8980083511`, `8980083689`;
-- issue `Admissible-Existence/Triad#1` is closed completed.
+Hosted run `31142506084` proved a pre-existing root-validator defect: `tools/validate_gcat_bcat.py` incorrectly required singular-transition fields on valid chained and replay receipts even though `schemas/receipt.schema.json` supports distinct receipt types. Commit `881b09f92e56a41d26641c402b8e9e1215d226f6` corrected validation by `receipt_type`, preserved fail-closed decision/commit semantics, checked stopped chains and stable-state replay, and did not rewrite valid fixtures to satisfy the faulty checker.
 
-Triad source work must not be reopened absent regression evidence or a separately admitted destination/integration task.
+Passing final root evidence:
+
+- handoff commit `19b44c2bfbb0c045d4d993036596d0e6b5c5447d`;
+- issue `GCAT-BCAT#2` closed completed;
+- hosted run `31142667444`;
+- job `92755615423`;
+- conclusion `success`;
+- root cost/build/receipt checks passed and generated `dist` diff was clean;
+- receipt `reports/gcat-bcat-principle-completeness-validation.json`, persisted at `4b23709`, reports 4/4 principles, `valid=true`, empty findings, authority flags false, and `decision_envelope_claims_satisfied=false`;
+- artifact `8980325382`, digest `sha256:12192dccbac677c0f9532dd305a14e2779534cb7574d9c50eff8d1f34bcf40c0`.
+
+GCAT-BCAT root source work must not be reopened absent regression evidence or a separately admitted task. Decision Envelope remains active but durably independent and is not falsely marked complete by root validation.
 
 ### TT
 
-Source enforcement is complete. Remaining work is destination admission and release gating under `Admissible-Existence/TT#2`; route is integration-only.
+Source enforcement is complete. Remaining destination admission/release gating is under `TT#2`; route remains integration-only.
 
-### Hosted-validation reobservation group
+## Hosted reobservation group
 
-STCM, learning-transition-governance, BC, CHF, RE, and RE-Reduction retain deterministic/local completion evidence but have not yet been reclassified by repository-specific hosted evidence. Preserve implementation state and re-observe each exact repository workflow; do not infer success from Actions working elsewhere and do not reopen implementation without a directly proven defect.
+STCM, learning-transition-governance, BC, CHF, RE, and RE-Reduction retain deterministic/local completion evidence. Each must be re-observed against its own exact workflow release condition; Actions success elsewhere is not proof of their hosted validation, and implementation must not be reopened absent a directly proven defect.
 
-## Control-plane hosted evidence
+## Control-plane automation evidence
 
-Router workflow `328896970` was repaired by commit `ea0c409d1f6beefb9a22c627b7c12555f5e3e7be` to install its missing `pytest` dependency. Hosted run `31140633314` then passed and uploaded routing artifact `8979661661`.
+Router workflow `328896970` is repository-native, scheduled and push-triggered, fail-closed, persists `reports/cross-repository-remediation-latest.json`, and uploads an inspectable routing artifact. It was repaired at `ea0c409d1f6beefb9a22c627b7c12555f5e3e7be` to install its missing `pytest` dependency.
 
-After Existence reclassification, router run `31141020556`, job `92750753267`, completed `success`; logs showed 9 tests passing and the exact 32-repository 11-direct/4-complete state; artifact `8979789859` was uploaded. The post-Triad router contract now requires 10 direct-source and 5 complete-notify-only repositories and must be directly inspected before that hosted activation state is considered final.
+Post-Triad run `31142128256`, job `92754043160`, completed success with 9 tests passing, exact 10-direct/5-complete routing, and artifact `8980153164`. The post-GCAT router contract now requires 9 direct-source and 6 complete-notify-only repositories; that exact hosted run must be inspected before claiming post-GCAT control-plane activation.
 
-## Claims
+## Claims and collision controls
 
-### Coordination implementation
+- `.github`: `ACTIVE_CONTROL_PLANE` for registries, routing, reports, collision controls, and archive state.
+- `AE#20`: active publication/review integration; do not duplicate.
+- `GCAT-BCAT#2`: `COMPLETE_RELEASED` for root completeness only.
+- Decision Envelope: separately active under `docs/DECISION_ENVELOPE_MIRROR_HANDOFF.md` and `papers/decision-envelope/work_claims.json`.
+- six hosted reobservation repositories: owner is central observer plus each repository workflow; release requires direct run/jobs/logs/receipt/artifact evidence.
+- TVC: `StegVerse-Labs/TVC#13` blocked until exact-run hosted grant proof exists.
+- TV: `StegVerse-Labs/TV#3` / `tasks/TV-CAPABILITY-RUNTIME-ASSIST-001.json` claimed for integration.
+- dispositions: `ae-validation-research#1`, `SOL#1`.
 
-- owner: `Admissible-Existence/.github`
-- state: `ACTIVE_CONTROL_PLANE`
-- scope: registries, router, tests, workflow, blockers, handoff, collision prevention, and archive state
-
-### Triad
-
-- owner: `Admissible-Existence/Triad#1`
-- state: `COMPLETE_RELEASED`
-- evidence: final handoff `f4faf9a9d8133d750070c813b7b944f20e26a600`, final hosted run `31141903362`, job `92753392924`, committed receipt, artifacts `8980083324`, `8980083511`, `8980083689`
-
-### AE
-
-- owner: `Admissible-Existence/AE#20` plus `data/task-states/coherent-life-publication.json`
-- state: `CLAIMED_FOR_INTEGRATION` / exact-current-artifact review
-- collision boundary: do not create competing publication, review, or release work
-
-### Hosted validation observers
-
-- state: `REOBSERVATION_REQUIRED` for the six named repositories
-- owner: central `.github` observer plus each affected repository workflow
-- release condition: an exact affected-repository run exists and its jobs, logs, reports, and required artifacts/receipts satisfy that repository's own handoff/blocker contract
-
-### TV/TVC integration
-
-- TVC owner: `StegVerse-Labs/TVC#13`
-- TV owner: `StegVerse-Labs/TV/tasks/TV-CAPABILITY-RUNTIME-ASSIST-001.json` and issue `TV#3`
-- release condition: exact-run grant, ephemeral runtime capability, sanitized receipt, revocation/non-replay, and no protected value retained
-
-### Disposition repositories
-
-- `Admissible-Existence/ae-validation-research#1`
-- `Admissible-Existence/SOL#1`
-- required outcome: implemented, migrated, or deprecated with evidence
-
-## Collision boundaries
-
-The coordinator may classify, route, preserve claims, create bounded tasks, activate installed validation paths, repair directly proven integration defects, and retain notification obligations. It may not assume source-formalism authority, proof acceptance, repository release authority, publication authority, credential custody, or universal admissibility. Completed repositories must not be reopened without regression evidence or a separately admitted propagation task.
+The coordinator may classify, route, preserve claims, activate installed validation paths, and repair directly proven integration defects. It does not create source-formalism authority, proof acceptance, publication authority, credential custody, or universal admissibility.
 
 ## Next executable order
 
-1. Inspect `Admissible-Existence/GCAT-BCAT` newest applicable mirror handoff, work-claim registry, issue `#1`, and live workflows; take only a nonconflicting principle-completeness lane.
+1. Inspect `Admissible-Existence/ECAT-ICAT` newest applicable mirror handoff, claims, issues, validators, and hosted workflows; take only an unclaimed root completeness role.
 2. Continue remaining direct-source repositories without colliding with AE#20 or other active claims.
-3. Complete the 6 direct-support repositories.
-4. Resolve the 2 disposition issues.
+3. Complete six direct-support repositories.
+4. Resolve the two disposition issues.
 5. Observe RTG without duplicate mutation.
-6. Re-observe each of the 6 hosted-validation-blocked repositories against its exact release condition.
-7. Complete TVC grant and TV runtime delivery, then invoke governed apply only with direct evidence.
-8. Admit downstream propagation repository by repository only after validation and a separately admitted propagation task.
+6. Re-observe the six hosted-validation repositories against their exact release conditions.
+7. Complete TV/TVC governed activation only with direct exact-run evidence.
+8. Admit downstream propagation only through separately admitted destination-owned tasks.
 
 ## Validation commands
 
@@ -161,33 +135,23 @@ python scripts/route_cross_repository_remediation.py
 python -m json.tool reports/cross-repository-remediation-latest.json
 ```
 
-Hosted evidence is claimed only when runs, jobs, logs, receipts, and required artifacts are directly inspected.
-
-## Session consolidation
+## Session consolidation and archive conditions
 
 `MERGED INTO: Admissible-Existence/.github/docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md`
 
-Session inventory remains fully transferred. DC, Existence, and Triad bounded work are durable and no longer depend on this chat. This session still owns cross-repository reconciliation while source/support/disposition/integration/reobservation/activation obligations remain.
-
-## Archive conditions
-
-- every non-control-plane repository has a completion, disposition, integration-only, observe-only, or explicit blocked receipt;
-- each hosted blocker is satisfied through direct evidence or durably transferred with no unique session-only knowledge;
-- TV/TVC governed activation is proven or durably transferred without a unique session role;
-- applicable propagation is completed or marked not applicable;
-- no active or stale claims depend on this conversation.
+DC, Existence, Triad, and GCAT-BCAT root completeness no longer depend on this chat. The session remains active while direct-source/support/disposition/integration/reobservation/activation obligations remain. Archive requires every non-control repository to have durable completion/disposition/integration/observe/block evidence, TV/TVC responsibilities to be proven or fully transferred, applicable propagation resolved, and no unique/stale claim dependent on this conversation.
 
 ## Metrics
 
 - developed control-plane files: 20/20
 - routing inventory: 32/32 classified
-- direct-source remaining: 10/32 registered repositories
+- direct-source remaining: 9/32
 - direct-support remaining: 6/32
-- completed notify-only: 5/32
-- hosted-validation reobservation required: 6/32
+- complete notify-only: 6/32
+- hosted reobservation required: 6/32
 - integration-only: 1/32
 - observe-only: 1/32
 - disposition-required: 2/32
 - propagation: 0/5 conditional destinations
-- session transfer: complete for this session inventory
+- session inventory transfer: complete
 - archive readiness: false
