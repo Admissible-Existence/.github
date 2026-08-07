@@ -1,0 +1,40 @@
+{
+  "schema_version": "admissible_existence.telemetry.completion_evidence.v1",
+  "goal_id": "TELEMETRY-SUPPORT-COMPLETENESS-001",
+  "repository": "Admissible-Existence/telemetry",
+  "role": "support",
+  "state": "VALIDATED_COMPLETE_NOTIFY_ONLY",
+  "handoff": "docs/TELEMETRY_MIRROR_HANDOFF.md",
+  "handoff_commit": "7905930315def636d939df16c66d3567e5efcb33",
+  "issue": "Admissible-Existence/telemetry#1",
+  "adapters": {
+    "support_role_commit": "e5f365c36a5f3ac6a8d0c9df8ac3b8bef116cdeb",
+    "source_coverage_commit": "f3f300f5aec8509f170ab6c6cb5bdf0786b6f6e5",
+    "support_contract_commit": "35320b16129f88b4c63d1119d5648567638dac16",
+    "checker_commit": "f12eab6e348ab2700e6133750bb15a343e2a3589",
+    "workflow_commit": "583208c0a4893b33b3af1e2df77206d2aa5a467e",
+    "receipt_commit": "fcefcfdb159af43a667c3a34453be5797b3adbe6"
+  },
+  "validation": {
+    "workflow_id": 303727945,
+    "run_id": 31190517090,
+    "job_id": 92905851128,
+    "conclusion": "success",
+    "artifact_id": 8998587285,
+    "artifact_digest": "sha256:4b245f8c8895badb373df1d4affb83d01ebd299f83962d257ed5354317107461",
+    "receipt_index_check": "PASS",
+    "expected_index_check": "PASS",
+    "support_completeness_check": "PASS",
+    "json_contract_checks": "PASS"
+  },
+  "receipt": "reports/telemetry-support-completeness-validation.json",
+  "boundaries": {
+    "record_preservation_only": true,
+    "creates_authority": false,
+    "commits_execution": false,
+    "publication_authorized": false,
+    "proofs_accepted": false,
+    "claims_master_record_authority": false
+  },
+  "central_activation_pending": true
+}
