@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.15.0",
+  "schema_version": "1.16.0",
   "goal_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
   "parent_goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "originating_session_goal": "Extend principle-completeness execution into every affected repository and notify dependent control planes and publication surfaces.",
@@ -11,10 +11,10 @@
     "registered_repositories": 32,
     "control_plane": 1,
     "direct_source_update_remaining": 2,
-    "direct_support_update_remaining": 4,
+    "direct_support_update_remaining": 3,
     "disposition_required": 2,
     "machine_owned_observe_only": 1,
-    "validated_complete_notify_only": 15,
+    "validated_complete_notify_only": 16,
     "source_complete_integration_pending": 1,
     "implementation_complete_hosted_validation_blocked": 6,
     "immediate_external_dependencies": 2,
@@ -269,6 +269,19 @@
       "artifact_id": 8997658972,
       "artifact_digest": "sha256:10b2089eb283f1ffcaa08bac3f357a24f1dac541a4298bd9e48961319b5cdb48",
       "normalized_evidence": "data/validator-completion-evidence.json"
+    },
+    {
+      "repository": "Admissible-Existence/tracker",
+      "state": "COMPLETE_NOTIFY_ONLY",
+      "source_handoff": "Admissible-Existence/tracker@main:docs/TRACKER_MIRROR_HANDOFF.md",
+      "handoff_commit": "57234138679c17f4ef76ca804fca15c8b0af4f8d",
+      "issue": "Admissible-Existence/tracker#1",
+      "hosted_run": 31189709724,
+      "hosted_job": 92903122304,
+      "hosted_conclusion": "success",
+      "artifact_id": 8998251269,
+      "artifact_digest": "sha256:f983b682a91b8f34cc3fa840ed99f11063ff528817ca57a508edfdc294c6f761",
+      "normalized_evidence": "data/tracker-completion-evidence.json"
     }
   ],
   "bounded_non_direct_states": [

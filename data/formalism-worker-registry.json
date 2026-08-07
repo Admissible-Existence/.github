@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.11.0",
+  "schema_version": "3.12.0",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "coordination_repository": "Admissible-Existence/.github",
   "execution_model": "central controller creates bounded repository-local implementation branches or reports BLOCKED",
@@ -501,7 +501,20 @@
     {
       "repository": "Admissible-Existence/tracker",
       "role": "support",
-      "worker_state": "required"
+      "worker_state": "validated_complete_notify_only",
+      "completion_evidence": {
+        "normalized_evidence": "data/tracker-completion-evidence.json",
+        "handoff": "docs/TRACKER_MIRROR_HANDOFF.md",
+        "handoff_commit": "57234138679c17f4ef76ca804fca15c8b0af4f8d",
+        "issue": "Admissible-Existence/tracker#1",
+        "validation_run": 31189709724,
+        "validation_job": 92903122304,
+        "validation_conclusion": "success",
+        "artifact_id": 8998251269,
+        "artifact_digest": "sha256:f983b682a91b8f34cc3fa840ed99f11063ff528817ca57a508edfdc294c6f761",
+        "creates_authority": false,
+        "commits_execution": false
+      }
     },
     {
       "repository": "Admissible-Existence/telemetry",
