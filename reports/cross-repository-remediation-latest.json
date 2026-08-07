@@ -8,9 +8,9 @@
     "master-records"
   ],
   "counts": {
-    "COMPLETE_NOTIFY_ONLY": 7,
+    "COMPLETE_NOTIFY_ONLY": 8,
     "CONTROL_PLANE": 1,
-    "DIRECT_SOURCE_UPDATE": 8,
+    "DIRECT_SOURCE_UPDATE": 7,
     "DIRECT_SUPPORT_UPDATE": 6,
     "DISPOSITION_REQUIRED": 2,
     "HOSTED_VALIDATION_BLOCKED": 6,
@@ -349,13 +349,31 @@
       "worker_state": "validated_complete_notify_only"
     },
     {
-      "completion_evidence": null,
-      "next_action": "Create or validate source formalism, mathematics, proof-candidate, evidence, and handoff artifacts.",
-      "owner": "Admissible-Existence/IICT",
+      "completion_evidence": {
+        "artifact_digest": "sha256:2b7d99c1e236bda0c3d5c5b4dffc9ef3e91d1ab6f1cef968c346985506cd198a",
+        "artifact_id": 8982503045,
+        "baseline_cases": "5/5 passed",
+        "closed_issue": "Admissible-Existence/IICT#1",
+        "execution_authorized": false,
+        "handoff": "IICT_MIRROR_HANDOFF.md",
+        "handoff_commit": "591597e94f2fbe190eb029b719cfc2d3b9ed3161",
+        "principles": "4/4 valid",
+        "proofs_accepted": false,
+        "publication_authorized": false,
+        "receipt": "reports/iict-principle-completeness-validation.json",
+        "receipt_blob": "ee908de4deba28a48be61763cd12e641295e0931",
+        "receipt_commit": "bf5bc1e",
+        "theorem_status": "candidate_not_proven",
+        "validation_conclusion": "success",
+        "validation_job": 92773928388,
+        "validation_run": 31148798684
+      },
+      "next_action": "Preserve completion evidence; notify only for separately admitted propagation or regression.",
+      "owner": "Admissible-Existence/.github",
       "repository": "Admissible-Existence/IICT",
       "role": "source",
-      "routing_state": "DIRECT_SOURCE_UPDATE",
-      "worker_state": "required"
+      "routing_state": "COMPLETE_NOTIFY_ONLY",
+      "worker_state": "validated_complete_notify_only"
     },
     {
       "completion_evidence": null,
