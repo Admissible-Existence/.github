@@ -1,0 +1,4966 @@
+{
+  "schema_version": "1.0.0",
+  "activation_id": "AEX-PC-RECONCILE-20260806-01",
+  "generated_at": "2026-08-10T08:17:36.323673+00:00",
+  "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
+  "expected_repository_count": 32,
+  "live_observed_repository_count": 4,
+  "reconciled_repository_count": 32,
+  "coverage_complete": false,
+  "unexpected_live_repositories": [],
+  "state_counts": {
+    "BLOCKED": 31,
+    "FORMALIZED_UNVALIDATED": 1
+  },
+  "repositories": [
+    {
+      "repository": "Admissible-Existence/.github",
+      "default_branch": "main",
+      "role": "coordination",
+      "state": "BLOCKED",
+      "score": 100.0,
+      "dimensions": {
+        "identity": true,
+        "purpose": true,
+        "theory": true,
+        "mathematics": true,
+        "formal_status": true,
+        "falsification": true,
+        "dependencies": true,
+        "whole_repo_role": true,
+        "ecosystem_relationships": true,
+        "executable_correspondence": true,
+        "evidence_binding": true,
+        "handoff_binding": true
+      },
+      "principles": [
+        {
+          "label": "1. `Admissible-Existence/.github`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "1. Definition of complete",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "1. Existence Is Not Mere Presence",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "10. `Admissible-Existence/CHF`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "11. `Admissible-Existence/DC`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "12. `Admissible-Existence/DaCo`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "13. `Admissible-Existence/RE-Reduction`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "14. `Admissible-Existence/Triad`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "15. `Admissible-Existence/GCAT-BCAT`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "16. `Admissible-Existence/ECAT-ICAT`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "17. `Admissible-Existence/learning-transition-governance`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "18. `Admissible-Existence/standing-proof-formalism`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "19. `Admissible-Existence/IICT`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "2. `Admissible-Existence/AE`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "2. Boundary Is Constitutive",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "2. Required repository artifacts",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "20. `Admissible-Existence/CTA`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "21. `Admissible-Existence/HPS`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "22. `Admissible-Existence/FI`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "23. `Admissible-Existence/ET`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "24. `Admissible-Existence/core-lite`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "25. `Admissible-Existence/validator`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "26. `Admissible-Existence/tracker`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "27. `Admissible-Existence/telemetry`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "28. `Admissible-Existence/ae-validation-factory`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "29. `Admissible-Existence/ae-validation-research`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "3. `Admissible-Existence/Existence`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "3. Conservation Is Not Stability",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "3. Principle registry minimum schema",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "30. `Admissible-Existence/validation-profile-registry`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "31. `Admissible-Existence/SOL`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "4. `Admissible-Existence/GTG`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "4. Completion states",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "4. Consequence Requires Horizon Awareness",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "5. `Admissible-Existence/TT`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "5. Distributed Validity Is Stronger Than Local Validity",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "5. Scoring",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "6. `Admissible-Existence/STCM`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "6. Continuity Is Not Storage",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "6. Organization completeness",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "7. `Admissible-Existence/IW`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "7. Audit order",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "7. Entropy Records Transition",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "8. `Admissible-Existence/BC`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "8. Release boundary",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "9. `Admissible-Existence/RE`",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Activation boundary",
+          "sources": [
+            "docs/FORMALISM_WORKER_SYSTEM_STATUS.md"
+          ]
+        },
+        {
+          "label": "Active claims",
+          "sources": [
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Active/blocker rows",
+          "sources": [
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Admissible Existence",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Admissible-Existence Formalism Mirror Handoff",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Admissible-Existence Mathematical Completeness Matrix",
+          "sources": [
+            "reports/mathematical-completeness-matrix.md"
+          ]
+        },
+        {
+          "label": "Admissible-Existence Organization Mathematical Architecture",
+          "sources": [
+            "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
+          ]
+        },
+        {
+          "label": "Admissible-Existence Principle Completeness Baseline",
+          "sources": [
+            "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Admissible-Existence Principle Completeness Findings and Fix Plan",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Admissible-Existence Principle Completeness Standard",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "AE \u2014 Admissible Existence",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Archive condition for the originating session",
+          "sources": [
+            "docs/FORMALISM_WORKER_SESSION_TRANSFER.md"
+          ]
+        },
+        {
+          "label": "Archive conditions",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md",
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md",
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Archive determination",
+          "sources": [
+            "docs/SESSION_EXECUTION_INVENTORY_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Archive gate",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Archive posture",
+          "sources": [
+            "docs/FORMALISM_ARCHIVE_GATE_HOSTED_EVIDENCE.md"
+          ]
+        },
+        {
+          "label": "Archive state",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md",
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md",
+            "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Audit behavior",
+          "sources": [
+            "docs/FORMALISM_WORKER_SYSTEM_STATUS.md"
+          ]
+        },
+        {
+          "label": "Authority",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md",
+            "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Authority boundaries",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Authority boundary",
+          "sources": [
+            "reports/principle-worker-activation-observer-installation.md"
+          ]
+        },
+        {
+          "label": "Automation",
+          "sources": [
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "BC",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "BC \u2014 Boundary-Coherence",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Boundary",
+          "sources": [
+            "docs/ORG_PROFILE_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "Canonical claims and collision boundaries",
+          "sources": [
+            "docs/FORMALISM_WORKER_SESSION_TRANSFER.md"
+          ]
+        },
+        {
+          "label": "Canonical continuation",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md",
+            "docs/SESSION_EXECUTION_INVENTORY_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Canonical control plane",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Canonical control surfaces",
+          "sources": [
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Canonical task owner",
+          "sources": [
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Central controls \u2014 `Admissible-Existence/.github`",
+          "sources": [
+            "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "CHF",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "CHF \u2014 Consequence Horizon Formalism",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Claims",
+          "sources": [
+            "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md",
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Claims/collision policy",
+          "sources": [
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Collision and authority boundaries",
+          "sources": [
+            "docs/SESSION_EXECUTION_INVENTORY_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Collision boundaries",
+          "sources": [
+            "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Commits",
+          "sources": [
+            "reports/principle-worker-activation-observer-installation.md"
+          ]
+        },
+        {
+          "label": "Completed work",
+          "sources": [
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Completeness Mirror Handoff",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Completion",
+          "sources": [
+            "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Completion boundary",
+          "sources": [
+            "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
+          ]
+        },
+        {
+          "label": "Completion metrics",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Conditional propagation",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Consumer capability contract",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Coordination completion decision",
+          "sources": [
+            "docs/FORMALISM_ARCHIVE_GATE_HOSTED_EVIDENCE.md"
+          ]
+        },
+        {
+          "label": "Core Lines",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Core Thesis",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Cross-repository dependencies",
+          "sources": [
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Cross-Repository Remediation Mirror Handoff",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Current Build State",
+          "sources": [
+            "docs/ORG_PROFILE_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "Current completion estimate",
+          "sources": [
+            "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Current hosted-proven routing",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Current matrix",
+          "sources": [
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Current metrics",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Current organization state",
+          "sources": [
+            "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
+          ]
+        },
+        {
+          "label": "Current repository-touch summary",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Current status",
+          "sources": [
+            "reports/hosted-worker-run-31128125108.md"
+          ]
+        },
+        {
+          "label": "Current validation state",
+          "sources": [
+            "docs/SESSION_EXECUTION_INVENTORY_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Current verified RTG state",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "DaCo \u2014 Data Continuity",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "DC \u2014 Distributed Coherence",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Early Formal Vocabulary",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Early Research Roadmap",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Empty or undeveloped source repository",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "ET \u2014 implemented, hosted validation blocked",
+          "sources": [
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Evidence contract",
+          "sources": [
+            "reports/principle-worker-activation-observer-installation.md"
+          ]
+        },
+        {
+          "label": "Evidence rules",
+          "sources": [
+            "HANDOFF_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "Exact active task",
+          "sources": [
+            "docs/SESSION_EXECUTION_INVENTORY_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Exact continuation path",
+          "sources": [
+            "docs/FORMALISM_WORKER_SESSION_TRANSFER.md"
+          ]
+        },
+        {
+          "label": "Exact execution order",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Exact next executable order",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md",
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Exact next execution order",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Execution order",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Exhausted cohorts",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Expected common file set",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "External dependency records that remain durable",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "F-01 \u2014 Prior completion percentages did not prove mathematical completeness",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "F-02 \u2014 Repository discovery was incomplete",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "F-03 \u2014 Presence of mathematical words was treated as mathematical sufficiency",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "F-04 \u2014 Source and support repositories need different completeness contracts",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "F-05 \u2014 Repository-local completion claims may predate the new standard",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "F-06 \u2014 Empty active repositories cannot exceed the standard",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "F-07 \u2014 RTG work has an active collision boundary",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Failure posture",
+          "sources": [
+            "HANDOFF_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "Formalism Archive Gate Hosted Evidence",
+          "sources": [
+            "docs/FORMALISM_ARCHIVE_GATE_HOSTED_EVIDENCE.md"
+          ]
+        },
+        {
+          "label": "Formalism Worker Completion Standard",
+          "sources": [
+            "docs/FORMALISM_WORKER_COMPLETION_STANDARD.md"
+          ]
+        },
+        {
+          "label": "Formalism Worker Mirror Handoff",
+          "sources": [
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Formalism worker session transfer",
+          "sources": [
+            "docs/FORMALISM_WORKER_SESSION_TRANSFER.md"
+          ]
+        },
+        {
+          "label": "Formalism Worker System Status",
+          "sources": [
+            "docs/FORMALISM_WORKER_SYSTEM_STATUS.md"
+          ]
+        },
+        {
+          "label": "Goal",
+          "sources": [
+            "docs/FORMALISM_WORKER_COMPLETION_STANDARD.md",
+            "docs/FORMALISM_WORKER_SYSTEM_STATUS.md",
+            "reports/principle-worker-activation-observer-installation.md"
+          ]
+        },
+        {
+          "label": "Governing objective",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Handoff Completeness Standard",
+          "sources": [
+            "HANDOFF_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "Heartbeat Response Mirror Handoff",
+          "sources": [
+            "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Hosted result",
+          "sources": [
+            "docs/FORMALISM_ARCHIVE_GATE_HOSTED_EVIDENCE.md"
+          ]
+        },
+        {
+          "label": "Hosted worker evidence",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Hosted worker run 31128125108",
+          "sources": [
+            "reports/hosted-worker-run-31128125108.md"
+          ]
+        },
+        {
+          "label": "Hosted-validation cohort \u2014 COMPLETE",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "HPS \u2014 source math complete; current handoff-hash regression blocked",
+          "sources": [
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Immediate Repository Tasks",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Implementation claim",
+          "sources": [
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Incomplete work and exact locations",
+          "sources": [
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Installation plan",
+          "sources": [
+            "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Installed implementation",
+          "sources": [
+            "docs/FORMALISM_WORKER_SESSION_TRANSFER.md"
+          ]
+        },
+        {
+          "label": "Installed in this activation slice",
+          "sources": [
+            "docs/FORMALISM_WORKER_SYSTEM_STATUS.md"
+          ]
+        },
+        {
+          "label": "Installed surfaces",
+          "sources": [
+            "reports/principle-worker-activation-observer-installation.md"
+          ]
+        },
+        {
+          "label": "Installed worker lane",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Integration / propagation",
+          "sources": [
+            "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Key Shared Principles",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Lane 3 \u2014 deterministic rendering",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Lane 4 \u2014 predecessor lineage",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Lane 5 \u2014 evidence and proof closure",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Layer A \u2014 existence and admissibility",
+          "sources": [
+            "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
+          ]
+        },
+        {
+          "label": "Layer B \u2014 transition mathematics",
+          "sources": [
+            "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
+          ]
+        },
+        {
+          "label": "Layer C \u2014 boundary, consequence, and recovery mathematics",
+          "sources": [
+            "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
+          ]
+        },
+        {
+          "label": "Layer D \u2014 distributed, relational, and authority mathematics",
+          "sources": [
+            "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
+          ]
+        },
+        {
+          "label": "Layer E \u2014 continuity, observation, and proof standing",
+          "sources": [
+            "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
+          ]
+        },
+        {
+          "label": "Layer F \u2014 validation and control infrastructure",
+          "sources": [
+            "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
+          ]
+        },
+        {
+          "label": "learning-transition-governance",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Machine-owned activation observer",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Machine-owned tasks",
+          "sources": [
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Mathematical Completeness Mirror Handoff",
+          "sources": [
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Metrics",
+          "sources": [
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Next Execution Session Prompt",
+          "sources": [
+            "NEXT_EXECUTION_SESSION_PROMPT.md"
+          ]
+        },
+        {
+          "label": "Next execution target",
+          "sources": [
+            "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Next Repo Step",
+          "sources": [
+            "docs/ORG_PROFILE_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "Next tasks",
+          "sources": [
+            "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Non-Claims",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Non-negotiable boundary",
+          "sources": [
+            "reports/mathematical-completeness-matrix.md"
+          ]
+        },
+        {
+          "label": "Objective",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Open evidence/gaps",
+          "sources": [
+            "reports/mathematical-completeness-matrix.md"
+          ]
+        },
+        {
+          "label": "Organization findings",
+          "sources": [
+            "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Organization invariants",
+          "sources": [
+            "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
+          ]
+        },
+        {
+          "label": "Organization Profile Reachable Goal Status",
+          "sources": [
+            "docs/ORG_PROFILE_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "Organization state",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Organization Status",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Organization worker",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Organization-level findings",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Organization-level mathematical object",
+          "sources": [
+            "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
+          ]
+        },
+        {
+          "label": "Organization-wide architecture",
+          "sources": [
+            "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
+          ]
+        },
+        {
+          "label": "Originating session goal",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md",
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md",
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "PASS rows",
+          "sources": [
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Percentages",
+          "sources": [
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Periodic coherence audit",
+          "sources": [
+            "docs/FORMALISM_WORKER_COMPLETION_STANDARD.md"
+          ]
+        },
+        {
+          "label": "Phase 1 \u2014 Baseline Definitions",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Phase 2 \u2014 Shared Glossary",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Phase 3 \u2014 Cross-Scale Examples",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Phase 4 \u2014 Mathematical Skeletons",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Phase 5 \u2014 Failure Modes",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Phase 6 \u2014 Simple Test Harnesses",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Phase 7 \u2014 StegVerse Integration",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Primary goal",
+          "sources": [
+            "docs/SESSION_EXECUTION_INVENTORY_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Priority source repositories",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Program sequence",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Proof-candidate tracking",
+          "sources": [
+            "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
+          ]
+        },
+        {
+          "label": "Propagation",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Proven defect",
+          "sources": [
+            "reports/hosted-worker-run-31128125108.md"
+          ]
+        },
+        {
+          "label": "Proven successful stages",
+          "sources": [
+            "reports/hosted-worker-run-31128125108.md"
+          ]
+        },
+        {
+          "label": "Publication gate",
+          "sources": [
+            "docs/FORMALISM_WORKER_COMPLETION_STANDARD.md"
+          ]
+        },
+        {
+          "label": "Pull-request proof path",
+          "sources": [
+            "docs/FORMALISM_ARCHIVE_GATE_HOSTED_EVIDENCE.md"
+          ]
+        },
+        {
+          "label": "RE",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "RE-Reduction",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Ready Surfaces",
+          "sources": [
+            "docs/ORG_PROFILE_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "Relation to StegVerse",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Relationship Between the Repositories",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Relationship to canonical program handoff",
+          "sources": [
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Release and propagation rule",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Release condition",
+          "sources": [
+            "reports/principle-worker-activation-observer-installation.md"
+          ]
+        },
+        {
+          "label": "Remaining canonical lanes",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Remaining inventory",
+          "sources": [
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Remaining required lanes",
+          "sources": [
+            "docs/FORMALISM_WORKER_SYSTEM_STATUS.md"
+          ]
+        },
+        {
+          "label": "Repair",
+          "sources": [
+            "reports/hosted-worker-run-31128125108.md"
+          ]
+        },
+        {
+          "label": "Repositories already touched by this program",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Repositories that will be touched",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Repository completeness functions",
+          "sources": [
+            "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
+          ]
+        },
+        {
+          "label": "Repository inventory and baseline classification",
+          "sources": [
+            "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Repository Roles",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Repository Stack",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "Repository with bounded observation rather than competing mutation",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Required content",
+          "sources": [
+            "HANDOFF_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "Required repository projection",
+          "sources": [
+            "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
+          ]
+        },
+        {
+          "label": "Required stages",
+          "sources": [
+            "docs/FORMALISM_WORKER_COMPLETION_STANDARD.md"
+          ]
+        },
+        {
+          "label": "Requirements transferred from the originating session",
+          "sources": [
+            "docs/FORMALISM_WORKER_SESSION_TRANSFER.md"
+          ]
+        },
+        {
+          "label": "Session consolidation",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md",
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md",
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md",
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Session consolidation / archive",
+          "sources": [
+            "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Session Execution Inventory \u2014 Principle Completeness Program",
+          "sources": [
+            "docs/SESSION_EXECUTION_INVENTORY_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Session goals transferred or implemented",
+          "sources": [
+            "docs/SESSION_EXECUTION_INVENTORY_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Session-close rule",
+          "sources": [
+            "HANDOFF_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "Shared Actions blocker",
+          "sources": [
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Source repositories",
+          "sources": [
+            "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "State",
+          "sources": [
+            "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "STCM",
+          "sources": [
+            "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md",
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "StegVerse review-only projection",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Support and infrastructure repositories",
+          "sources": [
+            "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Support repositories",
+          "sources": [
+            "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Triggers",
+          "sources": [
+            "reports/principle-worker-activation-observer-installation.md"
+          ]
+        },
+        {
+          "label": "TT",
+          "sources": [
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "TVC capability",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "TVC implementation, proof, and observer lanes",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "User-confirmed archive condition",
+          "sources": [
+            "docs/SESSION_EXECUTION_INVENTORY_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Validation",
+          "sources": [
+            "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Validation claim",
+          "sources": [
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Validation commands",
+          "sources": [
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md",
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Validation state",
+          "sources": [
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Why prior percentages are superseded",
+          "sources": [
+            "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Why This Organization Exists",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
+          "label": "worker activation observer installation",
+          "sources": [
+            "reports/principle-worker-activation-observer-installation.md"
+          ]
+        },
+        {
+          "label": "Worker implementation commits",
+          "sources": [
+            "docs/SESSION_EXECUTION_INVENTORY_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Worker inventory",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Worker state model",
+          "sources": [
+            "docs/FORMALISM_WORKER_COMPLETION_STANDARD.md"
+          ]
+        },
+        {
+          "label": "Workflow identity",
+          "sources": [
+            "reports/principle-worker-activation-observer-installation.md"
+          ]
+        }
+      ],
+      "findings": [
+        {
+          "severity": "error",
+          "code": "UNRESOLVED_PLACEHOLDERS",
+          "count": 161
+        },
+        {
+          "severity": "warning",
+          "code": "AMBIGUOUS_SHORT_REPOSITORY_IDENTITIES",
+          "identities": [
+            "AE",
+            "BC",
+            "CHF",
+            "DC",
+            "DaCo",
+            "GTG",
+            "RE",
+            "RTG",
+            "STCM",
+            "TT"
+          ]
+        }
+      ],
+      "metrics": {
+        "files": 104,
+        "markdown_files": 22,
+        "structured_files": 63,
+        "handoffs": 6,
+        "principle_candidates": 257,
+        "placeholder_markers": 161,
+        "broken_local_links": 0,
+        "ambiguous_short_repository_identities": 10,
+        "dimensions_met": 12,
+        "dimensions_total": 12
+      },
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md",
+        "action": "Resolve the first listed blocking completeness finding without duplicating active claims",
+        "release_condition": "All twelve dimensions are evidenced and independently reviewed"
+      },
+      "visibility": "LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE"
+    },
+    {
+      "repository": "Admissible-Existence/AE",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "CANDIDATE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/Existence",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/RTG",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "REVIEW_REQUIRED",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/GTG",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/TT",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/STCM",
+      "default_branch": "main",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 100.0,
+      "dimensions": {
+        "identity": true,
+        "purpose": true,
+        "theory": true,
+        "mathematics": true,
+        "formal_status": true,
+        "falsification": true,
+        "dependencies": true,
+        "whole_repo_role": true,
+        "ecosystem_relationships": true,
+        "executable_correspondence": true,
+        "evidence_binding": true,
+        "handoff_binding": true
+      },
+      "principles": [
+        {
+          "label": "1. Core Claim",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "1. Prior receipt binds",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "1. Store returns current head",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "10. Transition Entropy",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "11. Moment-Bound Evaluation Principle",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "12. Hash-Scoped Node Execution",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "13. Strict Hash-Match Non-Engagement",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "14. Ignore, Reroute, Refuse",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "15. Hash-Synergistic Routing",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "16. Non-Ignored Path Principle",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "17. Selective Activation Compute Principle",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "18. Compute Conservation",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "19. Multi-Node Observation",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "2. Missing prior receipt",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "2. State Transition Conservation Principle",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "2. Store detects stale prior",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "20. State Transition Conservation Record",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "21. Transition Contract Schema",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "22. Node Hash Contract Schema",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "23. Routing Evaluation Schema",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "24. Example Transition: Repo Cleanup Bundle",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "25. Closure Rule",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "26. What Should Be Built Next",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "27. Strategic Bottom Line",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "28. Open Questions for v0.2",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "3. Prior receipt hash mismatch",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "3. Receipt-Relational State Transition Principle",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "3. Store detects competing successors",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "4. Prime Nodes",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "4. Stale prior receipt",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "4. Store resolves conflict by accepting one successor",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "5. Initial Transition Prime Nodes",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "5. Store supersedes old receipt without deleting it",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "5. Superseded prior receipt",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "6. Competing receipt chains",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "6. Finite Node Capacity Principle",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "6. Rejected receipt cannot serve as prior",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "7. Genesis",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "7. Mathematical Necessity of Expansion",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "7. Missing store receipt blocks continuation",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "8. Malformed prior",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "8. Phase Change as a Transition Parameter",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "8. Store preserves audit history",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "9. Evolve, Devolve, Dissolve",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "9. Lineage succeeds but closure still fails",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "Archive conditions",
+          "sources": [
+            "docs/STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Artifact capture check",
+          "sources": [
+            "docs/STCM_V0_6_VALIDATION_RECORD.md"
+          ]
+        },
+        {
+          "label": "Artifact upload correction",
+          "sources": [
+            "docs/STCM_V0_6_PROMOTION_GATE_ADDENDUM.md"
+          ]
+        },
+        {
+          "label": "Assumptions",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Authority boundary",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Authority posture",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md",
+            "reports/STCM_V0_6_STATUS.md"
+          ]
+        },
+        {
+          "label": "Authority posture classes",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Authority rebind",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Blocking conflict outcomes",
+          "sources": [
+            "reports/STCM_V0_6_CONFLICT_POSTURE_ADDENDUM.md"
+          ]
+        },
+        {
+          "label": "Blocking outcomes",
+          "sources": [
+            "docs/STCM_V0_6_CONFLICT_POSTURE_NOTE.md"
+          ]
+        },
+        {
+          "label": "Boundary",
+          "sources": [
+            "docs/STCM_REACHABLE_GOAL_STATUS.md",
+            "docs/STCM_V0_7_CROSS_REPO_ADOPTION_HANDSHAKE.md",
+            "reports/STCM_V0_6_STATUS.md"
+          ]
+        },
+        {
+          "label": "Boundary note",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Boundary statement",
+          "sources": [
+            "docs/STCM_V0_6_CONFLICT_POSTURE_NOTE.md",
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md",
+            "reports/STCM_V0_6_CONFLICT_POSTURE_ADDENDUM.md"
+          ]
+        },
+        {
+          "label": "Boundary vector 1 \u2014 Hidden dependency refusal",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Boundary vector 2 \u2014 Authority posture and rebind",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Boundary vector 3 \u2014 Cross-repo lineage continuity",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Boundary vector 4 \u2014 Deposit posture",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Boundary vector 5 \u2014 Receipt posture",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Boundary vector 6 \u2014 Conflict posture",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Canonical ownership",
+          "sources": [
+            "docs/STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Canonical source anchors",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Claim state",
+          "sources": [
+            "docs/STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Closure boundary",
+          "sources": [
+            "docs/STCM_V0_3_ROUTED_HOP_AND_MERGE.md"
+          ]
+        },
+        {
+          "label": "Closure Harness \u2014 Dispatcher Task",
+          "sources": [
+            "README.md",
+            "tools/closure-harness/CLOSURE_HARNESS.md"
+          ]
+        },
+        {
+          "label": "Closure relationship",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "Collision and maturity boundaries",
+          "sources": [
+            "docs/STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Completed goals",
+          "sources": [
+            "docs/STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Completion requirements",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Compute accounting",
+          "sources": [
+            "docs/MATHEMATICAL_NOTATION.md"
+          ]
+        },
+        {
+          "label": "Conflict is not merge",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "Conflict policy boundary",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "Conflict posture",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Conflict posture classes",
+          "sources": [
+            "docs/STCM_V0_6_CONFLICT_POSTURE_NOTE.md",
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md",
+            "reports/STCM_V0_6_CONFLICT_POSTURE_ADDENDUM.md"
+          ]
+        },
+        {
+          "label": "Consequence",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md",
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Conservation closure",
+          "sources": [
+            "docs/MATHEMATICAL_NOTATION.md"
+          ]
+        },
+        {
+          "label": "Conservation Record Closure Rule",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Core claim",
+          "sources": [
+            "docs/STCM_V0_3_ROUTED_HOP_AND_MERGE.md",
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md",
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md",
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Cross-repo admissibility predicate draft",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Cross-repo lineage continuity",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Cross-repository continuation",
+          "sources": [
+            "docs/STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Current Build State",
+          "sources": [
+            "docs/STCM_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "Current claim boundary",
+          "sources": [
+            "docs/STCM_V0_6_VALIDATION_RECORD.md",
+            "reports/STCM_V0_6_STATUS.md"
+          ]
+        },
+        {
+          "label": "Current documented boundary",
+          "sources": [
+            "tools/closure-harness/CLOSURE_HARNESS.md"
+          ]
+        },
+        {
+          "label": "Current executable predicate surface",
+          "sources": [
+            "reports/STCM_V0_6_STATUS.md"
+          ]
+        },
+        {
+          "label": "Current fixture scale",
+          "sources": [
+            "reports/STCM_V0_6_STATUS.md"
+          ]
+        },
+        {
+          "label": "Current fixture surface",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Current harness layers",
+          "sources": [
+            "tools/closure-harness/CLOSURE_HARNESS.md"
+          ]
+        },
+        {
+          "label": "Current posture classes",
+          "sources": [
+            "reports/STCM_V0_6_STATUS.md"
+          ]
+        },
+        {
+          "label": "Dead-basis guarantee",
+          "sources": [
+            "README.md",
+            "tools/closure-harness/CLOSURE_HARNESS.md"
+          ]
+        },
+        {
+          "label": "Definitions",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Deposit posture",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md",
+            "reports/STCM_V0_6_STATUS.md"
+          ]
+        },
+        {
+          "label": "Deposit posture classes",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Devolve",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Dissolve",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "End State",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Entropy Accounting Rule",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Entropy remains advisory",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "Evolve",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Exit contract",
+          "sources": [
+            "README.md",
+            "tools/closure-harness/CLOSURE_HARNESS.md"
+          ]
+        },
+        {
+          "label": "Expected artifact",
+          "sources": [
+            "docs/STCM_V0_6_ARTIFACT_CAPTURE.md"
+          ]
+        },
+        {
+          "label": "Falsification layer",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Files (all data/scripts \u2014 zero new workflow files)",
+          "sources": [
+            "README.md",
+            "tools/closure-harness/CLOSURE_HARNESS.md"
+          ]
+        },
+        {
+          "label": "Finite capacity",
+          "sources": [
+            "docs/MATHEMATICAL_NOTATION.md"
+          ]
+        },
+        {
+          "label": "Fixture scale",
+          "sources": [
+            "docs/STCM_V0_6_VALIDATION_RECORD.md"
+          ]
+        },
+        {
+          "label": "General limits",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "Hash-scoped activation",
+          "sources": [
+            "docs/MATHEMATICAL_NOTATION.md"
+          ]
+        },
+        {
+          "label": "Hash-Scoped Node Execution Principle",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Hash-Synergistic Routing Principle",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Hidden dependency",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Ignore",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Implemented harness order",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md",
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "Implemented lineage verdicts",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "Implemented receipt record",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "Implemented v0.4 fixtures",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "Implemented v0.5 fixtures",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "Inputs",
+          "sources": [
+            "docs/STCM_V0_7_CROSS_REPO_ADOPTION_HANDSHAKE.md"
+          ]
+        },
+        {
+          "label": "Latest source commits",
+          "sources": [
+            "docs/STCM_V0_6_VALIDATION_RECORD.md"
+          ]
+        },
+        {
+          "label": "Local-only receipt",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Manual capture fields",
+          "sources": [
+            "docs/STCM_V0_6_ARTIFACT_CAPTURE.md"
+          ]
+        },
+        {
+          "label": "Mathematical self-audit evidence",
+          "sources": [
+            "docs/STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Mathematics layer",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Metrics",
+          "sources": [
+            "docs/STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Moment-bound validity",
+          "sources": [
+            "docs/MATHEMATICAL_NOTATION.md"
+          ]
+        },
+        {
+          "label": "Multi-node merge boundary",
+          "sources": [
+            "docs/STCM_V0_3_ROUTED_HOP_AND_MERGE.md"
+          ]
+        },
+        {
+          "label": "Multi-Node Observation Principle",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Next boundary",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "Next build boundary",
+          "sources": [
+            "docs/STCM_V0_3_ROUTED_HOP_AND_MERGE.md"
+          ]
+        },
+        {
+          "label": "Next Repo Step",
+          "sources": [
+            "docs/STCM_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "Next-pass hooks",
+          "sources": [
+            "tools/closure-harness/CLOSURE_HARNESS.md"
+          ]
+        },
+        {
+          "label": "Next-pass hooks (logged GAPs become work items)",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Node activation record",
+          "sources": [
+            "docs/STCM_V0_3_ROUTED_HOP_AND_MERGE.md"
+          ]
+        },
+        {
+          "label": "Non-effects",
+          "sources": [
+            "docs/STCM_V0_6_PROMOTION_GATE_ADDENDUM.md",
+            "docs/STCM_V0_7_CROSS_REPO_ADOPTION_HANDSHAKE.md"
+          ]
+        },
+        {
+          "label": "of Done",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Outcome map",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Outcomes",
+          "sources": [
+            "docs/STCM_V0_7_CROSS_REPO_ADOPTION_HANDSHAKE.md"
+          ]
+        },
+        {
+          "label": "Pending acceptance outcome",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Phase Change Parameter Principle",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "PN-001 \u2014 State Observation Node",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "PN-002 \u2014 Evidence Binding Node",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "PN-003 \u2014 Authority Binding Node",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "PN-004 \u2014 Transition Validation Node",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "PN-005 \u2014 Refusal / Block Node",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "PN-006 \u2014 Receipt / Continuity Node",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Portable receipt",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Positive conflict postures",
+          "sources": [
+            "reports/STCM_V0_6_CONFLICT_POSTURE_ADDENDUM.md"
+          ]
+        },
+        {
+          "label": "Positive draft conflict postures",
+          "sources": [
+            "docs/STCM_V0_6_CONFLICT_POSTURE_NOTE.md",
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Positive draft outcomes",
+          "sources": [
+            "reports/STCM_V0_6_STATUS.md"
+          ]
+        },
+        {
+          "label": "Predicate surface",
+          "sources": [
+            "docs/STCM_V0_6_VALIDATION_RECORD.md"
+          ]
+        },
+        {
+          "label": "Prime Node Expansion Law",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Principle",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md",
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md",
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Promotion rule",
+          "sources": [
+            "docs/STCM_V0_6_ARTIFACT_CAPTURE.md"
+          ]
+        },
+        {
+          "label": "Proof maturity",
+          "sources": [
+            "docs/MATHEMATICAL_NOTATION.md"
+          ]
+        },
+        {
+          "label": "Ready Surfaces",
+          "sources": [
+            "docs/STCM_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "Receipt Completeness Range",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Receipt lineage object",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "Receipt posture",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md",
+            "reports/STCM_V0_6_STATUS.md"
+          ]
+        },
+        {
+          "label": "Receipt posture classes",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Receipt store boundary",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "Reference-only outcome",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Refusal outcome",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md",
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Refusal outcomes",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md",
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md",
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md",
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md",
+            "reports/STCM_V0_6_STATUS.md"
+          ]
+        },
+        {
+          "label": "Refuse",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Relationship to AE Validation Factory",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Required artifact fields",
+          "sources": [
+            "docs/STCM_V0_6_VALIDATION_RECORD.md"
+          ]
+        },
+        {
+          "label": "Required promotion evidence",
+          "sources": [
+            "docs/STCM_V0_6_PROMOTION_GATE_ADDENDUM.md"
+          ]
+        },
+        {
+          "label": "Required reports",
+          "sources": [
+            "docs/STCM_V0_6_PROMOTION_GATE_ADDENDUM.md"
+          ]
+        },
+        {
+          "label": "Required saturation artifact",
+          "sources": [
+            "docs/STCM_V0_6_VALIDATION_RECORD.md"
+          ]
+        },
+        {
+          "label": "Required saturation fields",
+          "sources": [
+            "docs/STCM_V0_6_ARTIFACT_CAPTURE.md"
+          ]
+        },
+        {
+          "label": "Reroute",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Routed-hop boundary",
+          "sources": [
+            "docs/STCM_V0_3_ROUTED_HOP_AND_MERGE.md"
+          ]
+        },
+        {
+          "label": "Routing boundary",
+          "sources": [
+            "docs/STCM_V0_3_ROUTED_HOP_AND_MERGE.md"
+          ]
+        },
+        {
+          "label": "Routing Cases",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Routing Equation",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Routing predicate",
+          "sources": [
+            "docs/MATHEMATICAL_NOTATION.md"
+          ]
+        },
+        {
+          "label": "Rule",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md",
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md",
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Rule order",
+          "sources": [
+            "docs/STCM_V0_7_CROSS_REPO_ADOPTION_HANDSHAKE.md"
+          ]
+        },
+        {
+          "label": "Source basis",
+          "sources": [
+            "docs/STCM_V0_6_ARTIFACT_CAPTURE.md"
+          ]
+        },
+        {
+          "label": "Source code basis",
+          "sources": [
+            "docs/STCM_V0_6_VALIDATION_RECORD.md"
+          ]
+        },
+        {
+          "label": "Source commits",
+          "sources": [
+            "docs/STCM_V0_6_CONFLICT_POSTURE_NOTE.md",
+            "docs/STCM_V0_6_PROMOTION_GATE_ADDENDUM.md",
+            "reports/STCM_V0_6_CONFLICT_POSTURE_ADDENDUM.md"
+          ]
+        },
+        {
+          "label": "Source repository",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Standard formal layer",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "State Transition Conservation Model",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "STCM Falsification and Limits",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "STCM Mathematical Notation and Bounded Derivations",
+          "sources": [
+            "docs/MATHEMATICAL_NOTATION.md"
+          ]
+        },
+        {
+          "label": "STCM Mirror Handoff",
+          "sources": [
+            "docs/STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "STCM Reachable Goal Status",
+          "sources": [
+            "docs/STCM_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "STCM v0.3 \u2014 Routing, Routed-Hop, and Multi-Node Merge",
+          "sources": [
+            "docs/STCM_V0_3_ROUTED_HOP_AND_MERGE.md"
+          ]
+        },
+        {
+          "label": "STCM v0.4 \u2014 Sequential Receipt Lineage",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "STCM v0.5 \u2014 Receipt Store and Conflict Resolution Policy",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "STCM v0.6 Artifact Capture",
+          "sources": [
+            "docs/STCM_V0_6_ARTIFACT_CAPTURE.md"
+          ]
+        },
+        {
+          "label": "STCM v0.6 Conflict Posture Addendum",
+          "sources": [
+            "reports/STCM_V0_6_CONFLICT_POSTURE_ADDENDUM.md"
+          ]
+        },
+        {
+          "label": "STCM v0.6 Conflict Posture Note",
+          "sources": [
+            "docs/STCM_V0_6_CONFLICT_POSTURE_NOTE.md"
+          ]
+        },
+        {
+          "label": "STCM v0.6 Promotion Gate Addendum",
+          "sources": [
+            "docs/STCM_V0_6_PROMOTION_GATE_ADDENDUM.md"
+          ]
+        },
+        {
+          "label": "STCM v0.6 Status",
+          "sources": [
+            "reports/STCM_V0_6_STATUS.md"
+          ]
+        },
+        {
+          "label": "STCM v0.6 Validation Record",
+          "sources": [
+            "docs/STCM_V0_6_VALIDATION_RECORD.md"
+          ]
+        },
+        {
+          "label": "STCM v0.6 \u2014 Portable Receipt Authority",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "STCM v0.7 Cross-Repo Adoption Handshake",
+          "sources": [
+            "docs/STCM_V0_7_CROSS_REPO_ADOPTION_HANDSHAKE.md"
+          ]
+        },
+        {
+          "label": "STCM Whole-Repository Theory Map",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "STCM-PC-001 \u2014 Conservation-record closure necessity",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "STCM-PC-002 \u2014 Finite governed-capacity threshold",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "STCM-PC-003 \u2014 Hash-scoped selective activation",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "STCM-PC-004 \u2014 Non-ignored route existence",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "STCM-PC-005 \u2014 Selective-activation compute accounting",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "STCM-PC-006 \u2014 Moment-bound transition validity",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "Store-derived lineage",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "Strict Hash-Match Non-Engagement Principle",
+          "sources": [
+            "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Supersession is not deletion",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "Supersession policy boundary",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "Target repository",
+          "sources": [
+            "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
+          ]
+        },
+        {
+          "label": "Theory chain",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Updated fixture surface",
+          "sources": [
+            "docs/STCM_V0_6_CONFLICT_POSTURE_NOTE.md",
+            "reports/STCM_V0_6_CONFLICT_POSTURE_ADDENDUM.md"
+          ]
+        },
+        {
+          "label": "Version boundary statement",
+          "sources": [
+            "docs/STCM_V0_3_ROUTED_HOP_AND_MERGE.md",
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md",
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "What green does not mean yet",
+          "sources": [
+            "docs/STCM_V0_3_ROUTED_HOP_AND_MERGE.md"
+          ]
+        },
+        {
+          "label": "What green means in v0.3",
+          "sources": [
+            "docs/STCM_V0_3_ROUTED_HOP_AND_MERGE.md"
+          ]
+        },
+        {
+          "label": "What green means in v0.4",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "What green means in v0.5",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        },
+        {
+          "label": "What it does",
+          "sources": [
+            "README.md",
+            "tools/closure-harness/CLOSURE_HARNESS.md"
+          ]
+        },
+        {
+          "label": "What v0.4 does not prove yet",
+          "sources": [
+            "docs/STCM_V0_4_SEQUENTIAL_RECEIPT_LINEAGE.md"
+          ]
+        },
+        {
+          "label": "What v0.5 does not prove yet",
+          "sources": [
+            "docs/STCM_V0_5_RECEIPT_STORE_AND_CONFLICT_POLICY.md"
+          ]
+        }
+      ],
+      "findings": [
+        {
+          "severity": "error",
+          "code": "UNRESOLVED_PLACEHOLDERS",
+          "count": 9
+        },
+        {
+          "severity": "warning",
+          "code": "AMBIGUOUS_SHORT_REPOSITORY_IDENTITIES",
+          "identities": [
+            "AE",
+            "DC",
+            "RTG",
+            "STCM"
+          ]
+        }
+      ],
+      "metrics": {
+        "files": 110,
+        "markdown_files": 19,
+        "structured_files": 48,
+        "handoffs": 1,
+        "principle_candidates": 224,
+        "placeholder_markers": 9,
+        "broken_local_links": 0,
+        "ambiguous_short_repository_identities": 4,
+        "dimensions_met": 12,
+        "dimensions_total": 12
+      },
+      "next_task": {
+        "owner": "Admissible-Existence/STCM",
+        "target": "docs/STCM_MIRROR_HANDOFF.md",
+        "action": "Resolve the first listed blocking completeness finding without duplicating active claims",
+        "release_condition": "All twelve dimensions are evidenced and independently reviewed"
+      },
+      "visibility": "LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE"
+    },
+    {
+      "repository": "Admissible-Existence/ET",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/learning-transition-governance",
+      "default_branch": "main",
+      "role": "source",
+      "state": "FORMALIZED_UNVALIDATED",
+      "score": 75.0,
+      "dimensions": {
+        "identity": false,
+        "purpose": true,
+        "theory": true,
+        "mathematics": true,
+        "formal_status": false,
+        "falsification": true,
+        "dependencies": true,
+        "whole_repo_role": false,
+        "ecosystem_relationships": true,
+        "executable_correspondence": true,
+        "evidence_binding": true,
+        "handoff_binding": true
+      },
+      "principles": [
+        {
+          "label": "Admissible Learning Transition",
+          "sources": [
+            "general/README.md"
+          ]
+        },
+        {
+          "label": "AI Scaffold Role",
+          "sources": [
+            "human/README.md"
+          ]
+        },
+        {
+          "label": "Alignment and Authority",
+          "sources": [
+            "artificial-intelligence/README.md"
+          ]
+        },
+        {
+          "label": "Archive conditions",
+          "sources": [
+            "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Artificial Intelligence Learning Transition Governance",
+          "sources": [
+            "artificial-intelligence/README.md"
+          ]
+        },
+        {
+          "label": "Authoritative files",
+          "sources": [
+            "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Authority Boundaries",
+          "sources": [
+            "general/README.md"
+          ]
+        },
+        {
+          "label": "Authority boundary",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Canonical owner and claims",
+          "sources": [
+            "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Central activation \u2014 COMPLETE",
+          "sources": [
+            "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Collision and authority boundaries",
+          "sources": [
+            "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Completed repository capability",
+          "sources": [
+            "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Core AI Transition Model",
+          "sources": [
+            "artificial-intelligence/README.md"
+          ]
+        },
+        {
+          "label": "Core Human Transition Model",
+          "sources": [
+            "human/README.md"
+          ]
+        },
+        {
+          "label": "Core Principle",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Core Transition Model",
+          "sources": [
+            "general/README.md"
+          ]
+        },
+        {
+          "label": "Creative Evidence",
+          "sources": [
+            "human/README.md"
+          ]
+        },
+        {
+          "label": "Cross-repository continuation",
+          "sources": [
+            "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Cross-repository integration",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Deployment Boundaries",
+          "sources": [
+            "artificial-intelligence/README.md"
+          ]
+        },
+        {
+          "label": "Deterministic validation",
+          "sources": [
+            "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Development Without Capture",
+          "sources": [
+            "human/README.md"
+          ]
+        },
+        {
+          "label": "Doctrine layers",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Evaluation Receipts",
+          "sources": [
+            "artificial-intelligence/README.md"
+          ]
+        },
+        {
+          "label": "Evidence and Receipts",
+          "sources": [
+            "general/README.md"
+          ]
+        },
+        {
+          "label": "Evidence flow",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Falsification and Limits",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "Falsifiers",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "General Learning Transition Governance",
+          "sources": [
+            "general/README.md"
+          ]
+        },
+        {
+          "label": "Goal Status",
+          "sources": [
+            "docs/GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "Governed object",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Homeschool Capability",
+          "sources": [
+            "human/README.md"
+          ]
+        },
+        {
+          "label": "Hosted validation \u2014 COMPLETE",
+          "sources": [
+            "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Human Learning Transition Governance",
+          "sources": [
+            "human/README.md"
+          ]
+        },
+        {
+          "label": "Learning Transition Governance",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Learning Transition Governance Mirror Handoff",
+          "sources": [
+            "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Limits",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "Mathematical Notation",
+          "sources": [
+            "docs/MATHEMATICAL_NOTATION.md"
+          ]
+        },
+        {
+          "label": "Metrics",
+          "sources": [
+            "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Model Drift and Correction",
+          "sources": [
+            "artificial-intelligence/README.md"
+          ]
+        },
+        {
+          "label": "Non-Capture Principle",
+          "sources": [
+            "general/README.md"
+          ]
+        },
+        {
+          "label": "Non-Capture Rule for AI Learning",
+          "sources": [
+            "artificial-intelligence/README.md"
+          ]
+        },
+        {
+          "label": "Non-Capture Rule for Human Learning",
+          "sources": [
+            "human/README.md"
+          ]
+        },
+        {
+          "label": "Observer and State",
+          "sources": [
+            "general/README.md"
+          ]
+        },
+        {
+          "label": "Parent Stewardship",
+          "sources": [
+            "human/README.md"
+          ]
+        },
+        {
+          "label": "Relationship to General Doctrine",
+          "sources": [
+            "artificial-intelligence/README.md"
+          ]
+        },
+        {
+          "label": "Relationship to Specialized Branches",
+          "sources": [
+            "general/README.md"
+          ]
+        },
+        {
+          "label": "Relationship to StegLearn",
+          "sources": [
+            "human/README.md"
+          ]
+        },
+        {
+          "label": "Required interpretation",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "Shared Transition Model",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Training Transition",
+          "sources": [
+            "artificial-intelligence/README.md"
+          ]
+        },
+        {
+          "label": "Whole-Repository Theory Map",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        }
+      ],
+      "findings": [
+        {
+          "severity": "error",
+          "code": "MISSING_IDENTITY"
+        },
+        {
+          "severity": "error",
+          "code": "MISSING_FORMAL_STATUS"
+        },
+        {
+          "severity": "error",
+          "code": "MISSING_WHOLE_REPO_ROLE"
+        },
+        {
+          "severity": "warning",
+          "code": "AMBIGUOUS_SHORT_REPOSITORY_IDENTITIES",
+          "identities": [
+            "AE"
+          ]
+        }
+      ],
+      "metrics": {
+        "files": 19,
+        "markdown_files": 9,
+        "structured_files": 8,
+        "handoffs": 1,
+        "principle_candidates": 52,
+        "placeholder_markers": 0,
+        "broken_local_links": 0,
+        "ambiguous_short_repository_identities": 1,
+        "dimensions_met": 9,
+        "dimensions_total": 12
+      },
+      "next_task": {
+        "owner": "Admissible-Existence/learning-transition-governance",
+        "target": "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md",
+        "action": "Resolve the first listed blocking completeness finding without duplicating active claims",
+        "release_condition": "All twelve dimensions are evidenced and independently reviewed"
+      },
+      "visibility": "LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE"
+    },
+    {
+      "repository": "Admissible-Existence/BC",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/CHF",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/RE",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/RE-Reduction",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/DC",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/Triad",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/GCAT-BCAT",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/ECAT-ICAT",
+      "default_branch": "main",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 91.67,
+      "dimensions": {
+        "identity": true,
+        "purpose": true,
+        "theory": true,
+        "mathematics": true,
+        "formal_status": true,
+        "falsification": true,
+        "dependencies": true,
+        "whole_repo_role": false,
+        "ecosystem_relationships": true,
+        "executable_correspondence": true,
+        "evidence_binding": true,
+        "handoff_binding": true
+      },
+      "principles": [
+        {
+          "label": "Active assessment goal",
+          "sources": [
+            "docs/ecosystem-management-handoff.md"
+          ]
+        },
+        {
+          "label": "Admissibility",
+          "sources": [
+            "docs/glossary.md"
+          ]
+        },
+        {
+          "label": "Archive conditions",
+          "sources": [
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Assumptions",
+          "sources": [
+            "README.md",
+            "docs/release-candidate-0.1.0-rc1.md"
+          ]
+        },
+        {
+          "label": "Authority boundaries",
+          "sources": [
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Automated checks",
+          "sources": [
+            "docs/release-notes-0.1.0-rc1.md"
+          ]
+        },
+        {
+          "label": "Automated path",
+          "sources": [
+            "docs/receipt-automation.md"
+          ]
+        },
+        {
+          "label": "Automated validation",
+          "sources": [
+            "README.md",
+            "RELEASE_CANDIDATE.md"
+          ]
+        },
+        {
+          "label": "BCAT",
+          "sources": [
+            "docs/glossary.md"
+          ]
+        },
+        {
+          "label": "Boundary",
+          "sources": [
+            "docs/ECAT_ICAT_REACHABLE_GOAL_STATUS.md",
+            "docs/license-decision.md",
+            "docs/receipt-automation.md",
+            "docs/release-plan.md"
+          ]
+        },
+        {
+          "label": "Boundary relevance",
+          "sources": [
+            "docs/glossary.md"
+          ]
+        },
+        {
+          "label": "Bounded falsifiers",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "Candidate",
+          "sources": [
+            "docs/release-plan.md"
+          ]
+        },
+        {
+          "label": "Canonical task owner and claim state",
+          "sources": [
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Canonical workflow path",
+          "sources": [
+            "docs/receipt-automation.md"
+          ]
+        },
+        {
+          "label": "Change discipline",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "Coherence status",
+          "sources": [
+            "docs/glossary.md"
+          ]
+        },
+        {
+          "label": "Commit-time boundary",
+          "sources": [
+            "docs/schema-boundaries.md"
+          ]
+        },
+        {
+          "label": "completeness receipt",
+          "sources": [
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Completion meaning",
+          "sources": [
+            "docs/ecosystem-management-handoff.md"
+          ]
+        },
+        {
+          "label": "Condition",
+          "sources": [
+            "docs/release-plan.md"
+          ]
+        },
+        {
+          "label": "Continuity",
+          "sources": [
+            "docs/glossary.md"
+          ]
+        },
+        {
+          "label": "Core distinction",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Core proposition",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Cross-repository dependencies",
+          "sources": [
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Current candidate",
+          "sources": [
+            "RELEASE_CANDIDATE.md"
+          ]
+        },
+        {
+          "label": "Current fixtures",
+          "sources": [
+            "docs/release-candidate-0.1.0-rc1.md"
+          ]
+        },
+        {
+          "label": "Current Integration State",
+          "sources": [
+            "docs/ECAT_ICAT_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "Current pass condition",
+          "sources": [
+            "RELEASE_CANDIDATE.md"
+          ]
+        },
+        {
+          "label": "Current release-candidate status",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Current status",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Decision",
+          "sources": [
+            "docs/license-decision.md"
+          ]
+        },
+        {
+          "label": "Decision vocabulary",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Done criteria for first formal release",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Done definition for this release candidate",
+          "sources": [
+            "docs/release-candidate-0.1.0-rc1.md"
+          ]
+        },
+        {
+          "label": "ECAT",
+          "sources": [
+            "docs/glossary.md"
+          ]
+        },
+        {
+          "label": "ECAT-ICAT",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "ECAT-ICAT Glossary",
+          "sources": [
+            "docs/glossary.md"
+          ]
+        },
+        {
+          "label": "ECAT-ICAT Reachable Goal Status",
+          "sources": [
+            "docs/ECAT_ICAT_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "ECAT-ICAT Release Candidate 0.1.0-rc1",
+          "sources": [
+            "docs/release-candidate-0.1.0-rc1.md"
+          ]
+        },
+        {
+          "label": "ECAT/ICAT Falsification and Limits",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "ECAT/ICAT Mathematical Notation",
+          "sources": [
+            "docs/MATHEMATICAL_NOTATION.md"
+          ]
+        },
+        {
+          "label": "ECAT/ICAT Mirror Handoff",
+          "sources": [
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "ECAT/ICAT Whole-Repository Theory Map",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Ecosystem Management Handoff",
+          "sources": [
+            "docs/ecosystem-management-handoff.md"
+          ]
+        },
+        {
+          "label": "Ecosystem management input",
+          "sources": [
+            "docs/ecosystem-management-handoff.md"
+          ]
+        },
+        {
+          "label": "Evidence classes",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Existence interpretation",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Existing implementation preserved",
+          "sources": [
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Expected-output comparison",
+          "sources": [
+            "tests/README.md"
+          ]
+        },
+        {
+          "label": "Failure posture",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "GCAT",
+          "sources": [
+            "docs/glossary.md"
+          ]
+        },
+        {
+          "label": "Handoff state",
+          "sources": [
+            "docs/ecosystem-management-handoff.md"
+          ]
+        },
+        {
+          "label": "Hash scope",
+          "sources": [
+            "docs/receipt-automation.md"
+          ]
+        },
+        {
+          "label": "Hosted validation evidence",
+          "sources": [
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "ICAT",
+          "sources": [
+            "docs/glossary.md"
+          ]
+        },
+        {
+          "label": "Included",
+          "sources": [
+            "docs/release-notes-0.1.0-rc1.md"
+          ]
+        },
+        {
+          "label": "Included files",
+          "sources": [
+            "docs/rc1-artifact-list.md"
+          ]
+        },
+        {
+          "label": "Included proof artifacts",
+          "sources": [
+            "RELEASE_CANDIDATE.md"
+          ]
+        },
+        {
+          "label": "Intended role in the ecosystem",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Invariants",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "iOS No-Period Mirror",
+          "sources": [
+            "iosnoperiod/README.md"
+          ]
+        },
+        {
+          "label": "Layer relationships",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "License",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "License Decision",
+          "sources": [
+            "docs/license-decision.md"
+          ]
+        },
+        {
+          "label": "Limits",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "Machine-owned continuation",
+          "sources": [
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Maintainer note",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Manual task reduction",
+          "sources": [
+            "RELEASE_CANDIDATE.md"
+          ]
+        },
+        {
+          "label": "Manual task status",
+          "sources": [
+            "docs/ecosystem-management-handoff.md"
+          ]
+        },
+        {
+          "label": "Mapping",
+          "sources": [
+            "iosnoperiod/README.md"
+          ]
+        },
+        {
+          "label": "Metrics",
+          "sources": [
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Minimal model",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Minimum ECAT profile fields",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Minimum ICAT profile fields",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Minimum receipt record",
+          "sources": [
+            "docs/receipt-plan.md"
+          ]
+        },
+        {
+          "label": "Next Repo Step",
+          "sources": [
+            "docs/ECAT_ICAT_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "Non-authority statement",
+          "sources": [
+            "docs/release-notes-0.1.0-rc1.md"
+          ]
+        },
+        {
+          "label": "Non-goals",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Organization completeness surfaces installed",
+          "sources": [
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Originating goal",
+          "sources": [
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Rationale",
+          "sources": [
+            "docs/license-decision.md"
+          ]
+        },
+        {
+          "label": "RC1 Artifact List",
+          "sources": [
+            "docs/rc1-artifact-list.md"
+          ]
+        },
+        {
+          "label": "RC1 status",
+          "sources": [
+            "docs/receipt-plan.md"
+          ]
+        },
+        {
+          "label": "RC1 validation",
+          "sources": [
+            "tests/README.md"
+          ]
+        },
+        {
+          "label": "Ready Surfaces",
+          "sources": [
+            "docs/ECAT_ICAT_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "Receipt Automation",
+          "sources": [
+            "docs/receipt-automation.md"
+          ]
+        },
+        {
+          "label": "Receipt Plan",
+          "sources": [
+            "docs/receipt-plan.md"
+          ]
+        },
+        {
+          "label": "Receipt targets",
+          "sources": [
+            "docs/receipt-plan.md"
+          ]
+        },
+        {
+          "label": "Recoverability status",
+          "sources": [
+            "docs/glossary.md"
+          ]
+        },
+        {
+          "label": "Relationship to commit-time admissibility",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Relationship to Triad governance",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Release blocker list",
+          "sources": [
+            "docs/release-candidate-0.1.0-rc1.md"
+          ]
+        },
+        {
+          "label": "Release blockers remaining",
+          "sources": [
+            "RELEASE_CANDIDATE.md"
+          ]
+        },
+        {
+          "label": "Release Candidate Status",
+          "sources": [
+            "RELEASE_CANDIDATE.md"
+          ]
+        },
+        {
+          "label": "Release Notes: 0.1.0-rc1",
+          "sources": [
+            "docs/release-notes-0.1.0-rc1.md"
+          ]
+        },
+        {
+          "label": "Release Plan",
+          "sources": [
+            "docs/release-plan.md"
+          ]
+        },
+        {
+          "label": "Remaining before formal release",
+          "sources": [
+            "docs/release-notes-0.1.0-rc1.md"
+          ]
+        },
+        {
+          "label": "Repository flow",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Repository structure",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Safety boundary",
+          "sources": [
+            "docs/release-candidate-0.1.0-rc1.md"
+          ]
+        },
+        {
+          "label": "Safety posture",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Schema Boundaries",
+          "sources": [
+            "docs/schema-boundaries.md"
+          ]
+        },
+        {
+          "label": "Session consolidation",
+          "sources": [
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Standing",
+          "sources": [
+            "docs/glossary.md"
+          ]
+        },
+        {
+          "label": "Terms",
+          "sources": [
+            "docs/glossary.md"
+          ]
+        },
+        {
+          "label": "Tests",
+          "sources": [
+            "tests/README.md"
+          ]
+        },
+        {
+          "label": "Triad governance",
+          "sources": [
+            "docs/glossary.md"
+          ]
+        },
+        {
+          "label": "Validation command",
+          "sources": [
+            "docs/release-candidate-0.1.0-rc1.md"
+          ]
+        },
+        {
+          "label": "Validation commands",
+          "sources": [
+            "RELEASE_CANDIDATE.md",
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "What ECAT schema validates",
+          "sources": [
+            "docs/schema-boundaries.md"
+          ]
+        },
+        {
+          "label": "What ICAT schema validates",
+          "sources": [
+            "docs/schema-boundaries.md"
+          ]
+        },
+        {
+          "label": "What the schemas do not validate",
+          "sources": [
+            "docs/schema-boundaries.md"
+          ]
+        }
+      ],
+      "findings": [
+        {
+          "severity": "error",
+          "code": "MISSING_WHOLE_REPO_ROLE"
+        },
+        {
+          "severity": "error",
+          "code": "UNRESOLVED_PLACEHOLDERS",
+          "count": 3
+        },
+        {
+          "severity": "warning",
+          "code": "AMBIGUOUS_SHORT_REPOSITORY_IDENTITIES",
+          "identities": [
+            "AE"
+          ]
+        }
+      ],
+      "metrics": {
+        "files": 68,
+        "markdown_files": 19,
+        "structured_files": 33,
+        "handoffs": 1,
+        "principle_candidates": 113,
+        "placeholder_markers": 3,
+        "broken_local_links": 0,
+        "ambiguous_short_repository_identities": 1,
+        "dimensions_met": 11,
+        "dimensions_total": 12
+      },
+      "next_task": {
+        "owner": "Admissible-Existence/ECAT-ICAT",
+        "target": "docs/ECAT_ICAT_MIRROR_HANDOFF.md",
+        "action": "Resolve the first listed blocking completeness finding without duplicating active claims",
+        "release_condition": "All twelve dimensions are evidenced and independently reviewed"
+      },
+      "visibility": "LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE"
+    },
+    {
+      "repository": "Admissible-Existence/IICT",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/CTA",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/HPS",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/FI",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/DaCo",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/IW",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/standing-proof-formalism",
+      "role": "source",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/core-lite",
+      "role": "support",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/validator",
+      "role": "support",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/tracker",
+      "role": "support",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/telemetry",
+      "role": "support",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/ae-validation-factory",
+      "role": "support",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/ae-validation-research",
+      "role": "empty",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/validation-profile-registry",
+      "role": "support",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/SOL",
+      "role": "empty",
+      "state": "BLOCKED",
+      "score": 0.0,
+      "visibility": "REGISTRY_ONLY_NOT_LIVE_OBSERVED",
+      "registry_maturity": "UNASSESSED",
+      "registry_proof_candidate_status": "NONE",
+      "dimensions": {},
+      "principles": [],
+      "metrics": {
+        "live_observed": false
+      },
+      "findings": [
+        {
+          "severity": "error",
+          "code": "REPOSITORY_NOT_VISIBLE_TO_WORKFLOW_TOKEN",
+          "detail": "Repository is preserved from the authoritative organization registry but was not available to the live audit token."
+        }
+      ],
+      "next_task": {
+        "owner": "Admissible-Existence/.github",
+        "target": "organization audit credential or repository-specific validation lane",
+        "action": "Provide machine-readable repository evidence through an authorized lane; do not treat missing visibility as success",
+        "release_condition": "Repository tree, handoff, principle/support registry, validators, and evidence are live-observed or imported with immutable bindings"
+      }
+    }
+  ],
+  "publication_authorized": false,
+  "release_authorized": false,
+  "completion_rule": "Registry-only visibility is BLOCKED and cannot establish completeness."
+}
