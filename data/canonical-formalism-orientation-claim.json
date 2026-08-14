@@ -1,0 +1,40 @@
+{
+  "schema": "admissible-existence.formalism-orientation-claim/v1",
+  "task_id": "AEX-CANONICAL-FORMALISM-ORIENTATION-001",
+  "originating_goal": "make settled Admissible-Existence architecture and the active discovery frontier explicit so internal workers do not reinvent already-developed formalism",
+  "repository": "Admissible-Existence/.github",
+  "branch": "feat/canonical-formalism-orientation-001",
+  "canonical_issue": "Admissible-Existence/.github#5",
+  "claimant": "current-session-coordination-lane",
+  "role": "CLAIMED_FOR_IMPLEMENTATION_AND_VALIDATION",
+  "claim_created_at": "2026-08-14T18:09:47-05:00",
+  "claim_expires_or_releases_when": "release immediately after orientation/frontier/validator/workflow/handoff are merged to main and exact merged-state validation succeeds; otherwise expire to BLOCKED if no evidence-bearing update occurs within 24 hours",
+  "owned_surfaces": [
+    "docs/CANONICAL_FORMALISM_ORIENTATION.md",
+    "docs/DISCOVERY_FRONTIER.md",
+    "data/canonical-formalism-orientation.json",
+    "data/canonical-formalism-orientation-claim.json",
+    "scripts/validate_canonical_formalism_orientation.py",
+    "tests/test_canonical_formalism_orientation.py",
+    ".github/workflows/canonical-formalism-orientation.yml",
+    "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md#canonical-formalism-orientation"
+  ],
+  "expected_evidence": [
+    "deterministic validator PASS",
+    "positive and fail-closed negative tests PASS",
+    "hosted workflow PASS on PR head",
+    "merged-main validation PASS",
+    "canonical issue closed completed",
+    "claim released in durable handoff/state"
+  ],
+  "collision_boundaries": [
+    "no source-semantics mutation in AE, TT, GTG, Existence, BC, CHF, DC/DaCo, RTG, STCM or validation repositories",
+    "no proof acceptance",
+    "no execution/release/publication/certification authority",
+    "no public/user-facing product requirement",
+    "no credential custody or secret/token creation",
+    "StegVerse runtime credentials remain TV/TVC; GitHub-token runtime authority remains NONE"
+  ],
+  "next_task_after_release": "workers consume the canonical orientation and discovery frontier before proposing foundational extensions; source-repository promotion of any frontier item remains separately claimed/admitted",
+  "state": "CLAIMED_FOR_IMPLEMENTATION_AND_VALIDATION"
+}
