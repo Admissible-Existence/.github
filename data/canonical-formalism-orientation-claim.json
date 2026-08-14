@@ -6,9 +6,10 @@
   "branch": "feat/canonical-formalism-orientation-001",
   "canonical_issue": "Admissible-Existence/.github#5",
   "claimant": "current-session-coordination-lane",
-  "role": "CLAIMED_FOR_IMPLEMENTATION_AND_VALIDATION",
+  "role": "COMPLETE_RELEASED",
   "claim_created_at": "2026-08-14T18:09:47-05:00",
-  "claim_expires_or_releases_when": "release immediately after orientation/frontier/validator/workflow/handoff are merged to main and exact merged-state validation succeeds; otherwise expire to BLOCKED if no evidence-bearing update occurs within 24 hours",
+  "claim_released_at": "2026-08-14T18:17:00-05:00",
+  "release_condition": "orientation/frontier/validator/workflow/handoff merged to main and exact merged-main orientation validation succeeded",
   "owned_surfaces": [
     "docs/CANONICAL_FORMALISM_ORIENTATION.md",
     "docs/DISCOVERY_FRONTIER.md",
@@ -19,14 +20,23 @@
     ".github/workflows/canonical-formalism-orientation.yml",
     "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md#canonical-formalism-orientation"
   ],
-  "expected_evidence": [
-    "deterministic validator PASS",
-    "positive and fail-closed negative tests PASS",
-    "hosted workflow PASS on PR head",
-    "merged-main validation PASS",
-    "canonical issue closed completed",
-    "claim released in durable handoff/state"
-  ],
+  "release_evidence": {
+    "pr": "Admissible-Existence/.github#8",
+    "pr_head": "89f64d64cc0d289d489a642cad99de98cbb283cf",
+    "merge_commit": "0d3080464155b4b49f6fead6ad49b02648ed8713",
+    "pr_head_validation_run": 31849673690,
+    "pr_head_validation_job": 94922954954,
+    "merged_main_validation_run": 31849702954,
+    "merged_main_validation_job": 94923030991,
+    "validation_result": "SUCCESS",
+    "canonical_concepts": 10,
+    "orientation_hazards": 3,
+    "regression_tests": "5/5 PASS",
+    "findings": [],
+    "credential_authority_for_stegverse_runtime": "TV/TVC",
+    "github_token_runtime_authority": "NONE",
+    "workflow_authority_effect": "NONE_VALIDATION_ONLY"
+  },
   "collision_boundaries": [
     "no source-semantics mutation in AE, TT, GTG, Existence, BC, CHF, DC/DaCo, RTG, STCM or validation repositories",
     "no proof acceptance",
@@ -36,5 +46,5 @@
     "StegVerse runtime credentials remain TV/TVC; GitHub-token runtime authority remains NONE"
   ],
   "next_task_after_release": "workers consume the canonical orientation and discovery frontier before proposing foundational extensions; source-repository promotion of any frontier item remains separately claimed/admitted",
-  "state": "CLAIMED_FOR_IMPLEMENTATION_AND_VALIDATION"
+  "state": "COMPLETE_RELEASED"
 }
