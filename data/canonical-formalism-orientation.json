@@ -1,0 +1,263 @@
+{
+  "schema": "admissible-existence.canonical-formalism-orientation/v1",
+  "goal_id": "AEX-CANONICAL-FORMALISM-ORIENTATION-001",
+  "canonical_issue": "Admissible-Existence/.github#5",
+  "scope": "internal_worker_orientation_only",
+  "public_user_facing": false,
+  "creates_source_formalism_authority": false,
+  "creates_execution_authority": false,
+  "creates_validation_authority": false,
+  "creates_credential_authority": false,
+  "credential_authority_for_stegverse_runtime": "TV/TVC",
+  "github_token_runtime_authority": "NONE",
+  "worker_rule": {
+    "before_proposing_new_foundational_abstraction": "search canonical orientation and cited source repositories; if an extension is still required, identify the exact canonical concepts searched and the specific insufficiency",
+    "allowed_relationships_to_canon": [
+      "IMPLEMENTS",
+      "INTEGRATES",
+      "VALIDATES",
+      "EXTENDS",
+      "CHALLENGES",
+      "OBSERVES"
+    ],
+    "extension_requires_insufficiency_record": true,
+    "challenge_requires_falsifying_evidence": true,
+    "orientation_may_widen_authority": false
+  },
+  "maturity_classes": [
+    "CANONICAL_ESTABLISHED",
+    "CONSISTENT_INTERPRETATION",
+    "CANDIDATE_FORMALIZATION",
+    "OPEN_EMPIRICAL"
+  ],
+  "concepts": [
+    {
+      "concept_id": "AEX-ORIENT-001",
+      "name": "existence_is_stronger_than_presence",
+      "maturity": "CANONICAL_ESTABLISHED",
+      "owner_repo": "Admissible-Existence/AE",
+      "canonical_sources": [
+        "docs/papers/coherent-life-and-admissible-existence.md#1-governing-thesis",
+        "docs/papers/coherent-life-and-admissible-existence.md#5-primitive-components"
+      ],
+      "canonical_statement": "Presence alone does not establish coherent or admissible existence; individuation, coherence, transition capacity, viability, observability, reconstructability, authority, purpose, relational and compositional conditions are distinct.",
+      "authority_boundary": "Existence/admissibility theory does not itself create component execution authority.",
+      "non_claims": [
+        "presence does not imply coherence",
+        "physical viability does not prove legitimate authority",
+        "information integration does not prove consciousness"
+      ],
+      "common_misinterpretations": [
+        "treating detectable presence as sufficient existence standing",
+        "collapsing all AE dimensions into one scalar capability state"
+      ]
+    },
+    {
+      "concept_id": "AEX-ORIENT-002",
+      "name": "observability_and_reconstructability_are_distinct",
+      "maturity": "CANONICAL_ESTABLISHED",
+      "owner_repo": "Admissible-Existence/AE",
+      "canonical_sources": [
+        "docs/papers/coherent-life-and-admissible-existence.md#56-observability-and-reconstructability",
+        "docs/papers/coherent-life-and-admissible-existence.md#74-continuity-recoverability"
+      ],
+      "canonical_statement": "Observability concerns whether relevant state can be distinguished from evidence; reconstructability concerns whether prior state, policy, authority, evidence, decision and transition history can be recovered.",
+      "authority_boundary": "Neither observability nor reconstructability is certification, correct interpretation, or execution authority.",
+      "non_claims": [
+        "observable does not mean authorized",
+        "reconstructable does not mean executable"
+      ],
+      "common_misinterpretations": [
+        "treating a receipt as execution authority",
+        "treating an observation as proof of every causal or authority relation"
+      ]
+    },
+    {
+      "concept_id": "AEX-ORIENT-003",
+      "name": "relational_and_contextual_coherence_are_joint_state_properties",
+      "maturity": "CANONICAL_ESTABLISHED",
+      "owner_repo": "Admissible-Existence/AE",
+      "canonical_sources": [
+        "docs/papers/coherent-life-and-admissible-existence.md#75-relational-recoverability",
+        "docs/papers/coherent-life-and-admissible-existence.md#8-coherent-target-region-correctly-typed-definition"
+      ],
+      "canonical_statement": "Relational recoverability and compositional compatibility are defined in joint state space; isolated endpoint state cannot by itself establish contextual coherent standing.",
+      "authority_boundary": "Joint-state coherence constrains admissibility but does not itself authorize execution.",
+      "non_claims": [
+        "co-presence of two entities does not prove a governed relationship",
+        "existential projection does not establish coherence in the actual environment"
+      ],
+      "common_misinterpretations": [
+        "assuming two synchronized-looking states are continuous merely because both exist",
+        "ignoring neighboring entity state when evaluating relational coherence"
+      ]
+    },
+    {
+      "concept_id": "AEX-ORIENT-004",
+      "name": "transition_table_is_structural_and_non_authorizing",
+      "maturity": "CANONICAL_ESTABLISHED",
+      "owner_repo": "Admissible-Existence/TT",
+      "canonical_sources": [
+        "FORMAL_STANDING_SPEC.md",
+        "TT_ELEMENTS.json",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/TT_MIRROR_HANDOFF.md"
+      ],
+      "canonical_statement": "TT owns transition-element identity, structural relationships, standing requirements, outcome regions, registry structure and bounded local allocation; its derivation and mapping layers are descriptive/testable and do not create execution authority.",
+      "authority_boundary": "TT never inherits execution authority from geometry, ontology, semantics, governance, validation, proof-candidate registration, destination receipts or external framework alignment.",
+      "non_claims": [
+        "TT does not grant product capability authority",
+        "TT does not authorize irreversible external commit",
+        "TT destination awareness is not publication or release"
+      ],
+      "common_misinterpretations": [
+        "describing TT as a capability issuer",
+        "treating a structural transition element as permission to execute"
+      ]
+    },
+    {
+      "concept_id": "AEX-ORIENT-005",
+      "name": "executable_is_not_admissible",
+      "maturity": "CANONICAL_ESTABLISHED",
+      "owner_repo": "Admissible-Existence/TT",
+      "canonical_sources": [
+        "FORMAL_STANDING_SPEC.md#6-axioms",
+        "FORMAL_STANDING_SPEC.md#7-invariants"
+      ],
+      "canonical_statement": "Technical executability is not admissibility; commit-time standing must remain valid and reconstructable before consequence may bind.",
+      "authority_boundary": "Only a separately established authority path may authorize consequential execution.",
+      "non_claims": [
+        "sandbox success is not execution authority",
+        "repair does not bypass standing",
+        "DENY cannot commit"
+      ],
+      "common_misinterpretations": [
+        "equating code completion with activation",
+        "equating hosted test success with production authority"
+      ]
+    },
+    {
+      "concept_id": "AEX-ORIENT-006",
+      "name": "fail_closed_blocks_unjustified_commit",
+      "maturity": "CANONICAL_ESTABLISHED",
+      "owner_repo": "Admissible-Existence/TT",
+      "canonical_sources": [
+        "FORMAL_STANDING_SPEC.md#3-outcome-regions",
+        "FORMAL_STANDING_SPEC.md#4-sandbox-manifold"
+      ],
+      "canonical_statement": "Underdetermined standing must FAIL-CLOSED and remain uncommitted, sandboxed, quarantined or repaired until reevaluation.",
+      "authority_boundary": "FAIL-CLOSED is a consequence boundary; it does not create authority and does not prove a candidate false.",
+      "non_claims": [
+        "underdetermined does not equal denied as false",
+        "sandbox state alone cannot commit to reality"
+      ],
+      "common_misinterpretations": [
+        "treating fail-closed as permanent epistemic impossibility",
+        "allowing uncertainty to bind reality"
+      ]
+    },
+    {
+      "concept_id": "AEX-ORIENT-007",
+      "name": "gtg_reconstruction_has_distinct_causal_authority_and_reality_contact_layers",
+      "maturity": "CANONICAL_ESTABLISHED",
+      "owner_repo": "Admissible-Existence/GTG",
+      "canonical_sources": [
+        "contracts/GTG_R3_CAUSAL_RECONSTRUCTION.md",
+        "contracts/GTG_R4_AUTHORITY_RECONSTRUCTION.md",
+        "contracts/GTG_R5_REALITY_CONTACT_RECONSTRUCTION.md",
+        "GTG_MIRROR_HANDOFF.md"
+      ],
+      "canonical_statement": "GTG separately reconstructs causal structure, authority structure and reality contact; R5 fails closed or partial on stale, contradicted, detached, internal-only, request-only, custody-broken or authority-escalating evidence.",
+      "authority_boundary": "Reconstruction results do not independently create execution, certification, empirical-validity, mathematical-closure, release or universal-admissibility authority.",
+      "non_claims": [
+        "reconstruction is not execution",
+        "reality-contact reconstruction is not universal truth"
+      ],
+      "common_misinterpretations": [
+        "collapsing causal reconstruction and authority reconstruction",
+        "treating reconstructed evidence as self-authorizing"
+      ]
+    },
+    {
+      "concept_id": "AEX-ORIENT-008",
+      "name": "independent_validation_is_non_authorizing",
+      "maturity": "CANONICAL_ESTABLISHED",
+      "owner_repo": "Admissible-Existence/ae-validation-factory",
+      "canonical_sources": [
+        "AE_VALIDATION_FACTORY_MIRROR_HANDOFF.md",
+        "docs/SUPPORT_ROLE_AND_NON_AUTHORITY.md"
+      ],
+      "canonical_statement": "Independent validation may recompute and test target claims while remaining separate from target doctrine and authority.",
+      "authority_boundary": "Validation Factory does not own AE commit-time resolution, canonical evaluator semantics, execution authority, certification, publication, mathematical closure, empirical validity, universal admissibility or Master Records custody.",
+      "non_claims": [
+        "approval is not continuity",
+        "execution is not admissibility"
+      ],
+      "common_misinterpretations": [
+        "allowing a validator to become the source of the validated doctrine",
+        "treating validation completion as release authority"
+      ]
+    },
+    {
+      "concept_id": "AEX-ORIENT-009",
+      "name": "stegcore_admissible_existence_is_an_operational_projection",
+      "maturity": "CANONICAL_ESTABLISHED",
+      "owner_repo": "StegVerse-Labs/StegCore",
+      "canonical_sources": [
+        "docs/ADMISSIBLE_EXISTENCE_CAPABILITY_MODEL_MIRROR_HANDOFF.md",
+        "src/stegcore/admissible_existence.py",
+        "src/stegcore/capability_registry.py"
+      ],
+      "canonical_statement": "StegCore structurally adopts the upstream Admissible-Existence formalism through a bounded capability lifecycle and evidence registry; it supplements and does not replace AE/RTG/GTG/TT/STCM formalism authority.",
+      "authority_boundary": "Core structural checks may block but may not widen canonical StegGate or component-owner authority; the primitive performs no external execution and mints no continuity receipt.",
+      "non_claims": [
+        "DECLARED/STANDING/ADMISSIBLE/ACTIVATED is not the complete upstream theory of Admissible Existence",
+        "capability registry is not TT",
+        "file presence does not infer activation"
+      ],
+      "common_misinterpretations": [
+        "entering through StegCore and treating the Core projection as the source formalism",
+        "treating ACTIVATED as authority beyond the evidence and component boundary it records"
+      ]
+    },
+    {
+      "concept_id": "AEX-ORIENT-010",
+      "name": "continuity_recoverability_preserves_reconstructable_transition_history",
+      "maturity": "CANONICAL_ESTABLISHED",
+      "owner_repo": "Admissible-Existence/AE",
+      "canonical_sources": [
+        "docs/papers/coherent-life-and-admissible-existence.md#74-continuity-recoverability"
+      ],
+      "canonical_statement": "Continuity-intact standing requires retained history sufficient to reconstruct prior state, policy, authority, delegation, evidence, decision and transition history, together with a basin for preserving or restoring that condition.",
+      "authority_boundary": "Continuity evidence does not independently authorize a new transition.",
+      "non_claims": [
+        "continuity is not mere file persistence",
+        "continuity evidence does not erase authority requirements"
+      ],
+      "common_misinterpretations": [
+        "reducing continuity to endpoint co-presence",
+        "treating continuity receipts as permission for successor execution"
+      ]
+    }
+  ],
+  "known_orientation_hazards": [
+    {
+      "hazard_id": "AEX-HAZARD-001",
+      "description": "TT FORMAL_STANDING_SPEC describes exactly 13 target transition elements while current TT operational handoff reports 76 unique transition elements across 11 registries.",
+      "required_handling": "Do not infer contradiction or equivalence without reading the current TT registry hierarchy; treat the relationship between foundational target elements and expanded operational registries as a version/structure clarification task owned by TT if not already explicit."
+    },
+    {
+      "hazard_id": "AEX-HAZARD-002",
+      "description": "AE may own normative protocol documentation while originating research doctrine or completed source reconstruction implementation remains in another repository.",
+      "required_handling": "Distinguish source doctrine, normative protocol publication, independent validation and operational consumption before declaring a missing implementation."
+    },
+    {
+      "hazard_id": "AEX-HAZARD-003",
+      "description": "Recent StegCore Admissible-Existence implementation is internal development infrastructure, not a public/user entry point.",
+      "required_handling": "Do not create public-facing consumer-map requirements merely because internal formalism is distributed across repositories."
+    }
+  ],
+  "frontier_ref": "docs/DISCOVERY_FRONTIER.md",
+  "human_orientation_ref": "docs/CANONICAL_FORMALISM_ORIENTATION.md",
+  "validator_ref": "scripts/validate_canonical_formalism_orientation.py"
+}

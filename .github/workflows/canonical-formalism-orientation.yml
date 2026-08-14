@@ -1,0 +1,69 @@
+name: Canonical Formalism Orientation Validation
+
+on:
+  pull_request:
+    paths:
+      - "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+      - "docs/DISCOVERY_FRONTIER.md"
+      - "data/canonical-formalism-orientation.json"
+      - "data/canonical-formalism-orientation-claim.json"
+      - "scripts/validate_canonical_formalism_orientation.py"
+      - "tests/test_canonical_formalism_orientation.py"
+      - "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+      - ".github/workflows/canonical-formalism-orientation.yml"
+  push:
+    branches: [main]
+    paths:
+      - "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+      - "docs/DISCOVERY_FRONTIER.md"
+      - "data/canonical-formalism-orientation.json"
+      - "data/canonical-formalism-orientation-claim.json"
+      - "scripts/validate_canonical_formalism_orientation.py"
+      - "tests/test_canonical_formalism_orientation.py"
+      - "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+      - ".github/workflows/canonical-formalism-orientation.yml"
+
+permissions: {}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ""
+      GH_TOKEN: ""
+      STEGVERSE_GITHUB_TOKEN: ""
+      TVC_TOKEN: ""
+    steps:
+      - name: Anonymous source acquisition without credential authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${GITHUB_TOKEN:-}"
+          test -z "${GH_TOKEN:-}"
+          test -z "${STEGVERSE_GITHUB_TOKEN:-}"
+          test -z "${TVC_TOKEN:-}"
+          git -c credential.helper= -c http.extraHeader= init .
+          git -c credential.helper= -c http.extraHeader= remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git -c credential.helper= -c http.extraHeader= fetch --depth=1 origin "${GITHUB_SHA}"
+          git checkout --detach FETCH_HEAD
+
+      - name: Parse canonical orientation registry
+        run: python -m json.tool data/canonical-formalism-orientation.json >/dev/null
+
+      - name: Validate canonical orientation and authority boundaries
+        run: python scripts/validate_canonical_formalism_orientation.py
+
+      - name: Run orientation regression tests
+        run: python -m unittest tests.test_canonical_formalism_orientation -v
+
+      - name: Prove workflow is validation-only
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "credential_authority=TV/TVC"
+          echo "github_token_runtime_authority=NONE"
+          echo "workflow_authority_effect=NONE_VALIDATION_ONLY"
+          echo "source_formalism_authority=false"
+          echo "execution_authority=false"
+          echo "publication_authority=false"
+          echo "release_authority=false"

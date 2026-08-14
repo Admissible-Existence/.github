@@ -5,7 +5,7 @@
 **Branch:** `main`  
 **Program status:** `ACTIVE — TV/TVC-GOVERNED AUTOMATION INTEGRATION`  
 **Session state:** `BLOCKED — RETAIN UNTIL OPERATIONAL WORKER EVIDENCE`  
-**Updated:** 2026-08-06T21:33:00Z
+**Updated:** 2026-08-14T18:15:00-05:00
 
 ## Governing objective
 
@@ -25,6 +25,11 @@ Authoritative records:
 - `data/formalism-worker-registry.json`
 - `data/formalism-task-claims.json`
 - `data/principle-completeness-worker-claim.json`
+- `docs/CANONICAL_FORMALISM_ORIENTATION.md`
+- `data/canonical-formalism-orientation.json`
+- `docs/DISCOVERY_FRONTIER.md`
+- `scripts/validate_canonical_formalism_orientation.py`
+- `data/canonical-formalism-orientation-claim.json`
 - `data/tvc-principle-completeness-capability-request.json`
 - `data/tvc-capability-activation-blocker.json`
 - `schemas/tvc-capability-grant-receipt.schema.json`
@@ -34,8 +39,10 @@ Authoritative records:
 - `scripts/observe_principle_worker_activation.py`
 - `.github/workflows/principle-completeness-workers.yml`
 - `.github/workflows/principle-worker-activation-observer.yml`
+- `.github/workflows/canonical-formalism-orientation.yml`
 - `reports/hosted-worker-run-31128125108.md`
 - issue `Admissible-Existence/.github#4`
+- issue `Admissible-Existence/.github#5`
 - `StegVerse-Labs/TVC/tasks/TVC-AEX-PRINCIPLE-COMPLETENESS-CAPABILITY-001.json`
 - `StegVerse-Labs/TVC/docs/AEX_PRINCIPLE_COMPLETENESS_CAPABILITY_MIRROR_HANDOFF.md`
 - issue `StegVerse-Labs/TVC#13`
@@ -59,6 +66,47 @@ Authoritative records:
 - Repository-local owners: source mathematics and proof-candidate authority.
 
 No static organization token, parallel vault, independent capability issuer, source-mathematics authority, proof-acceptance authority, repository-administration authority, or release authority is created here.
+
+## Canonical formalism orientation — ACTIVE IMPLEMENTATION
+
+Goal: `AEX-CANONICAL-FORMALISM-ORIENTATION-001`  
+Canonical issue: `Admissible-Existence/.github#5`  
+Branch: `feat/canonical-formalism-orientation-001`  
+Role: internal coordination/orientation only; no source-formalism authority.
+
+This lane exists because workers/sessions can enter through downstream implementation surfaces and accidentally re-derive or distort concepts already developed across AE, TT, GTG, Existence, BC, CHF, DC/DaCo, validation, and StegCore.
+
+Installed branch surfaces:
+
+- `docs/CANONICAL_FORMALISM_ORIENTATION.md` — concise internal layer/ownership/authority orientation;
+- `data/canonical-formalism-orientation.json` — machine-readable settled concept registry;
+- `docs/DISCOVERY_FRONTIER.md` — explicit separation of established canon, consistent interpretation, candidate formalization, and open empirical questions;
+- `scripts/validate_canonical_formalism_orientation.py` — fail-closed deterministic validator;
+- `tests/test_canonical_formalism_orientation.py` — positive and authority-boundary regression checks;
+- `.github/workflows/canonical-formalism-orientation.yml` — tokenless validation-only hosted gate;
+- `data/canonical-formalism-orientation-claim.json` — finite claim and collision boundaries.
+
+Mandatory worker rule:
+
+Before proposing a new foundational abstraction, read the orientation and cited canonical source. Classify the work as `IMPLEMENTS`, `INTEGRATES`, `VALIDATES`, `EXTENDS`, `CHALLENGES`, or `OBSERVES`. `EXTENDS` requires an explicit insufficiency in existing formalism. `CHALLENGES` requires falsifying/contradictory evidence. The orientation may never widen authority.
+
+The machine-readable settled registry contains only `CANONICAL_ESTABLISHED` concepts. Newer discussion around continuity as observable relationship, surviving relationship imprint, reconstruction resolution, resolution-dependent Reconstruction Singularity boundaries, latent endpoint discovery, question-directed observation, marginal commitment-to-discovery, shortest discovery paths, composite observers, and collective reconstruction resolution is preserved in the discovery frontier at lower maturity unless/until its canonical source owner promotes it through normal formalization/validation.
+
+Known orientation hazards are explicit, including the `13 target transition elements` vs `76 unique operational elements across 11 registries` TT reading hazard, normative-protocol vs source-implementation ownership, and the invalid assumption that internal StegCore AE development requires a public/user-facing consumer map.
+
+Security/authority invariants:
+
+```text
+public_user_facing=false
+creates_source_formalism_authority=false
+creates_execution_authority=false
+creates_validation_authority=false
+creates_credential_authority=false
+StegVerse runtime credential authority=TV/TVC
+GitHub-token runtime authority=NONE
+```
+
+Claim release condition: merge these surfaces after deterministic/hosted validation, observe exact merged-main validation, reconcile issue #5, then release `data/canonical-formalism-orientation-claim.json`. No source repository is mutated by this lane.
 
 ## Installed worker lane
 
@@ -174,6 +222,16 @@ Canonical blocker: `StegVerse-Labs/TVC#13`.
 
 ## Claims
 
+### Canonical formalism orientation
+
+`data/canonical-formalism-orientation-claim.json`
+
+- state: `CLAIMED_FOR_IMPLEMENTATION_AND_VALIDATION`;
+- owner: current bounded coordination lane / issue #5;
+- branch: `feat/canonical-formalism-orientation-001`;
+- collision boundary: coordination metadata/validator only; no source semantics or authority widening;
+- release condition: merge plus exact merged-state validation and issue reconciliation.
+
 ### Organization worker
 
 `data/principle-completeness-worker-claim.json`
@@ -196,19 +254,22 @@ Canonical blocker: `StegVerse-Labs/TVC#13`.
 
 ## Exact next execution order
 
-1. Allow observer workflow `328894324` to execute by schedule, workflow completion, manual dispatch, or an authorized repository event.
-2. When a post-repair worker run appears, inspect its jobs, logs, persisted reports, and artifact.
-3. Require observer state `COMPLETE_READ_ONLY_WORKER_EVIDENCE` before releasing the read-only blocker.
-4. Resolve `StegVerse-Labs/TVC#13` and produce a TVC proof or observer run.
-5. TV resolves the runtime-only capability inside the authorized TVC invocation.
-6. TVC calls `Admissible-Existence/.github/.github/workflows/principle-completeness-workers.yml` with the exact-run receipt and runtime capability.
-7. Persist repository-local task references or distinct machine claims for the 30 blocked repositories.
-8. Continue repository-local formalism, mathematics, proof-candidate, support-contract, validation, and handoff work until 32/32 satisfy the standard.
-9. Resolve `ae-validation-research` and `SOL` through implementation or explicit deprecation and migration.
+1. Complete issue #5 on its bounded branch: deterministic orientation validation, PR-head hosted validation, merge, exact merged-main validation, claim release.
+2. Allow observer workflow `328894324` to execute by schedule, workflow completion, manual dispatch, or an authorized repository event.
+3. When a post-repair worker run appears, inspect its jobs, logs, persisted reports, and artifact.
+4. Require observer state `COMPLETE_READ_ONLY_WORKER_EVIDENCE` before releasing the read-only blocker.
+5. Resolve `StegVerse-Labs/TVC#13` and produce a TVC proof or observer run.
+6. TV resolves the runtime-only capability inside the authorized TVC invocation.
+7. TVC calls `Admissible-Existence/.github/.github/workflows/principle-completeness-workers.yml` with the exact-run receipt and runtime capability.
+8. Persist repository-local task references or distinct machine claims for the 30 blocked repositories.
+9. Continue repository-local formalism, mathematics, proof-candidate, support-contract, validation, and handoff work until 32/32 satisfy the standard.
+10. Resolve `ae-validation-research` and `SOL` through implementation or explicit deprecation and migration.
 
 ## Validation commands
 
 ```text
+python scripts/validate_canonical_formalism_orientation.py
+python -m unittest tests.test_canonical_formalism_orientation -v
 python -m py_compile scripts/validate_tvc_worker_capability.py
 python -m pytest -q tests/test_tvc_worker_capability.py
 python -m py_compile scripts/run_principle_completeness_workers.py
@@ -220,27 +281,30 @@ Hosted validation remains authoritative only after direct run, job, log, report,
 
 ## Propagation
 
-No propagation to Site, Publisher, admissibility-wiki, stegguardian-wiki, or master-records is claimed before operational worker proof and governed release authority.
+No propagation to Site, Publisher, admissibility-wiki, stegguardian-wiki, or master-records is claimed before operational worker proof and governed release authority. The canonical orientation itself is internal coordination metadata and does not authorize public propagation.
 
 ## Session consolidation
 
-Transferred or completed session goals: 10/10.
-
-All requirements, implementation state, blockers, owners, claims, collision boundaries, workflow identities, commits, next actions, and archive conditions are durable. No unique design decision remains only in chat.
+Prior transferred/completed session goals remain durable. The newly added anti-reinvention/orientation requirement is now durably claimed at issue #5 and represented in this handoff; it is not chat-only.
 
 ## Archive gate
 
-This session remains non-archiveable under the originating requirement until either:
+This program remains non-archiveable under its originating requirement until either:
 
 1. all 32 repositories satisfy their applicable contracts; or
 2. the TV/TVC-governed worker path produces operational hosted evidence, 32-repository coverage, durable reports, repository-local tasks or machine claims, and continued progress without chat dependence.
 
+The new orientation sub-goal separately releases when issue #5 is merged/validated and its claim is released; it does not expand the broader program archive gate.
+
 ## Completion metrics
 
-- developed files: 36/36
-- scaffolding or stubs: 0
-- missing required files: 0
-- validation groups: 23/28
-- integration groups: 17/20
-- goal activation: 6/9
-- session consolidation: 10/10
+- prior developed files: 36/36
+- orientation developed files on branch: 7/7
+- scaffolding or stubs in orientation lane: 0
+- missing required orientation files: 0
+- prior validation groups: 23/28
+- orientation validation groups: 0/2 until deterministic + hosted evidence are observed
+- prior integration groups: 17/20
+- orientation integration groups: 1/2 (handoff binding installed; merge pending)
+- orientation goal activation: implementation complete / validation pending
+- session consolidation: new orientation requirement durably transferred to #5 and this handoff
