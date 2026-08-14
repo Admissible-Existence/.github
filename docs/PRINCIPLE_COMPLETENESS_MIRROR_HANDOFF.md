@@ -5,7 +5,7 @@
 **Branch:** `main`  
 **Program status:** `ACTIVE — TV/TVC-GOVERNED AUTOMATION INTEGRATION`  
 **Session state:** `BLOCKED — RETAIN UNTIL OPERATIONAL WORKER EVIDENCE`  
-**Updated:** 2026-08-14T18:15:00-05:00
+**Updated:** 2026-08-14T18:29:00-05:00
 
 ## Governing objective
 
@@ -42,7 +42,7 @@ Authoritative records:
 - `.github/workflows/canonical-formalism-orientation.yml`
 - `reports/hosted-worker-run-31128125108.md`
 - issue `Admissible-Existence/.github#4`
-- issue `Admissible-Existence/.github#5`
+- issue `Admissible-Existence/.github#5` — `CLOSED / COMPLETE`
 - `StegVerse-Labs/TVC/tasks/TVC-AEX-PRINCIPLE-COMPLETENESS-CAPABILITY-001.json`
 - `StegVerse-Labs/TVC/docs/AEX_PRINCIPLE_COMPLETENESS_CAPABILITY_MIRROR_HANDOFF.md`
 - issue `StegVerse-Labs/TVC#13`
@@ -67,16 +67,19 @@ Authoritative records:
 
 No static organization token, parallel vault, independent capability issuer, source-mathematics authority, proof-acceptance authority, repository-administration authority, or release authority is created here.
 
-## Canonical formalism orientation — ACTIVE IMPLEMENTATION
+## Canonical formalism orientation — COMPLETE_RELEASED
 
 Goal: `AEX-CANONICAL-FORMALISM-ORIENTATION-001`  
-Canonical issue: `Admissible-Existence/.github#5`  
-Branch: `feat/canonical-formalism-orientation-001`  
+Canonical issue: `Admissible-Existence/.github#5` — closed completed  
+Implementation branch: `feat/canonical-formalism-orientation-001`  
+Canonical PR: `Admissible-Existence/.github#8`  
+Merge commit: `0d3080464155b4b49f6fead6ad49b02648ed8713`  
+Claim release commit: `c827ff12ede852d438f19133476c42905ff45a2d`  
 Role: internal coordination/orientation only; no source-formalism authority.
 
 This lane exists because workers/sessions can enter through downstream implementation surfaces and accidentally re-derive or distort concepts already developed across AE, TT, GTG, Existence, BC, CHF, DC/DaCo, validation, and StegCore.
 
-Installed branch surfaces:
+Installed and released surfaces:
 
 - `docs/CANONICAL_FORMALISM_ORIENTATION.md` — concise internal layer/ownership/authority orientation;
 - `data/canonical-formalism-orientation.json` — machine-readable settled concept registry;
@@ -84,7 +87,22 @@ Installed branch surfaces:
 - `scripts/validate_canonical_formalism_orientation.py` — fail-closed deterministic validator;
 - `tests/test_canonical_formalism_orientation.py` — positive and authority-boundary regression checks;
 - `.github/workflows/canonical-formalism-orientation.yml` — tokenless validation-only hosted gate;
-- `data/canonical-formalism-orientation-claim.json` — finite claim and collision boundaries.
+- `data/canonical-formalism-orientation-claim.json` — released finite claim and collision boundaries.
+
+Validation evidence:
+
+```text
+PR head: 89f64d64cc0d289d489a642cad99de98cbb283cf
+PR-head run/job: 31849673690 / 94922954954 — SUCCESS
+merged-main run/job: 31849702954 / 94923030991 — SUCCESS
+canonical concepts: 10
+orientation hazards: 3
+regression tests: 5/5 PASS
+findings: []
+credential authority for StegVerse runtime: TV/TVC
+GitHub-token runtime authority: NONE
+workflow authority effect: NONE_VALIDATION_ONLY
+```
 
 Mandatory worker rule:
 
@@ -106,7 +124,7 @@ StegVerse runtime credential authority=TV/TVC
 GitHub-token runtime authority=NONE
 ```
 
-Claim release condition: merge these surfaces after deterministic/hosted validation, observe exact merged-main validation, reconcile issue #5, then release `data/canonical-formalism-orientation-claim.json`. No source repository is mutated by this lane.
+The orientation claim is released. This completed sub-goal must not be reopened absent direct regression evidence or a separately admitted source-formalism extension/challenge.
 
 ## Installed worker lane
 
@@ -226,11 +244,13 @@ Canonical blocker: `StegVerse-Labs/TVC#13`.
 
 `data/canonical-formalism-orientation-claim.json`
 
-- state: `CLAIMED_FOR_IMPLEMENTATION_AND_VALIDATION`;
-- owner: current bounded coordination lane / issue #5;
-- branch: `feat/canonical-formalism-orientation-001`;
-- collision boundary: coordination metadata/validator only; no source semantics or authority widening;
-- release condition: merge plus exact merged-state validation and issue reconciliation.
+- state: `COMPLETE_RELEASED`;
+- issue: `Admissible-Existence/.github#5` closed completed;
+- canonical PR/merge: `#8` / `0d3080464155b4b49f6fead6ad49b02648ed8713`;
+- PR-head validation: `31849673690 / 94922954954` SUCCESS;
+- merged-main validation: `31849702954 / 94923030991` SUCCESS;
+- claim release commit: `c827ff12ede852d438f19133476c42905ff45a2d`;
+- collision boundary: coordination metadata/validator only; no source semantics or authority widening.
 
 ### Organization worker
 
@@ -254,7 +274,7 @@ Canonical blocker: `StegVerse-Labs/TVC#13`.
 
 ## Exact next execution order
 
-1. Complete issue #5 on its bounded branch: deterministic orientation validation, PR-head hosted validation, merge, exact merged-main validation, claim release.
+1. Do not reopen the completed canonical orientation lane unless direct regression evidence appears or a separately admitted source-formalism extension/challenge is created.
 2. Allow observer workflow `328894324` to execute by schedule, workflow completion, manual dispatch, or an authorized repository event.
 3. When a post-repair worker run appears, inspect its jobs, logs, persisted reports, and artifact.
 4. Require observer state `COMPLETE_READ_ONLY_WORKER_EVIDENCE` before releasing the read-only blocker.
@@ -285,26 +305,28 @@ No propagation to Site, Publisher, admissibility-wiki, stegguardian-wiki, or mas
 
 ## Session consolidation
 
-Prior transferred/completed session goals remain durable. The newly added anti-reinvention/orientation requirement is now durably claimed at issue #5 and represented in this handoff; it is not chat-only.
+The anti-reinvention/orientation requirement is complete, merged, validated, claim-released, issue-closed, and durable in the canonical orientation registry, discovery frontier, validation workflow, and this handoff. No conversation history is required to reconstruct that sub-goal.
+
+The broader principle-completeness program remains repository-native and blocked only on its named observer/TVC continuation paths; completion of the orientation lane does not falsely imply 32-repository program completion.
 
 ## Archive gate
 
-This program remains non-archiveable under its originating requirement until either:
+This broader program remains non-archiveable under its originating requirement until either:
 
 1. all 32 repositories satisfy their applicable contracts; or
 2. the TV/TVC-governed worker path produces operational hosted evidence, 32-repository coverage, durable reports, repository-local tasks or machine claims, and continued progress without chat dependence.
 
-The new orientation sub-goal separately releases when issue #5 is merged/validated and its claim is released; it does not expand the broader program archive gate.
+The canonical orientation sub-goal is archive-safe and must not keep a chat session open by itself.
 
 ## Completion metrics
 
 - prior developed files: 36/36
-- orientation developed files on branch: 7/7
+- orientation developed files: 7/7
 - scaffolding or stubs in orientation lane: 0
 - missing required orientation files: 0
 - prior validation groups: 23/28
-- orientation validation groups: 0/2 until deterministic + hosted evidence are observed
+- orientation validation groups: 2/2 PASS
 - prior integration groups: 17/20
-- orientation integration groups: 1/2 (handoff binding installed; merge pending)
-- orientation goal activation: implementation complete / validation pending
-- session consolidation: new orientation requirement durably transferred to #5 and this handoff
+- orientation integration groups: 2/2 COMPLETE
+- orientation goal activation: 100% COMPLETE_RELEASED
+- session consolidation: orientation requirement durably transferred and archive-safe
