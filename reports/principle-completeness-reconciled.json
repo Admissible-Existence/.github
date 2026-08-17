@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "activation_id": "AEX-PC-RECONCILE-20260806-01",
-  "generated_at": "2026-08-17T20:29:57.770346+00:00",
+  "generated_at": "2026-08-17T20:33:58.879372+00:00",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "expected_repository_count": 32,
   "live_observed_repository_count": 4,
@@ -479,12 +479,6 @@
           ]
         },
         {
-          "label": "Active goal and claim",
-          "sources": [
-            "FORMALISM_MIRROR_HANDOFF.md"
-          ]
-        },
-        {
           "label": "Active/blocker rows",
           "sources": [
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
@@ -615,9 +609,14 @@
         {
           "label": "Archive state",
           "sources": [
-            "FORMALISM_MIRROR_HANDOFF.md",
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md",
             "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Archive state for the 2026-08-17 relational-admissibility session",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -846,7 +845,7 @@
           ]
         },
         {
-          "label": "Converged adjacent goals",
+          "label": "Converged adjacent session goals",
           "sources": [
             "FORMALISM_MIRROR_HANDOFF.md"
           ]
@@ -1273,7 +1272,7 @@
           ]
         },
         {
-          "label": "Formal development installed on branch",
+          "label": "Formal development merged to main",
           "sources": [
             "FORMALISM_MIRROR_HANDOFF.md"
           ]
@@ -1314,6 +1313,12 @@
             "docs/FORMALISM_WORKER_COMPLETION_STANDARD.md",
             "docs/FORMALISM_WORKER_SYSTEM_STATUS.md",
             "reports/principle-worker-activation-observer-installation.md"
+          ]
+        },
+        {
+          "label": "Goal and released implementation claim",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1988,6 +1993,12 @@
           ]
         },
         {
+          "label": "Session consolidation and canonical continuation",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Session Execution Inventory \u2014 Principle Completeness Program",
           "sources": [
             "docs/SESSION_EXECUTION_INVENTORY_2026-08-06.md"
@@ -2103,12 +2114,6 @@
           ]
         },
         {
-          "label": "Validation and integration gate",
-          "sources": [
-            "FORMALISM_MIRROR_HANDOFF.md"
-          ]
-        },
-        {
           "label": "Validation claim",
           "sources": [
             "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
@@ -2119,6 +2124,12 @@
           "sources": [
             "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md",
             "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Validation evidence",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -2174,7 +2185,7 @@
         {
           "severity": "error",
           "code": "UNRESOLVED_PLACEHOLDERS",
-          "count": 165
+          "count": 161
         },
         {
           "severity": "warning",
@@ -2198,8 +2209,8 @@
         "markdown_files": 27,
         "structured_files": 72,
         "handoffs": 6,
-        "principle_candidates": 353,
-        "placeholder_markers": 165,
+        "principle_candidates": 355,
+        "placeholder_markers": 161,
         "broken_local_links": 0,
         "ambiguous_short_repository_identities": 10,
         "dimensions_met": 12,
