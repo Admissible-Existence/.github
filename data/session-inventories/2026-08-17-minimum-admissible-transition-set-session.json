@@ -1,0 +1,148 @@
+{
+  "schema": "admissible-existence.session-execution-inventory/v1",
+  "inventory_id": "AEX-SESSION-2026-08-17-MINIMUM-ADMISSIBLE-TRANSITION-SET",
+  "created_at": "2026-08-17T20:58:00Z",
+  "supersedes_archive_assessment_only": "data/session-inventories/2026-08-17-relational-admissibility-session.json",
+  "supersession_scope": "The prior inventory remains valid historical evidence for AEX-RELATIONAL-ADMISSIBILITY-001 but its archive_ready=true assessment predates the newly introduced mandatory minimum-set and AE-native mapping requirements.",
+  "session_role": "BLOCKED_UNIQUE_WORK_TRANSFERRED_TO_DURABLE_OWNERS",
+  "governing_constraints": {
+    "render_allowed": false,
+    "stegverse_runtime_credential_authority": "TV/TVC",
+    "non_tv_tvc_secret_or_token_allowed": false,
+    "github_token_runtime_authority": "NONE",
+    "wallet_signing_authority": "USER_ONLY",
+    "wallet_broadcast_authority": "USER_ONLY"
+  },
+  "items": [
+    {
+      "task_id": "AEX-RELATIONAL-ADMISSIBILITY-MINSET-002",
+      "originating_session_goal": "Require DENY, REVIEW, and FAIL_CLOSED as the minimum mandatory admissible-transition classes while preserving extensible additional classes.",
+      "destination": "Admissible-Existence/.github",
+      "branch": "main",
+      "locations": [
+        "docs/MINIMUM_ADMISSIBLE_TRANSITION_SET.md",
+        "data/relational-admissibility-formalism.json",
+        "data/relational-admissibility-minimum-set-claim.json",
+        "scripts/validate_minimum_admissible_transition_set.py",
+        "tests/test_minimum_admissible_transition_set.py",
+        ".github/workflows/canonical-formalism-orientation.yml"
+      ],
+      "current_owner": "Admissible-Existence/.github coordination/conformance",
+      "claim_state": "COMPLETE_RELEASED",
+      "completion_state": "COMPLETE_VALIDATED_ON_MAIN",
+      "validation_state": "commit 31f431ed60f12e36594c1bdf257503ea43ebe192; run 32068256861; job 95505281486; SUCCESS",
+      "integration_state": "CONSUMED_BY_AE_21",
+      "archival_dependency": false,
+      "evidence_location": "data/relational-admissibility-minimum-set-claim.json",
+      "next_executable_action": "No duplicate minimum-set work. AE#21 consumes the frozen organization contract."
+    },
+    {
+      "task_id": "AE-RELATIONAL-ADMISSIBILITY-MAPPING-001",
+      "originating_session_goal": "Map successor-state relational admissibility into the AE resolver, remove admissible-equals-ALLOW/ADMIT compression, and test the minimum admissible transition set in AE-native semantics.",
+      "destination": "Admissible-Existence/AE",
+      "branch": "main",
+      "locations": [
+        "Admissible-Existence/AE#21",
+        "docs/RELATIONAL_ADMISSIBILITY_MAPPING.md",
+        "docs/ADMISSIBLE_RESOLUTION_FUNCTION.md",
+        "schemas/admissible_resolution.yaml",
+        "schemas/relational_admissibility_mapping.schema.json",
+        "data/admissible_resolution_examples.json",
+        "data/relational_admissibility_mapping_cases.json",
+        "data/task-states/relational-admissibility-mapping.json",
+        "tools/check_admissible_resolution.py",
+        "tools/check_relational_admissibility_mapping.py",
+        ".github/workflows/admissible-resolution-validation.yml",
+        "receipts/relational-admissibility-mapping-validation.json"
+      ],
+      "current_owner": "Admissible-Existence/AE#21 existing validation workflow owner; successor independent owner Admissible-Existence/ae-validation-factory#13",
+      "claim_state": "BLOCKED_DEPENDENCY",
+      "completion_state": "SOURCE_COMPLETE_DETERMINISTIC_PASS_HOSTED_BLOCKED",
+      "validation_state": "Independent deterministic recomputation PASS; hosted run 32068538025/job 95506172391 failed before runner allocation due GitHub billing/payment/spending restriction; no code/test failure observed",
+      "integration_state": "AE_NATIVE_SOURCE_INTEGRATED; FACTORY_TARGET_TRANSFERRED_WITH_UPSTREAM_BLOCKER",
+      "archival_dependency": false,
+      "evidence_location": "Admissible-Existence/AE/receipts/relational-admissibility-mapping-validation.json and AE#21 comment 5320224196",
+      "machine_observable_release_condition": "A current-or-superseding main Admissible Resolution Validation job allocates a runner, executes both canonical checker steps, and both conclude success; exact job/steps/logs are inspected.",
+      "next_executable_action": "Existing AE validation owner observes or retries the existing workflow after runner allocation becomes possible; repair only a defect produced by an executed validator."
+    },
+    {
+      "task_id": "FACTORY-RELATIONAL-ADMISSIBILITY-VALIDATION-001",
+      "originating_session_goal": "Independently validate the frozen AE successor-state semantics and P1-P5 without importing target validators as authority.",
+      "destination": "Admissible-Existence/ae-validation-factory",
+      "branch": "main",
+      "locations": ["Admissible-Existence/ae-validation-factory#13"],
+      "current_owner": "ae-validation-factory#13",
+      "claim_state": "BLOCKED_DEPENDENCY_PARTIALLY_RELEASED_FOR_SOURCE_INSPECTION",
+      "completion_state": "TARGET_FROZEN_FOR_INSPECTION",
+      "validation_state": "NOT_COMPLETE; upstream hosted AE validation remains blocked",
+      "integration_state": "TARGET_IDENTITY_TRANSFERRED",
+      "archival_dependency": false,
+      "evidence_location": "ae-validation-factory#13 comment 5320226157",
+      "next_executable_action": "Factory may independently inspect/reconstruct AE@3d74b99ae2eb82dfd32ec928adc179494af2e582 while preserving upstream_hosted_validation=BLOCKED_PLATFORM; no proposition promotion until evidence supports it."
+    },
+    {
+      "task_id": "PUBLIC-STATE-ADMISSIBILITY-FORMAL-CORE",
+      "originating_session_goal": "Advance public research beyond Boolean admissibility using successor-state and minimum-set semantics.",
+      "destination": "StegVerse-Labs/admissibility-wiki",
+      "branch": "issue lane",
+      "locations": ["StegVerse-Labs/admissibility-wiki#14"],
+      "current_owner": "existing State Admissibility formal-core paper lane",
+      "claim_state": "MERGED_INTO_CANONICAL_WORKSTREAM",
+      "completion_state": "MINIMUM_SET_CORRECTION_TRANSFERRED",
+      "validation_state": "References hosted-green .github min-set run and accurately preserves blocked AE hosted state",
+      "integration_state": "PUBLIC_RESEARCH_CONTINUATION_DURABLE",
+      "archival_dependency": false,
+      "evidence_location": "admissibility-wiki#14 comment 5320227944",
+      "next_executable_action": "Existing paper lane incorporates the minimum-set semantics without claiming AE hosted validation passed."
+    },
+    {
+      "task_id": "SOVEREIGN-LOCAL-MODEL-001",
+      "originating_session_goal": "Remove descriptive local-runtime selection and formally develop local model/runtime.",
+      "destination": "StegVerse-002/micro-node-runtime",
+      "branch": "main",
+      "locations": ["docs/SOVEREIGN_LOCAL_MODEL_RUNTIME_MIRROR_HANDOFF.md", "StegVerse-Labs/.github#60"],
+      "current_owner": "resident heartbeat -> TV/TVC -> consumer/custody chain",
+      "claim_state": "MERGED_INTO_CANONICAL_WORKSTREAM",
+      "completion_state": "SOURCE_COMPLETE_RELEASED; LIVE_CONTINUATION_MACHINE_OWNED",
+      "validation_state": "31339534741 SUCCESS; 31384116055 SUCCESS",
+      "integration_state": "NO_DUPLICATE_SESSION_RUNTIME",
+      "archival_dependency": false,
+      "evidence_location": "StegVerse-002/micro-node-runtime/docs/SOVEREIGN_LOCAL_MODEL_RUNTIME_MIRROR_HANDOFF.md",
+      "next_executable_action": "Resident machine chain owns activation evidence."
+    },
+    {
+      "task_id": "STEGFIN-BASE-ROUNDTRIP-001",
+      "originating_session_goal": "Assist workers and make StegFin trade ready without non-TV/TVC credentials.",
+      "destination": "StegVerse-Labs/stegfin-governance",
+      "branch": "main",
+      "locations": ["docs/STEGFIN_MIRROR_HANDOFF.md"],
+      "current_owner": "StegFin canonical machine workstreams + USER_ONLY wallet boundary",
+      "claim_state": "MERGED_INTO_CANONICAL_WORKSTREAM",
+      "completion_state": "TRADE_READY_PRE_SIGN_BOUNDARY_COMPLETE",
+      "validation_state": "8/8 trade-ready deliverables complete",
+      "integration_state": "SIGN/BROADCAST USER_ONLY; NOT EXECUTED",
+      "archival_dependency": false,
+      "evidence_location": "StegVerse-Labs/stegfin-governance/docs/STEGFIN_MIRROR_HANDOFF.md",
+      "next_executable_action": "No session/repository signing or broadcast."
+    }
+  ],
+  "session_consolidation": {
+    "total_goal_classes": 6,
+    "complete_or_durably_transferred": 6,
+    "active_unique_goal_classes": 0,
+    "archive_ready": true,
+    "blockers_that_do_not_require_chat_retention": [
+      "AE hosted validation runner allocation blocked by GitHub billing/payment/spending restriction; exact evidence and release condition are durable in AE task state/receipt/issue."
+    ],
+    "canonical_continuation": [
+      "Admissible-Existence/.github/data/relational-admissibility-minimum-set-claim.json",
+      "Admissible-Existence/AE#21",
+      "Admissible-Existence/AE/data/task-states/relational-admissibility-mapping.json",
+      "Admissible-Existence/AE/receipts/relational-admissibility-mapping-validation.json",
+      "Admissible-Existence/ae-validation-factory#13",
+      "StegVerse-Labs/admissibility-wiki#14",
+      "StegVerse-002/micro-node-runtime/docs/SOVEREIGN_LOCAL_MODEL_RUNTIME_MIRROR_HANDOFF.md",
+      "StegVerse-Labs/stegfin-governance/docs/STEGFIN_MIRROR_HANDOFF.md"
+    ]
+  }
+}
