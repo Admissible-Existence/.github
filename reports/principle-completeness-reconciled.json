@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "activation_id": "AEX-PC-RECONCILE-20260806-01",
-  "generated_at": "2026-08-17T07:39:41.128535+00:00",
+  "generated_at": "2026-08-17T20:29:57.770346+00:00",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "expected_repository_count": 32,
   "live_observed_repository_count": 4,
@@ -53,9 +53,21 @@
           ]
         },
         {
+          "label": "1. Scope and ownership",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
           "label": "10. `Admissible-Existence/CHF`",
           "sources": [
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "10. Recursive transition-observation structure",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
           ]
         },
         {
@@ -65,9 +77,21 @@
           ]
         },
         {
+          "label": "11. Minimum transition receipt structure",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
           "label": "12. `Admissible-Existence/DaCo`",
           "sources": [
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "12. Conformance rules",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
           ]
         },
         {
@@ -83,9 +107,21 @@
           ]
         },
         {
+          "label": "13. Formal propositions for further proof development",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
           "label": "14. `Admissible-Existence/Triad`",
           "sources": [
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "14. Relationship to existing Admissible-Existence repositories",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
           ]
         },
         {
@@ -95,9 +131,21 @@
           ]
         },
         {
+          "label": "15. Promotion path",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
           "label": "16. `Admissible-Existence/ECAT-ICAT`",
           "sources": [
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "16. Non-claims",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
           ]
         },
         {
@@ -128,6 +176,12 @@
           "label": "2. Boundary Is Constitutive",
           "sources": [
             "profile/README.md"
+          ]
+        },
+        {
+          "label": "2. Primitive state",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
           ]
         },
         {
@@ -209,6 +263,12 @@
           ]
         },
         {
+          "label": "3. Governed admissibility resolution",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
           "label": "3. Principle registry minimum schema",
           "sources": [
             "docs/PRINCIPLE_COMPLETENESS_STANDARD.md"
@@ -230,6 +290,12 @@
           "label": "4. `Admissible-Existence/GTG`",
           "sources": [
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "4. Axioms",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
           ]
         },
         {
@@ -257,6 +323,12 @@
           ]
         },
         {
+          "label": "5. Observation relation",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
           "label": "5. Scoring",
           "sources": [
             "docs/PRINCIPLE_COMPLETENESS_STANDARD.md"
@@ -266,6 +338,12 @@
           "label": "6. `Admissible-Existence/STCM`",
           "sources": [
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "6. Continuity as derived relation",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
           ]
         },
         {
@@ -299,9 +377,21 @@
           ]
         },
         {
+          "label": "7. Multi-manifold state",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
           "label": "8. `Admissible-Existence/BC`",
           "sources": [
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "8. Adjacent-repository mathematical graph",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
           ]
         },
         {
@@ -317,6 +407,66 @@
           ]
         },
         {
+          "label": "9. Organization-level relational admissibility",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "A1 \u2014 Resolution realization",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "A2 \u2014 Resolution-class / successor-state separation",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "A3 \u2014 Requested-effect separation",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "A4 \u2014 Confirmation non-nullity",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "A5 \u2014 Relational closure",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "A6 \u2014 Concern-set propagation",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "A7 \u2014 Transition-caused observation",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "A8 \u2014 Composition sensitivity",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "A9 \u2014 Authority non-generation",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
           "label": "Activation boundary",
           "sources": [
             "docs/FORMALISM_WORKER_SYSTEM_STATUS.md"
@@ -326,6 +476,12 @@
           "label": "Active claims",
           "sources": [
             "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Active goal and claim",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -532,6 +688,12 @@
           ]
         },
         {
+          "label": "Candidate propositions requiring proof/review",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Canonical claims and collision boundaries",
           "sources": [
             "docs/FORMALISM_WORKER_SESSION_TRANSFER.md"
@@ -684,6 +846,12 @@
           ]
         },
         {
+          "label": "Converged adjacent goals",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Coordination completion decision",
           "sources": [
             "docs/FORMALISM_ARCHIVE_GATE_HOSTED_EVIDENCE.md"
@@ -780,6 +948,24 @@
           ]
         },
         {
+          "label": "D1 \u2014 Resolution validity",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "D2 \u2014 Requested-effect authorization",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "D3 \u2014 Requested-effect realization",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
           "label": "DaCo \u2014 Data Continuity",
           "sources": [
             "profile/README.md"
@@ -789,6 +975,12 @@
           "label": "DC \u2014 Distributed Coherence",
           "sources": [
             "profile/README.md"
+          ]
+        },
+        {
+          "label": "Deterministic conformance cases",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1021,6 +1213,12 @@
           ]
         },
         {
+          "label": "Explicit deliverable accounting for AEX-RELATIONAL-ADMISSIBILITY-001",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "External dependency records that remain durable",
           "sources": [
             "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
@@ -1072,6 +1270,12 @@
           "label": "Failure posture",
           "sources": [
             "HANDOFF_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "Formal development installed on branch",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1451,6 +1655,36 @@
           ]
         },
         {
+          "label": "P1 \u2014 Non-ALLOW information preservation",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "P2 \u2014 Confirmation distinguishability",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "P3 \u2014 Relational closure necessity",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "P4 \u2014 Composition counterexample existence",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "P5 \u2014 Observation recursion without periodic causation",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
           "label": "PASS rows",
           "sources": [
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
@@ -1604,6 +1838,18 @@
           "label": "Relation to StegVerse",
           "sources": [
             "profile/README.md"
+          ]
+        },
+        {
+          "label": "Relational Admissibility and Successor-State Formalism",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+          ]
+        },
+        {
+          "label": "Relational admissibility formalization lane \u2014 2026-08-17",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1857,6 +2103,12 @@
           ]
         },
         {
+          "label": "Validation and integration gate",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Validation claim",
           "sources": [
             "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
@@ -1922,7 +2174,7 @@
         {
           "severity": "error",
           "code": "UNRESOLVED_PLACEHOLDERS",
-          "count": 161
+          "count": 165
         },
         {
           "severity": "warning",
@@ -1942,12 +2194,12 @@
         }
       ],
       "metrics": {
-        "files": 115,
-        "markdown_files": 26,
-        "structured_files": 68,
+        "files": 122,
+        "markdown_files": 27,
+        "structured_files": 72,
         "handoffs": 6,
-        "principle_candidates": 311,
-        "placeholder_markers": 161,
+        "principle_candidates": 353,
+        "placeholder_markers": 165,
         "broken_local_links": 0,
         "ambiguous_short_repository_identities": 10,
         "dimensions_met": 12,
@@ -2390,6 +2642,12 @@
           ]
         },
         {
+          "label": "Active goal",
+          "sources": [
+            "STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Archive conditions",
           "sources": [
             "docs/STCM_MIRROR_HANDOFF.md"
@@ -2521,9 +2779,21 @@
           ]
         },
         {
+          "label": "Canonical source bindings",
+          "sources": [
+            "STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Claim state",
           "sources": [
             "docs/STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Classification and consequence",
+          "sources": [
+            "formalism/state-manifold-governance-alignment.md"
           ]
         },
         {
@@ -2797,6 +3067,12 @@
           ]
         },
         {
+          "label": "Governance coordinate",
+          "sources": [
+            "formalism/state-manifold-governance-alignment.md"
+          ]
+        },
+        {
           "label": "Hash-scoped activation",
           "sources": [
             "docs/MATHEMATICAL_NOTATION.md"
@@ -2948,6 +3224,12 @@
           ]
         },
         {
+          "label": "No implicit lineage taint",
+          "sources": [
+            "formalism/state-manifold-governance-alignment.md"
+          ]
+        },
+        {
           "label": "Node activation record",
           "sources": [
             "docs/STCM_V0_3_ROUTED_HOP_AND_MERGE.md"
@@ -2964,6 +3246,12 @@
           "label": "of Done",
           "sources": [
             "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Originating requirement",
+          "sources": [
+            "STCM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -3186,9 +3474,27 @@
           ]
         },
         {
+          "label": "Required semantic invariants",
+          "sources": [
+            "STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Required STCM integration outputs",
+          "sources": [
+            "STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Reroute",
           "sources": [
             "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Resolution",
+          "sources": [
+            "formalism/state-manifold-governance-alignment.md"
           ]
         },
         {
@@ -3288,6 +3594,7 @@
         {
           "label": "STCM Mirror Handoff",
           "sources": [
+            "STCM_MIRROR_HANDOFF.md",
             "docs/STCM_MIRROR_HANDOFF.md"
           ]
         },
@@ -3295,6 +3602,12 @@
           "label": "STCM Reachable Goal Status",
           "sources": [
             "docs/STCM_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "STCM State-Manifold Governance Alignment",
+          "sources": [
+            "formalism/state-manifold-governance-alignment.md"
           ]
         },
         {
@@ -3442,10 +3755,22 @@
           ]
         },
         {
+          "label": "Time coordinate",
+          "sources": [
+            "formalism/state-manifold-governance-alignment.md"
+          ]
+        },
+        {
           "label": "Updated fixture surface",
           "sources": [
             "docs/STCM_V0_6_CONFLICT_POSTURE_NOTE.md",
             "reports/STCM_V0_6_CONFLICT_POSTURE_ADDENDUM.md"
+          ]
+        },
+        {
+          "label": "Validation and release condition",
+          "sources": [
+            "STCM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -3518,11 +3843,11 @@
         }
       ],
       "metrics": {
-        "files": 110,
-        "markdown_files": 19,
-        "structured_files": 48,
-        "handoffs": 1,
-        "principle_candidates": 224,
+        "files": 113,
+        "markdown_files": 21,
+        "structured_files": 49,
+        "handoffs": 2,
+        "principle_candidates": 236,
         "placeholder_markers": 9,
         "broken_local_links": 0,
         "ambiguous_short_repository_identities": 4,

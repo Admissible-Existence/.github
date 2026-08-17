@@ -1,15 +1,15 @@
 # Admissible-Existence Principle Completeness Report
 
-Generated: `2026-08-17T07:39:41.037387+00:00`
+Generated: `2026-08-17T20:29:57.715262+00:00`
 
 Automated coverage is diagnostic only. `COMPLETE_CANDIDATE` still requires independent mathematical and proof review.
 
 | Repository | Role | State | Score | Principles | First gap |
 |---|---|---:|---:|---:|---|
-| `Admissible-Existence/.github` | coordination | BLOCKED | 100.00% | 311 | `UNRESOLVED_PLACEHOLDERS` |
+| `Admissible-Existence/.github` | coordination | BLOCKED | 100.00% | 353 | `UNRESOLVED_PLACEHOLDERS` |
 | `Admissible-Existence/ECAT-ICAT` | source | BLOCKED | 91.67% | 113 | `MISSING_WHOLE_REPO_ROLE` |
 | `Admissible-Existence/learning-transition-governance` | source | FORMALIZED_UNVALIDATED | 75.00% | 52 | `MISSING_IDENTITY` |
-| `Admissible-Existence/STCM` | source | BLOCKED | 100.00% | 224 | `UNRESOLVED_PLACEHOLDERS` |
+| `Admissible-Existence/STCM` | source | BLOCKED | 100.00% | 236 | `UNRESOLVED_PLACEHOLDERS` |
 
 ## Organization result
 
