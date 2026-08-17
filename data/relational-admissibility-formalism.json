@@ -16,116 +16,30 @@
   "github_token_runtime_authority": "NONE",
   "render_dependency": false,
   "definitions": [
-    {
-      "id": "D1",
-      "name": "resolution_validity",
-      "statement": "A governed resolution may be structurally and evidentially valid independently of whether the requested effect is authorized or realized."
-    },
-    {
-      "id": "D2",
-      "name": "requested_effect_authorization",
-      "statement": "Requested-effect authorization is distinct from resolution validity."
-    },
-    {
-      "id": "D3",
-      "name": "requested_effect_realization",
-      "statement": "Requested-effect realization is distinct from resolution validity and requested-effect authorization."
-    },
-    {
-      "id": "D4",
-      "name": "organization_state",
-      "statement": "Organization state Omega contains component states, declared cross-component relation states, and evidence/provenance for those relations."
-    }
+    {"id": "D1", "name": "resolution_validity", "statement": "A governed resolution may be structurally and evidentially valid independently of whether the requested effect is authorized or realized."},
+    {"id": "D2", "name": "requested_effect_authorization", "statement": "Requested-effect authorization is distinct from resolution validity."},
+    {"id": "D3", "name": "requested_effect_realization", "statement": "Requested-effect realization is distinct from resolution validity and requested-effect authorization."},
+    {"id": "D4", "name": "organization_state", "statement": "Organization state Omega contains component states, declared cross-component relation states, and evidence/provenance for those relations."},
+    {"id": "D5", "name": "minimum_admissible_transition_set", "statement": "Every conforming admissibility surface supports DENY, REVIEW, and FAIL_CLOSED as distinct governed realized transition classes; the supported class set may contain additional profile-defined classes."}
   ],
   "axioms": [
-    {
-      "id": "A1",
-      "name": "resolution_realization",
-      "statement": "Every governed admissibility resolution incorporated into system history realizes a successor state.",
-      "forbids": ["non_allow_equals_no_transition"]
-    },
-    {
-      "id": "A2",
-      "name": "resolution_successor_separation",
-      "statement": "Resolution classification is not the successor state.",
-      "forbids": ["classification_equals_successor_state"]
-    },
-    {
-      "id": "A3",
-      "name": "requested_effect_separation",
-      "statement": "Non-realization of the sought effect does not imply absence of a realized transition or successor information.",
-      "forbids": ["requested_effect_equals_realized_transition"]
-    },
-    {
-      "id": "A4",
-      "name": "confirmation_non_nullity",
-      "statement": "Delta(object_value)=0 does not imply Delta(system_state)=0 when a new confirmation or evidentiary relation is established.",
-      "forbids": ["confirmed_invariant_equals_unobserved", "unchanged_value_equals_unchanged_state"]
-    },
-    {
-      "id": "A5",
-      "name": "relational_closure",
-      "statement": "A complete successor representation includes known material relation changes and confirmations within the applicable concern boundary.",
-      "forbids": ["nominal_target_only_successor"]
-    },
-    {
-      "id": "A6",
-      "name": "concern_set_propagation",
-      "statement": "The concerned manifold/component set expands through material relations rather than automatically to the entire organization.",
-      "forbids": ["global_evaluation_without_material_relation", "local_only_when_material_relations_change"]
-    },
-    {
-      "id": "A7",
-      "name": "transition_caused_observation",
-      "statement": "Observation of a realized transition is consequent to state transition; a periodic heartbeat may carry or reference observations but is not the primitive cause.",
-      "forbids": ["periodic_heartbeat_causes_transition_observation"]
-    },
-    {
-      "id": "A8",
-      "name": "composition_sensitivity",
-      "statement": "Individually valid local transitions are not guaranteed to remain valid under composition, ordering, concurrency, or coupling.",
-      "forbids": ["local_validity_closed_under_composition"]
-    },
-    {
-      "id": "A9",
-      "name": "authority_non_generation",
-      "statement": "Observation, validation, confirmation, relation coherence, workflow success, and this formalism do not generate source, execution, credential, release, publication, or proof authority.",
-      "forbids": ["validation_creates_authority", "observation_creates_authority"]
-    }
+    {"id": "A1", "name": "resolution_realization", "statement": "Every governed admissibility resolution incorporated into system history realizes a successor state.", "forbids": ["non_allow_equals_no_transition"]},
+    {"id": "A2", "name": "resolution_successor_separation", "statement": "Resolution classification is not the successor state.", "forbids": ["classification_equals_successor_state"]},
+    {"id": "A3", "name": "requested_effect_separation", "statement": "Non-realization of the sought effect does not imply absence of a realized transition or successor information.", "forbids": ["requested_effect_equals_realized_transition"]},
+    {"id": "A4", "name": "confirmation_non_nullity", "statement": "Delta(object_value)=0 does not imply Delta(system_state)=0 when a new confirmation or evidentiary relation is established.", "forbids": ["confirmed_invariant_equals_unobserved", "unchanged_value_equals_unchanged_state"]},
+    {"id": "A5", "name": "relational_closure", "statement": "A complete successor representation includes known material relation changes and confirmations within the applicable concern boundary.", "forbids": ["nominal_target_only_successor"]},
+    {"id": "A6", "name": "concern_set_propagation", "statement": "The concerned manifold/component set expands through material relations rather than automatically to the entire organization.", "forbids": ["global_evaluation_without_material_relation", "local_only_when_material_relations_change"]},
+    {"id": "A7", "name": "transition_caused_observation", "statement": "Observation of a realized transition is consequent to state transition; a periodic heartbeat may carry or reference observations but is not the primitive cause.", "forbids": ["periodic_heartbeat_causes_transition_observation"]},
+    {"id": "A8", "name": "composition_sensitivity", "statement": "Individually valid local transitions are not guaranteed to remain valid under composition, ordering, concurrency, or coupling.", "forbids": ["local_validity_closed_under_composition"]},
+    {"id": "A9", "name": "authority_non_generation", "statement": "Observation, validation, confirmation, relation coherence, workflow success, and this formalism do not generate source, execution, credential, release, publication, or proof authority.", "forbids": ["validation_creates_authority", "observation_creates_authority"]}
   ],
-  "required_transition_fields": [
-    "schema_version",
-    "transition_id",
-    "predecessor_state",
-    "candidate",
-    "governance_context",
-    "resolution",
-    "successor_state",
-    "relations",
-    "affected_components",
-    "newly_implicated_components",
-    "deimplicated_components",
-    "observation_trigger",
-    "authority_effect",
-    "credential_authority",
-    "github_token_runtime_authority"
-  ],
-  "relation_states": [
-    "CHANGED",
-    "CONFIRMED_INVARIANT",
-    "CONTRADICTED",
-    "EMERGED",
-    "DISAPPEARED",
-    "DEPENDENCY_ESTABLISHED",
-    "DEPENDENCY_REMOVED",
-    "CONTINUITY_ESTABLISHED",
-    "MANIFOLD_IMPLICATED",
-    "MANIFOLD_DEIMPLICATED",
-    "UNOBSERVED"
-  ],
+  "required_transition_fields": ["schema_version", "transition_id", "predecessor_state", "candidate", "governance_context", "resolution", "successor_state", "relations", "affected_components", "newly_implicated_components", "deimplicated_components", "observation_trigger", "authority_effect", "credential_authority", "github_token_runtime_authority"],
+  "relation_states": ["CHANGED", "CONFIRMED_INVARIANT", "CONTRADICTED", "EMERGED", "DISAPPEARED", "DEPENDENCY_ESTABLISHED", "DEPENDENCY_REMOVED", "CONTINUITY_ESTABLISHED", "MANIFOLD_IMPLICATED", "MANIFOLD_DEIMPLICATED", "UNOBSERVED"],
   "resolution_classes_are_extensible": true,
+  "minimum_required_admissible_transition_classes": ["DENY", "REVIEW", "FAIL_CLOSED"],
   "baseline_resolution_examples": ["ALLOW", "DENY", "REVIEW", "FAIL_CLOSED"],
   "conformance_requirements": {
+    "minimum_admissible_transition_set_required": true,
     "resolution_validity_independent_of_allow": true,
     "non_allow_has_successor_state": true,
     "confirmation_changes_total_state": true,
@@ -137,51 +51,15 @@
     "composition_may_change_resolution": true
   },
   "candidate_propositions": [
-    {
-      "id": "P1",
-      "name": "non_allow_information_preservation",
-      "proof_state": "UNPROVEN_CANDIDATE"
-    },
-    {
-      "id": "P2",
-      "name": "confirmation_distinguishability",
-      "proof_state": "UNPROVEN_CANDIDATE"
-    },
-    {
-      "id": "P3",
-      "name": "relational_closure_necessity",
-      "proof_state": "UNPROVEN_CANDIDATE"
-    },
-    {
-      "id": "P4",
-      "name": "composition_counterexample_existence",
-      "proof_state": "UNPROVEN_CANDIDATE"
-    },
-    {
-      "id": "P5",
-      "name": "observation_recursion_without_periodic_causation",
-      "proof_state": "UNPROVEN_CANDIDATE"
-    }
+    {"id": "P1", "name": "non_allow_information_preservation", "proof_state": "UNPROVEN_CANDIDATE"},
+    {"id": "P2", "name": "confirmation_distinguishability", "proof_state": "UNPROVEN_CANDIDATE"},
+    {"id": "P3", "name": "relational_closure_necessity", "proof_state": "UNPROVEN_CANDIDATE"},
+    {"id": "P4", "name": "composition_counterexample_existence", "proof_state": "UNPROVEN_CANDIDATE"},
+    {"id": "P5", "name": "observation_recursion_without_periodic_causation", "proof_state": "UNPROVEN_CANDIDATE"}
   ],
   "adjacent_repository_mapping": {
     "mapping_state": "CANDIDATE_RELATIONS_REQUIRE_SOURCE_EVIDENCE",
-    "repositories": [
-      "Admissible-Existence/AE",
-      "Admissible-Existence/Existence",
-      "Admissible-Existence/RTG",
-      "Admissible-Existence/GTG",
-      "Admissible-Existence/TT",
-      "Admissible-Existence/STCM",
-      "Admissible-Existence/IICT",
-      "Admissible-Existence/CTA",
-      "Admissible-Existence/BC",
-      "Admissible-Existence/CHF",
-      "Admissible-Existence/DC",
-      "Admissible-Existence/DaCo",
-      "Admissible-Existence/validator",
-      "Admissible-Existence/ae-validation-factory",
-      "Admissible-Existence/validation-profile-registry"
-    ]
+    "repositories": ["Admissible-Existence/AE", "Admissible-Existence/Existence", "Admissible-Existence/RTG", "Admissible-Existence/GTG", "Admissible-Existence/TT", "Admissible-Existence/STCM", "Admissible-Existence/IICT", "Admissible-Existence/CTA", "Admissible-Existence/BC", "Admissible-Existence/CHF", "Admissible-Existence/DC", "Admissible-Existence/DaCo", "Admissible-Existence/validator", "Admissible-Existence/ae-validation-factory", "Admissible-Existence/validation-profile-registry"]
   },
   "human_formalism_ref": "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md",
   "transition_schema_ref": "schemas/relational-admissibility-transition.schema.json",
