@@ -58,7 +58,7 @@ REQUIRED_TRANSITION_FIELDS = {
 DOC_MARKERS = [
     "Every governed admissibility resolution incorporated into system history realizes a successor state",
     "DENY != no transition",
-    "Resolution classification is not the successor state",
+    "`R_i` classifies the governed resolution.",
     "Confirmation non-nullity",
     "confirmed unchanged",
     "not observed",
@@ -144,8 +144,6 @@ def validate_transition(case_id: str, transition: Any) -> list[str]:
         if classification in NON_ALLOW:
             _require(resolution.get("requested_effect_authorized") is False, findings, f"{case_id}:non_allow_must_not_authorize_requested_effect")
             _require(resolution.get("requested_effect_realized") is False, findings, f"{case_id}:non_allow_must_not_realize_requested_effect")
-            # Non-ALLOW is still a realized governed transition. The changed
-            # successor state checks above prove it is not represented as null.
 
     relations = transition.get("relations")
     _require(isinstance(relations, list), findings, f"{case_id}:relations_not_list")
