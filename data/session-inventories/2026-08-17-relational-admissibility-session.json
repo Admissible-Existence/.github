@@ -2,7 +2,8 @@
   "schema": "admissible-existence.session-execution-inventory/v1",
   "inventory_id": "AEX-SESSION-2026-08-17-RELATIONAL-ADMISSIBILITY",
   "created_at": "2026-08-17T20:24:00Z",
-  "session_role": "ACTIVE_DISTINCT_SUPPORT_AND_UNIQUE_FORMALIZATION",
+  "updated_at": "2026-08-17T20:32:00Z",
+  "session_role": "MERGED_INTO_CANONICAL_WORKSTREAMS",
   "governing_constraints": {
     "render_allowed": false,
     "stegverse_runtime_credential_authority": "TV/TVC",
@@ -16,9 +17,10 @@
       "task_id": "AEX-RELATIONAL-ADMISSIBILITY-001",
       "originating_session_goal": "Formally develop admissibility as governed successor-state resolution across singular and multi-manifold systems, including confirmation as state change and adjacent-repository relational conformance.",
       "destination": "Admissible-Existence/.github",
-      "branch": "feat/relational-admissibility-formalism",
+      "branch": "main",
       "locations": [
         "Admissible-Existence/.github#9",
+        "Admissible-Existence/.github#10",
         "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md",
         "data/relational-admissibility-formalism.json",
         "schemas/relational-admissibility-transition.schema.json",
@@ -27,14 +29,14 @@
         "tests/test_relational_admissibility_formalism.py",
         ".github/workflows/canonical-formalism-orientation.yml"
       ],
-      "current_owner": "2026-08-17 relational admissibility formalization lane",
-      "claim_state": "CLAIMED_FOR_IMPLEMENTATION",
-      "completion_state": "IMPLEMENTED_PENDING_EXACT_HEAD_VALIDATION",
-      "validation_state": "PENDING_PR_WORKFLOW",
-      "integration_state": "ORGANIZATION_CONFORMANCE_INTEGRATION_IN_PROGRESS",
-      "archival_dependency": true,
-      "evidence_location": "Admissible-Existence/.github#9 and branch feat/relational-admissibility-formalism",
-      "next_executable_action": "Run exact-head canonical formalism validation, repair only proven defects, merge after PASS, then release implementation claim and transfer AE/proof mappings."
+      "current_owner": "source/conformance COMPLETE_RELEASED; continuation Admissible-Existence/AE#21 -> Admissible-Existence/ae-validation-factory#13",
+      "claim_state": "COMPLETE_RELEASED",
+      "completion_state": "COMPLETE_VALIDATED_MERGED",
+      "validation_state": "EXACT_HEAD_VALIDATION_SUCCESS_32065895840_JOB_95497809912; ARCHIVE_GATE_SUCCESS_32065895827_JOB_95497809972",
+      "integration_state": "ORGANIZATION_CONFORMANCE_MERGED; AE_MAPPING_AND_INDEPENDENT_VALIDATION_DURABLY_TRANSFERRED",
+      "archival_dependency": false,
+      "evidence_location": "merge ff2003aa0c5da46e2506373ec9fc64a020310d2c; AE#21; ae-validation-factory#13",
+      "next_executable_action": "AE#21 maps the frozen candidate formalism into AE-native resolution semantics. After AE freezes a validated exact target, ae-validation-factory#13 independently evaluates the successor-state contract and P1-P5."
     },
     {
       "task_id": "STEGVERSE-ARA-ADMISSIBILITY-DEFINITION-001",
@@ -50,29 +52,29 @@
       "claim_state": "COMPLETE",
       "completion_state": "COMPLETE_MERGED_PUBLIC_RESEARCH_PROPOSITION",
       "validation_state": "PR_HEAD_REPO_CHECK_SUCCESS_32061172635",
-      "integration_state": "PUBLIC_SEMANTIC_DEFINITION_MERGED; FORMAL_PAPER_INTEGRATION_OPEN",
+      "integration_state": "PUBLIC_SEMANTIC_DEFINITION_MERGED; FORMAL_PAPER_CONTINUATION_DURABLE_IN_ISSUE_14",
       "archival_dependency": false,
       "evidence_location": "merge 998350f3ba16b850393dfefb9d5233ba61f41c98; admissibility-wiki issue 14 comment 5319343279",
-      "next_executable_action": "No duplicate semantic rewrite; consume this definition through the Admissible-Existence formalization lane and existing paper lane."
+      "next_executable_action": "Existing paper lane consumes the formal definition; no duplicate semantic rewrite from this session."
     },
     {
       "task_id": "AEX-HB-TRANSITION-OBSERVATION-001",
       "originating_session_goal": "Preserve the correction that heartbeat does not cause observations: realized admitted state transitions cause observations; heartbeat is a carrier/reference/decomposition mechanism for the resulting observation packets and transition field.",
       "destination": "Admissible-Existence/.github",
-      "branch": "feat/relational-admissibility-formalism",
+      "branch": "main",
       "locations": [
         "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md#axiom-a7-transition-caused-observation",
         "data/relational-admissibility-formalism.json",
         "fixtures/relational-admissibility/cases.json"
       ],
-      "current_owner": "AEX-RELATIONAL-ADMISSIBILITY-001 for formal semantics; StegVerse-Labs/.github#60 for live heartbeat runtime",
+      "current_owner": "formal semantics merged in AEX-RELATIONAL-ADMISSIBILITY-001; live heartbeat remains StegVerse-Labs/.github#60",
       "claim_state": "MERGED_INTO_CANONICAL_WORKSTREAM",
-      "completion_state": "FORMAL_REQUIREMENT_INSTALLED_ON_ACTIVE_BRANCH; LIVE_HEARTBEAT_RUNTIME_SEPARATELY_MACHINE_OWNED",
-      "validation_state": "PENDING_PR_WORKFLOW_FOR_FORMAL_REQUIREMENT",
+      "completion_state": "FORMAL_REQUIREMENT_COMPLETE_VALIDATED_MERGED; LIVE_HEARTBEAT_RUNTIME_SEPARATELY_MACHINE_OWNED",
+      "validation_state": "FORMAL_REQUIREMENT_PASS_32065895840",
       "integration_state": "NO_HEARTBEAT_RUNTIME_MUTATION_AUTHORIZED_FROM_THIS SESSION",
-      "archival_dependency": true,
-      "evidence_location": "AEX formalism branch plus StegVerse-Labs/.github#60 resident heartbeat continuation",
-      "next_executable_action": "Validate the formal requirement; do not duplicate the resident heartbeat."
+      "archival_dependency": false,
+      "evidence_location": "merge ff2003aa0c5da46e2506373ec9fc64a020310d2c plus StegVerse-Labs/.github#60 resident heartbeat continuation",
+      "next_executable_action": "Resident heartbeat owner continues live carrier/observation work; formal consumers use A7 without creating a duplicate heartbeat."
     },
     {
       "task_id": "SOVEREIGN-LOCAL-MODEL-001",
@@ -141,9 +143,17 @@
   ],
   "session_consolidation": {
     "total_goal_classes": 6,
-    "complete_or_durably_transferred": 5,
-    "active_unique_goal_classes": 1,
-    "archive_ready": false,
-    "archive_blocker": "AEX-RELATIONAL-ADMISSIBILITY-001 requires exact-head validation, handoff synchronization, merge/claim release, and durable AE/proof continuation transfer."
+    "complete_or_durably_transferred": 6,
+    "active_unique_goal_classes": 0,
+    "archive_ready": true,
+    "canonical_continuation": [
+      "Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md",
+      "Admissible-Existence/AE#21",
+      "Admissible-Existence/ae-validation-factory#13",
+      "StegVerse-002/micro-node-runtime/docs/SOVEREIGN_LOCAL_MODEL_RUNTIME_MIRROR_HANDOFF.md",
+      "StegVerse-Labs/TVC/docs/SES_GENESIS_MIRROR_HANDOFF.md",
+      "StegVerse-Labs/stegfin-governance/docs/STEGFIN_MIRROR_HANDOFF.md"
+    ],
+    "archive_condition": "Satisfied once this post-merge reconciliation is itself validated and merged to canonical main."
   }
 }
