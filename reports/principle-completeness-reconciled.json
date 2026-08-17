@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "activation_id": "AEX-PC-RECONCILE-20260806-01",
-  "generated_at": "2026-08-10T08:17:36.323673+00:00",
+  "generated_at": "2026-08-17T07:39:41.128535+00:00",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "expected_repository_count": 32,
   "live_observed_repository_count": 4,
@@ -68,6 +68,12 @@
           "label": "12. `Admissible-Existence/DaCo`",
           "sources": [
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "13 target elements vs 76 operational elements",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
           ]
         },
         {
@@ -365,15 +371,57 @@
           ]
         },
         {
+          "label": "Admissible-Existence Principle Completeness Report",
+          "sources": [
+            "reports/principle-completeness-latest.md"
+          ]
+        },
+        {
           "label": "Admissible-Existence Principle Completeness Standard",
           "sources": [
             "docs/PRINCIPLE_COMPLETENESS_STANDARD.md"
           ]
         },
         {
+          "label": "Admissible-Existence/AE",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
+          "label": "Admissible-Existence/ae-validation-factory",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
+          "label": "Admissible-Existence/Existence",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
+          "label": "Admissible-Existence/GTG",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
+          "label": "Admissible-Existence/TT",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
           "label": "AE \u2014 Admissible Existence",
           "sources": [
             "profile/README.md"
+          ]
+        },
+        {
+          "label": "Anti-reinvention rule",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
           ]
         },
         {
@@ -430,6 +478,12 @@
           ]
         },
         {
+          "label": "Authority and security boundary",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
           "label": "Authority boundaries",
           "sources": [
             "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
@@ -466,6 +520,18 @@
           ]
         },
         {
+          "label": "Boundary / consequence / continuity layers",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
+          "label": "Candidate formalizations",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
           "label": "Canonical claims and collision boundaries",
           "sources": [
             "docs/FORMALISM_WORKER_SESSION_TRANSFER.md"
@@ -488,6 +554,30 @@
           "label": "Canonical control surfaces",
           "sources": [
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Canonical Formalism Orientation",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
+          "label": "Canonical formalism orientation",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Canonical formalism orientation \u2014 COMPLETE_RELEASED",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Canonical layer orientation",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
           ]
         },
         {
@@ -588,6 +678,12 @@
           ]
         },
         {
+          "label": "Continuity and relationship interpretation",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
           "label": "Coordination completion decision",
           "sources": [
             "docs/FORMALISM_ARCHIVE_GATE_HOSTED_EVIDENCE.md"
@@ -627,6 +723,12 @@
           "label": "Current completion estimate",
           "sources": [
             "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Current consistent interpretations",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
           ]
         },
         {
@@ -690,6 +792,144 @@
           ]
         },
         {
+          "label": "DF-C001 \u2014 reconstruction resolution factor",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-C002 \u2014 resolution-dependent Reconstruction Singularity boundary",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-C003 \u2014 latent endpoint discovery through increased reconstruction resolution",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-C004 \u2014 question-directed observation as discovery-path selection",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-C005 \u2014 marginal commitment-to-discovery",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-C006 \u2014 shortest discovery path through high-resolution reconstructed reality",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-C007 \u2014 composite observer with individuated inputs",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-C008 \u2014 collective reconstruction resolution",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-E001 \u2014 existence is stronger than presence",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-E002 \u2014 observability and reconstructability are distinct",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-E003 \u2014 relational standing is joint/contextual",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-E004 \u2014 TT is structural and non-authorizing",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-E005 \u2014 executable is not admissible",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-E006 \u2014 reconstruction layers remain distinct from execution authority",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-E007 \u2014 StegCore AE lifecycle is a bounded operational projection",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-I001 \u2014 continuity as an observable/reconstructable relationship across states",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-I002 \u2014 surviving relationships can preserve continuity after endpoint disappearance",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-I003 \u2014 reality contact as an imprint available to reconstruction",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-O001 \u2014 scaling of heterogeneous observer networks",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-O002 \u2014 resolution and apparent foresight",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "DF-O003 \u2014 relation between reconstruction horizons and observed cosmological structure",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "Discovery Frontier",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "Discovery frontier rule",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
           "label": "Early Formal Vocabulary",
           "sources": [
             "profile/README.md"
@@ -705,6 +945,12 @@
           "label": "Empty or undeveloped source repository",
           "sources": [
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Established starting conditions",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
           ]
         },
         {
@@ -969,9 +1215,21 @@
           ]
         },
         {
+          "label": "Internal Core implementation vs public-facing product map",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
           "label": "Key Shared Principles",
           "sources": [
             "profile/README.md"
+          ]
+        },
+        {
+          "label": "Known orientation hazards",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
           ]
         },
         {
@@ -1053,6 +1311,12 @@
           ]
         },
         {
+          "label": "Maturity classes",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
           "label": "Metrics",
           "sources": [
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
@@ -1095,9 +1359,21 @@
           ]
         },
         {
+          "label": "Normative protocol vs source implementation",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
           "label": "Objective",
           "sources": [
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Open empirical questions",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
           ]
         },
         {
@@ -1122,6 +1398,12 @@
           "label": "Organization Profile Reachable Goal Status",
           "sources": [
             "docs/ORG_PROFILE_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "Organization result",
+          "sources": [
+            "reports/principle-completeness-latest.md"
           ]
         },
         {
@@ -1247,6 +1529,12 @@
           ]
         },
         {
+          "label": "Promotion rule",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
           "label": "Proof-candidate tracking",
           "sources": [
             "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
@@ -1298,6 +1586,18 @@
           "label": "Ready Surfaces",
           "sources": [
             "docs/ORG_PROFILE_REACHABLE_GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "Reconciled Principle Completeness Coverage",
+          "sources": [
+            "reports/principle-completeness-reconciled.md"
+          ]
+        },
+        {
+          "label": "Reconstruction Singularity orientation",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
           ]
         },
         {
@@ -1421,6 +1721,12 @@
           ]
         },
         {
+          "label": "Security and authority",
+          "sources": [
+            "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
           "label": "Session consolidation",
           "sources": [
             "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md",
@@ -1454,6 +1760,12 @@
           ]
         },
         {
+          "label": "Settled distinctions workers must preserve",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
           "label": "Shared Actions blocker",
           "sources": [
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
@@ -1482,6 +1794,18 @@
           "label": "StegVerse review-only projection",
           "sources": [
             "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "StegVerse runtime authority",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
+          "label": "StegVerse-Labs/StegCore",
+          "sources": [
+            "docs/CANONICAL_FORMALISM_ORIENTATION.md"
           ]
         },
         {
@@ -1618,11 +1942,11 @@
         }
       ],
       "metrics": {
-        "files": 104,
-        "markdown_files": 22,
-        "structured_files": 63,
+        "files": 115,
+        "markdown_files": 26,
+        "structured_files": 68,
         "handoffs": 6,
-        "principle_candidates": 257,
+        "principle_candidates": 311,
         "placeholder_markers": 161,
         "broken_local_links": 0,
         "ambiguous_short_repository_identities": 10,
