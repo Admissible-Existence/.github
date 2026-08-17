@@ -1,0 +1,342 @@
+{
+  "schema": "admissible-existence.relational-admissibility-fixtures/v1",
+  "goal_id": "AEX-RELATIONAL-ADMISSIBILITY-001",
+  "cases": [
+    {
+      "case_id": "ALLOW_REALIZES_REQUESTED_EFFECT",
+      "expected_valid": true,
+      "transition": {
+        "schema_version": "admissible-existence.relational-admissibility-transition/v1",
+        "transition_id": "transition-allow-001",
+        "predecessor_state": {
+          "state_id": "state-allow-pre",
+          "state_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "component_states": {"AE": "candidate_pending", "RTG": "relation_known"},
+          "relation_states": {"AE<->RTG": "established"}
+        },
+        "candidate": {
+          "candidate_id": "candidate-allow-001",
+          "sought_effect": {"AE": "candidate_admitted"},
+          "origin_component": "Admissible-Existence/AE",
+          "implicated_components": ["Admissible-Existence/RTG"]
+        },
+        "governance_context": {
+          "evidence_refs": ["fixture:evidence:allow"],
+          "policy_refs": ["fixture:policy:allow"],
+          "authority_basis_refs": ["fixture:authority:allow"]
+        },
+        "resolution": {
+          "classification": "ALLOW",
+          "resolution_valid": true,
+          "requested_effect_authorized": true,
+          "requested_effect_realized": true,
+          "reason_codes": ["ALLOW_CURRENT_STATE_AND_RELATIONS_ADMISSIBLE"]
+        },
+        "successor_state": {
+          "state_id": "state-allow-post",
+          "state_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "component_states": {"AE": "candidate_admitted", "RTG": "relation_known"},
+          "relation_states": {"AE<->RTG": "confirmed"}
+        },
+        "relations": [
+          {
+            "relation_id": "relation-allow-confirm-001",
+            "subjects": ["Admissible-Existence/AE", "Admissible-Existence/RTG"],
+            "predicate": "relational_compatibility",
+            "state": "CONFIRMED_INVARIANT",
+            "predecessor_value": "established",
+            "successor_value": "established",
+            "evidence_refs": ["fixture:evidence:allow"]
+          }
+        ],
+        "affected_components": ["Admissible-Existence/AE", "Admissible-Existence/RTG"],
+        "newly_implicated_components": [],
+        "deimplicated_components": [],
+        "observation_trigger": "STATE_TRANSITION",
+        "authority_effect": "NONE",
+        "credential_authority": "TV/TVC",
+        "github_token_runtime_authority": "NONE"
+      }
+    },
+    {
+      "case_id": "DENY_IS_REAL_SUCCESSOR_TRANSITION",
+      "expected_valid": true,
+      "transition": {
+        "schema_version": "admissible-existence.relational-admissibility-transition/v1",
+        "transition_id": "transition-deny-001",
+        "predecessor_state": {
+          "state_id": "state-deny-pre",
+          "state_hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "component_states": {"AE": "candidate_pending", "TT": "boundary_known"},
+          "relation_states": {"AE<->TT": "authority_requirement_open"}
+        },
+        "candidate": {
+          "candidate_id": "candidate-deny-001",
+          "sought_effect": {"AE": "execute_requested_effect"},
+          "origin_component": "Admissible-Existence/AE",
+          "implicated_components": ["Admissible-Existence/TT"]
+        },
+        "governance_context": {
+          "evidence_refs": ["fixture:evidence:deny"],
+          "policy_refs": ["fixture:policy:deny"],
+          "authority_basis_refs": ["fixture:authority:insufficient"]
+        },
+        "resolution": {
+          "classification": "DENY",
+          "resolution_valid": true,
+          "requested_effect_authorized": false,
+          "requested_effect_realized": false,
+          "reason_codes": ["DENY_AUTHORITY_NOT_APPLICABLE_TO_SUCCESSOR"]
+        },
+        "successor_state": {
+          "state_id": "state-deny-post",
+          "state_hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "component_states": {"AE": "candidate_denied", "TT": "boundary_known"},
+          "relation_states": {"AE<->TT": "authority_boundary_confirmed"}
+        },
+        "relations": [
+          {
+            "relation_id": "relation-deny-boundary-001",
+            "subjects": ["Admissible-Existence/AE", "Admissible-Existence/TT"],
+            "predicate": "authority_applicability",
+            "state": "CHANGED",
+            "predecessor_value": "open",
+            "successor_value": "not_applicable_to_requested_effect",
+            "evidence_refs": ["fixture:evidence:deny"]
+          }
+        ],
+        "affected_components": ["Admissible-Existence/AE", "Admissible-Existence/TT"],
+        "newly_implicated_components": [],
+        "deimplicated_components": [],
+        "observation_trigger": "STATE_TRANSITION",
+        "authority_effect": "NONE",
+        "credential_authority": "TV/TVC",
+        "github_token_runtime_authority": "NONE"
+      }
+    },
+    {
+      "case_id": "REVIEW_CREATES_OBLIGATION_SUCCESSOR",
+      "expected_valid": true,
+      "transition": {
+        "schema_version": "admissible-existence.relational-admissibility-transition/v1",
+        "transition_id": "transition-review-001",
+        "predecessor_state": {
+          "state_id": "state-review-pre",
+          "state_hash": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "component_states": {"AE": "candidate_pending", "validator": "evidence_partial"},
+          "relation_states": {"AE<->validator": "unresolved"}
+        },
+        "candidate": {
+          "candidate_id": "candidate-review-001",
+          "sought_effect": {"AE": "advance_candidate"},
+          "origin_component": "Admissible-Existence/AE",
+          "implicated_components": ["Admissible-Existence/validator"]
+        },
+        "governance_context": {
+          "evidence_refs": ["fixture:evidence:review"],
+          "policy_refs": ["fixture:policy:review"],
+          "authority_basis_refs": ["fixture:authority:reviewer-required"]
+        },
+        "resolution": {
+          "classification": "REVIEW",
+          "resolution_valid": true,
+          "requested_effect_authorized": false,
+          "requested_effect_realized": false,
+          "reason_codes": ["REVIEW_REQUIRED_FOR_UNRESOLVED_RELATION"]
+        },
+        "successor_state": {
+          "state_id": "state-review-post",
+          "state_hash": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "component_states": {"AE": "review_required", "validator": "evidence_partial"},
+          "relation_states": {"AE<->validator": "review_obligation_established"}
+        },
+        "relations": [
+          {
+            "relation_id": "relation-review-obligation-001",
+            "subjects": ["Admissible-Existence/AE", "Admissible-Existence/validator"],
+            "predicate": "review_obligation",
+            "state": "EMERGED",
+            "predecessor_value": null,
+            "successor_value": "required",
+            "evidence_refs": ["fixture:evidence:review"]
+          }
+        ],
+        "affected_components": ["Admissible-Existence/AE", "Admissible-Existence/validator"],
+        "newly_implicated_components": ["Admissible-Existence/validator"],
+        "deimplicated_components": [],
+        "observation_trigger": "STATE_TRANSITION",
+        "authority_effect": "NONE",
+        "credential_authority": "TV/TVC",
+        "github_token_runtime_authority": "NONE"
+      }
+    },
+    {
+      "case_id": "FAIL_CLOSED_RECORDS_EVIDENCE_GAP",
+      "expected_valid": true,
+      "transition": {
+        "schema_version": "admissible-existence.relational-admissibility-transition/v1",
+        "transition_id": "transition-fail-closed-001",
+        "predecessor_state": {
+          "state_id": "state-fail-pre",
+          "state_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "component_states": {"AE": "candidate_pending", "Existence": "standing_unknown"},
+          "relation_states": {"AE<->Existence": "evidence_required"}
+        },
+        "candidate": {
+          "candidate_id": "candidate-fail-001",
+          "sought_effect": {"AE": "resolve_candidate"},
+          "origin_component": "Admissible-Existence/AE",
+          "implicated_components": ["Admissible-Existence/Existence"]
+        },
+        "governance_context": {
+          "evidence_refs": [],
+          "policy_refs": ["fixture:policy:evidence-required"],
+          "authority_basis_refs": []
+        },
+        "resolution": {
+          "classification": "FAIL_CLOSED",
+          "resolution_valid": true,
+          "requested_effect_authorized": false,
+          "requested_effect_realized": false,
+          "reason_codes": ["FAIL_CLOSED_REQUIRED_EVIDENCE_UNAVAILABLE"]
+        },
+        "successor_state": {
+          "state_id": "state-fail-post",
+          "state_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+          "component_states": {"AE": "fail_closed", "Existence": "standing_unknown"},
+          "relation_states": {"AE<->Existence": "evidence_gap_recorded"}
+        },
+        "relations": [
+          {
+            "relation_id": "relation-evidence-gap-001",
+            "subjects": ["Admissible-Existence/AE", "Admissible-Existence/Existence"],
+            "predicate": "required_evidence_availability",
+            "state": "CHANGED",
+            "predecessor_value": "required",
+            "successor_value": "unavailable",
+            "evidence_refs": []
+          }
+        ],
+        "affected_components": ["Admissible-Existence/AE", "Admissible-Existence/Existence"],
+        "newly_implicated_components": [],
+        "deimplicated_components": [],
+        "observation_trigger": "STATE_TRANSITION",
+        "authority_effect": "NONE",
+        "credential_authority": "TV/TVC",
+        "github_token_runtime_authority": "NONE"
+      }
+    },
+    {
+      "case_id": "CONFIRMATION_CHANGES_TOTAL_STATE_WITHOUT_OBJECT_CHANGE",
+      "expected_valid": true,
+      "transition": {
+        "schema_version": "admissible-existence.relational-admissibility-transition/v1",
+        "transition_id": "transition-confirm-001",
+        "predecessor_state": {
+          "state_id": "state-confirm-pre",
+          "state_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+          "component_states": {"RTG": {"relation_value": 7}, "AE": {"candidate": "standing"}},
+          "relation_states": {"AE<->RTG": "previously_observed_valid"}
+        },
+        "candidate": {
+          "candidate_id": "candidate-confirm-001",
+          "sought_effect": {"observation": "re-evaluate_relational_invariant"},
+          "origin_component": "Admissible-Existence/RTG",
+          "implicated_components": ["Admissible-Existence/AE"]
+        },
+        "governance_context": {
+          "evidence_refs": ["fixture:evidence:confirm:new-observation"],
+          "policy_refs": ["fixture:policy:relational-check"],
+          "authority_basis_refs": []
+        },
+        "resolution": {
+          "classification": "ALLOW",
+          "resolution_valid": true,
+          "requested_effect_authorized": true,
+          "requested_effect_realized": true,
+          "reason_codes": ["ALLOW_OBSERVATION_RELATION_CONFIRMED"]
+        },
+        "successor_state": {
+          "state_id": "state-confirm-post",
+          "state_hash": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "component_states": {"RTG": {"relation_value": 7}, "AE": {"candidate": "standing"}},
+          "relation_states": {"AE<->RTG": "confirmed_again_with_new_provenance"}
+        },
+        "relations": [
+          {
+            "relation_id": "relation-confirm-001",
+            "subjects": ["Admissible-Existence/RTG", "Admissible-Existence/AE"],
+            "predicate": "relational_invariant",
+            "state": "CONFIRMED_INVARIANT",
+            "predecessor_value": 7,
+            "successor_value": 7,
+            "evidence_refs": ["fixture:evidence:confirm:new-observation"]
+          }
+        ],
+        "affected_components": ["Admissible-Existence/RTG", "Admissible-Existence/AE"],
+        "newly_implicated_components": [],
+        "deimplicated_components": [],
+        "observation_trigger": "STATE_TRANSITION",
+        "authority_effect": "NONE",
+        "credential_authority": "TV/TVC",
+        "github_token_runtime_authority": "NONE"
+      }
+    },
+    {
+      "case_id": "COMPOSITION_CHANGES_RELATIONAL_RESOLUTION",
+      "expected_valid": true,
+      "transition": {
+        "schema_version": "admissible-existence.relational-admissibility-transition/v1",
+        "transition_id": "transition-composition-001",
+        "predecessor_state": {
+          "state_id": "state-composition-pre",
+          "state_hash": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "component_states": {"RTG": "local_change_a_valid", "TT": "local_change_b_valid", "AE": "joint_state_unresolved"},
+          "relation_states": {"RTG<->TT": "shared_dependency_nominal"}
+        },
+        "candidate": {
+          "candidate_id": "candidate-composition-001",
+          "sought_effect": {"composition": ["local_change_a", "local_change_b"]},
+          "origin_component": "Admissible-Existence/RTG",
+          "implicated_components": ["Admissible-Existence/TT", "Admissible-Existence/AE"]
+        },
+        "governance_context": {
+          "evidence_refs": ["fixture:evidence:composition"],
+          "policy_refs": ["fixture:policy:composition"],
+          "authority_basis_refs": []
+        },
+        "resolution": {
+          "classification": "REVIEW",
+          "resolution_valid": true,
+          "requested_effect_authorized": false,
+          "requested_effect_realized": false,
+          "reason_codes": ["REVIEW_JOINT_COUPLING_REQUIRES_REEVALUATION"]
+        },
+        "successor_state": {
+          "state_id": "state-composition-post",
+          "state_hash": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "component_states": {"RTG": "local_change_a_valid", "TT": "local_change_b_valid", "AE": "joint_review_required"},
+          "relation_states": {"RTG<->TT": "shared_dependency_coupled_review"}
+        },
+        "relations": [
+          {
+            "relation_id": "relation-composition-001",
+            "subjects": ["Admissible-Existence/RTG", "Admissible-Existence/TT", "Admissible-Existence/AE"],
+            "predicate": "joint_admissibility",
+            "state": "CHANGED",
+            "predecessor_value": "locally_valid_individually",
+            "successor_value": "joint_review_required",
+            "evidence_refs": ["fixture:evidence:composition"]
+          }
+        ],
+        "affected_components": ["Admissible-Existence/RTG", "Admissible-Existence/TT", "Admissible-Existence/AE"],
+        "newly_implicated_components": ["Admissible-Existence/AE"],
+        "deimplicated_components": [],
+        "observation_trigger": "STATE_TRANSITION",
+        "authority_effect": "NONE",
+        "credential_authority": "TV/TVC",
+        "github_token_runtime_authority": "NONE"
+      }
+    }
+  ]
+}

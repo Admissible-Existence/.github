@@ -5,22 +5,38 @@ on:
     paths:
       - "docs/CANONICAL_FORMALISM_ORIENTATION.md"
       - "docs/DISCOVERY_FRONTIER.md"
+      - "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
       - "data/canonical-formalism-orientation.json"
       - "data/canonical-formalism-orientation-claim.json"
+      - "data/relational-admissibility-formalism.json"
+      - "data/formalism-task-claims.json"
+      - "schemas/relational-admissibility-transition.schema.json"
+      - "fixtures/relational-admissibility/**"
       - "scripts/validate_canonical_formalism_orientation.py"
+      - "scripts/validate_relational_admissibility_formalism.py"
       - "tests/test_canonical_formalism_orientation.py"
+      - "tests/test_relational_admissibility_formalism.py"
       - "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+      - "FORMALISM_MIRROR_HANDOFF.md"
       - ".github/workflows/canonical-formalism-orientation.yml"
   push:
     branches: [main]
     paths:
       - "docs/CANONICAL_FORMALISM_ORIENTATION.md"
       - "docs/DISCOVERY_FRONTIER.md"
+      - "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
       - "data/canonical-formalism-orientation.json"
       - "data/canonical-formalism-orientation-claim.json"
+      - "data/relational-admissibility-formalism.json"
+      - "data/formalism-task-claims.json"
+      - "schemas/relational-admissibility-transition.schema.json"
+      - "fixtures/relational-admissibility/**"
       - "scripts/validate_canonical_formalism_orientation.py"
+      - "scripts/validate_relational_admissibility_formalism.py"
       - "tests/test_canonical_formalism_orientation.py"
+      - "tests/test_relational_admissibility_formalism.py"
       - "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+      - "FORMALISM_MIRROR_HANDOFF.md"
       - ".github/workflows/canonical-formalism-orientation.yml"
 
 permissions: {}
@@ -56,6 +72,20 @@ jobs:
       - name: Run orientation regression tests
         run: python -m unittest tests.test_canonical_formalism_orientation -v
 
+      - name: Parse relational admissibility contract and fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m json.tool data/relational-admissibility-formalism.json >/dev/null
+          python -m json.tool schemas/relational-admissibility-transition.schema.json >/dev/null
+          python -m json.tool fixtures/relational-admissibility/cases.json >/dev/null
+
+      - name: Validate relational admissibility successor-state contract
+        run: python scripts/validate_relational_admissibility_formalism.py
+
+      - name: Run relational admissibility regression tests
+        run: python -m unittest tests.test_relational_admissibility_formalism -v
+
       - name: Prove workflow is validation-only
         shell: bash
         run: |
@@ -67,3 +97,4 @@ jobs:
           echo "execution_authority=false"
           echo "publication_authority=false"
           echo "release_authority=false"
+          echo "admissibility_resolver=Admissible-Existence/AE"

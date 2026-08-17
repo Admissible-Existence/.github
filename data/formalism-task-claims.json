@@ -1,7 +1,11 @@
 {
-  "schema_version": "1.0.0",
-  "generated_at": "2026-08-06T20:28:00Z",
+  "schema_version": "1.1.0",
+  "generated_at": "2026-08-17T20:21:00Z",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
+  "claim_semantics": {
+    "expired_claim_without_renewal_is_active": false,
+    "stale_claim_must_be_renewed_released_or_blocked_before_new_collision": true
+  },
   "tasks": [
     {
       "task_id": "AEX-RTG-MACHINE-LANES",
@@ -110,6 +114,32 @@
       "next_action": "Inspect the first hosted principle-completeness run and synchronize the Existence handoff",
       "next_action_location": "Admissible-Existence/Existence/.github/workflows/principle-completeness-validation.yml",
       "archival_dependency": false
+    },
+    {
+      "task_id": "AEX-RELATIONAL-ADMISSIBILITY-001",
+      "originating_goal": "Formalize admissibility as governed successor-state resolution across singular and multi-manifold systems and establish organization-level relational conformance across adjacent mathematical repositories",
+      "repository": "Admissible-Existence/.github",
+      "branch": "feat/relational-admissibility-formalism",
+      "stage": "candidate_formalization_and_conformance",
+      "claim_state": "CLAIMED_FOR_IMPLEMENTATION",
+      "completion_state": "PARTIAL",
+      "claimant": "2026-08-17 relational admissibility formalization lane",
+      "claim_created_at": "2026-08-17T20:19:48Z",
+      "claim_expires_at": "2026-08-24T20:19:48Z",
+      "release_condition": "Formalism, machine contract, schema, fixtures, deterministic validator, and regression tests are committed; exact-head canonical-formalism-orientation validation passes; FORMALISM_MIRROR_HANDOFF is synchronized; PR is merged or the claim is explicitly transferred",
+      "collision_boundary": "Do not redefine source repository mathematics, do not replace Admissible-Existence/AE as resolver, do not create a new workflow/control plane, do not use Render, and do not introduce NON-TV/TVC secret/token authority",
+      "evidence": [
+        "Admissible-Existence/.github#9",
+        "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md",
+        "data/relational-admissibility-formalism.json",
+        "schemas/relational-admissibility-transition.schema.json",
+        "fixtures/relational-admissibility/cases.json",
+        "scripts/validate_relational_admissibility_formalism.py",
+        "tests/test_relational_admissibility_formalism.py"
+      ],
+      "next_action": "Run exact-head canonical formalism validation, repair only proven defects, merge after PASS, then transfer AE mapping/proof work to named adjacent owners",
+      "next_action_location": ".github/workflows/canonical-formalism-orientation.yml",
+      "archival_dependency": true
     }
   ]
 }

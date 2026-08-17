@@ -1,0 +1,149 @@
+{
+  "schema": "admissible-existence.session-execution-inventory/v1",
+  "inventory_id": "AEX-SESSION-2026-08-17-RELATIONAL-ADMISSIBILITY",
+  "created_at": "2026-08-17T20:24:00Z",
+  "session_role": "ACTIVE_DISTINCT_SUPPORT_AND_UNIQUE_FORMALIZATION",
+  "governing_constraints": {
+    "render_allowed": false,
+    "stegverse_runtime_credential_authority": "TV/TVC",
+    "non_tv_tvc_secret_or_token_allowed": false,
+    "github_token_runtime_authority": "NONE",
+    "wallet_signing_authority": "USER_ONLY",
+    "wallet_broadcast_authority": "USER_ONLY"
+  },
+  "items": [
+    {
+      "task_id": "AEX-RELATIONAL-ADMISSIBILITY-001",
+      "originating_session_goal": "Formally develop admissibility as governed successor-state resolution across singular and multi-manifold systems, including confirmation as state change and adjacent-repository relational conformance.",
+      "destination": "Admissible-Existence/.github",
+      "branch": "feat/relational-admissibility-formalism",
+      "locations": [
+        "Admissible-Existence/.github#9",
+        "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md",
+        "data/relational-admissibility-formalism.json",
+        "schemas/relational-admissibility-transition.schema.json",
+        "fixtures/relational-admissibility/cases.json",
+        "scripts/validate_relational_admissibility_formalism.py",
+        "tests/test_relational_admissibility_formalism.py",
+        ".github/workflows/canonical-formalism-orientation.yml"
+      ],
+      "current_owner": "2026-08-17 relational admissibility formalization lane",
+      "claim_state": "CLAIMED_FOR_IMPLEMENTATION",
+      "completion_state": "IMPLEMENTED_PENDING_EXACT_HEAD_VALIDATION",
+      "validation_state": "PENDING_PR_WORKFLOW",
+      "integration_state": "ORGANIZATION_CONFORMANCE_INTEGRATION_IN_PROGRESS",
+      "archival_dependency": true,
+      "evidence_location": "Admissible-Existence/.github#9 and branch feat/relational-admissibility-formalism",
+      "next_executable_action": "Run exact-head canonical formalism validation, repair only proven defects, merge after PASS, then release implementation claim and transfer AE/proof mappings."
+    },
+    {
+      "task_id": "STEGVERSE-ARA-ADMISSIBILITY-DEFINITION-001",
+      "originating_session_goal": "Record a public general definition of admissibility that does not collapse admissibility into permission or ALLOW and preserves non-ALLOW and confirmation successor information.",
+      "destination": "StegVerse-Labs/ara-admissibility-interop",
+      "branch": "main",
+      "locations": [
+        "docs/admissibility-as-governed-transition-resolution.md",
+        "StegVerse-Labs/ara-admissibility-interop#115",
+        "StegVerse-Labs/admissibility-wiki#14"
+      ],
+      "current_owner": "StegVerse-Labs/ara-admissibility-interop semantic owner + admissibility-wiki formal-paper lane",
+      "claim_state": "COMPLETE",
+      "completion_state": "COMPLETE_MERGED_PUBLIC_RESEARCH_PROPOSITION",
+      "validation_state": "PR_HEAD_REPO_CHECK_SUCCESS_32061172635",
+      "integration_state": "PUBLIC_SEMANTIC_DEFINITION_MERGED; FORMAL_PAPER_INTEGRATION_OPEN",
+      "archival_dependency": false,
+      "evidence_location": "merge 998350f3ba16b850393dfefb9d5233ba61f41c98; admissibility-wiki issue 14 comment 5319343279",
+      "next_executable_action": "No duplicate semantic rewrite; consume this definition through the Admissible-Existence formalization lane and existing paper lane."
+    },
+    {
+      "task_id": "AEX-HB-TRANSITION-OBSERVATION-001",
+      "originating_session_goal": "Preserve the correction that heartbeat does not cause observations: realized admitted state transitions cause observations; heartbeat is a carrier/reference/decomposition mechanism for the resulting observation packets and transition field.",
+      "destination": "Admissible-Existence/.github",
+      "branch": "feat/relational-admissibility-formalism",
+      "locations": [
+        "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md#axiom-a7-transition-caused-observation",
+        "data/relational-admissibility-formalism.json",
+        "fixtures/relational-admissibility/cases.json"
+      ],
+      "current_owner": "AEX-RELATIONAL-ADMISSIBILITY-001 for formal semantics; StegVerse-Labs/.github#60 for live heartbeat runtime",
+      "claim_state": "MERGED_INTO_CANONICAL_WORKSTREAM",
+      "completion_state": "FORMAL_REQUIREMENT_INSTALLED_ON_ACTIVE_BRANCH; LIVE_HEARTBEAT_RUNTIME_SEPARATELY_MACHINE_OWNED",
+      "validation_state": "PENDING_PR_WORKFLOW_FOR_FORMAL_REQUIREMENT",
+      "integration_state": "NO_HEARTBEAT_RUNTIME_MUTATION_AUTHORIZED_FROM_THIS SESSION",
+      "archival_dependency": true,
+      "evidence_location": "AEX formalism branch plus StegVerse-Labs/.github#60 resident heartbeat continuation",
+      "next_executable_action": "Validate the formal requirement; do not duplicate the resident heartbeat."
+    },
+    {
+      "task_id": "SOVEREIGN-LOCAL-MODEL-001",
+      "originating_session_goal": "Remove descriptive select-a-local-model/runtime and formally develop the model locally with executable discovery/launch/inference/proof.",
+      "destination": "StegVerse-002/micro-node-runtime",
+      "branch": "main",
+      "locations": [
+        "docs/SOVEREIGN_LOCAL_MODEL_RUNTIME_MIRROR_HANDOFF.md",
+        "StegVerse-Labs/.github#60",
+        "StegVerse-Labs/TVC/tasks/TVC-SOVEREIGN-LOCAL-MODEL-ROUTE-002.json",
+        "StegVerse-org/LLM-adapter#18",
+        "master-records/orchestration"
+      ],
+      "current_owner": "resident sovereign heartbeat -> TV/TVC -> consumer/custody chain",
+      "claim_state": "MERGED_INTO_CANONICAL_WORKSTREAM",
+      "completion_state": "SOURCE_COMPLETE_RELEASED; LIVE_ACTIVATION_MACHINE_OWNED",
+      "validation_state": "canonical 31339534741 SUCCESS; persistent endpoint 31384116055 SUCCESS",
+      "integration_state": "RESIDENT_V12_HEARTBEAT_ROUTE_EXECUTION_NOT_YET_OBSERVED",
+      "archival_dependency": false,
+      "evidence_location": "StegVerse-002/micro-node-runtime/docs/SOVEREIGN_LOCAL_MODEL_RUNTIME_MIRROR_HANDOFF.md",
+      "next_executable_action": "Observation only from this session; G18 resident machine chain owns HB30+ carrier, WorkerCoordinator, TVC route and same-execution custody proof."
+    },
+    {
+      "task_id": "TVC-SES-GENESIS-001",
+      "originating_session_goal": "Continue the Genesis-to-Autonomy SES experiment without importing prior AE topology or preselecting autonomy; preserve actual transition observations and machine-owned activation boundaries.",
+      "destination": "StegVerse-Labs/TVC",
+      "branch": "main",
+      "locations": [
+        "docs/SES_GENESIS_MIRROR_HANDOFF.md",
+        "tasks/TVC-SES-END-TO-END-RUNNER-VALIDATION-023V.json",
+        "claims/TVC-SES-EXPERIMENT-RUNNER-ACTIVATION-023A.claim.json",
+        "tasks/TVC-SES-EXPERIMENT-RUN-023.json",
+        "StegVerse-Labs/.github#59",
+        "StegVerse-Labs/.github#65",
+        "StegVerse-Labs/.github#81"
+      ],
+      "current_owner": "TVC machine integration + resident heartbeat federation",
+      "claim_state": "MACHINE_OWNED",
+      "completion_state": "M23_SOURCE_COMPLETE_RELEASED; M23A_ACTIVATION_BLOCKED_DEPENDENCY_MACHINE_OWNED",
+      "validation_state": "SES 32053752568 SUCCESS; 132 tests passed; hosted autonomy NOT_ESTABLISHED",
+      "integration_state": "WAITING_ON_CANONICAL_RESIDENT_CARRIER/FEDERATION/NO_SECRET_LOCAL_VALIDATION",
+      "archival_dependency": false,
+      "evidence_location": "StegVerse-Labs/TVC/docs/SES_GENESIS_MIRROR_HANDOFF.md",
+      "next_executable_action": "No duplicate session execution; named machine chain executes M23A prerequisites."
+    },
+    {
+      "task_id": "STEGFIN-BASE-ROUNDTRIP-001",
+      "originating_session_goal": "Assist workers and make StegFin trade ready without NON-TV/TVC secrets/tokens and without delegating wallet signing/broadcast.",
+      "destination": "StegVerse-Labs/stegfin-governance",
+      "branch": "main",
+      "locations": [
+        "docs/STEGFIN_MIRROR_HANDOFF.md",
+        "receipts/phone-live/STEGFIN-PHONE-LIVE-EVIDENCE-20260816T2150-0500.json",
+        "task-state/STEGFIN-BASE-PROFIT-SIZING-004.json",
+        "StegVerse-Labs/.github/handoffs/SHWP-STEGFIN-SOVEREIGN-TRADING-001.json"
+      ],
+      "current_owner": "StegFin canonical machine workstreams + USER_ONLY wallet boundary",
+      "claim_state": "MERGED_INTO_CANONICAL_WORKSTREAM",
+      "completion_state": "TRADE_READY_WALLET_HANDOFF_COMPLETE_ACTIVATED_AT_PRE_SIGN_BOUNDARY",
+      "validation_state": "8/8 trade-ready deliverables complete",
+      "integration_state": "PRE_SIGN_READY; SIGN/BROADCAST/SETTLEMENT_NOT_EXECUTED",
+      "archival_dependency": false,
+      "evidence_location": "StegVerse-Labs/stegfin-governance/docs/STEGFIN_MIRROR_HANDOFF.md",
+      "next_executable_action": "No repository/session signing or broadcast. USER_ONLY may review/sign/broadcast; post-settlement machine work begins only from actual settled evidence."
+    }
+  ],
+  "session_consolidation": {
+    "total_goal_classes": 6,
+    "complete_or_durably_transferred": 5,
+    "active_unique_goal_classes": 1,
+    "archive_ready": false,
+    "archive_blocker": "AEX-RELATIONAL-ADMISSIBILITY-001 requires exact-head validation, handoff synchronization, merge/claim release, and durable AE/proof continuation transfer."
+  }
+}
