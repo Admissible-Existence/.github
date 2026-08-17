@@ -1,0 +1,14 @@
+{
+  "schema": "admissible-existence.formalism-claim/v1",
+  "task_id": "AEX-RELATIONAL-ADMISSIBILITY-MINSET-002",
+  "originating_goal": "Correct the relational-admissibility contract so DENY, REVIEW, and FAIL_CLOSED are the minimum mandatory admissible-transition classes rather than illustrative baseline examples.",
+  "claim_state": "CLAIMED_FOR_INTEGRATION",
+  "claimant": "2026-08-17 minimum-set correction lane",
+  "claim_created_at": "2026-08-17T20:47:30Z",
+  "claim_expires_at": "2026-08-24T20:47:30Z",
+  "release_condition": "Formalism registry, human formalism, validator/tests and existing workflow enforce the mandatory minimum set; exact-head validation passes; change merges; AE#21 consumes the frozen correction.",
+  "collision_boundary": "Coordination/conformance only; AE remains resolver; adjacent repositories retain native mathematical ownership; no new workflow/control plane; no Render; no NON-TV/TVC credential path; GitHub-token runtime authority NONE.",
+  "minimum_required_admissible_transition_classes": ["DENY", "REVIEW", "FAIL_CLOSED"],
+  "additional_classes_allowed": true,
+  "next_action": "Implement and validate the minimum-set invariant on a bounded branch."
+}
