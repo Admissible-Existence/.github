@@ -6,16 +6,20 @@ on:
       - "docs/CANONICAL_FORMALISM_ORIENTATION.md"
       - "docs/DISCOVERY_FRONTIER.md"
       - "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+      - "docs/MINIMUM_ADMISSIBLE_TRANSITION_SET.md"
       - "data/canonical-formalism-orientation.json"
       - "data/canonical-formalism-orientation-claim.json"
       - "data/relational-admissibility-formalism.json"
+      - "data/relational-admissibility-minimum-set-claim.json"
       - "data/formalism-task-claims.json"
       - "schemas/relational-admissibility-transition.schema.json"
       - "fixtures/relational-admissibility/**"
       - "scripts/validate_canonical_formalism_orientation.py"
       - "scripts/validate_relational_admissibility_formalism.py"
+      - "scripts/validate_minimum_admissible_transition_set.py"
       - "tests/test_canonical_formalism_orientation.py"
       - "tests/test_relational_admissibility_formalism.py"
+      - "tests/test_minimum_admissible_transition_set.py"
       - "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
       - "FORMALISM_MIRROR_HANDOFF.md"
       - ".github/workflows/canonical-formalism-orientation.yml"
@@ -25,16 +29,20 @@ on:
       - "docs/CANONICAL_FORMALISM_ORIENTATION.md"
       - "docs/DISCOVERY_FRONTIER.md"
       - "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
+      - "docs/MINIMUM_ADMISSIBLE_TRANSITION_SET.md"
       - "data/canonical-formalism-orientation.json"
       - "data/canonical-formalism-orientation-claim.json"
       - "data/relational-admissibility-formalism.json"
+      - "data/relational-admissibility-minimum-set-claim.json"
       - "data/formalism-task-claims.json"
       - "schemas/relational-admissibility-transition.schema.json"
       - "fixtures/relational-admissibility/**"
       - "scripts/validate_canonical_formalism_orientation.py"
       - "scripts/validate_relational_admissibility_formalism.py"
+      - "scripts/validate_minimum_admissible_transition_set.py"
       - "tests/test_canonical_formalism_orientation.py"
       - "tests/test_relational_admissibility_formalism.py"
+      - "tests/test_minimum_admissible_transition_set.py"
       - "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
       - "FORMALISM_MIRROR_HANDOFF.md"
       - ".github/workflows/canonical-formalism-orientation.yml"
@@ -85,6 +93,12 @@ jobs:
 
       - name: Run relational admissibility regression tests
         run: python -m unittest tests.test_relational_admissibility_formalism -v
+
+      - name: Validate minimum admissible transition set
+        run: python scripts/validate_minimum_admissible_transition_set.py
+
+      - name: Run minimum-set regression tests
+        run: python -m unittest tests.test_minimum_admissible_transition_set -v
 
       - name: Prove workflow is validation-only
         shell: bash
