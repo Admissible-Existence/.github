@@ -56,7 +56,7 @@ Locations:
 
 Generation 2 trigger commit: `f58de3d33052241c00b107cae1dc8042b73ed06a`.
 
-At this handoff update, no terminal receipt and no combined commit status were exposed. Hosted render success or failure is not claimed. Release condition: directly inspect terminal run, job, steps, logs, artifact metadata, DOCX/PDF hashes, render receipt, and a second byte-identical hosted run.
+At this handoff update, no terminal receipt and no combined commit status were exposed. Hosted render success or failure is not claimed. Release condition: directly inspect terminal run, job, steps, logs, hashes, and artifacts through the owner lane. This session does not use or activate Render.
 
 ## Lane 4 — predecessor lineage
 
@@ -122,7 +122,7 @@ The projection is active and review-only. Site mutations remain subject to `docs
 
 ## Exact execution order
 
-1. Observe lane-3 generation 2 at `Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/render-attempt-receipt.json`; inspect run, job, logs, hashes, and artifacts.
+1. Observe lane-3 generation 2 only through the RTG owner lane; this session does not use Render.
 2. Observe lane-5 at `.../machine-execution/evidence-closure-attempt.json` or `evidence-closure-execution-receipt.json`; inspect logs and repair only the first proven defect.
 3. Recompute RTG readiness through `tools/advance_formalism_lanes.py` and `tools/converge_formalism_publication.py`.
 4. Verify Site projection consumption through its admitted observer path.
@@ -130,17 +130,19 @@ The projection is active and review-only. Site mutations remain subject to `docs
 
 ## Relational admissibility formalization lane — 2026-08-17
 
-### Active goal and claim
+### Goal and released implementation claim
 
 ```text
 goal_id: AEX-RELATIONAL-ADMISSIBILITY-001
 originating_session_goal: formally develop admissibility as governed successor-state resolution across singular through multi-manifold systems, then use the organization coordination surface as a relational conformance gate without centralizing source mathematics
 repository: Admissible-Existence/.github
-branch: feat/relational-admissibility-formalism
 canonical_issue: #9
-claim_state: CLAIMED_FOR_IMPLEMENTATION
+implementation_pr: #10
+validated_head: 2b2716252cbc4bb5b4a3b4f728ccf009e7f4476f
+merge_commit: ff2003aa0c5da46e2506373ec9fc64a020310d2c
+claim_state: COMPLETE_RELEASED
 claim_created_at: 2026-08-17T20:19:48Z
-claim_expires_at: 2026-08-24T20:19:48Z
+claim_released_at: 2026-08-17T20:31:00Z
 admissibility_resolver: Admissible-Existence/AE
 source_mathematics_model: ADJACENT_REPOSITORY_PROJECTIONS
 credential_authority_for_stegverse_runtime: TV/TVC
@@ -148,9 +150,9 @@ github_token_runtime_authority: NONE
 render_dependency: false
 ```
 
-The collision check found no active unexpired claim covering this new successor-state/relational-admissibility contract. Historical entries in `data/formalism-task-claims.json` expired on 2026-08-13 unless separately renewed by their owners; expiration does not transfer their source authority to this lane.
+The collision check found no active unexpired claim covering this successor-state/relational-admissibility contract. Historical entries in `data/formalism-task-claims.json` expired on 2026-08-13 unless separately renewed by their owners; expiration does not transfer source authority.
 
-### Formal development installed on branch
+### Formal development merged to main
 
 ```text
 docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md
@@ -164,7 +166,7 @@ data/formalism-task-claims.json
 data/session-inventories/2026-08-17-relational-admissibility-session.json
 ```
 
-The formalism currently defines nine candidate axioms:
+The formalism defines nine candidate axioms:
 
 ```text
 A1 resolution realization
@@ -191,11 +193,11 @@ local validity does not imply organization-level relational admissibility
 periodic heartbeat is not the primitive cause of transition observation
 ```
 
-The organization-level representation treats the repositories as adjacent mathematical projections. `.github` registers and validates cross-projection relation structure; it does not become the source of AE, RTG, GTG, TT, Existence, or other native mathematics. `Admissible-Existence/AE` remains the commit-time admissibility resolver.
+The organization-level representation treats repositories as adjacent mathematical projections. `.github` registers and validates cross-projection relation structure; it does not become the source of AE, RTG, GTG, TT, Existence, or other native mathematics. `Admissible-Existence/AE` remains commit-time admissibility resolver.
 
 ### Deterministic conformance cases
 
-Six positive fixtures are installed:
+Six positive fixtures are merged:
 
 1. ALLOW realizes the requested effect;
 2. DENY produces a different real successor state while the requested effect is not authorized or realized;
@@ -204,19 +206,67 @@ Six positive fixtures are installed:
 5. confirmation preserves object values while changing total successor state through a new confirmation/provenance relation;
 6. individually locally valid component changes can produce a composite REVIEW through coupling.
 
-Regression tests intentionally mutate those cases to prove the validator rejects:
+Nine regression tests prove the validator rejects the relevant semantic compressions, including:
 
 - `resolution_valid=false` merely because a result is DENY;
 - null predecessor/successor identity for a non-ALLOW result;
-- confirmation represented with an unchanged total state hash;
+- confirmation represented with an unchanged total-state hash;
 - `PERIODIC_HEARTBEAT` as primitive observation trigger;
-- GitHub token runtime authority.
+- GitHub-token runtime authority.
 
-The existing `canonical-formalism-orientation.yml` is extended rather than adding a second workflow. Its credential/token environment remains empty and `permissions: {}`. Workflow success remains validation-only and cannot create formalism, AE, runtime, publication, or release authority.
+The existing `canonical-formalism-orientation.yml` was extended rather than creating a second workflow. Its credential/token environment is empty and `permissions: {}`. Workflow success remains validation-only and cannot create formalism, AE, runtime, publication, release, proof, or credential authority.
+
+### Validation evidence
+
+First exact-head attempt on prior head `18bf494afd7550e627ad387d4b1ce2e9dfa7ea7c`:
+
+```text
+Canonical Formalism Orientation Validation: 32065773781
+job: 95497407692
+existing orientation validation: PASS
+new relational validator: FAIL
+proven defect: exact documentation marker mismatch only
+```
+
+Repair commit:
+
+```text
+2b2716252cbc4bb5b4a3b4f728ccf009e7f4476f
+```
+
+Revalidated exact head:
+
+```text
+Canonical Formalism Orientation Validation run: 32065895840 — SUCCESS
+job: 95497809912 — SUCCESS
+relational validator: valid=true
+axiom_count: 9
+fixture_count: 6
+relational regression tests: 9/9 PASS
+credential_authority_for_stegverse_runtime: TV/TVC
+github_token_runtime_authority: NONE
+workflow_authority_effect: NONE_VALIDATION_ONLY
+admissibility_resolver: Admissible-Existence/AE
+```
+
+Additional repository transfer/integrity gate:
+
+```text
+Formalism Archive Gate run: 32065895827 — SUCCESS
+job: 95497809972 — SUCCESS
+```
+
+PR #10 was mergeable at exact head and merged to canonical `main`:
+
+```text
+merge: ff2003aa0c5da46e2506373ec9fc64a020310d2c
+```
+
+No runtime, release, theorem-proof, publication, or ecosystem activation is inferred from those validation results.
 
 ### Candidate propositions requiring proof/review
 
-The branch records but does not claim proof of:
+The merged source records but does not claim proof of:
 
 ```text
 P1 non-ALLOW information preservation
@@ -226,75 +276,75 @@ P4 composition counterexample existence
 P5 observation recursion without periodic causation
 ```
 
-Promotion requires proof/counterexample review in the appropriate mathematical owners plus explicit AE integration and independent validation.
+The exact downstream owners are now durable:
 
-### Converged adjacent goals
+```text
+AE semantic/runtime mapping: Admissible-Existence/AE#21
+independent validation/proof-counterexample lane: Admissible-Existence/ae-validation-factory#13
+```
 
-The session execution inventory records the following as already transferred rather than reopened:
+AE#21 must consume the frozen candidate formalism without colliding with current AE publication issue #20. It owns the AE-native mapping and any correction of `admissible == ALLOW`, non-ALLOW-null-transition, or unchanged-value-null-state assumptions in AE. Factory #13 is dependency-blocked until AE freezes an exact mapped target and then independently evaluates the successor-state semantics and P1-P5; it may report proof, counterexample, bounded result, or `REVIEW_REQUIRED` but may not promote propositions from structural fixture success alone.
+
+### Converged adjacent session goals
+
+The session inventory records these as transferred rather than reopened:
 
 - public admissibility semantic definition: merged to `StegVerse-Labs/ara-admissibility-interop/main` via PR #115; public formal-paper continuation remains `StegVerse-Labs/admissibility-wiki#14`;
 - sovereign local model/runtime: source `COMPLETE_RELEASED` in `StegVerse-002/micro-node-runtime/docs/SOVEREIGN_LOCAL_MODEL_RUNTIME_MIRROR_HANDOFF.md`; live activation remains machine-owned by the resident v12 heartbeat -> TV/TVC -> consumer/custody chain;
 - SES Genesis: M23 source complete; M23A machine-owned continuation remains in `StegVerse-Labs/TVC/docs/SES_GENESIS_MIRROR_HANDOFF.md` and central heartbeat/federation owners;
 - StegFin trade readiness: pre-sign `WALLET_HANDOFF_READY` goal complete in `StegVerse-Labs/stegfin-governance/docs/STEGFIN_MIRROR_HANDOFF.md`; wallet signing and broadcast remain `USER_ONLY`.
 
-No duplicate model runtime, SES scheduler, heartbeat, StegFin signing path, or credential authority is authorized from this lane.
-
-### Validation and integration gate
-
-Current state at this handoff edit:
-
-```text
-formalism source files: INSTALLED_ON_BRANCH
-machine contract/schema: INSTALLED_ON_BRANCH
-fixtures: INSTALLED_ON_BRANCH
-deterministic validator/tests: INSTALLED_ON_BRANCH
-existing canonical workflow integration: INSTALLED_ON_BRANCH
-exact-head hosted validation: PENDING
-PR merge: PENDING
-AE mapping: PENDING_AFTER_FORMALISM_VALIDATION
-independent proof/counterexample validation: PENDING_AFTER_MAPPING
-runtime activation effect: NONE
-```
-
-Release condition for the implementation claim:
-
-1. exact-head `Canonical Formalism Orientation Validation` succeeds;
-2. run jobs/steps/log evidence is inspected;
-3. any proven defect is repaired and revalidated;
-4. branch merges to `main`;
-5. claim registry and this handoff record the merge and release;
-6. remaining AE mapping and proposition-proof work has a named durable owner/location.
+No duplicate local-model runtime, SES scheduler, heartbeat, StegFin signing path, or credential authority is authorized from this lane.
 
 ### Explicit deliverable accounting for AEX-RELATIONAL-ADMISSIBILITY-001
 
 Denominator: 10 deliverables.
 
 ```text
-1 human formalism: developed
-2 machine-readable formalism: developed
-3 transition receipt schema: developed
-4 deterministic fixture suite: developed
-5 deterministic validator: developed
-6 regression tests: developed
-7 existing workflow integration: developed
-8 task claim + issue: developed
-9 session inventory + handoff: developed
-10 exact-head validation + merge + claim release/transfer: pending
+1 human formalism: COMPLETE_MERGED
+2 machine-readable formalism: COMPLETE_MERGED
+3 transition receipt schema: COMPLETE_MERGED
+4 deterministic fixture suite: COMPLETE_MERGED
+5 deterministic validator: COMPLETE_MERGED
+6 regression tests: COMPLETE_MERGED
+7 existing workflow integration: COMPLETE_MERGED
+8 task claim + issue: COMPLETE_RELEASED
+9 session inventory + handoff: COMPLETE
+10 exact-head validation + merge + claim release/transfer: COMPLETE
 ```
 
 ```text
-task completion: 9/10 = 90%
+task completion: 10/10 = 100%
 developed files: 9/9 planned source/control surfaces = 100%
 scaffolding or stubs: 0
 missing required source files: 0
-validation: 0/1 exact-head hosted gate observed
-integration: 1/3 (organization workflow integrated; AE mapping and independent validation pending)
-goal activation: 70% (formalism installed, not yet validated/merged/mapped)
-session consolidation: 5/6 goal classes complete or transferred; active unique formalization remains
+validation: 2/2 exact-head repository gates observed PASS
+organization conformance integration: COMPLETE
+AE semantic mapping: TRANSFERRED_TO_AE#21
+independent validation/proof review: TRANSFERRED_TO_FACTORY#13
+goal activation: 100% for the candidate-formalism/conformance goal; NOT a claim that AE mapping or P1-P5 proof is complete
+session consolidation: 6/6 goal classes complete or durably transferred
 ```
 
-## Archive state
+### Session consolidation and canonical continuation
 
-**DO NOT ARCHIVE THIS SESSION — DISTINCT SUPPORT WORK REMAINS.**
+MERGED INTO:
 
-The relational-admissibility session remains active until exact-head validation, merge/claim release, and durable transfer of AE/proof continuation. Other source/runtime/trading/SES work identified by the session has already converged into canonical owners and must not be duplicated.
+```text
+Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md
+Admissible-Existence/.github/data/formalism-task-claims.json
+Admissible-Existence/.github/data/session-inventories/2026-08-17-relational-admissibility-session.json
+Admissible-Existence/AE#21
+Admissible-Existence/ae-validation-factory#13
+StegVerse-002/micro-node-runtime/docs/SOVEREIGN_LOCAL_MODEL_RUNTIME_MIRROR_HANDOFF.md
+StegVerse-Labs/TVC/docs/SES_GENESIS_MIRROR_HANDOFF.md
+StegVerse-Labs/stegfin-governance/docs/STEGFIN_MIRROR_HANDOFF.md
+```
+
+All unique relational-admissibility, heartbeat-observation, public-definition, local-runtime/model, SES, and StegFin requirements introduced or inherited by this session are now complete, superseded, or durably assigned to named canonical owners with machine-observable release conditions. No unresolved task requires chat-local information or authority.
+
+## Archive state for the 2026-08-17 relational-admissibility session
+
+**ARCHIVE-READY AFTER THIS RECONCILIATION MERGES TO CANONICAL MAIN.**
+
+This statement is session-scoped only. It does not mean the broader RTG program, AE publication program, AE#21 mapping, factory #13 proof validation, M23A SES activation, live sovereign model route activation, wallet signing/broadcast, or ecosystem-wide formalism publication is complete.

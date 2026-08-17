@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T20:21:00Z",
+  "generated_at": "2026-08-17T20:31:00Z",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "claim_semantics": {
     "expired_claim_without_renewal_is_active": false,
@@ -119,27 +119,31 @@
       "task_id": "AEX-RELATIONAL-ADMISSIBILITY-001",
       "originating_goal": "Formalize admissibility as governed successor-state resolution across singular and multi-manifold systems and establish organization-level relational conformance across adjacent mathematical repositories",
       "repository": "Admissible-Existence/.github",
-      "branch": "feat/relational-admissibility-formalism",
+      "branch": "main",
       "stage": "candidate_formalization_and_conformance",
-      "claim_state": "CLAIMED_FOR_IMPLEMENTATION",
-      "completion_state": "PARTIAL",
+      "claim_state": "COMPLETE_RELEASED",
+      "completion_state": "COMPLETE_VALIDATED_MERGED",
       "claimant": "2026-08-17 relational admissibility formalization lane",
       "claim_created_at": "2026-08-17T20:19:48Z",
+      "claim_released_at": "2026-08-17T20:31:00Z",
       "claim_expires_at": "2026-08-24T20:19:48Z",
-      "release_condition": "Formalism, machine contract, schema, fixtures, deterministic validator, and regression tests are committed; exact-head canonical-formalism-orientation validation passes; FORMALISM_MIRROR_HANDOFF is synchronized; PR is merged or the claim is explicitly transferred",
+      "release_condition": "SATISFIED: formalism, machine contract, schema, fixtures, deterministic validator and tests merged; exact-head canonical validation and archive gate passed; continuation assigned to AE#21 and ae-validation-factory#13",
       "collision_boundary": "Do not redefine source repository mathematics, do not replace Admissible-Existence/AE as resolver, do not create a new workflow/control plane, do not use Render, and do not introduce NON-TV/TVC secret/token authority",
       "evidence": [
         "Admissible-Existence/.github#9",
-        "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md",
-        "data/relational-admissibility-formalism.json",
-        "schemas/relational-admissibility-transition.schema.json",
-        "fixtures/relational-admissibility/cases.json",
-        "scripts/validate_relational_admissibility_formalism.py",
-        "tests/test_relational_admissibility_formalism.py"
+        "Admissible-Existence/.github#10",
+        "merge:ff2003aa0c5da46e2506373ec9fc64a020310d2c",
+        "exact_head:2b2716252cbc4bb5b4a3b4f728ccf009e7f4476f",
+        "validation_run:32065895840",
+        "validation_job:95497809912",
+        "archive_gate_run:32065895827",
+        "archive_gate_job:95497809972",
+        "Admissible-Existence/AE#21",
+        "Admissible-Existence/ae-validation-factory#13"
       ],
-      "next_action": "Run exact-head canonical formalism validation, repair only proven defects, merge after PASS, then transfer AE mapping/proof work to named adjacent owners",
-      "next_action_location": ".github/workflows/canonical-formalism-orientation.yml",
-      "archival_dependency": true
+      "next_action": "AE#21 maps the frozen candidate formalism into AE-native resolution semantics; after an exact frozen AE target exists, ae-validation-factory#13 independently validates P1-P5 and the successor-state contract",
+      "next_action_location": "Admissible-Existence/AE#21 -> Admissible-Existence/ae-validation-factory#13",
+      "archival_dependency": false
     }
   ]
 }
