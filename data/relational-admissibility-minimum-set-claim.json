@@ -2,13 +2,25 @@
   "schema": "admissible-existence.formalism-claim/v1",
   "task_id": "AEX-RELATIONAL-ADMISSIBILITY-MINSET-002",
   "originating_goal": "Correct the relational-admissibility contract so DENY, REVIEW, and FAIL_CLOSED are the minimum mandatory admissible-transition classes rather than illustrative baseline examples.",
-  "claim_state": "CLAIMED_FOR_INTEGRATION",
+  "claim_state": "COMPLETE_RELEASED",
   "claimant": "2026-08-17 minimum-set correction lane",
   "claim_created_at": "2026-08-17T20:47:30Z",
+  "claim_released_at": "2026-08-17T20:54:09Z",
   "claim_expires_at": "2026-08-24T20:47:30Z",
-  "release_condition": "Formalism registry, human formalism, validator/tests and existing workflow enforce the mandatory minimum set; exact-head validation passes; change merges; AE#21 consumes the frozen correction.",
+  "release_condition": "SATISFIED: formalism registry, human formalism, validator/tests and existing workflow enforce the mandatory minimum set; exact main commit 31f431ed60f12e36594c1bdf257503ea43ebe192 passed Canonical Formalism Orientation Validation run 32068256861 / job 95505281486; AE#21 consumes the frozen correction.",
   "collision_boundary": "Coordination/conformance only; AE remains resolver; adjacent repositories retain native mathematical ownership; no new workflow/control plane; no Render; no NON-TV/TVC credential path; GitHub-token runtime authority NONE.",
   "minimum_required_admissible_transition_classes": ["DENY", "REVIEW", "FAIL_CLOSED"],
   "additional_classes_allowed": true,
-  "next_action": "Implement and validate the minimum-set invariant on a bounded branch."
+  "evidence": {
+    "validated_commit": "31f431ed60f12e36594c1bdf257503ea43ebe192",
+    "workflow_run": 32068256861,
+    "workflow_job": 95505281486,
+    "workflow_conclusion": "success",
+    "minimum_set_validation_step": "success",
+    "minimum_set_regression_tests_step": "success",
+    "credential_authority_for_stegverse_runtime": "TV/TVC",
+    "github_token_runtime_authority": "NONE",
+    "authority_effect": "NONE_VALIDATION_ONLY"
+  },
+  "next_action": "No duplicate .github minimum-set implementation. Canonical continuation is Admissible-Existence/AE#21 and then Admissible-Existence/ae-validation-factory#13."
 }
