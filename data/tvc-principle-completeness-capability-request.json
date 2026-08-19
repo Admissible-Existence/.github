@@ -29,7 +29,7 @@
     ]
   },
   "lease": {
-    "maximum_ttl_seconds": 3600,
+    "maximum_ttl_seconds": 300,
     "single_workflow_run": true,
     "revocable": true,
     "replay_allowed": false
