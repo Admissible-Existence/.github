@@ -2,8 +2,11 @@ from __future__ import annotations
 
 import copy
 import importlib.util
+import os
+import unittest
 from datetime import datetime, timezone
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 MODULE_PATH = ROOT / "scripts" / "validate_tvc_worker_capability.py"
@@ -45,42 +48,62 @@ def receipt() -> dict:
     return value
 
 
-def test_accepts_canonical_tvc_receipt(monkeypatch) -> None:
-    monkeypatch.setenv("GITHUB_RUN_ID", "123")
-    monkeypatch.setenv("GITHUB_RUN_ATTEMPT", "1")
-    errors = module.validate(receipt(), request(), datetime(2026, 8, 6, 20, 5, tzinfo=timezone.utc))
-    assert errors == []
+class TVCWorkerCapabilityTests(unittest.TestCase):
+    def test_accepts_canonical_tvc_receipt(self) -> None:
+        with patch.dict(os.environ, {"GITHUB_RUN_ID": "123", "GITHUB_RUN_ATTEMPT": "1"}, clear=False):
+            errors = module.validate(
+                receipt(),
+                request(),
+                datetime(2026, 8, 6, 20, 5, tzinfo=timezone.utc),
+            )
+        self.assertEqual(errors, [])
+
+    def test_rejects_run_binding_mismatch(self) -> None:
+        with patch.dict(os.environ, {"GITHUB_RUN_ID": "999", "GITHUB_RUN_ATTEMPT": "1"}, clear=False):
+            errors = module.validate(
+                receipt(),
+                request(),
+                datetime(2026, 8, 6, 20, 5, tzinfo=timezone.utc),
+            )
+        self.assertIn("binding:workflow_run_id", errors)
+
+    def test_rejects_tampered_scope(self) -> None:
+        value = receipt()
+        value["scope"]["operations"].append("contents:write")
+        errors = module.validate(
+            value,
+            request(),
+            datetime(2026, 8, 6, 20, 5, tzinfo=timezone.utc),
+        )
+        self.assertIn("receipt_hash_mismatch", errors)
+        self.assertIn("scope:operations", errors)
+
+    def test_rejects_expired_receipt(self) -> None:
+        errors = module.validate(
+            receipt(),
+            request(),
+            datetime(2026, 8, 6, 20, 15, tzinfo=timezone.utc),
+        )
+        self.assertIn("time:expired", errors)
+
+    def test_rejects_disclosure_flags(self) -> None:
+        value = copy.deepcopy(receipt())
+        value["credentials_recorded"] = True
+        value["receipt_sha256"] = module.canonical_sha256(
+            {key: field for key, field in value.items() if key != "receipt_sha256"}
+        )
+        errors = module.validate(
+            value,
+            request(),
+            datetime(2026, 8, 6, 20, 5, tzinfo=timezone.utc),
+        )
+        self.assertIn("mismatch:credentials_recorded", errors)
+
+    def test_receipt_hash_is_canonical_hex(self) -> None:
+        value = receipt()
+        self.assertEqual(len(value["receipt_sha256"]), 64)
+        self.assertTrue(set(value["receipt_sha256"]).issubset(set("0123456789abcdef")))
 
 
-def test_rejects_run_binding_mismatch(monkeypatch) -> None:
-    monkeypatch.setenv("GITHUB_RUN_ID", "999")
-    monkeypatch.setenv("GITHUB_RUN_ATTEMPT", "1")
-    errors = module.validate(receipt(), request(), datetime(2026, 8, 6, 20, 5, tzinfo=timezone.utc))
-    assert "binding:workflow_run_id" in errors
-
-
-def test_rejects_tampered_scope() -> None:
-    value = receipt()
-    value["scope"]["operations"].append("contents:write")
-    errors = module.validate(value, request(), datetime(2026, 8, 6, 20, 5, tzinfo=timezone.utc))
-    assert "receipt_hash_mismatch" in errors
-    assert "scope:operations" in errors
-
-
-def test_rejects_expired_receipt() -> None:
-    errors = module.validate(receipt(), request(), datetime(2026, 8, 6, 20, 15, tzinfo=timezone.utc))
-    assert "time:expired" in errors
-
-
-def test_rejects_disclosure_flags() -> None:
-    value = copy.deepcopy(receipt())
-    value["credentials_recorded"] = True
-    value["receipt_sha256"] = module.canonical_sha256({k: v for k, v in value.items() if k != "receipt_sha256"})
-    errors = module.validate(value, request(), datetime(2026, 8, 6, 20, 5, tzinfo=timezone.utc))
-    assert "mismatch:credentials_recorded" in errors
-
-
-def test_receipt_hash_is_canonical_hex() -> None:
-    value = receipt()
-    assert len(value["receipt_sha256"]) == 64
-    assert set(value["receipt_sha256"]).issubset(set("0123456789abcdef"))
+if __name__ == "__main__":
+    unittest.main()
