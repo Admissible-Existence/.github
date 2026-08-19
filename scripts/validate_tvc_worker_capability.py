@@ -17,6 +17,12 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 REQUEST = ROOT / "data/tvc-principle-completeness-capability-request.json"
+EXPECTED_POLICY_SOURCE = {
+    "repository": "StegVerse-Labs/TV",
+    "path": "policies/aex_cross_repository_runtime_capability_policy.json",
+    "commit_sha": "160a69ccc5b8aeb199b7136a02cd9fadc08180a9",
+}
+EXPECTED_POLICY_SHA256 = "04044ef49a2bf621d508c53d2c704a9ed71cb2163aa986c8fa6368f03d3e7ad5"
 ALLOWED_OPERATIONS = {
     "metadata:read",
     "contents:read",
@@ -65,6 +71,7 @@ def validate(receipt: dict[str, Any], request: dict[str, Any], now: dt.datetime 
         "request_id": request["request_id"],
         "decision": "ALLOW_CAPABILITY_LEASE",
         "request_sha256": canonical_sha256(request),
+        "policy_sha256": EXPECTED_POLICY_SHA256,
         "credentials_recorded": False,
         "protected_values_recorded": False,
         "credential_custody": "StegVerse-Labs/TV",
@@ -77,6 +84,9 @@ def validate(receipt: dict[str, Any], request: dict[str, Any], now: dt.datetime 
     for key, value in expected_scalars.items():
         if receipt.get(key) != value:
             errors.append(f"mismatch:{key}")
+
+    if receipt.get("policy_source") != EXPECTED_POLICY_SOURCE:
+        errors.append("policy_source_mismatch")
 
     supplied_hash = receipt.get("receipt_sha256")
     unsigned = dict(receipt)
@@ -124,9 +134,6 @@ def validate(receipt: dict[str, Any], request: dict[str, Any], now: dt.datetime 
     except Exception:
         errors.append("time:invalid")
 
-    policy_sha = receipt.get("policy_sha256")
-    if not isinstance(policy_sha, str) or len(policy_sha) != 64 or any(c not in "0123456789abcdef" for c in policy_sha):
-        errors.append("invalid:policy_sha256")
     if not isinstance(receipt.get("revocation_reference"), str) or not receipt["revocation_reference"]:
         errors.append("missing:revocation_reference")
 
@@ -145,10 +152,12 @@ def main() -> int:
     now = parse_time(args.now) if args.now else None
     errors = validate(receipt, request, now)
     result = {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "request_id": request["request_id"],
         "valid": not errors,
         "errors": errors,
+        "policy_source": EXPECTED_POLICY_SOURCE,
+        "policy_sha256": EXPECTED_POLICY_SHA256,
         "credentials_recorded": False,
         "protected_values_recorded": False,
         "receipt_path": args.receipt,
