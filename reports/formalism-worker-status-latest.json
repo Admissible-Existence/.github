@@ -1,0 +1,845 @@
+{
+  "apply_mode": false,
+  "archive_permitted": false,
+  "completion_rule": "File presence is insufficient; substantive validation and reviewed proof status are required.",
+  "controller": "Admissible-Existence/.github/scripts/run_principle_completeness_workers.py",
+  "generated_at": "2026-08-19T21:48:45Z",
+  "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
+  "repositories": [
+    {
+      "claim_state": "MACHINE_OWNED",
+      "completion_state": "CONTROL_PLANE",
+      "configured_worker_state": "active_control_plane",
+      "findings": [],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Continue organization dispatch and evidence reconciliation",
+      "present": [],
+      "repository": "Admissible-Existence/.github",
+      "required": [],
+      "role": "coordination"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validation_required",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/AE']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/AE",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/Existence']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/Existence",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "MACHINE_OWNED",
+      "completion_state": "OBSERVE_ONLY",
+      "configured_worker_state": "machine_owned_observe_only",
+      "findings": [],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Observe existing machine receipts and repair only the first proven defect",
+      "present": [],
+      "repository": "Admissible-Existence/RTG",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/GTG']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/GTG",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "source_complete_integration_pending",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/TT']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/TT",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "CLAIMED_FOR_VALIDATION",
+      "completion_state": "IMPLEMENTED_UNVALIDATED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [],
+      "handoff": "docs/STCM_MIRROR_HANDOFF.md",
+      "issue": "DRY_RUN",
+      "missing": [],
+      "next_action": "Validate substantive content, evidence paths, proof status, and hosted receipts",
+      "present": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "repository": "Admissible-Existence/STCM",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/ET']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/ET",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "CLAIMED_FOR_VALIDATION",
+      "completion_state": "IMPLEMENTED_UNVALIDATED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [],
+      "handoff": "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md",
+      "issue": "DRY_RUN",
+      "missing": [],
+      "next_action": "Validate substantive content, evidence paths, proof status, and hosted receipts",
+      "present": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "repository": "Admissible-Existence/learning-transition-governance",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/BC']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/BC",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/CHF']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/CHF",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/RE']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/RE",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/RE-Reduction']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/RE-Reduction",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/DC']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/DC",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/Triad']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/Triad",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/GCAT-BCAT']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/GCAT-BCAT",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "CLAIMED_FOR_VALIDATION",
+      "completion_state": "IMPLEMENTED_UNVALIDATED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [],
+      "handoff": "docs/ECAT_ICAT_MIRROR_HANDOFF.md",
+      "issue": "DRY_RUN",
+      "missing": [],
+      "next_action": "Validate substantive content, evidence paths, proof status, and hosted receipts",
+      "present": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "repository": "Admissible-Existence/ECAT-ICAT",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/IICT']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/IICT",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "required",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/CTA']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/CTA",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/HPS']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/HPS",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/FI']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/FI",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/DaCo']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/DaCo",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/IW']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/IW",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/standing-proof-formalism']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/standing-proof-formalism",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "formalism/principle-registry.yaml",
+        "formalism/dependency-graph.yaml",
+        "formalism/proof-candidates.yaml",
+        "docs/WHOLE_REPO_THEORY_MAP.md",
+        "docs/MATHEMATICAL_NOTATION.md",
+        "docs/FALSIFICATION_AND_LIMITS.md"
+      ],
+      "role": "source"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/core-lite']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/core-lite",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "docs/SUPPORT_ROLE_AND_NON_AUTHORITY.md",
+        "data/source-coverage-map.yaml",
+        "data/validation-or-support-contract.yaml"
+      ],
+      "role": "support"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/validator']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/validator",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "docs/SUPPORT_ROLE_AND_NON_AUTHORITY.md",
+        "data/source-coverage-map.yaml",
+        "data/validation-or-support-contract.yaml"
+      ],
+      "role": "support"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/tracker']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/tracker",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "docs/SUPPORT_ROLE_AND_NON_AUTHORITY.md",
+        "data/source-coverage-map.yaml",
+        "data/validation-or-support-contract.yaml"
+      ],
+      "role": "support"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/telemetry']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/telemetry",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "docs/SUPPORT_ROLE_AND_NON_AUTHORITY.md",
+        "data/source-coverage-map.yaml",
+        "data/validation-or-support-contract.yaml"
+      ],
+      "role": "support"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/ae-validation-factory']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/ae-validation-factory",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "docs/SUPPORT_ROLE_AND_NON_AUTHORITY.md",
+        "data/source-coverage-map.yaml",
+        "data/validation-or-support-contract.yaml"
+      ],
+      "role": "support"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/ae-validation-research']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/ae-validation-research",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "README.md"
+      ],
+      "role": "empty"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/validation-profile-registry']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/validation-profile-registry",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "docs/SUPPORT_ROLE_AND_NON_AUTHORITY.md",
+        "data/source-coverage-map.yaml",
+        "data/validation-or-support-contract.yaml"
+      ],
+      "role": "support"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "configured_worker_state": "validated_complete_notify_only",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/SOL']' returned non-zero exit status 1."
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "missing": [],
+      "next_action": "Restore authorized repository visibility",
+      "present": [],
+      "repository": "Admissible-Existence/SOL",
+      "required": [
+        "docs/*_MIRROR_HANDOFF.md",
+        "README.md"
+      ],
+      "role": "empty"
+    }
+  ],
+  "repository_count": 32,
+  "schema_version": "1.0.0",
+  "state_counts": {
+    "BLOCKED": 27,
+    "CONTROL_PLANE": 1,
+    "IMPLEMENTED_UNVALIDATED": 3,
+    "OBSERVE_ONLY": 1
+  }
+}
