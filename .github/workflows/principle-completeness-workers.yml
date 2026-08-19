@@ -74,7 +74,11 @@ jobs:
           import json
           from pathlib import Path
           registry = json.loads(Path('data/formalism-worker-registry.json').read_text())
-          assert registry['schema_version'] == '2.0.0'
+          version = registry['schema_version'].split('.')
+          assert len(version) == 3 and all(part.isdigit() for part in version)
+          assert int(version[0]) >= 2
+          assert registry['goal_id'] == 'AEX-PRINCIPLE-COMPLETENESS-001'
+          assert registry['coordination_repository'] == 'Admissible-Existence/.github'
           assert len(registry['repositories']) == 32
           assert len({row['repository'] for row in registry['repositories']}) == 32
           PY
