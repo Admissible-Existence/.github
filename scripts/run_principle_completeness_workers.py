@@ -182,10 +182,17 @@ def inspect_repository(item: dict[str, Any], registry: dict[str, Any], apply: bo
             row["present"].append(pattern)
         else:
             row["missing"].append(pattern)
+
     if row["missing"]:
         row["claim_state"] = "CLAIMED_FOR_IMPLEMENTATION"
         row["completion_state"] = "PARTIAL" if paths else "EMPTY"
         row["next_action"] = f"Implement {len(row['missing'])} missing required artifact classes and validate contents"
+    elif state == "validated_complete_notify_only":
+        row["claim_state"] = "COMPLETE"
+        row["completion_state"] = "COMPLETE_VALIDATED"
+        row["next_action"] = "Notify/observe only; reopen repository work only on direct regression evidence or a separately admitted task"
+        row["issue"] = "NOTIFY_ONLY"
+        return row
     else:
         row["claim_state"] = "CLAIMED_FOR_VALIDATION"
         row["completion_state"] = "IMPLEMENTED_UNVALIDATED"
@@ -257,7 +264,7 @@ def main() -> int:
             })
 
     report = {
-        "schema_version": "1.1.0",
+        "schema_version": "1.2.0",
         "generated_at": now(),
         "goal_id": registry["goal_id"],
         "controller": "Admissible-Existence/.github/scripts/run_principle_completeness_workers.py",
@@ -270,7 +277,7 @@ def main() -> int:
         "blockers": blockers,
         "repositories": rows,
         "archive_permitted": all(row["completion_state"] in {"COMPLETE_VALIDATED", "CONTROL_PLANE", "OBSERVE_ONLY"} for row in rows),
-        "completion_rule": "File presence is insufficient; substantive validation and reviewed proof status are required. A blocker is durable work state and does not terminate unrelated in-scope work.",
+        "completion_rule": "File presence is insufficient; substantive validation and reviewed proof status are required. Canonical validated-complete notify-only registry state is preserved when all required artifact classes remain present. A blocker is durable work state and does not terminate unrelated in-scope work.",
     }
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
