@@ -517,11 +517,11 @@
       "repository": "Admissible-Existence/SOL"
     }
   ],
-  "completion_rule": "File presence is insufficient; substantive validation and reviewed proof status are required. A blocker is durable work state and does not terminate unrelated in-scope work.",
+  "completion_rule": "File presence is insufficient; substantive validation and reviewed proof status are required. Canonical validated-complete notify-only registry state is preserved when all required artifact classes remain present. A blocker is durable work state and does not terminate unrelated in-scope work.",
   "controller": "Admissible-Existence/.github/scripts/run_principle_completeness_workers.py",
   "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
   "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
-  "generated_at": "2026-08-21T17:24:17Z",
+  "generated_at": "2026-08-21T19:24:59Z",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "repositories": [
     {
@@ -691,15 +691,15 @@
       "role": "source"
     },
     {
-      "claim_state": "CLAIMED_FOR_VALIDATION",
-      "completion_state": "IMPLEMENTED_UNVALIDATED",
+      "claim_state": "COMPLETE",
+      "completion_state": "COMPLETE_VALIDATED",
       "configured_worker_state": "validated_complete_notify_only",
       "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [],
       "handoff": "docs/STCM_MIRROR_HANDOFF.md",
-      "issue": "DRY_RUN",
+      "issue": "NOTIFY_ONLY",
       "missing": [],
-      "next_action": "Validate substantive content, evidence paths, proof status, and hosted receipts",
+      "next_action": "Notify/observe only; reopen repository work only on direct regression evidence or a separately admitted task",
       "present": [
         "docs/*_MIRROR_HANDOFF.md",
         "formalism/principle-registry.yaml",
@@ -754,15 +754,15 @@
       "role": "source"
     },
     {
-      "claim_state": "CLAIMED_FOR_VALIDATION",
-      "completion_state": "IMPLEMENTED_UNVALIDATED",
+      "claim_state": "COMPLETE",
+      "completion_state": "COMPLETE_VALIDATED",
       "configured_worker_state": "validated_complete_notify_only",
       "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [],
       "handoff": "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md",
-      "issue": "DRY_RUN",
+      "issue": "NOTIFY_ONLY",
       "missing": [],
-      "next_action": "Validate substantive content, evidence paths, proof status, and hosted receipts",
+      "next_action": "Notify/observe only; reopen repository work only on direct regression evidence or a separately admitted task",
       "present": [
         "docs/*_MIRROR_HANDOFF.md",
         "formalism/principle-registry.yaml",
@@ -1009,15 +1009,15 @@
       "role": "source"
     },
     {
-      "claim_state": "CLAIMED_FOR_VALIDATION",
-      "completion_state": "IMPLEMENTED_UNVALIDATED",
+      "claim_state": "COMPLETE",
+      "completion_state": "COMPLETE_VALIDATED",
       "configured_worker_state": "validated_complete_notify_only",
       "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [],
       "handoff": "docs/ECAT_ICAT_MIRROR_HANDOFF.md",
-      "issue": "DRY_RUN",
+      "issue": "NOTIFY_ONLY",
       "missing": [],
-      "next_action": "Validate substantive content, evidence paths, proof status, and hosted receipts",
+      "next_action": "Notify/observe only; reopen repository work only on direct regression evidence or a separately admitted task",
       "present": [
         "docs/*_MIRROR_HANDOFF.md",
         "formalism/principle-registry.yaml",
@@ -1493,11 +1493,11 @@
     }
   ],
   "repository_count": 32,
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "state_counts": {
     "BLOCKED": 27,
+    "COMPLETE_VALIDATED": 3,
     "CONTROL_PLANE": 1,
-    "IMPLEMENTED_UNVALIDATED": 3,
     "OBSERVE_ONLY": 1
   }
 }

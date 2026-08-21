@@ -1,6 +1,6 @@
 # Principle Completeness Worker Status
 
-Generated: `2026-08-21T17:24:17Z`
+Generated: `2026-08-21T19:24:59Z`
 Repositories: **32**
 Blockers durably queued: **27**
 Fallback mode: **PERSIST_BLOCKER_AND_CONTINUE**
@@ -14,9 +14,9 @@ Archive permitted: **false**
 | `Admissible-Existence/RTG` | MACHINE_OWNED | OBSERVE_ONLY | 0 |  |
 | `Admissible-Existence/GTG` | BLOCKED | BLOCKED | 0 |  |
 | `Admissible-Existence/TT` | BLOCKED | BLOCKED | 0 |  |
-| `Admissible-Existence/STCM` | CLAIMED_FOR_VALIDATION | IMPLEMENTED_UNVALIDATED | 0 | DRY_RUN |
+| `Admissible-Existence/STCM` | COMPLETE | COMPLETE_VALIDATED | 0 | NOTIFY_ONLY |
 | `Admissible-Existence/ET` | BLOCKED | BLOCKED | 0 |  |
-| `Admissible-Existence/learning-transition-governance` | CLAIMED_FOR_VALIDATION | IMPLEMENTED_UNVALIDATED | 0 | DRY_RUN |
+| `Admissible-Existence/learning-transition-governance` | COMPLETE | COMPLETE_VALIDATED | 0 | NOTIFY_ONLY |
 | `Admissible-Existence/BC` | BLOCKED | BLOCKED | 0 |  |
 | `Admissible-Existence/CHF` | BLOCKED | BLOCKED | 0 |  |
 | `Admissible-Existence/RE` | BLOCKED | BLOCKED | 0 |  |
@@ -24,7 +24,7 @@ Archive permitted: **false**
 | `Admissible-Existence/DC` | BLOCKED | BLOCKED | 0 |  |
 | `Admissible-Existence/Triad` | BLOCKED | BLOCKED | 0 |  |
 | `Admissible-Existence/GCAT-BCAT` | BLOCKED | BLOCKED | 0 |  |
-| `Admissible-Existence/ECAT-ICAT` | CLAIMED_FOR_VALIDATION | IMPLEMENTED_UNVALIDATED | 0 | DRY_RUN |
+| `Admissible-Existence/ECAT-ICAT` | COMPLETE | COMPLETE_VALIDATED | 0 | NOTIFY_ONLY |
 | `Admissible-Existence/IICT` | BLOCKED | BLOCKED | 0 |  |
 | `Admissible-Existence/CTA` | BLOCKED | BLOCKED | 0 |  |
 | `Admissible-Existence/HPS` | BLOCKED | BLOCKED | 0 |  |
