@@ -1,15 +1,534 @@
 {
   "apply_mode": false,
   "archive_permitted": false,
-  "completion_rule": "File presence is insufficient; substantive validation and reviewed proof status are required.",
+  "blocker_count": 27,
+  "blockers": [
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/AE']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/AE"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/Existence']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/Existence"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/GTG']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/GTG"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/TT']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/TT"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/ET']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/ET"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/BC']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/BC"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/CHF']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/CHF"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/RE']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/RE"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/RE-Reduction']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/RE-Reduction"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/DC']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/DC"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/Triad']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/Triad"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/GCAT-BCAT']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/GCAT-BCAT"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/IICT']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/IICT"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/CTA']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/CTA"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/HPS']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/HPS"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/FI']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/FI"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/DaCo']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/DaCo"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/IW']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/IW"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/standing-proof-formalism']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/standing-proof-formalism"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/core-lite']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/core-lite"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/validator']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/validator"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/tracker']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/tracker"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/telemetry']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/telemetry"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/ae-validation-factory']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/ae-validation-factory"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/ae-validation-research']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/ae-validation-research"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/validation-profile-registry']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/validation-profile-registry"
+    },
+    {
+      "claim_state": "BLOCKED",
+      "completion_state": "BLOCKED",
+      "durable_fallback_owner": "Admissible-Existence/.github#4",
+      "findings": [
+        {
+          "code": "REPOSITORY_ACCESS_FAILED",
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/SOL']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
+        }
+      ],
+      "handoff": null,
+      "issue": null,
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+      "repository": "Admissible-Existence/SOL"
+    }
+  ],
+  "completion_rule": "File presence is insufficient; substantive validation and reviewed proof status are required. A blocker is durable work state and does not terminate unrelated in-scope work.",
   "controller": "Admissible-Existence/.github/scripts/run_principle_completeness_workers.py",
-  "generated_at": "2026-08-21T05:51:21Z",
+  "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+  "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
+  "generated_at": "2026-08-21T17:24:17Z",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "repositories": [
     {
       "claim_state": "MACHINE_OWNED",
       "completion_state": "CONTROL_PLANE",
       "configured_worker_state": "active_control_plane",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [],
       "handoff": null,
       "issue": null,
@@ -24,16 +543,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validation_required",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/AE']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/AE']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/AE",
       "required": [
@@ -51,16 +575,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/Existence']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/Existence']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/Existence",
       "required": [
@@ -78,6 +607,7 @@
       "claim_state": "MACHINE_OWNED",
       "completion_state": "OBSERVE_ONLY",
       "configured_worker_state": "machine_owned_observe_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [],
       "handoff": null,
       "issue": null,
@@ -100,16 +630,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/GTG']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/GTG']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/GTG",
       "required": [
@@ -127,16 +662,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "source_complete_integration_pending",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/TT']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/TT']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/TT",
       "required": [
@@ -154,6 +694,7 @@
       "claim_state": "CLAIMED_FOR_VALIDATION",
       "completion_state": "IMPLEMENTED_UNVALIDATED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [],
       "handoff": "docs/STCM_MIRROR_HANDOFF.md",
       "issue": "DRY_RUN",
@@ -184,16 +725,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/ET']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/ET']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/ET",
       "required": [
@@ -211,6 +757,7 @@
       "claim_state": "CLAIMED_FOR_VALIDATION",
       "completion_state": "IMPLEMENTED_UNVALIDATED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [],
       "handoff": "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md",
       "issue": "DRY_RUN",
@@ -241,16 +788,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/BC']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/BC']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/BC",
       "required": [
@@ -268,16 +820,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/CHF']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/CHF']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/CHF",
       "required": [
@@ -295,16 +852,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/RE']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/RE']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/RE",
       "required": [
@@ -322,16 +884,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/RE-Reduction']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/RE-Reduction']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/RE-Reduction",
       "required": [
@@ -349,16 +916,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/DC']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/DC']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/DC",
       "required": [
@@ -376,16 +948,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/Triad']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/Triad']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/Triad",
       "required": [
@@ -403,16 +980,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/GCAT-BCAT']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/GCAT-BCAT']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/GCAT-BCAT",
       "required": [
@@ -430,6 +1012,7 @@
       "claim_state": "CLAIMED_FOR_VALIDATION",
       "completion_state": "IMPLEMENTED_UNVALIDATED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [],
       "handoff": "docs/ECAT_ICAT_MIRROR_HANDOFF.md",
       "issue": "DRY_RUN",
@@ -460,16 +1043,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/IICT']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/IICT']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/IICT",
       "required": [
@@ -487,16 +1075,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "required",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/CTA']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/CTA']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/CTA",
       "required": [
@@ -514,16 +1107,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/HPS']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/HPS']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/HPS",
       "required": [
@@ -541,16 +1139,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/FI']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/FI']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/FI",
       "required": [
@@ -568,16 +1171,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/DaCo']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/DaCo']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/DaCo",
       "required": [
@@ -595,16 +1203,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/IW']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/IW']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/IW",
       "required": [
@@ -622,16 +1235,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/standing-proof-formalism']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/standing-proof-formalism']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/standing-proof-formalism",
       "required": [
@@ -649,16 +1267,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/core-lite']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/core-lite']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/core-lite",
       "required": [
@@ -673,16 +1296,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/validator']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/validator']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/validator",
       "required": [
@@ -697,16 +1325,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/tracker']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/tracker']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/tracker",
       "required": [
@@ -721,16 +1354,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/telemetry']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/telemetry']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/telemetry",
       "required": [
@@ -745,16 +1383,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/ae-validation-factory']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/ae-validation-factory']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/ae-validation-factory",
       "required": [
@@ -769,16 +1412,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/ae-validation-research']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/ae-validation-research']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/ae-validation-research",
       "required": [
@@ -791,16 +1439,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/validation-profile-registry']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/validation-profile-registry']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/validation-profile-registry",
       "required": [
@@ -815,16 +1468,21 @@
       "claim_state": "BLOCKED",
       "completion_state": "BLOCKED",
       "configured_worker_state": "validated_complete_notify_only",
+      "fallback_mode": "PERSIST_BLOCKER_AND_CONTINUE",
       "findings": [
         {
           "code": "REPOSITORY_ACCESS_FAILED",
-          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/SOL']' returned non-zero exit status 1."
+          "detail": "Command '['gh', 'api', 'repos/Admissible-Existence/SOL']' returned non-zero exit status 1.",
+          "durable_owner": "Admissible-Existence/.github#4",
+          "fallback_invariant": "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md",
+          "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
+          "release_condition": "Repository becomes inspectable through the admitted authority path without widening credential authority"
         }
       ],
       "handoff": null,
       "issue": null,
       "missing": [],
-      "next_action": "Restore authorized repository visibility",
+      "next_action": "Restore authorized repository visibility, then resume from the recorded release condition",
       "present": [],
       "repository": "Admissible-Existence/SOL",
       "required": [
@@ -835,7 +1493,7 @@
     }
   ],
   "repository_count": 32,
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "state_counts": {
     "BLOCKED": 27,
     "CONTROL_PLANE": 1,

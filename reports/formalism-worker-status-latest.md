@@ -1,7 +1,9 @@
 # Principle Completeness Worker Status
 
-Generated: `2026-08-21T05:51:21Z`
+Generated: `2026-08-21T17:24:17Z`
 Repositories: **32**
+Blockers durably queued: **27**
+Fallback mode: **PERSIST_BLOCKER_AND_CONTINUE**
 Archive permitted: **false**
 
 | Repository | Claim | State | Missing | Issue |
@@ -38,3 +40,33 @@ Archive permitted: **false**
 | `Admissible-Existence/ae-validation-research` | BLOCKED | BLOCKED | 0 |  |
 | `Admissible-Existence/validation-profile-registry` | BLOCKED | BLOCKED | 0 |  |
 | `Admissible-Existence/SOL` | BLOCKED | BLOCKED | 0 |  |
+
+## Durable blocker queue
+
+- `Admissible-Existence/AE` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/Existence` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/GTG` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/TT` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/ET` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/BC` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/CHF` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/RE` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/RE-Reduction` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/DC` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/Triad` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/GCAT-BCAT` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/IICT` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/CTA` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/HPS` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/FI` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/DaCo` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/IW` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/standing-proof-formalism` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/core-lite` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/validator` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/tracker` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/telemetry` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/ae-validation-factory` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/ae-validation-research` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/validation-profile-registry` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
+- `Admissible-Existence/SOL` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
