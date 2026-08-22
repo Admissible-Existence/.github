@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "task_id": "AEX-VERFI-EXTERNAL-FORMALISM-001",
+  "repository": "Admissible-Existence/.github",
+  "branch": "main",
+  "stage": "external_formalism_candidate_validation",
+  "status": "IMPLEMENTED_PENDING_EXACT_HEAD_VALIDATION",
+  "claim_state": "CLAIMED_FOR_VALIDATION",
+  "claim_created_at": "2026-08-22T17:55:00-05:00",
+  "claim_expires_at": "2026-08-29T17:55:00-05:00",
+  "collision_boundary": "Do not redefine VerFi implementation semantics without an actual VerFi artifact; do not promote the candidate to canonical StegVerse mathematics; do not replace Admissible-Existence/AE as resolver; do not create a second validation control plane.",
+  "deliverables": {
+    "boundary_document": "COMPLETE",
+    "machine_registry": "COMPLETE",
+    "governance_lane_fixtures": "COMPLETE",
+    "deterministic_validator": "COMPLETE",
+    "regression_tests": "COMPLETE",
+    "existing_workflow_integration": "COMPLETE",
+    "durable_handoff": "COMPLETE",
+    "exact_current_main_hosted_validation": "PENDING"
+  },
+  "completion": {
+    "completed": 7,
+    "total": 8,
+    "percent": 87.5,
+    "developed_source_control_surfaces": 7,
+    "planned_source_control_surfaces": 7,
+    "scaffolding_or_stubs": 0,
+    "missing_planned_source_files": 0
+  },
+  "authority": {
+    "admissibility_resolver": "Admissible-Existence/AE",
+    "workflow_authority_effect": "NONE_VALIDATION_ONLY",
+    "execution_authority": false,
+    "release_authority": false,
+    "publication_authority": false,
+    "canonicality_authority": false
+  },
+  "next_action": "Inspect the exact-current-main Canonical Formalism Orientation Validation run. If all VerFi parse, validator and regression-test steps pass, bind the run/job/head evidence here and release the validation claim. Do not advance beyond TEST_CANDIDATE until an actual VerFi evidence artifact is available for independent reconstruction testing.",
+  "handoff": "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
+}
