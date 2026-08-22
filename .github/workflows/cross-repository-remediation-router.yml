@@ -41,12 +41,9 @@ jobs:
           expected = {
               'CONTROL_PLANE': 1,
               'DIRECT_SOURCE_UPDATE': 2,
-              'DIRECT_SUPPORT_UPDATE': 4,
-              'DISPOSITION_REQUIRED': 2,
               'OBSERVE_NOTIFY_ONLY': 1,
-              'COMPLETE_NOTIFY_ONLY': 15,
+              'COMPLETE_NOTIFY_ONLY': 27,
               'INTEGRATION_NOTIFY_ONLY': 1,
-              'HOSTED_VALIDATION_BLOCKED': 6,
           }
           if report['counts'] != expected:
               raise SystemExit(f"routing counts mismatch: {report['counts']} != {expected}")
@@ -70,12 +67,12 @@ jobs:
               'Admissible-Existence/core-lite': 'COMPLETE_NOTIFY_ONLY',
               'Admissible-Existence/validator': 'COMPLETE_NOTIFY_ONLY',
               'Admissible-Existence/TT': 'INTEGRATION_NOTIFY_ONLY',
-              'Admissible-Existence/STCM': 'HOSTED_VALIDATION_BLOCKED',
-              'Admissible-Existence/learning-transition-governance': 'HOSTED_VALIDATION_BLOCKED',
-              'Admissible-Existence/BC': 'HOSTED_VALIDATION_BLOCKED',
-              'Admissible-Existence/CHF': 'HOSTED_VALIDATION_BLOCKED',
-              'Admissible-Existence/RE': 'HOSTED_VALIDATION_BLOCKED',
-              'Admissible-Existence/RE-Reduction': 'HOSTED_VALIDATION_BLOCKED',
+              'Admissible-Existence/STCM': 'COMPLETE_NOTIFY_ONLY',
+              'Admissible-Existence/learning-transition-governance': 'COMPLETE_NOTIFY_ONLY',
+              'Admissible-Existence/BC': 'COMPLETE_NOTIFY_ONLY',
+              'Admissible-Existence/CHF': 'COMPLETE_NOTIFY_ONLY',
+              'Admissible-Existence/RE': 'COMPLETE_NOTIFY_ONLY',
+              'Admissible-Existence/RE-Reduction': 'COMPLETE_NOTIFY_ONLY',
           }
           for repo, state in required_states.items():
               if by_repo[repo]['routing_state'] != state:
