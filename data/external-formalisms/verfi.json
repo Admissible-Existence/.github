@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "external_formalism_id": "VERFI-HUMAN-TRANSITION-EVIDENCE-001",
+  "name": "VerFi",
+  "family": "human_consent_cognitive_authorization_evidence",
+  "status": "BOUNDARY_REVIEW_TEST_CANDIDATE",
+  "registered_at": "2026-08-22T17:55:00-05:00",
+  "source_basis": {
+    "type": "public_representation_observed_by_user",
+    "sequence": [
+      "IDENTITY",
+      "DISCLOSURE",
+      "COMPREHENSION",
+      "AUTHORIZATION",
+      "SIGNATURE",
+      "EVIDENCE"
+    ],
+    "implementation_artifact_available": false,
+    "schema_available": false,
+    "api_output_available": false
+  },
+  "stegverse_boundary": {
+    "admissibility_resolver": "Admissible-Existence/AE",
+    "external_package_may_supply_evidence": true,
+    "external_package_creates_admissibility_authority": false,
+    "external_package_creates_execution_authority": false,
+    "external_package_creates_canonicality": false,
+    "external_package_proves_internal_mental_state": false,
+    "external_package_proves_requested_effect_realized": false
+  },
+  "minimum_information_rule": "Do not require more information to establish a transition than is necessary to distinguish the transition being claimed.",
+  "transition_targets": [
+    "COMPREHENSION_NOT_ESTABLISHED->COMPREHENSION_ESTABLISHED",
+    "AUTHORIZATION_NOT_ESTABLISHED->AUTHORIZATION_ESTABLISHED"
+  ],
+  "mandatory_negative_outcome": [
+    "DISCLOSURE_ESTABLISHED",
+    "COMPREHENSION_NOT_ESTABLISHED",
+    "AUTHORIZATION_INADMISSIBLE"
+  ],
+  "lane_fixture": "fixtures/external-formalisms/verfi-governance-lanes.json",
+  "validator": "scripts/validate_verfi_external_formalism.py",
+  "tests": "tests/test_verfi_external_formalism.py",
+  "authority_effect": "NONE_VALIDATION_ONLY",
+  "next_maturity_gate": "Obtain an actual VerFi evidence envelope, schema, API output, or equivalent precise artifact and run independent reconstruction plus negative testing."
+}
