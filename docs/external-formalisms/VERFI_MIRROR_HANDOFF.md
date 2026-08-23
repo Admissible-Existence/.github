@@ -61,11 +61,34 @@ DISCLOSURE_ESTABLISHED
 
 A signature is therefore explicitly unable to force a successful comprehension result.
 
+## Transition prerequisite hardening — 2026-08-22
+
+A post-install review found that the first deterministic evaluator did not independently reject a missing disclosure or a missing signature when all other fields were positive. That would have allowed an incomplete declared sequence to reach `ALLOW_CANDIDATE` in direct evaluator use even though canonical fixtures happened to set both fields true.
+
+The defect is repaired on `main`:
+
+```text
+validator hardening commit: 72c976ba81997d41d61b889a2fc7cb50ca95e469
+test hardening commit: 2f3e9a8fc68615b620221f0ebdedba3a51c0e06e
+```
+
+The evaluator now preserves explicit bounded failures:
+
+```text
+disclosure != established -> DISCLOSURE_NOT_ESTABLISHED
+authorization established but signature absent -> SIGNATURE_NOT_ESTABLISHED
+signature present + comprehension absent -> AUTHORIZATION_INADMISSIBLE
+```
+
+The regression suite now constructs a fully valid base sequence and independently removes disclosure, comprehension, signature, authorization validity, integrity, and minimization conditions. This prevents optional-field omission in tests from masking transition-order defects.
+
 ## Validation lane
 
-The existing credential-clean `Canonical Formalism Orientation Validation` workflow has been extended rather than creating a new workflow/control plane. It now parses the VerFi candidate registry and fixtures, runs `scripts/validate_verfi_external_formalism.py`, then runs `tests.test_verfi_external_formalism`.
+The existing credential-clean `Canonical Formalism Orientation Validation` workflow has been extended rather than creating a new workflow/control plane. It parses the VerFi candidate registry and fixtures, runs `scripts/validate_verfi_external_formalism.py`, then runs `tests.test_verfi_external_formalism`.
 
 The workflow remains `permissions: {}` with empty GitHub/GH/StegVerse/TVC token environment variables and retains `NONE_VALIDATION_ONLY` authority effect.
+
+The hardening commits changed validation-controlled paths, so exact-current-main hosted validation must bind a head at or after `2f3e9a8fc68615b620221f0ebdedba3a51c0e06e`. Earlier green runs do not satisfy this gate.
 
 ## Maturity boundary
 
@@ -88,8 +111,8 @@ Denominator: 8 deliverables.
 1 external-formalism boundary document: COMPLETE
 2 machine-readable registry: COMPLETE
 3 deterministic 10-case lane fixture: COMPLETE
-4 deterministic validator: COMPLETE
-5 regression tests: COMPLETE
+4 deterministic validator: COMPLETE_HARDENED
+5 regression tests: COMPLETE_HARDENED
 6 existing workflow integration: COMPLETE
 7 durable task/handoff state: COMPLETE
 8 exact-current-main hosted validation evidence: PENDING
