@@ -1,12 +1,18 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "external_formalism_id": "VERFI-HUMAN-TRANSITION-EVIDENCE-001",
   "name": "VerFi",
   "family": "human_consent_cognitive_authorization_evidence",
   "status": "BOUNDARY_REVIEW_TEST_CANDIDATE",
   "registered_at": "2026-08-22T17:55:00-05:00",
   "source_basis": {
-    "type": "public_representation_observed_by_user",
+    "type": "publisher_public_product_representation",
+    "publisher": "VerFi Holdings Inc.",
+    "observed_at": "2026-08-23T17:06:00-05:00",
+    "sources": [
+      "https://verfisystems.com/",
+      "https://verfisystems.com/consent-records"
+    ],
     "sequence": [
       "IDENTITY",
       "DISCLOSURE",
@@ -15,9 +21,32 @@
       "SIGNATURE",
       "EVIDENCE"
     ],
+    "publicly_declared_record_elements": [
+      "session_initiation_and_continuity",
+      "identity_bound_participant_attribution",
+      "education_delivery_confirmation",
+      "recorded_comprehension_interaction_and_responses",
+      "timestamped_authorization_enablement"
+    ],
+    "publicly_declared_control_semantics": {
+      "comprehension_checkpoints_required_before_consent_finalization": true,
+      "missed_checkpoint_re_presents_term_and_preserves_correction": true,
+      "exact_disclosure_version_recorded": true,
+      "execution_record_bound_to_one_procedure_one_session_one_identified_party": true,
+      "sealed_tamper_evident_record_at_session_close_claimed": true,
+      "execution_verified_token_claimed": true
+    },
+    "publicly_declared_exclusions": [
+      "diagnoses_clinical_notes_or_lab_results",
+      "clinical_decision_support_or_scoring",
+      "legal_or_clinical_determinations",
+      "treatment_decisions_approvals_or_billing"
+    ],
     "implementation_artifact_available": false,
     "schema_available": false,
-    "api_output_available": false
+    "api_output_available": false,
+    "execution_verified_token_artifact_available": false,
+    "claim_posture": "PUBLISHER_ASSERTED_NOT_INDEPENDENTLY_VERIFIED"
   },
   "stegverse_boundary": {
     "admissibility_resolver": "Admissible-Existence/AE",
@@ -26,12 +55,15 @@
     "external_package_creates_execution_authority": false,
     "external_package_creates_canonicality": false,
     "external_package_proves_internal_mental_state": false,
-    "external_package_proves_requested_effect_realized": false
+    "external_package_proves_requested_effect_realized": false,
+    "external_execution_verified_token_creates_stegverse_authority": false
   },
   "minimum_information_rule": "Do not require more information to establish a transition than is necessary to distinguish the transition being claimed.",
   "transition_targets": [
     "COMPREHENSION_NOT_ESTABLISHED->COMPREHENSION_ESTABLISHED",
-    "AUTHORIZATION_NOT_ESTABLISHED->AUTHORIZATION_ESTABLISHED"
+    "AUTHORIZATION_NOT_ESTABLISHED->AUTHORIZATION_ESTABLISHED",
+    "CHECKPOINT_FAILED->TERM_REPRESENTED->CORRECTION_PRESERVED",
+    "AUTHORIZATION_DISABLED->AUTHORIZATION_ENABLED"
   ],
   "mandatory_negative_outcome": [
     "DISCLOSURE_ESTABLISHED",
@@ -42,5 +74,5 @@
   "validator": "scripts/validate_verfi_external_formalism.py",
   "tests": "tests/test_verfi_external_formalism.py",
   "authority_effect": "NONE_VALIDATION_ONLY",
-  "next_maturity_gate": "Obtain an actual VerFi evidence envelope, schema, API output, or equivalent precise artifact and run independent reconstruction plus negative testing."
+  "next_maturity_gate": "Obtain an actual VerFi consent/execution record, evidence envelope, schema, API output, Execution Verified Token specimen, or equivalent immutable implementation artifact and run independent reconstruction plus negative testing."
 }
