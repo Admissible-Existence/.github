@@ -49,6 +49,8 @@ def evaluate(case: dict) -> str:
         return "STRUCTURAL_COMPARISON_ONLY"
     if not case.get("evidence_integrity") or not case.get("temporal_order_valid"):
         return "FAIL_CLOSED"
+    if case.get("disclosure") is not True:
+        return "DISCLOSURE_NOT_ESTABLISHED"
     if case.get("presented_hash") != case.get("authorized_hash"):
         return "REVIEW"
     comprehension = case.get("comprehension_evidence")
@@ -58,6 +60,8 @@ def evaluate(case: dict) -> str:
         return "REVIEW"
     if not case.get("authorization_valid_at_commit"):
         return "DENY"
+    if case.get("signature") is not True:
+        return "SIGNATURE_NOT_ESTABLISHED"
     if not case.get("minimum_information_satisfied"):
         return "REVIEW_MINIMIZATION"
     if not case.get("reconstructable"):
