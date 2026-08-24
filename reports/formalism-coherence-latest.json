@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0.0",
-  "generated_at": "2026-08-17T20:33:58.788816+00:00",
+  "generated_at": "2026-08-24T07:45:07.112310+00:00",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "repository_count": 4,
   "dimension_count": 12,
@@ -195,6 +195,12 @@
           "label": "20. `Admissible-Existence/CTA`",
           "sources": [
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "2026-08-19 operational recovery proof",
+          "sources": [
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -480,9 +486,21 @@
           ]
         },
         {
+          "label": "Active requirement",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_MINIMUM_SET_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Active/blocker rows",
           "sources": [
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Adjacent goals already canonical elsewhere",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_MINIMUM_SET_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -564,15 +582,33 @@
           ]
         },
         {
+          "label": "AE validation state",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_MINIMUM_SET_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "AE \u2014 Admissible Existence",
           "sources": [
             "profile/README.md"
           ]
         },
         {
+          "label": "AE-native consumer",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_MINIMUM_SET_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Anti-reinvention rule",
           "sources": [
             "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "Archive / continuation",
+          "sources": [
+            "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -631,6 +667,12 @@
           "sources": [
             "FORMALISM_MIRROR_HANDOFF.md",
             "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Authority and claim discipline",
+          "sources": [
+            "docs/external-formalisms/VERFI.md"
           ]
         },
         {
@@ -743,6 +785,12 @@
           ]
         },
         {
+          "label": "Canonical status",
+          "sources": [
+            "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Canonical task owner",
           "sources": [
             "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
@@ -810,6 +858,12 @@
           ]
         },
         {
+          "label": "Completeness Worker Status",
+          "sources": [
+            "reports/formalism-worker-status-latest.md"
+          ]
+        },
+        {
           "label": "Completion",
           "sources": [
             "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
@@ -828,6 +882,12 @@
           ]
         },
         {
+          "label": "Completion metrics for this lane",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_MINIMUM_SET_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Conditional propagation",
           "sources": [
             "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
@@ -843,6 +903,12 @@
           "label": "Continuity and relationship interpretation",
           "sources": [
             "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
+          "label": "Controller contract",
+          "sources": [
+            "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md"
           ]
         },
         {
@@ -879,6 +945,12 @@
           "label": "Cross-Repository Remediation Mirror Handoff",
           "sources": [
             "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Cross-repository remediation router census repair \u2014 2026-08-22",
+          "sources": [
+            "docs/receipts/2026-08-22-cross-repository-remediation-router-census-repair.md"
           ]
         },
         {
@@ -975,6 +1047,12 @@
           "label": "DC \u2014 Distributed Coherence",
           "sources": [
             "profile/README.md"
+          ]
+        },
+        {
+          "label": "Deliverable accounting",
+          "sources": [
+            "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1122,6 +1200,12 @@
           ]
         },
         {
+          "label": "Durable blocker queue",
+          "sources": [
+            "reports/formalism-worker-status-latest.md"
+          ]
+        },
+        {
           "label": "Early Formal Vocabulary",
           "sources": [
             "profile/README.md"
@@ -1225,6 +1309,12 @@
           ]
         },
         {
+          "label": "External formalism family",
+          "sources": [
+            "docs/external-formalisms/VERFI.md"
+          ]
+        },
+        {
           "label": "F-01 \u2014 Prior completion percentages did not prove mathematical completeness",
           "sources": [
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
@@ -1270,6 +1360,18 @@
           "label": "Failure posture",
           "sources": [
             "HANDOFF_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "Fallback precedence",
+          "sources": [
+            "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md"
+          ]
+        },
+        {
+          "label": "Formal boundary",
+          "sources": [
+            "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1323,6 +1425,12 @@
           ]
         },
         {
+          "label": "Governance-lane matrix",
+          "sources": [
+            "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Governing objective",
           "sources": [
             "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
@@ -1335,15 +1443,34 @@
           ]
         },
         {
+          "label": "Handoff reconciliation",
+          "sources": [
+            "docs/receipts/2026-08-22-cross-repository-remediation-router-census-repair.md"
+          ]
+        },
+        {
           "label": "Heartbeat Response Mirror Handoff",
           "sources": [
             "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
           ]
         },
         {
+          "label": "Hosted PR validation trigger",
+          "sources": [
+            "docs/external-formalisms/VERFI_PUBLIC_SOURCE_PR_VALIDATION_2026-08-23.md",
+            "docs/external-formalisms/VERFI_PUBLIC_SOURCE_PR_VALIDATION_TRIGGER_2026-08-23.md"
+          ]
+        },
+        {
           "label": "Hosted result",
           "sources": [
             "docs/FORMALISM_ARCHIVE_GATE_HOSTED_EVIDENCE.md"
+          ]
+        },
+        {
+          "label": "Hosted validation evidence \u2014 public-source-grounded tree",
+          "sources": [
+            "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1371,6 +1498,12 @@
           ]
         },
         {
+          "label": "Human / machine comparison lane",
+          "sources": [
+            "docs/external-formalisms/VERFI.md"
+          ]
+        },
+        {
           "label": "Immediate Repository Tasks",
           "sources": [
             "profile/README.md"
@@ -1386,6 +1519,12 @@
           "label": "Incomplete work and exact locations",
           "sources": [
             "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Independent validation owner",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_MINIMUM_SET_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1409,6 +1548,7 @@
         {
           "label": "Installed surfaces",
           "sources": [
+            "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md",
             "reports/principle-worker-activation-observer-installation.md"
           ]
         },
@@ -1515,9 +1655,21 @@
           ]
         },
         {
+          "label": "Mandatory negative invariant",
+          "sources": [
+            "docs/external-formalisms/VERFI.md"
+          ]
+        },
+        {
           "label": "Mathematical Completeness Mirror Handoff",
           "sources": [
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Maturity boundary",
+          "sources": [
+            "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1530,6 +1682,18 @@
           "label": "Metrics",
           "sources": [
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Minimum Admissible Transition Set",
+          "sources": [
+            "docs/MINIMUM_ADMISSIBLE_TRANSITION_SET.md"
+          ]
+        },
+        {
+          "label": "Minimum-information rule",
+          "sources": [
+            "docs/external-formalisms/VERFI.md"
           ]
         },
         {
@@ -1554,6 +1718,12 @@
           "label": "Next tasks",
           "sources": [
             "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Non-authority",
+          "sources": [
+            "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md"
           ]
         },
         {
@@ -1590,6 +1760,12 @@
           "label": "Open evidence/gaps",
           "sources": [
             "reports/mathematical-completeness-matrix.md"
+          ]
+        },
+        {
+          "label": "Organization conformance owner",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_MINIMUM_SET_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1799,6 +1975,30 @@
           ]
         },
         {
+          "label": "Public research propagation",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_MINIMUM_SET_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Public source grounding \u2014 2026-08-23",
+          "sources": [
+            "docs/external-formalisms/VERFI.md"
+          ]
+        },
+        {
+          "label": "Public-source grounding \u2014 2026-08-23",
+          "sources": [
+            "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Public-source validation implementation",
+          "sources": [
+            "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Publication gate",
           "sources": [
             "docs/FORMALISM_WORKER_COMPLETION_STANDARD.md"
@@ -1859,6 +2059,12 @@
           ]
         },
         {
+          "label": "Relational Admissibility Minimum-Set Mirror Handoff",
+          "sources": [
+            "docs/RELATIONAL_ADMISSIBILITY_MINIMUM_SET_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Relationship Between the Repositories",
           "sources": [
             "profile/README.md"
@@ -1903,6 +2109,7 @@
         {
           "label": "Repair",
           "sources": [
+            "docs/receipts/2026-08-22-cross-repository-remediation-router-census-repair.md",
             "reports/hosted-worker-run-31128125108.md"
           ]
         },
@@ -1949,9 +2156,21 @@
           ]
         },
         {
+          "label": "Required behavior",
+          "sources": [
+            "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md"
+          ]
+        },
+        {
           "label": "Required content",
           "sources": [
             "HANDOFF_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "Required governance-lane cases",
+          "sources": [
+            "docs/external-formalisms/VERFI.md"
           ]
         },
         {
@@ -1984,7 +2203,8 @@
             "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md",
             "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md",
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md",
-            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md",
+            "docs/RELATIONAL_ADMISSIBILITY_MINIMUM_SET_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -2038,7 +2258,8 @@
         {
           "label": "State",
           "sources": [
-            "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
+            "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md",
+            "docs/receipts/2026-08-22-cross-repository-remediation-router-census-repair.md"
           ]
         },
         {
@@ -2046,6 +2267,12 @@
           "sources": [
             "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md",
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "StegVerse boundary",
+          "sources": [
+            "docs/external-formalisms/VERFI.md"
           ]
         },
         {
@@ -2076,6 +2303,18 @@
           "label": "Support repositories",
           "sources": [
             "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Transition prerequisite hardening",
+          "sources": [
+            "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Triggering evidence",
+          "sources": [
+            "docs/receipts/2026-08-22-cross-repository-remediation-router-census-repair.md"
           ]
         },
         {
@@ -2140,6 +2379,30 @@
           ]
         },
         {
+          "label": "VerFi Exact-Tree Validation Request \u2014 2026-08-23",
+          "sources": [
+            "docs/external-formalisms/VERFI_VALIDATION_REQUEST_2026-08-23.md"
+          ]
+        },
+        {
+          "label": "VerFi External Formalism Candidate",
+          "sources": [
+            "docs/external-formalisms/VERFI.md"
+          ]
+        },
+        {
+          "label": "VerFi External Formalism Mirror Handoff",
+          "sources": [
+            "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "VerFi Public-Source Grounding Validation Request \u2014 2026-08-23",
+          "sources": [
+            "docs/external-formalisms/VERFI_PUBLIC_SOURCE_VALIDATION_REQUEST_2026-08-23.md"
+          ]
+        },
+        {
           "label": "Why prior percentages are superseded",
           "sources": [
             "reports/principle-completeness-baseline-2026-08-06.md"
@@ -2155,6 +2418,12 @@
           "label": "worker activation observer installation",
           "sources": [
             "reports/principle-worker-activation-observer-installation.md"
+          ]
+        },
+        {
+          "label": "Worker Blocker Fallback Invariant",
+          "sources": [
+            "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md"
           ]
         },
         {
@@ -2186,7 +2455,7 @@
         {
           "severity": "error",
           "code": "UNRESOLVED_PLACEHOLDERS",
-          "count": 161
+          "count": 163
         },
         {
           "severity": "warning",
@@ -2206,12 +2475,12 @@
         }
       ],
       "metrics": {
-        "files": 122,
-        "markdown_files": 27,
-        "structured_files": 72,
-        "handoffs": 6,
-        "principle_candidates": 355,
-        "placeholder_markers": 161,
+        "files": 143,
+        "markdown_files": 38,
+        "structured_files": 78,
+        "handoffs": 8,
+        "principle_candidates": 399,
+        "placeholder_markers": 163,
         "broken_local_links": 0,
         "ambiguous_short_repository_identities": 10,
         "dimensions_met": 12,
@@ -2219,7 +2488,7 @@
       },
       "next_task": {
         "owner": "Admissible-Existence/.github",
-        "target": "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md",
+        "target": "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md",
         "action": "Resolve the first listed blocking completeness finding without duplicating active claims",
         "release_condition": "All twelve dimensions are evidenced and independently reviewed"
       }
