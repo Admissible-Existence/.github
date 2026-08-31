@@ -3,7 +3,7 @@
 **Goal ID:** `AEX-MATHEMATICAL-COMPLETENESS-AUDIT-002`  
 **Parent:** `AEX-PRINCIPLE-COMPLETENESS-001`  
 **Repository / branch:** `Admissible-Existence/.github` / `main`  
-**Status:** `ACTIVE — 2/23 SOURCE PASS; 0/9 NON-SOURCE ROLE-CONTRACT PASS; ET/HPS CURRENT REVALIDATION BLOCKED; 30 ROWS NOT YET COMPLETE`
+**Status:** `ACTIVE — 3/23 SOURCE PASS; 0/9 NON-SOURCE ROLE-CONTRACT PASS; ET CURRENT PASS; HPS HASH-CURRENT REVALIDATION RUNNING; 29 ROWS NOT YET COMPLETE`
 
 ## Originating session goal
 
@@ -78,27 +78,27 @@ Artifact digest: `sha256:29ac5f98281dca5b0a0b2d33649eafbca4c148af22e43dce484cd96
 
 ## Active/blocker rows
 
-### ET — implemented, hosted validation blocked
+### ET — PASS, hash-current hosted validation complete
 
 Canonical claim: `Admissible-Existence/ET/data/claims/ET-MATHEMATICAL-COMPLETENESS-002.json`.
 
-Installed:
+The prior Actions-before-step-1 blocker is released. ET now has current repository-local evidence:
 
-- `formalism/principle-registry.yaml`
-- `formalism/dependency-graph.yaml`
-- `formalism/proof-candidates.yaml`
-- `docs/WHOLE_REPO_THEORY_MAP.md`
-- `docs/MATHEMATICAL_NOTATION.md`
-- `docs/FALSIFICATION_AND_LIMITS.md`
-- `tools/check_mathematical_completeness.py`
-- `.github/workflows/mathematical-completeness-self-audit.yml`
+```text
+handoff commit: 4aac76f0962fef5e208296109abd967c7016766a
+self-audit run/job: 33407368930 / 99538158274
+run conclusion: success
+receipt blob: eda12d69c8b11e9568d09012b3f0a710dbde55b4
+receipt persistence commit: 451e6a638b1a9659c69b10f1dfe7fc9a3d89f30d
+artifact: 9763674952
+artifact digest: sha256:a698715c107467ae6c09179d476b8b22d8b1e7b3de0e8fd0f35b76b47ff50cf9
+receipt valid: true
+proof maturity: 6/6 candidate_not_proven
+execution authority: false
+publication authority: false
+```
 
-Blocker evidence:
-
-- new self-audit `31222811755` / `93010809891`: failure before step 1, zero recorded steps;
-- pre-existing `validate.yml` `31222811742` / `93010809703`: same failure before step 1, zero recorded steps.
-
-ET remains PENDING/BLOCKED until Actions executes steps and the self-audit produces successful unit-test + math-check + committed receipt + artifact evidence.
+ET is now the third source PASS under the clarified mathematical-completeness standard. Its COSV task lane is separately terminal with zero current active structured tasks; mathematical PASS does not create runtime or publication authority.
 
 ### HPS — source math complete; current handoff-hash regression blocked
 
@@ -110,9 +110,9 @@ However the canonical HPS handoff changed after that receipt and is a hash-bound
 
 Canonical record: `data/mathematical-completeness-actions-scheduler-blocker.json` (`AEX-MATH-ACTIONS-SCHEDULER-003`).
 
-Observed cross-repository signature: ET new workflow, ET pre-existing workflow, and HPS pre-existing workflow all fail before recording step 1. This is not interpreted as a mathematical test failure.
+Historical cross-repository signature: ET new workflow, ET pre-existing workflow, and HPS pre-existing workflow had failed before recording step 1. The machine-observable release condition is now satisfied by successful ET hosted executions. HPS hash-current revalidation has been reissued under its existing owner.
 
-Release condition: an affected repository Actions run records at least one executed step; then repository-specific canonical validation must run to completion and produce current receipts.
+Release condition: SATISFIED. Repository-specific canonical validation remains independently required for each affected repository.
 
 ## Remaining inventory
 
@@ -162,10 +162,10 @@ This complete session is **not** archive-ready. Archive only when all 32 registe
 
 ## Metrics
 
-- task rows complete: 2/32
-- source mathematical PASS: 2/23
+- task rows complete: 3/32
+- source mathematical PASS: 3/23
 - non-source role-contract PASS: 0/9
 - central control-plane files required for this math audit: 7/7 installed
-- current blocked rows with durable owner/release condition: ET, HPS
+- current blocked rows with durable owner/release condition: HPS hash-current revalidation only
 - matrix ready: false
 - session consolidation for the clarification goal: complete as a transfer mechanism, but execution goal remains active.
