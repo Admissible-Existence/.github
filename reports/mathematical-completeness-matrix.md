@@ -2,9 +2,9 @@
 
 Goal: `AEX-MATHEMATICAL-COMPLETENESS-AUDIT-002`  
 Registered: **32**  
-Source PASS: **3/23**  
+Source PASS: **4/23**  
 Non-source role-contract PASS: **0/9**  
-Pending/GAP repositories: **29**  
+Pending/GAP repositories: **28**  
 Organization ready: **false**
 
 | Repository | Role | Worker state | Formal | Dependency | Theory | Math | Derivation | Proof candidate | Falsification | Result |
@@ -28,7 +28,7 @@ Organization ready: **false**
 | `Admissible-Existence/ECAT-ICAT` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
 | `Admissible-Existence/IICT` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
 | `Admissible-Existence/CTA` | source | `required` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
-| `Admissible-Existence/HPS` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
+| `Admissible-Existence/HPS` | source | `validated_complete_notify_only` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | **PASS** |
 | `Admissible-Existence/FI` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
 | `Admissible-Existence/DaCo` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
 | `Admissible-Existence/IW` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
@@ -60,7 +60,6 @@ Organization ready: **false**
 - `Admissible-Existence/ECAT-ICAT`: repository_local_self_audit_evidence
 - `Admissible-Existence/IICT`: repository_local_self_audit_evidence
 - `Admissible-Existence/CTA`: repository_local_self_audit_evidence
-- `Admissible-Existence/HPS`: repository_local_self_audit_evidence
 - `Admissible-Existence/FI`: repository_local_self_audit_evidence
 - `Admissible-Existence/DaCo`: repository_local_self_audit_evidence
 - `Admissible-Existence/IW`: repository_local_self_audit_evidence

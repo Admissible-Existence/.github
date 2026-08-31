@@ -506,21 +506,45 @@
     },
     {
       "audit": {
-        "gaps": [
-          "repository_local_self_audit_evidence"
-        ],
-        "mathematical_complete": false,
-        "proof_candidate_is_proof": false,
-        "semantic": {
-          "dependency_derivation": false,
-          "falsification_and_limits": false,
-          "formal_declaration": false,
-          "mathematical_derivation_evidence": false,
-          "mathematical_notation": false,
-          "proof_candidate": false,
-          "whole_repo_theory": false
+        "evidence": {
+          "artifact": 9764690619,
+          "artifact_digest": "sha256:22a3158efd134886b124a66fdc7a1dcb3f7ef021b99322231b999cfeced52778",
+          "conclusion": "success",
+          "dependency_derivation": true,
+          "execution_authorized": false,
+          "falsification_and_limits": true,
+          "formal_declaration": true,
+          "goal": "HPS-PRINCIPLE-COMPLETENESS-001",
+          "handoff": "HPS_MIRROR_HANDOFF.md",
+          "handoff_commit": "e5e37adee480ecc8761b6ef038fa5e4fe0519866",
+          "job": 99546630695,
+          "mathematical_derivation_evidence": true,
+          "mathematical_notation": true,
+          "proof_candidate": true,
+          "proof_maturity": "4/4 bounded candidates; proofs_accepted=false",
+          "receipt": "reports/hps-principle-completeness-validation.json",
+          "receipt_blob": "08d37884a5cfd7699da3536b16ff7702c876c92d",
+          "receipt_commit": "be52f6cd6702aa25a8264f0146f1b13acfa6452b",
+          "role": "source",
+          "run": 33409921402,
+          "state": "PASS",
+          "whole_repo_theory": true,
+          "workflow": ".github/workflows/hps-verify.yml"
         },
-        "state": "PENDING_EVIDENCE"
+        "gaps": [],
+        "mathematical_complete": true,
+        "proof_candidate_is_proof": false,
+        "proof_maturity": "4/4 bounded candidates; proofs_accepted=false",
+        "semantic": {
+          "dependency_derivation": true,
+          "falsification_and_limits": true,
+          "formal_declaration": true,
+          "mathematical_derivation_evidence": true,
+          "mathematical_notation": true,
+          "proof_candidate": true,
+          "whole_repo_theory": true
+        },
+        "state": "PASS"
       },
       "repository": "Admissible-Existence/HPS",
       "role": "source",
@@ -817,11 +841,11 @@
   ],
   "schema_version": "2.0.0",
   "summary": {
-    "gap_repositories": 29,
+    "gap_repositories": 28,
     "non_source": 9,
     "non_source_complete": 0,
     "registered": 32,
     "source": 23,
-    "source_complete": 3
+    "source_complete": 4
   }
 }
