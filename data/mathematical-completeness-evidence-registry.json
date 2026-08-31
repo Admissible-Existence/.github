@@ -108,6 +108,31 @@
       "falsification_and_limits": true,
       "proof_maturity": "4/4 bounded candidates; proofs_accepted=false",
       "execution_authorized": false
+    },
+    "Admissible-Existence/GCAT-BCAT": {
+      "state": "PASS",
+      "role": "source",
+      "goal": "GCAT-BCAT-PRINCIPLE-COMPLETENESS-001",
+      "handoff": "GCAT_BCAT_MIRROR_HANDOFF.md",
+      "handoff_commit": "4b23709aaaa9c79a74181d0340cd76dd100c2884",
+      "receipt": "reports/gcat-bcat-principle-completeness-validation.json",
+      "receipt_blob": "77e83e78836b3b6da3c68c220310c2da30ce66c8",
+      "receipt_commit": "4b23709aaaa9c79a74181d0340cd76dd100c2884",
+      "workflow": ".github/workflows/build.yml",
+      "run": 33411436612,
+      "job": 99551695732,
+      "conclusion": "success",
+      "artifact": 9765273671,
+      "artifact_digest": "sha256:98c77668047e11f751da86ff61eb627b8e0cd07d46ac3aa7fad870bd5cf34519",
+      "formal_declaration": true,
+      "dependency_derivation": true,
+      "whole_repo_theory": true,
+      "mathematical_notation": true,
+      "mathematical_derivation_evidence": true,
+      "proof_candidate": true,
+      "falsification_and_limits": true,
+      "proof_maturity": "4/4 bounded candidates; proofs_accepted=false",
+      "execution_authorized": false
     }
   },
   "default_state_for_unlisted_registered_repository": "PENDING_EVIDENCE"

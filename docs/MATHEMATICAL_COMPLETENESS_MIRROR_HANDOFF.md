@@ -3,7 +3,7 @@
 **Goal ID:** `AEX-MATHEMATICAL-COMPLETENESS-AUDIT-002`  
 **Parent:** `AEX-PRINCIPLE-COMPLETENESS-001`  
 **Repository / branch:** `Admissible-Existence/.github` / `main`  
-**Status:** `ACTIVE — 4/23 SOURCE PASS; 0/9 NON-SOURCE ROLE-CONTRACT PASS; ET/HPS CURRENT PASS; 28 ROWS NOT YET COMPLETE`
+**Status:** `ACTIVE — 5/23 SOURCE PASS; 0/9 NON-SOURCE ROLE-CONTRACT PASS; ET/HPS/GCAT-BCAT CURRENT PASS; 27 ROWS NOT YET COMPLETE`
 
 ## Originating session goal
 
@@ -124,6 +124,30 @@ downstream_activation_authorized: false
 The prior persistence race was repaired by rebasing the generated receipt commit onto current
 `main` before push. No HPS standing mathematics, schemas, fixtures, or proof maturity changed.
 
+
+### GCAT-BCAT — PASS, root mathematical completeness current
+
+The repository-root GCAT/BCAT formalism is independent from the still-active Decision Envelope child workstream.
+Current root evidence:
+
+```text
+handoff commit: 4b23709aaaa9c79a74181d0340cd76dd100c2884
+run/job: 33411436612 / 99551695732
+conclusion: success
+receipt blob: 77e83e78836b3b6da3c68c220310c2da30ce66c8
+receipt commit: 4b23709aaaa9c79a74181d0340cd76dd100c2884
+artifact: 9765273671
+artifact digest: sha256:98c77668047e11f751da86ff61eb627b8e0cd07d46ac3aa7fad870bd5cf34519
+valid: true
+principles: 4/4
+findings: []
+proofs_accepted: false
+execution_authorized: false
+publication_authorized: false
+```
+
+Decision Envelope publication/research tasks remain separately incomplete and do not invalidate the bounded root source PASS.
+
 ## Shared Actions blocker
 
 Canonical record: `data/mathematical-completeness-actions-scheduler-blocker.json` (`AEX-MATH-ACTIONS-SCHEDULER-003`).
@@ -134,7 +158,7 @@ Release condition: SATISFIED. Repository-specific canonical validation remains i
 
 ## Remaining inventory
 
-Beyond TT/STCM and the blocked ET/HPS lanes, 28 registered rows remain `PENDING_EVIDENCE` in the matrix. They must be resolved individually as one of:
+Beyond the five current source PASS rows, 27 registered rows remain incomplete in the matrix. They must be resolved individually as one of:
 
 1. existing source mathematics + missing standard adapter/evidence;
 2. standard surfaces already installed + missing current self-audit evidence;
@@ -162,11 +186,11 @@ Repository-local self-audits are the preferred ongoing execution path. Current A
 
 ## Exact next executable order
 
-1. Continue unblocked source standardization/validation rows while `AEX-MATH-ACTIONS-SCHEDULER-003` is active.
-2. On scheduler release, immediately revalidate ET and HPS and update the evidence registry.
-3. Re-run the central matrix after every new PASS or role-contract PASS.
-4. Reconcile non-source role contracts only after their own handoffs and validators are inspected.
-5. Preserve existing AE#20, CTA#1, TT#2 and other active ownership boundaries; transfer requirements rather than duplicate work.
+1. Continue unblocked source standardization/validation rows from repository-local handoffs.
+2. Re-run the central matrix after every new PASS or role-contract PASS.
+3. Reconcile non-source role contracts only after their own handoffs and validators are inspected.
+4. Preserve existing AE#20, CTA#1, TT#2 and other active ownership boundaries; transfer requirements rather than duplicate work.
+5. Keep the former ET/HPS Actions scheduler blocker released unless new cross-repository pre-step evidence re-establishes it.
 
 ## Session consolidation
 
@@ -180,8 +204,8 @@ This complete session is **not** archive-ready. Archive only when all 32 registe
 
 ## Metrics
 
-- task rows complete: 4/32
-- source mathematical PASS: 4/23
+- task rows complete: 5/32
+- source mathematical PASS: 5/23
 - non-source role-contract PASS: 0/9
 - central control-plane files required for this math audit: 7/7 installed
 - current blocked rows with durable owner/release condition: none from the former ET/HPS scheduler cohort
