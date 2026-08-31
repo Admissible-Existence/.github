@@ -3,7 +3,7 @@
 **Goal ID:** `AEX-MATHEMATICAL-COMPLETENESS-AUDIT-002`  
 **Parent:** `AEX-PRINCIPLE-COMPLETENESS-001`  
 **Repository / branch:** `Admissible-Existence/.github` / `main`  
-**Status:** `ACTIVE — 3/23 SOURCE PASS; 0/9 NON-SOURCE ROLE-CONTRACT PASS; ET CURRENT PASS; HPS HASH-CURRENT REVALIDATION RUNNING; 29 ROWS NOT YET COMPLETE`
+**Status:** `ACTIVE — 4/23 SOURCE PASS; 0/9 NON-SOURCE ROLE-CONTRACT PASS; ET/HPS CURRENT PASS; 28 ROWS NOT YET COMPLETE`
 
 ## Originating session goal
 
@@ -100,11 +100,29 @@ publication authority: false
 
 ET is now the third source PASS under the clarified mathematical-completeness standard. Its COSV task lane is separately terminal with zero current active structured tasks; mathematical PASS does not create runtime or publication authority.
 
-### HPS — source math complete; current handoff-hash regression blocked
+### HPS — PASS, hash-current hosted validation complete
 
-Historical HPS source/completeness validation is green at `31150408401` / `92778654507` with committed receipt blob `7ef41ce757b39083884e28a6073d24a0de610465`, `valid=true`, 4/4 principles, zero findings, `proofs_accepted=false` and all authority flags false.
+The finite regression owner HPS#2 is closed completed. Current hosted evidence:
 
-However the canonical HPS handoff changed after that receipt and is a hash-bound input. Fresh run `31223119110` / `93011735124` failed before step 1 with zero recorded steps. Current owner: HPS#2. HPS therefore remains PENDING for this matrix until the hash-current regression succeeds.
+```text
+handoff commit: e5e37adee480ecc8761b6ef038fa5e4fe0519866
+run/job: 33409921402 / 99546630695
+conclusion: success
+receipt blob: 08d37884a5cfd7699da3536b16ff7702c876c92d
+receipt persistence commit: be52f6cd6702aa25a8264f0146f1b13acfa6452b
+artifact: 9764690619
+artifact digest: sha256:22a3158efd134886b124a66fdc7a1dcb3f7ef021b99322231b999cfeced52778
+valid: true
+principles: 4/4
+findings: []
+proofs_accepted: false
+execution_authorized: false
+publication_authorized: false
+downstream_activation_authorized: false
+```
+
+The prior persistence race was repaired by rebasing the generated receipt commit onto current
+`main` before push. No HPS standing mathematics, schemas, fixtures, or proof maturity changed.
 
 ## Shared Actions blocker
 
@@ -162,10 +180,10 @@ This complete session is **not** archive-ready. Archive only when all 32 registe
 
 ## Metrics
 
-- task rows complete: 3/32
-- source mathematical PASS: 3/23
+- task rows complete: 4/32
+- source mathematical PASS: 4/23
 - non-source role-contract PASS: 0/9
 - central control-plane files required for this math audit: 7/7 installed
-- current blocked rows with durable owner/release condition: HPS hash-current revalidation only
+- current blocked rows with durable owner/release condition: none from the former ET/HPS scheduler cohort
 - matrix ready: false
 - session consolidation for the clarification goal: complete as a transfer mechanism, but execution goal remains active.
