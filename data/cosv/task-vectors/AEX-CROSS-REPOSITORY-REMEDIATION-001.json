@@ -1,0 +1,41 @@
+{
+  "identity": "Admissible-Existence/.github:task:AEX-CROSS-REPOSITORY-REMEDIATION-001",
+  "profile": "task.v1",
+  "level": "task",
+  "vector": "40000000104000",
+  "evidence_refs": [
+    "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md",
+    "data/cross-repository-remediation-registry.json"
+  ],
+  "observed_at": "2026-08-31T11:58:00-05:00",
+  "exact_metrics": {
+    "symbol_order": "LRUIVGOCMTBEAP",
+    "lifecycle": "CLAIMED_INTEGRATION",
+    "archive_ready": false,
+    "unassigned_work": 0,
+    "chat_owned_implementation": 0,
+    "chat_owned_validation": 0,
+    "chat_owned_integration": 0,
+    "chat_owned_observation": 0,
+    "chat_owned_credentials": 0,
+    "canonical_owner_installed": true,
+    "thread_required": false,
+    "blocker_count": 4,
+    "evidence_complete": false,
+    "activated": false,
+    "propagated": false
+  },
+  "metric_evidence": {
+    "lifecycle": "ACTIVE coordination lane primarily owns cross-repository integration/remediation",
+    "archive_ready": "remaining AE, CTA, TT and RTG/dependency lanes prevent archive closure",
+    "unassigned_work": "all remaining unique lanes have named canonical owners",
+    "chat_owned_counts": "no chat-owned authority is required",
+    "canonical_owner_installed": "router/activator registries, handoff and owner issues are installed",
+    "thread_required": "repository-native handoff is sufficient",
+    "blocker_count": "four remaining canonical lane classes: two direct source routes, one observe-only route, one integration-only route; external dependencies remain named within those continuations",
+    "evidence_complete": "session archive condition remains false",
+    "activated": "coordination registry activity does not grant downstream activation",
+    "propagated": "destination propagation remains separately gated"
+  },
+  "authority_effect": "NONE"
+}
