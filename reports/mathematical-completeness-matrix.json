@@ -218,21 +218,45 @@
     },
     {
       "audit": {
-        "gaps": [
-          "repository_local_self_audit_evidence"
-        ],
-        "mathematical_complete": false,
-        "proof_candidate_is_proof": false,
-        "semantic": {
-          "dependency_derivation": false,
-          "falsification_and_limits": false,
-          "formal_declaration": false,
-          "mathematical_derivation_evidence": false,
-          "mathematical_notation": false,
-          "proof_candidate": false,
-          "whole_repo_theory": false
+        "evidence": {
+          "artifact": 9763674952,
+          "artifact_digest": "sha256:a698715c107467ae6c09179d476b8b22d8b1e7b3de0e8fd0f35b76b47ff50cf9",
+          "conclusion": "success",
+          "dependency_derivation": true,
+          "execution_authorized": false,
+          "falsification_and_limits": true,
+          "formal_declaration": true,
+          "goal": "ET-MATHEMATICAL-COMPLETENESS-002",
+          "handoff": "ET_MIRROR_HANDOFF.md",
+          "handoff_commit": "4aac76f0962fef5e208296109abd967c7016766a",
+          "job": 99538158274,
+          "mathematical_derivation_evidence": true,
+          "mathematical_notation": true,
+          "proof_candidate": true,
+          "proof_maturity": "6/6 candidate_not_proven",
+          "receipt": "reports/et-mathematical-completeness-receipt.json",
+          "receipt_blob": "eda12d69c8b11e9568d09012b3f0a710dbde55b4",
+          "receipt_commit": "451e6a638b1a9659c69b10f1dfe7fc9a3d89f30d",
+          "role": "source",
+          "run": 33407368930,
+          "state": "PASS",
+          "whole_repo_theory": true,
+          "workflow": ".github/workflows/mathematical-completeness-self-audit.yml"
         },
-        "state": "PENDING_EVIDENCE"
+        "gaps": [],
+        "mathematical_complete": true,
+        "proof_candidate_is_proof": false,
+        "proof_maturity": "6/6 candidate_not_proven",
+        "semantic": {
+          "dependency_derivation": true,
+          "falsification_and_limits": true,
+          "formal_declaration": true,
+          "mathematical_derivation_evidence": true,
+          "mathematical_notation": true,
+          "proof_candidate": true,
+          "whole_repo_theory": true
+        },
+        "state": "PASS"
       },
       "repository": "Admissible-Existence/ET",
       "role": "source",
@@ -793,11 +817,11 @@
   ],
   "schema_version": "2.0.0",
   "summary": {
-    "gap_repositories": 30,
+    "gap_repositories": 29,
     "non_source": 9,
     "non_source_complete": 0,
     "registered": 32,
     "source": 23,
-    "source_complete": 2
+    "source_complete": 3
   }
 }

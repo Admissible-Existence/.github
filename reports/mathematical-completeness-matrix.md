@@ -2,9 +2,9 @@
 
 Goal: `AEX-MATHEMATICAL-COMPLETENESS-AUDIT-002`  
 Registered: **32**  
-Source PASS: **2/23**  
+Source PASS: **3/23**  
 Non-source role-contract PASS: **0/9**  
-Pending/GAP repositories: **30**  
+Pending/GAP repositories: **29**  
 Organization ready: **false**
 
 | Repository | Role | Worker state | Formal | Dependency | Theory | Math | Derivation | Proof candidate | Falsification | Result |
@@ -16,7 +16,7 @@ Organization ready: **false**
 | `Admissible-Existence/GTG` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
 | `Admissible-Existence/TT` | source | `source_complete_integration_pending` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | **PASS** |
 | `Admissible-Existence/STCM` | source | `validated_complete_notify_only` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | **PASS** |
-| `Admissible-Existence/ET` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
+| `Admissible-Existence/ET` | source | `validated_complete_notify_only` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | **PASS** |
 | `Admissible-Existence/learning-transition-governance` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
 | `Admissible-Existence/BC` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
 | `Admissible-Existence/CHF` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
@@ -49,7 +49,6 @@ Organization ready: **false**
 - `Admissible-Existence/Existence`: repository_local_self_audit_evidence
 - `Admissible-Existence/RTG`: repository_local_self_audit_evidence
 - `Admissible-Existence/GTG`: repository_local_self_audit_evidence
-- `Admissible-Existence/ET`: repository_local_self_audit_evidence
 - `Admissible-Existence/learning-transition-governance`: repository_local_self_audit_evidence
 - `Admissible-Existence/BC`: repository_local_self_audit_evidence
 - `Admissible-Existence/CHF`: repository_local_self_audit_evidence
