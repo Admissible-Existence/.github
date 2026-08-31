@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "activation_id": "AEX-PC-RECONCILE-20260806-01",
-  "generated_at": "2026-08-31T14:27:11.139087+00:00",
+  "generated_at": "2026-08-31T17:31:39.659095+00:00",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "expected_repository_count": 32,
   "live_observed_repository_count": 4,
@@ -200,6 +200,12 @@
           "label": "2026-08-19 operational recovery proof",
           "sources": [
             "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "2026-08-31 evidence reconciliation",
+          "sources": [
+            "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -935,6 +941,12 @@
           ]
         },
         {
+          "label": "COSV control-plane task-surface reconciliation \u2014 2026-08-31",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Cross-repository dependencies",
           "sources": [
             "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
@@ -1229,7 +1241,7 @@
           ]
         },
         {
-          "label": "ET \u2014 implemented, hosted validation blocked",
+          "label": "ET \u2014 PASS, hash-current hosted validation complete",
           "sources": [
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
           ]
@@ -1275,6 +1287,12 @@
           "label": "Exact next execution order",
           "sources": [
             "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Exact-main validation closure \u2014 2026-08-31",
+          "sources": [
+            "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1410,6 +1428,12 @@
           ]
         },
         {
+          "label": "GCAT-BCAT \u2014 PASS, root mathematical completeness current",
+          "sources": [
+            "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Goal",
           "sources": [
             "docs/FORMALISM_WORKER_COMPLETION_STANDARD.md",
@@ -1454,6 +1478,12 @@
           ]
         },
         {
+          "label": "Hosted operational evidence \u2014 2026-08-31",
+          "sources": [
+            "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Hosted PR validation trigger",
           "sources": [
             "docs/external-formalisms/VERFI_PUBLIC_SOURCE_PR_VALIDATION_2026-08-23.md",
@@ -1491,7 +1521,7 @@
           ]
         },
         {
-          "label": "HPS \u2014 source math complete; current handoff-hash regression blocked",
+          "label": "HPS \u2014 PASS, hash-current hosted validation complete",
           "sources": [
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
           ]
@@ -2454,7 +2484,7 @@
         {
           "severity": "error",
           "code": "UNRESOLVED_PLACEHOLDERS",
-          "count": 163
+          "count": 140
         },
         {
           "severity": "warning",
@@ -2474,12 +2504,12 @@
         }
       ],
       "metrics": {
-        "files": 143,
+        "files": 151,
         "markdown_files": 38,
-        "structured_files": 78,
+        "structured_files": 85,
         "handoffs": 8,
-        "principle_candidates": 399,
-        "placeholder_markers": 163,
+        "principle_candidates": 404,
+        "placeholder_markers": 140,
         "broken_local_links": 0,
         "ambiguous_short_repository_identities": 10,
         "dimensions_met": 12,
