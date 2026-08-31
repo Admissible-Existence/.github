@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "blocker_id": "AEX-MATH-ACTIONS-SCHEDULER-003",
   "goal_id": "AEX-MATHEMATICAL-COMPLETENESS-AUDIT-002",
-  "state": "BLOCKED_ACTIONS_BEFORE_STEP_1",
+  "state": "RELEASED_ACTIONS_EXECUTION_OBSERVED",
   "observed_at": "2026-08-07T17:16:00-05:00",
   "owner": "Admissible-Existence organization/repository Actions administration and execution path",
   "scope": "repository-local hosted revalidation for mathematical-completeness rows whose canonical hash-bound inputs changed after their last successful receipt",
@@ -35,12 +35,33 @@
       "recorded_steps": 0
     }
   ],
-  "interpretation": "The same failure-before-step-1 signature is reproduced across two repositories and both new and pre-existing workflows. It must not be interpreted as a source test or mathematical validation failure.",
+  "interpretation": "The prior cross-repository failure-before-step-1 condition is no longer active. Repository-specific validation gates remain independent and must be satisfied separately.",
   "machine_observable_release_condition": "A subsequent affected-repository Actions run records at least one executed step. Repository-specific blockers then rerun their canonical self-audit/verification workflow and require successful tests, current hash-bound receipt persistence, and direct run/job/log/artifact inspection.",
   "fail_closed_rule": "Do not promote a PENDING/BLOCKED mathematical-completeness row to PASS while its current canonical hash-bound inputs have not been revalidated after a change.",
   "repository_owners": {
     "Admissible-Existence/ET": "data/claims/ET-MATHEMATICAL-COMPLETENESS-002.json",
     "Admissible-Existence/HPS": "issues/2"
   },
-  "next_executable_action": "Continue unblocked source mathematics implementation/standardization. Re-test affected hosted lanes only when the machine-observable release condition becomes true."
+  "next_executable_action": "Immediately retry HPS hash-current repository verification under its existing owner; continue other repository-local audits without treating the former scheduler condition as active.",
+  "released_at": "2026-08-31T10:24:00-05:00",
+  "release_evidence": [
+    {
+      "repository": "Admissible-Existence/ET",
+      "workflow": ".github/workflows/mathematical-completeness-self-audit.yml",
+      "run": 33407368930,
+      "job": 99538158274,
+      "commit": "4aac76f0962fef5e208296109abd967c7016766a",
+      "conclusion": "success",
+      "recorded_steps": 8,
+      "artifact": 9763674952
+    },
+    {
+      "repository": "Admissible-Existence/ET",
+      "workflow": ".github/workflows/validate.yml",
+      "run": 33407368887,
+      "commit": "4aac76f0962fef5e208296109abd967c7016766a",
+      "conclusion": "success",
+      "recorded_steps": "nonzero"
+    }
+  ]
 }
