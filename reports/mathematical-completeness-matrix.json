@@ -418,21 +418,45 @@
     },
     {
       "audit": {
-        "gaps": [
-          "repository_local_self_audit_evidence"
-        ],
-        "mathematical_complete": false,
-        "proof_candidate_is_proof": false,
-        "semantic": {
-          "dependency_derivation": false,
-          "falsification_and_limits": false,
-          "formal_declaration": false,
-          "mathematical_derivation_evidence": false,
-          "mathematical_notation": false,
-          "proof_candidate": false,
-          "whole_repo_theory": false
+        "evidence": {
+          "artifact": 9765273671,
+          "artifact_digest": "sha256:98c77668047e11f751da86ff61eb627b8e0cd07d46ac3aa7fad870bd5cf34519",
+          "conclusion": "success",
+          "dependency_derivation": true,
+          "execution_authorized": false,
+          "falsification_and_limits": true,
+          "formal_declaration": true,
+          "goal": "GCAT-BCAT-PRINCIPLE-COMPLETENESS-001",
+          "handoff": "GCAT_BCAT_MIRROR_HANDOFF.md",
+          "handoff_commit": "4b23709aaaa9c79a74181d0340cd76dd100c2884",
+          "job": 99551695732,
+          "mathematical_derivation_evidence": true,
+          "mathematical_notation": true,
+          "proof_candidate": true,
+          "proof_maturity": "4/4 bounded candidates; proofs_accepted=false",
+          "receipt": "reports/gcat-bcat-principle-completeness-validation.json",
+          "receipt_blob": "77e83e78836b3b6da3c68c220310c2da30ce66c8",
+          "receipt_commit": "4b23709aaaa9c79a74181d0340cd76dd100c2884",
+          "role": "source",
+          "run": 33411436612,
+          "state": "PASS",
+          "whole_repo_theory": true,
+          "workflow": ".github/workflows/build.yml"
         },
-        "state": "PENDING_EVIDENCE"
+        "gaps": [],
+        "mathematical_complete": true,
+        "proof_candidate_is_proof": false,
+        "proof_maturity": "4/4 bounded candidates; proofs_accepted=false",
+        "semantic": {
+          "dependency_derivation": true,
+          "falsification_and_limits": true,
+          "formal_declaration": true,
+          "mathematical_derivation_evidence": true,
+          "mathematical_notation": true,
+          "proof_candidate": true,
+          "whole_repo_theory": true
+        },
+        "state": "PASS"
       },
       "repository": "Admissible-Existence/GCAT-BCAT",
       "role": "source",
@@ -841,11 +865,11 @@
   ],
   "schema_version": "2.0.0",
   "summary": {
-    "gap_repositories": 28,
+    "gap_repositories": 27,
     "non_source": 9,
     "non_source_complete": 0,
     "registered": 32,
     "source": 23,
-    "source_complete": 4
+    "source_complete": 5
   }
 }

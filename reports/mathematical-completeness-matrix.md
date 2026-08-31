@@ -2,9 +2,9 @@
 
 Goal: `AEX-MATHEMATICAL-COMPLETENESS-AUDIT-002`  
 Registered: **32**  
-Source PASS: **4/23**  
+Source PASS: **5/23**  
 Non-source role-contract PASS: **0/9**  
-Pending/GAP repositories: **28**  
+Pending/GAP repositories: **27**  
 Organization ready: **false**
 
 | Repository | Role | Worker state | Formal | Dependency | Theory | Math | Derivation | Proof candidate | Falsification | Result |
@@ -24,7 +24,7 @@ Organization ready: **false**
 | `Admissible-Existence/RE-Reduction` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
 | `Admissible-Existence/DC` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
 | `Admissible-Existence/Triad` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
-| `Admissible-Existence/GCAT-BCAT` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
+| `Admissible-Existence/GCAT-BCAT` | source | `validated_complete_notify_only` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | **PASS** |
 | `Admissible-Existence/ECAT-ICAT` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
 | `Admissible-Existence/IICT` | source | `validated_complete_notify_only` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
 | `Admissible-Existence/CTA` | source | `required` | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING | **PENDING_EVIDENCE** |
@@ -56,7 +56,6 @@ Organization ready: **false**
 - `Admissible-Existence/RE-Reduction`: repository_local_self_audit_evidence
 - `Admissible-Existence/DC`: repository_local_self_audit_evidence
 - `Admissible-Existence/Triad`: repository_local_self_audit_evidence
-- `Admissible-Existence/GCAT-BCAT`: repository_local_self_audit_evidence
 - `Admissible-Existence/ECAT-ICAT`: repository_local_self_audit_evidence
 - `Admissible-Existence/IICT`: repository_local_self_audit_evidence
 - `Admissible-Existence/CTA`: repository_local_self_audit_evidence
