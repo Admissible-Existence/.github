@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T20:31:00Z",
+  "generated_at": "2026-08-31T16:52:00Z",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "claim_semantics": {
     "expired_claim_without_renewal_is_active": false,
@@ -20,7 +20,10 @@
       "claim_expires_at": "2026-08-13T20:28:00Z",
       "release_condition": "Lane 3 deterministic render, lane 5 evidence closure, and readiness convergence are directly verified or the claim is renewed with current machine evidence",
       "collision_boundary": "Do not duplicate RTG rendering, evidence closure, theorem review packet generation, or readiness convergence",
-      "evidence": ["Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md", "Admissible-Existence/RTG/docs/RTG_MIRROR_HANDOFF.md"],
+      "evidence": [
+        "Admissible-Existence/.github/FORMALISM_MIRROR_HANDOFF.md",
+        "Admissible-Existence/RTG/docs/RTG_MIRROR_HANDOFF.md"
+      ],
       "next_action": "Observe and validate current RTG machine receipts; repair only the first proven defect",
       "next_action_location": "Admissible-Existence/RTG/review/volume-I-integrated-v0.9.0/machine-execution/",
       "archival_dependency": false
@@ -32,16 +35,26 @@
       "branch": "main",
       "stage": "coherence_audit",
       "claim_state": "BLOCKED",
-      "completion_state": "IMPLEMENTED_UNVALIDATED",
+      "completion_state": "IMPLEMENTED_CURRENT_VISIBILITY_BLOCKED",
       "claimant": "formalism-coherence-audit.yml",
       "claim_created_at": "2026-08-02T07:45:00Z",
-      "claim_expires_at": "2026-08-13T20:28:00Z",
-      "release_condition": "Authorized evidence covers all 32 repositories and a hosted run persists reports and artifacts; otherwise renew as BLOCKED with current visibility evidence",
+      "claim_expires_at": "2026-09-07T16:52:00Z",
+      "release_condition": "A hosted audit must inspect the full registered Admissible-Existence repository set and then persist the audit/task-state reports plus artifact. Run 33399505393 / job 99512061890 currently sees only 4 repositories and therefore fails closed before persistence.",
       "collision_boundary": "Organization audit only; source repositories retain mathematical authority",
-      "evidence": ["run:31124767311", "job:92693032673", "commit:6c360974a69cd7161fd7604d70162617e42285cf", ".github/workflows/formalism-coherence-audit.yml"],
-      "next_action": "Run the reconciled lane and inspect persisted 32-repository evidence",
-      "next_action_location": ".github/workflows/principle-completeness-reconciled.yml",
-      "archival_dependency": false
+      "evidence": [
+        "run:31124767311",
+        "job:92693032673",
+        "commit:6c360974a69cd7161fd7604d70162617e42285cf",
+        ".github/workflows/formalism-coherence-audit.yml",
+        "run:33399505393",
+        "job:99512061890",
+        "proven_blocker:repository_count=4_below_required_31",
+        "failure_step:Validate completeness evidence"
+      ],
+      "next_action": "Use only the governed TV/TVC visibility/apply path or another already-authorized repository-native path to restore full organization visibility; do not lower the repository-count gate.",
+      "next_action_location": "Admissible-Existence/.github#3 and StegVerse-Labs/TVC#13",
+      "archival_dependency": false,
+      "claim_renewed_at": "2026-08-31T16:52:00Z"
     },
     {
       "task_id": "AEX-ORG-RECONCILED-AUDIT",
@@ -56,7 +69,12 @@
       "claim_expires_at": "2026-08-13T20:28:00Z",
       "release_condition": "Hosted run commits reconciled JSON/Markdown, task state, and uploads artifact; otherwise renew with workflow registration and trigger evidence",
       "collision_boundary": "Reconciliation may preserve and block registry-only entries but may never upgrade source completeness",
-      "evidence": ["workflow_id:328862629", "commit:370ff0176e1447341904df2f6f6eb834659791b1", "commit:aa6a192104de13e20d97ad63a7ef0ae3448c6ac0", "commit:4e3c9ea99d2d317ae8d01a091a7256632a22c14d"],
+      "evidence": [
+        "workflow_id:328862629",
+        "commit:370ff0176e1447341904df2f6f6eb834659791b1",
+        "commit:aa6a192104de13e20d97ad63a7ef0ae3448c6ac0",
+        "commit:4e3c9ea99d2d317ae8d01a091a7256632a22c14d"
+      ],
       "next_action": "Inspect first hosted run or scheduled execution and update issue 4 and the canonical handoff",
       "next_action_location": "Admissible-Existence/.github/issues/4",
       "archival_dependency": false
@@ -74,7 +92,13 @@
       "claim_expires_at": "2026-08-13T20:28:00Z",
       "release_condition": "Hosted run commits organization-mathematics-validation.json and uploads its artifact",
       "collision_boundary": "Registry tracks source claims but does not accept proofs or create source authority",
-      "evidence": ["workflow_id:328858341", "commit:881129c97849a06e32d54a819c4380216d664a36", "commit:47cd0a988232d4404de2cbd71f8927d3ff316490", "commit:1597338f64f9666c824d555c21930dade2a3c494", "commit:1939898ec956e56c21abd6622acabc8bbd30bbc0"],
+      "evidence": [
+        "workflow_id:328858341",
+        "commit:881129c97849a06e32d54a819c4380216d664a36",
+        "commit:47cd0a988232d4404de2cbd71f8927d3ff316490",
+        "commit:1597338f64f9666c824d555c21930dade2a3c494",
+        "commit:1939898ec956e56c21abd6622acabc8bbd30bbc0"
+      ],
       "next_action": "Inspect the first hosted validation receipt and artifact",
       "next_action_location": ".github/workflows/organization-mathematics-registry.yml",
       "archival_dependency": false
@@ -92,7 +116,10 @@
       "claim_expires_at": "2026-08-13T20:28:00Z",
       "release_condition": "Hosted run, logs, committed receipt, and artifact are inspected or claim is renewed with a proven blocker",
       "collision_boundary": "Do not modify publication issue 20 or claim proof acceptance",
-      "evidence": ["Admissible-Existence/AE/docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md", "commit:4862a3760804accf7c6fc4c204e2c90c50d69b9e"],
+      "evidence": [
+        "Admissible-Existence/AE/docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md",
+        "commit:4862a3760804accf7c6fc4c204e2c90c50d69b9e"
+      ],
       "next_action": "Inspect first hosted validation and correct only proven defects",
       "next_action_location": "Admissible-Existence/AE/.github/workflows/validate-principle-completeness.yml",
       "archival_dependency": false
@@ -110,7 +137,13 @@
       "claim_expires_at": "2026-08-13T20:28:00Z",
       "release_condition": "Hosted run, logs, committed SHA-256 receipt, RC1 regression, and artifact are inspected or claim is renewed with a proven blocker",
       "collision_boundary": "Do not replace RC1 mathematics or grant execution authority",
-      "evidence": ["commit:1bcc1bcb3c798e9f90a95ea831a92ce250200f75", "commit:5b71c91a08387bc6217d757aa43ef51e8a10cf4a", "commit:75b1a9338bdb9ace61866a5f73df823f42a469a6", "commit:61e354a139e2dbff263b5f96e70897b3b1dde83a", "commit:03edac91138523044575221274670ddb4af1fba0"],
+      "evidence": [
+        "commit:1bcc1bcb3c798e9f90a95ea831a92ce250200f75",
+        "commit:5b71c91a08387bc6217d757aa43ef51e8a10cf4a",
+        "commit:75b1a9338bdb9ace61866a5f73df823f42a469a6",
+        "commit:61e354a139e2dbff263b5f96e70897b3b1dde83a",
+        "commit:03edac91138523044575221274670ddb4af1fba0"
+      ],
       "next_action": "Inspect the first hosted principle-completeness run and synchronize the Existence handoff",
       "next_action_location": "Admissible-Existence/Existence/.github/workflows/principle-completeness-validation.yml",
       "archival_dependency": false

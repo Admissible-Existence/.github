@@ -137,3 +137,23 @@ Program completion is not required for this individual session to archive once c
 - Integration: 2/8 = 25%
 - Goal activation: 34%
 - Session consolidation: 5/5 unique session requirements transferred = 100%
+
+
+## 2026-08-31 evidence reconciliation
+
+The historical activation-observer validation claim is terminal. Current direct evidence:
+
+```text
+observer run: 33402441350
+observer job: 99521787302
+state: COMPLETE_READ_ONLY_WORKER_EVIDENCE
+artifact: 9761761301
+artifact digest: sha256:ae5c24e1b3ef767c97aab347a4a68078cc77bbcfca22b1b1d2d19e75799478f5
+```
+
+The distinct parent task `AEX-PC-AUTOMATED-WORKERS-001` remains active. Its remaining release gate
+is the TV/TVC-governed apply invocation and resulting durable repository-local continuation evidence.
+
+The organization coherence audit is separately renewed as BLOCKED from current hosted evidence:
+run `33399505393` / job `99512061890` observes only 4 repositories and therefore fails the
+full-organization visibility gate before persistence/artifact upload. Do not reduce that denominator.

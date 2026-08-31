@@ -348,3 +348,50 @@ All unique relational-admissibility, heartbeat-observation, public-definition, l
 **ARCHIVE-READY AFTER THIS RECONCILIATION MERGES TO CANONICAL MAIN.**
 
 This statement is session-scoped only. It does not mean the broader RTG program, AE publication program, AE#21 mapping, factory #13 proof validation, M23A SES activation, live sovereign model route activation, wallet signing/broadcast, or ecosystem-wide formalism publication is complete.
+
+
+## COSV control-plane task-surface reconciliation — 2026-08-31
+
+The current repository-local task denominator is derived from durable source records after applying
+the repository's own claim-expiry semantics. Expired historical claims without renewal are not active.
+
+Current active structured task surface:
+
+```text
+AEX-ORG-COHERENCE-AUDIT                 BLOCKED
+AEX-PC-AUTOMATED-WORKERS-001            MACHINE_OWNED
+AEX-MATHEMATICAL-COMPLETENESS-AUDIT-002 MACHINE_OWNED
+AEX-CROSS-REPOSITORY-REMEDIATION-001    CLAIMED_INTEGRATION
+HB-RESPONSE-ORG-NODE-0001               MACHINE_OWNED
+```
+
+Terminal exclusions include the completed relational-admissibility lanes, the completed read-only
+worker activation observer, and the exact-main-validated VerFi TEST_CANDIDATE registration gate.
+
+Current projection:
+
+```text
+profile: task.v1
+active tasks audited: 5
+active tasks projected: 5
+gap: 0
+repository VECTOR_PRESENT candidate: true
+authority effect: NONE
+```
+
+The organization coherence audit remains fail-closed because hosted run `33399505393` / job
+`99512061890` can currently inspect only 4 repositories, below the required full-organization
+visibility threshold. That threshold is not weakened.
+
+The heartbeat node is operational and recurring; implementation completion does not terminalize the
+scheduled observation task. The principle-completeness worker remains active until its TV/TVC-governed
+apply invocation and downstream repository-local continuation evidence exist.
+
+Canonical COSV surfaces:
+
+```text
+data/cosv/task-vector-index.json
+data/cosv/task-vectors/*.json
+scripts/check_cosv_task_projection.py
+.github/workflows/validate-cosv-projection.yml
+```

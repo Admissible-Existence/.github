@@ -5,7 +5,7 @@
 - Goal ID: `AEX-VERFI-EXTERNAL-FORMALISM-001`
 - Repository: `Admissible-Existence/.github`
 - Parent coordination authority: `FORMALISM_MIRROR_HANDOFF.md`
-- Status: `PUBLIC_SOURCE_GROUNDED_HOSTED_VALIDATED_PENDING_EXACT_MAIN_AND_REAL_ARTIFACT`
+- Status: `PUBLIC_SOURCE_GROUNDED_EXACT_MAIN_VALIDATED_TEST_CANDIDATE`
 - Registered: `2026-08-22`
 - Public-source grounding added: `2026-08-23`
 - Scope: bounded external-formalism registration, deterministic StegVerse governance-lane testing, and public-source semantic grounding only.
@@ -171,10 +171,10 @@ Scope expanded on 2026-08-23 to include publisher-source grounding, so the denom
 6 existing workflow integration: COMPLETE
 7 durable task/handoff state: COMPLETE
 8 hosted validation of public-source-grounded tree: COMPLETE
-9 exact-current-main hosted validation evidence: PENDING
+9 exact-current-main hosted validation evidence: COMPLETE
 ```
 
-Current bounded completion: `8/9 = 88.9%` for the expanded source-grounded registration goal.
+Current bounded completion: `9/9 = 100%` for the source-grounded registration and exact-main validation goal.
 
 Developed source/control surfaces: `8/8`; scaffolding/stubs: `0`; missing planned source files: `0`.
 
@@ -183,3 +183,25 @@ Implementation-level VerFi interoperability is a separate downstream gate and re
 ## Archive / continuation
 
 This handoff is sufficient to continue without chat history. Do not promote beyond `TEST_CANDIDATE` until exact-current-main validation is bound and a genuine VerFi artifact is independently reconstructed and negative-tested.
+
+
+## Exact-main validation closure — 2026-08-31
+
+The previously pending exact-current-main gate was already satisfied by a directly inspected
+main-branch Canonical Formalism Orientation Validation run:
+
+```text
+run: 32669717663
+job: 97268542920
+head: ac6839f4a36b3e77cfd761a9d1d82fa7d811fcee
+branch: main
+conclusion: success
+VerFi parse: success
+VerFi boundary/lane validation: success
+VerFi regression tests: success
+workflow authority effect: NONE_VALIDATION_ONLY
+```
+
+The registration goal is therefore COMPLETE/RELEASED at TEST_CANDIDATE maturity. A genuine VerFi
+implementation artifact would admit a new, separate interoperability/reconstruction task; its absence
+does not keep this exact-main validation task active.

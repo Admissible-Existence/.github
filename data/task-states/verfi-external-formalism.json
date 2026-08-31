@@ -4,8 +4,8 @@
   "repository": "Admissible-Existence/.github",
   "branch": "main",
   "stage": "external_formalism_candidate_validation",
-  "status": "IMPLEMENTED_PENDING_EXACT_HEAD_VALIDATION",
-  "claim_state": "CLAIMED_FOR_VALIDATION",
+  "status": "VALIDATED_TEST_CANDIDATE",
+  "claim_state": "COMPLETE_RELEASED",
   "claim_created_at": "2026-08-22T17:55:00-05:00",
   "claim_expires_at": "2026-08-29T17:55:00-05:00",
   "collision_boundary": "Do not redefine VerFi implementation semantics without an actual VerFi artifact; do not promote the candidate to canonical StegVerse mathematics; do not replace Admissible-Existence/AE as resolver; do not create a second validation control plane.",
@@ -17,12 +17,12 @@
     "regression_tests": "COMPLETE",
     "existing_workflow_integration": "COMPLETE",
     "durable_handoff": "COMPLETE",
-    "exact_current_main_hosted_validation": "PENDING"
+    "exact_current_main_hosted_validation": "COMPLETE"
   },
   "completion": {
-    "completed": 7,
+    "completed": 8,
     "total": 8,
-    "percent": 87.5,
+    "percent": 100,
     "developed_source_control_surfaces": 7,
     "planned_source_control_surfaces": 7,
     "scaffolding_or_stubs": 0,
@@ -36,6 +36,18 @@
     "publication_authority": false,
     "canonicality_authority": false
   },
-  "next_action": "Inspect the exact-current-main Canonical Formalism Orientation Validation run. If all VerFi parse, validator and regression-test steps pass, bind the run/job/head evidence here and release the validation claim. Do not advance beyond TEST_CANDIDATE until an actual VerFi evidence artifact is available for independent reconstruction testing.",
-  "handoff": "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
+  "next_action": "No further repository-local validation task is admitted until a genuine external VerFi artifact is supplied. If one becomes available, create a new bounded interoperability/reconstruction task; do not reopen this completed registration gate.",
+  "handoff": "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md",
+  "claim_released_at": "2026-08-31T11:53:00-05:00",
+  "validation_evidence": {
+    "run": 32669717663,
+    "job": 97268542920,
+    "head_sha": "ac6839f4a36b3e77cfd761a9d1d82fa7d811fcee",
+    "head_branch": "main",
+    "conclusion": "success",
+    "verfi_parse": "success",
+    "verfi_boundary_lane_validation": "success",
+    "verfi_regression_tests": "success",
+    "authority_effect": "NONE_VALIDATION_ONLY"
+  }
 }
