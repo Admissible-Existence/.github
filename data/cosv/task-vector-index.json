@@ -1,0 +1,66 @@
+{
+  "schema": "stegverse.admissible-existence-github.cosv-task-vector-index/v1",
+  "repository": "Admissible-Existence/.github",
+  "profile": "task.v1",
+  "notation": "L R U I V G O C M T B E A P",
+  "width": 14,
+  "canonical_profile_ref": "StegVerse-Labs/.github/management/COSV_PROFILE_V1.json",
+  "observed_at": "2026-08-31T11:58:00-05:00",
+  "authority_effect": "NONE",
+  "tasks": [
+    {
+      "task_id": "AEX-ORG-COHERENCE-AUDIT",
+      "state_ref": "data/formalism-task-claims.json",
+      "vector_ref": "data/cosv/task-vectors/AEX-ORG-COHERENCE-AUDIT.json",
+      "vector": "60000000101000",
+      "binding_mode": "SOURCE_BOUND_CLAIM"
+    },
+    {
+      "task_id": "AEX-PC-AUTOMATED-WORKERS-001",
+      "state_ref": "data/principle-completeness-worker-claim.json",
+      "vector_ref": "data/cosv/task-vectors/AEX-PC-AUTOMATED-WORKERS-001.json",
+      "vector": "50000000101000",
+      "binding_mode": "SOURCE_BOUND_CLAIM"
+    },
+    {
+      "task_id": "AEX-MATHEMATICAL-COMPLETENESS-AUDIT-002",
+      "state_ref": "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md",
+      "vector_ref": "data/cosv/task-vectors/AEX-MATHEMATICAL-COMPLETENESS-AUDIT-002.json",
+      "vector": "50000000109000",
+      "binding_mode": "SOURCE_BOUND_HANDOFF"
+    },
+    {
+      "task_id": "AEX-CROSS-REPOSITORY-REMEDIATION-001",
+      "state_ref": "data/cross-repository-remediation-registry.json",
+      "vector_ref": "data/cosv/task-vectors/AEX-CROSS-REPOSITORY-REMEDIATION-001.json",
+      "vector": "40000000104000",
+      "binding_mode": "SOURCE_BOUND_REGISTRY"
+    },
+    {
+      "task_id": "HB-RESPONSE-ORG-NODE-0001",
+      "state_ref": "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md",
+      "vector_ref": "data/cosv/task-vectors/HB-RESPONSE-ORG-NODE-0001.json",
+      "vector": "50000000100110",
+      "binding_mode": "SOURCE_BOUND_HANDOFF"
+    }
+  ],
+  "terminal_tasks_excluded": [
+    "AEX-RELATIONAL-ADMISSIBILITY-001",
+    "AEX-RELATIONAL-ADMISSIBILITY-MINSET-002",
+    "AEX-PC-WORKER-ACTIVATION-OBSERVER-001",
+    "AEX-VERFI-EXTERNAL-FORMALISM-001"
+  ],
+  "expired_claims_excluded": [
+    "AEX-ORG-RECONCILED-AUDIT",
+    "AEX-ORG-MATHEMATICS-REGISTRY",
+    "AEX-PC-AE-VALIDATION",
+    "AEX-PC-EXISTENCE-VALIDATION"
+  ],
+  "coverage": {
+    "current_structured_active_tasks_audited": 5,
+    "current_structured_active_tasks_projected": 5,
+    "current_structured_active_task_gap": 0,
+    "repository_active_task_surface_audit_complete": true,
+    "repository_vector_present_claimed": true
+  }
+}
