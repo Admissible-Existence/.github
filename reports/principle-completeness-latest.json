@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0.0",
-  "generated_at": "2026-08-24T07:45:07.112310+00:00",
+  "generated_at": "2026-08-31T14:27:11.048446+00:00",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "repository_count": 4,
   "dimension_count": 12,
@@ -4154,6 +4154,12 @@
           ]
         },
         {
+          "label": "COSV adoption \u2014 2026-08-31",
+          "sources": [
+            "STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Cross-repo admissibility predicate draft",
           "sources": [
             "docs/STCM_V0_6_PORTABLE_RECEIPT_AUTHORITY.md"
@@ -5103,11 +5109,11 @@
         }
       ],
       "metrics": {
-        "files": 113,
+        "files": 118,
         "markdown_files": 21,
-        "structured_files": 49,
+        "structured_files": 52,
         "handoffs": 2,
-        "principle_candidates": 236,
+        "principle_candidates": 237,
         "placeholder_markers": 9,
         "broken_local_links": 0,
         "ambiguous_short_repository_identities": 4,
