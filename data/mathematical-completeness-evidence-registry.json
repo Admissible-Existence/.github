@@ -83,6 +83,31 @@
       "falsification_and_limits": true,
       "proof_maturity": "6/6 candidate_not_proven",
       "execution_authorized": false
+    },
+    "Admissible-Existence/HPS": {
+      "state": "PASS",
+      "role": "source",
+      "goal": "HPS-PRINCIPLE-COMPLETENESS-001",
+      "handoff": "HPS_MIRROR_HANDOFF.md",
+      "handoff_commit": "e5e37adee480ecc8761b6ef038fa5e4fe0519866",
+      "receipt": "reports/hps-principle-completeness-validation.json",
+      "receipt_blob": "08d37884a5cfd7699da3536b16ff7702c876c92d",
+      "receipt_commit": "be52f6cd6702aa25a8264f0146f1b13acfa6452b",
+      "workflow": ".github/workflows/hps-verify.yml",
+      "run": 33409921402,
+      "job": 99546630695,
+      "conclusion": "success",
+      "artifact": 9764690619,
+      "artifact_digest": "sha256:22a3158efd134886b124a66fdc7a1dcb3f7ef021b99322231b999cfeced52778",
+      "formal_declaration": true,
+      "dependency_derivation": true,
+      "whole_repo_theory": true,
+      "mathematical_notation": true,
+      "mathematical_derivation_evidence": true,
+      "proof_candidate": true,
+      "falsification_and_limits": true,
+      "proof_maturity": "4/4 bounded candidates; proofs_accepted=false",
+      "execution_authorized": false
     }
   },
   "default_state_for_unlisted_registered_repository": "PENDING_EVIDENCE"
