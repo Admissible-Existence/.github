@@ -30,3 +30,18 @@ GitHub Actions may validate or convey evidence but are not sovereign runtime aut
 
 ## Migration rule
 Legacy organization-runtime activation surfaces outside `Admissible-Existence/.github` are endpoint/provider implementations or migration sources, not competing organizational activation points.
+
+
+## AID AI Discovery endpoint
+
+`Admissible-Existence/AID` is the organization AI Discovery SDK endpoint. It expands discovery/creative allowance for intelligent code already constructed within consequential governance and does not create entityhood, standing, authority, admissibility, or execution.
+
+Canonical service:
+
+`admissible-existence.aid`
+
+Cross-organization AID communication remains owned by this `.github` boundary. The endpoint is dispatched only through a registered adapter and fails closed when AID source is not materialized on the resident runtime.
+
+Canonical integration handoff:
+
+`docs/AID_DISCOVERY_INTEGRATION_MIRROR_HANDOFF.md`
