@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 -m py_compile org-kernel/kernel.py org-boundary/runtime/process_boundary.py resident-runtime/aid_discovery_surface.py
-      - run: python3 -m pytest -q tests/test_aid_discovery_surface.py
+      - run: python3 -m unittest discover -s tests -p 'test_aid_discovery_surface.py'
       - run: |
           python3 - <<'PY'
           import json
