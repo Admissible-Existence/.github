@@ -1,5 +1,6 @@
-import importlib.util, json, os
+import importlib.util, json, unittest
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location("aid_surface",ROOT/"resident-runtime/aid_discovery_surface.py")
@@ -29,14 +30,21 @@ def envelope(operation):
       "payload":{"operation":operation,"authority_transfer":False}
     }
 
-def test_describe_and_attribution(tmp_path,monkeypatch):
-    aid=tmp_path/"AID"; write_aid(aid)
-    monkeypatch.setenv("ADMISSIBLE_EXISTENCE_AID_ROOT",str(aid))
-    ingress=tmp_path/"in.json"
-    ingress.write_text(json.dumps(envelope("DESCRIBE_STEGVERSE_002_ATTRIBUTION")))
-    result=mod.run(ingress)
-    assert result["authority_transfer"] is False
-    assert result["stegverse_002"]["proven_construction_lineage"]=="Admissible-Existence/TT"
-    assert set(result["stegverse_002"]["related_available_not_required_resources"])=={
-      "Admissible-Existence/RTG","Admissible-Existence/GTG","Admissible-Existence/AE"
-    }
+class AIDDiscoverySurfaceTest(unittest.TestCase):
+    def test_describe_and_attribution(self):
+        import tempfile, os
+        with tempfile.TemporaryDirectory() as td:
+            base=Path(td); aid=base/"AID"; write_aid(aid)
+            ingress=base/"in.json"
+            ingress.write_text(json.dumps(envelope("DESCRIBE_STEGVERSE_002_ATTRIBUTION")))
+            with patch.dict(os.environ,{"ADMISSIBLE_EXISTENCE_AID_ROOT":str(aid)},clear=False):
+                result=mod.run(ingress)
+            self.assertFalse(result["authority_transfer"])
+            self.assertEqual(result["stegverse_002"]["proven_construction_lineage"],"Admissible-Existence/TT")
+            self.assertEqual(
+              set(result["stegverse_002"]["related_available_not_required_resources"]),
+              {"Admissible-Existence/RTG","Admissible-Existence/GTG","Admissible-Existence/AE"}
+            )
+
+if __name__=="__main__":
+    unittest.main()
