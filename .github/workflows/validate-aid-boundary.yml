@@ -1,0 +1,30 @@
+name: Validate AID Boundary
+on:
+  pull_request:
+    paths:
+      - "org-kernel/kernel.py"
+      - "org-boundary/runtime/process_boundary.py"
+      - "org-boundary/registry/services.json"
+      - "resident-runtime/aid_discovery_surface.py"
+      - "tests/test_aid_discovery_surface.py"
+      - "docs/AID_DISCOVERY_INTEGRATION_MIRROR_HANDOFF.md"
+      - "ORG_BOUNDARY_MIRROR_HANDOFF.md"
+permissions: {}
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m py_compile org-kernel/kernel.py org-boundary/runtime/process_boundary.py resident-runtime/aid_discovery_surface.py
+      - run: python3 -m pytest -q tests/test_aid_discovery_surface.py
+      - run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open("org-boundary/registry/services.json"))
+          s=next(x for x in r["services"] if x["service_id"]=="admissible-existence.aid")
+          assert s["boundary_role"]=="INTERNAL_ENDPOINT"
+          assert s["profile_status"]=="ACTIVE"
+          assert s["endpoint_adapter"]=="resident-runtime/aid_discovery_surface.py"
+          assert s["runtime_required_for_consumption"] is True
+          print("AID boundary registration PASS")
+          PY
