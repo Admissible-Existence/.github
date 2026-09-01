@@ -22,6 +22,20 @@
       "runtime_required_for_consumption": false
     },
     {
+      "service_id": "admissible-existence.aid",
+      "repository": "Admissible-Existence/AID",
+      "boundary_role": "INTERNAL_ENDPOINT",
+      "profile_status": "ACTIVE",
+      "accepts": [
+        "DESCRIBE_AID",
+        "DISCOVER_CANONICAL_SOURCES",
+        "DISCOVER_SUPPORT_RESOURCES",
+        "DESCRIBE_STEGVERSE_002_ATTRIBUTION"
+      ],
+      "endpoint_adapter": "resident-runtime/aid_discovery_surface.py",
+      "runtime_required_for_consumption": true
+    },
+    {
       "service_id": "admissible-existence.stcm",
       "repository": "Admissible-Existence/STCM",
       "boundary_role": "INTERNAL_ENDPOINT",
