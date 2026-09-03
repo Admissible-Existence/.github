@@ -1,0 +1,46 @@
+name: Validate principle worker blocker fallback
+
+on:
+  pull_request:
+    paths:
+      - "scripts/run_principle_completeness_workers.py"
+      - "tests/test_principle_worker_blocker_fallback.py"
+      - "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+      - ".github/workflows/validate-principle-worker-blocker-fallback.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/run_principle_completeness_workers.py"
+      - "tests/test_principle_worker_blocker_fallback.py"
+      - "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+      - ".github/workflows/validate-principle-worker-blocker-fallback.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile controller
+        run: python -m py_compile scripts/run_principle_completeness_workers.py
+
+      - name: Prove persist blocker and continue
+        run: python -m unittest tests.test_principle_worker_blocker_fallback -v
+
+      - name: Prove workflow is validation only
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('.github/workflows/validate-principle-worker-blocker-fallback.yml').read_text()
+          assert 'permissions:\n  contents: read' in text
+          contents_write = 'contents' + ': write'
+          issues_write = 'issues' + ': write'
+          assert contents_write not in text
+          assert issues_write not in text
+          assert 'permissions:\n  contents: read' in text
+          print('VALIDATION_ONLY_AUTHORITY_PASS')
+          PY

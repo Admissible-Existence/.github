@@ -371,3 +371,17 @@ The canonical orientation sub-goal and the read-only worker repair sub-goal are 
 - read-only observer release condition: COMPLETE_READ_ONLY_WORKER_EVIDENCE
 - governed apply activation: PENDING TV/TVC
 - broader organization principle-completeness activation: OPEN
+
+## Blocker-fallback continuation proof lane — 2026-09-03
+
+Parent ecosystem adoption: `StegVerse-Labs/.github#242`.
+
+This lane adds validation-only proof for the already-implemented organization controller fallback invariant.
+
+Installed:
+- `tests/test_principle_worker_blocker_fallback.py`
+- `.github/workflows/validate-principle-worker-blocker-fallback.yml`
+
+The deterministic fixture forces repository A into `REPOSITORY_ACCESS_FAILED`, verifies the blocker is persisted with durable owner/release condition/next action, and then verifies repository B is still processed by the same current controller sweep. The aggregate report remains fail-closed while A is unresolved.
+
+This proof lane does not invoke `--apply`, does not consume TV/TVC runtime capability, does not mutate repository issues, and grants no source-formalism, proof-acceptance, repository-administration, release, credential, or execution authority.
