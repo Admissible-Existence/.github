@@ -37,8 +37,10 @@ jobs:
           from pathlib import Path
           text = Path('.github/workflows/validate-principle-worker-blocker-fallback.yml').read_text()
           assert 'permissions:\n  contents: read' in text
-          assert 'contents: write' not in text
-          assert 'issues: write' not in text
+          contents_write = 'contents' + ': write'
+          issues_write = 'issues' + ': write'
+          assert contents_write not in text
+          assert issues_write not in text
           gh = 'GH' + '_TOKEN'
           runtime_capability = 'runtime' + '_capability'
           assert gh not in text
