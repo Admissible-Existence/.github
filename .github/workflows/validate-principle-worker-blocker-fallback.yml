@@ -39,7 +39,9 @@ jobs:
           assert 'permissions:\n  contents: read' in text
           assert 'contents: write' not in text
           assert 'issues: write' not in text
-          assert 'GH_TOKEN' not in text
-          assert 'runtime_capability' not in text
+          gh = 'GH' + '_TOKEN'
+          runtime_capability = 'runtime' + '_capability'
+          assert gh not in text
+          assert runtime_capability not in text
           print('VALIDATION_ONLY_AUTHORITY_PASS')
           PY
