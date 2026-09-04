@@ -5,7 +5,8 @@
 **Branch:** `tri-form-formalism-001`  
 **Parent coordination authority:** `FORMALISM_MIRROR_HANDOFF.md`  
 **Canonical issue:** `#26`  
-**Status:** IMPLEMENTATION_ACTIVE
+**Pull request:** `#34`  
+**Status:** VALIDATED_PILOT_PENDING_MERGE_AND_MIGRATION
 
 ## Purpose
 
@@ -23,7 +24,7 @@ Within each explicitly declared bounded formalism scope, prose, mathematical, an
 
 `TRIFORM_BOUND` does not imply theorem proof, empirical validity, publication authority, runtime authority, execution authority, admissibility authority, release authority, credential authority, or custody authority.
 
-## Required implementation set
+## Installed implementation set
 
 - `docs/TRIFORM_FORMALISM_CONTRACT.md`
 - `schemas/triform-formalism-manifest.schema.json`
@@ -33,29 +34,66 @@ Within each explicitly declared bounded formalism scope, prose, mathematical, an
 
 ## Pilot
 
-The first bounded pilot is the existing relational-admissibility formalism:
+The first bounded pilot binds the existing relational-admissibility formalism:
 
 - prose: `docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md`
 - mathematical/machine-readable: `data/relational-admissibility-formalism.json`
 - executable validation: `scripts/validate_relational_admissibility_formalism.py`
-- deterministic fixtures/tests: current relational-admissibility fixture and test surfaces
+- deterministic fixtures: `fixtures/relational-admissibility/cases.json`
 
 Pilot issue: `#27`.
 
+The pilot manifest binds stable identifiers `A1` through `A9` and currently reports maturity `EXECUTABLY_FORMALIZED`, not `TRIFORM_BOUND`.
+
 ## Unknown-class candidate
 
-Issue `#28` records a new candidate semantics requirement: runtime-recognizable uncertainty is governed state rather than an external exception. Unknown domains may contract, expand, persist, or resolve across transitions. The pilot may represent this as a candidate semantic binding, but no proof claim is permitted without separate proof/review evidence.
+Issue `#28` records a new candidate semantics requirement: runtime-recognizable uncertainty is governed state rather than an external exception. Unknown domains may contract, expand, persist, or resolve across transitions. The pilot represents unknown-class relevance per principle, but no theorem or proof status is upgraded by this binding.
+
+## Exact validation evidence
+
+PR `#34` head:
+
+`16b8d2bdde322431eb96deebd9171b8fdc6024e9`
+
+Pull-request validation run:
+
+- workflow: `Validate Tri-Form Formalism`
+- run: `33821900776`
+- job: `100866175217`
+- job conclusion: `success`
+- `Validate Tri-Form pilot`: `success`
+- `Validate existing relational formalism`: `success`
+- `Declare authority boundary`: `success`
+
+Tri-Form validator output:
+
+- `valid=true`
+- `formalism_id=AEX-RELATIONAL-ADMISSIBILITY-001`
+- `principle_count=9`
+- `principle_ids=A1..A9`
+- `maturity=EXECUTABLY_FORMALIZED`
+- `authority_effect=NONE_VALIDATION_ONLY`
+- `findings=[]`
+
+Existing relational-admissibility validator remained green in the same run:
+
+- `valid=true`
+- `axiom_count=9`
+- `fixture_count=6`
+- `admissibility_resolver=Admissible-Existence/AE`
+- `credential_authority_for_stegverse_runtime=TV/TVC`
+- `github_token_runtime_authority=NONE`
+- `findings=[]`
+
+The workflow checkout used the PR merge ref and `persist-credentials=false`. Empty `GH_TOKEN`, `GITHUB_TOKEN`, `STEGVERSE_TOKEN`, and `TVC_TOKEN` environment values were observed for validation steps. GitHub still exposed metadata-read token permission to the runner infrastructure; that platform metadata permission is not StegVerse runtime authority.
 
 ## Execution order
 
-1. Install this lane handoff before substantive implementation files.
-2. Install the Tri-Form prose contract.
-3. Install the machine-readable manifest schema.
-4. Bind the relational-admissibility pilot through a manifest.
-5. Install deterministic validation.
-6. Install a validation-only workflow with no authority effect.
-7. Observe exact-head validation before changing the central formalism handoff or claiming `TRIFORM_BOUND`.
-8. After validated pilot success, produce the organization migration matrix from the live mathematics registry without inferring maturity from filenames alone.
+1. Preserve the validated PR evidence above.
+2. Generate the organization migration matrix from live repository evidence without inferring maturity from filenames alone.
+3. Update the parent `FORMALISM_MIRROR_HANDOFF.md` with the bounded validated state and selected next migration candidate.
+4. Merge only after the migration/accounting updates are part of the same bounded integration and current checks remain green.
+5. After merge, close completed bootstrap/implementation issues and retain unknown-class/proof work as separate candidate lanes.
 
 ## Authority boundaries
 
@@ -70,23 +108,20 @@ Issue `#28` records a new candidate semantics requirement: runtime-recognizable 
 
 Ten bounded deliverables:
 
-1. lane handoff;
-2. prose contract;
-3. manifest schema;
-4. relational-admissibility pilot manifest;
-5. deterministic validator;
-6. validation-only workflow;
-7. local/static validator pass on exact branch content;
-8. hosted exact-head validation observation;
-9. migration matrix generated from live repository evidence;
-10. central formalism handoff updated with verified state and downstream candidate selection.
+1. lane handoff — COMPLETE;
+2. prose contract — COMPLETE;
+3. manifest schema — COMPLETE;
+4. relational-admissibility pilot manifest — COMPLETE;
+5. deterministic validator — COMPLETE;
+6. validation-only workflow — COMPLETE;
+7. deterministic validator pass on exact PR source — COMPLETE;
+8. hosted exact-head/PR validation observation — COMPLETE;
+9. migration matrix generated from live repository evidence — PENDING;
+10. parent formalism handoff updated with verified state and downstream candidate selection — PENDING.
 
-## Current state
+Current bounded completion: `8/10 = 80%`.
 
-- Branch exists: `tri-form-formalism-001`.
-- Issues created: `#26` through `#33` for contract, pilot, unknown classes, validator, migration matrix, handoff bootstrap, and implementation tracking.
-- No `TRIFORM_BOUND` claim is active.
-- No hosted validation result has yet been observed.
+Developed implementation files: `6/6` required lane files present; scaffolding/stubs: `0` within the bounded implementation set. The migration/accounting surfaces are not counted as implementation files until installed.
 
 ## User work
 
