@@ -1,0 +1,41 @@
+name: Validate Tri-Form Formalism
+
+on:
+  push:
+    branches:
+      - tri-form-formalism-001
+    paths:
+      - "docs/TRIFORM_FORMALISM_*.md"
+      - "schemas/triform-formalism-manifest.schema.json"
+      - "data/triform-relational-admissibility-manifest.json"
+      - "scripts/validate_triform_formalism.py"
+      - ".github/workflows/validate-triform-formalism.yml"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ""
+      GITHUB_TOKEN: ""
+      STEGVERSE_TOKEN: ""
+      TVC_TOKEN: ""
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Validate Tri-Form pilot
+        run: python scripts/validate_triform_formalism.py
+
+      - name: Validate existing relational formalism
+        run: python scripts/validate_relational_admissibility_formalism.py
+
+      - name: Declare authority boundary
+        run: |
+          echo "workflow_authority_effect=NONE_VALIDATION_ONLY"
+          echo "github_token_runtime_authority=NONE"
+          echo "credential_authority_for_stegverse_runtime=TV/TVC"
