@@ -2,7 +2,7 @@
 
 **Program:** `AEX-FORMALISM-PUBLICATION-ACTIVATION-001`  
 **Status:** ACTIVE — singular coordination authority  
-**Updated:** 2026-08-17
+**Updated:** 2026-09-04
 
 ## Program sequence
 
@@ -395,3 +395,45 @@ data/cosv/task-vectors/*.json
 scripts/check_cosv_task_projection.py
 .github/workflows/validate-cosv-projection.yml
 ```
+
+## Tri-Form Formalism integration — 2026-09-04
+
+Goal `AEX-TRIFORM-FORMALISM-001` establishes a bounded organization-level conformance contract requiring three co-equal representations for a formalism: prose semantics, mathematical semantics, and executable/code semantics. Native repositories retain source-mathematics ownership; `.github` binds and validates cross-form conformance only.
+
+Current integration branch and pull request:
+
+```text
+branch: tri-form-formalism-001
+pull_request: #34
+lane_handoff: docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md
+```
+
+Installed bounded surfaces:
+
+```text
+docs/TRIFORM_FORMALISM_CONTRACT.md
+schemas/triform-formalism-manifest.schema.json
+data/triform-relational-admissibility-manifest.json
+scripts/validate_triform_formalism.py
+.github/workflows/validate-triform-formalism.yml
+data/triform-migration-matrix.json
+scripts/validate_triform_migration_matrix.py
+```
+
+The first pilot binds the existing relational-admissibility formalism across stable identifiers `A1` through `A9`. Its current maturity is `EXECUTABLY_FORMALIZED`; `TRIFORM_BOUND` is not claimed. Unknown-class semantics are separately tracked as candidate material under issue `#28` and are not promoted to theorem/proof status by structural binding.
+
+Hosted PR validation on run `33822079220`, job `100866714454`, passed the Tri-Form pilot validator, 32-entry migration-matrix validator, existing relational-admissibility regression validator, and explicit validation-only authority declaration. The migration validator reported `valid=true`, `findings=[]`, and selected `Admissible-Existence/Existence` as the next bounded migration candidate.
+
+Completion state before merge:
+
+```text
+bounded deliverables: 10/10 source/integration requirements now represented in branch state
+implementation/control files: 8/8
+scaffolding/stubs: 0
+parent handoff synchronization: COMPLETE_IN_BRANCH
+merge to canonical main: PENDING
+next candidate after merge: Admissible-Existence/Existence
+authority effect: NONE_VALIDATION_ONLY
+```
+
+Merge remains contingent on exact-current-head validation after this parent-handoff synchronization. After merge, `Admissible-Existence/Existence` is the next integration goal candidate; its native `docs/EXISTENCE_MIRROR_HANDOFF.md` must be read before any mutation, and no source authority transfers to `.github`.
