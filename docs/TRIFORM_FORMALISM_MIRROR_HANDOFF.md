@@ -6,7 +6,7 @@
 **Parent coordination authority:** `FORMALISM_MIRROR_HANDOFF.md`  
 **Canonical issue:** `#26`  
 **Pull request:** `#34`  
-**Status:** VALIDATED_PILOT_AND_MIGRATION_PENDING_PARENT_SYNC_AND_MERGE
+**Status:** VALIDATED_READY_TO_MERGE
 
 ## Purpose
 
@@ -33,6 +33,7 @@ Within each explicitly declared bounded formalism scope, prose, mathematical, an
 - `.github/workflows/validate-triform-formalism.yml`
 - `data/triform-migration-matrix.json`
 - `scripts/validate_triform_migration_matrix.py`
+- `FORMALISM_MIRROR_HANDOFF.md` parent synchronization
 
 ## Pilot
 
@@ -53,50 +54,27 @@ Issue `#28` records a new candidate semantics requirement: runtime-recognizable 
 
 ## Exact validation evidence
 
-Current PR `#34` head validated before this handoff-only update:
+Parent-synchronized PR `#34` head:
 
-`fca89127d0f6a8591687a1776bec492d1963f19b`
+`55711ddb6a28bb888a692a144effe9b0b84796cc`
 
-Pull-request validation run:
+Exact-head pull-request workflows observed complete and successful:
 
-- workflow: `Validate Tri-Form Formalism`
-- run: `33822079220`
-- job: `100866714454`
-- job conclusion: `success`
-- `Validate Tri-Form pilot`: `success`
-- `Validate Tri-Form migration matrix`: `success`
-- `Validate existing relational formalism`: `success`
-- `Declare authority boundary`: `success`
+- `Validate Tri-Form Formalism` run `33919434099` — `success`;
+- `Canonical Formalism Orientation Validation` run `33919434144` — `success`;
+- `Formalism Archive Gate` run `33919434062` — `success`.
 
-Tri-Form validator output:
+The immediately preceding full Tri-Form validation run `33822079220`, job `100866714454`, directly recorded:
 
-- `valid=true`
-- `formalism_id=AEX-RELATIONAL-ADMISSIBILITY-001`
-- `principle_count=9`
-- `principle_ids=A1..A9`
-- `maturity=EXECUTABLY_FORMALIZED`
-- `authority_effect=NONE_VALIDATION_ONLY`
-- `findings=[]`
+- Tri-Form pilot validation: `success`;
+- migration-matrix validation: `success`;
+- existing relational-admissibility validation: `success`;
+- authority-boundary declaration: `success`;
+- Tri-Form `valid=true`, `principle_count=9`, `A1..A9`, `maturity=EXECUTABLY_FORMALIZED`, `findings=[]`;
+- migration `valid=true`, `entry_count=32`, `next_candidate=Admissible-Existence/Existence`, `findings=[]`;
+- relational regression `valid=true`, `axiom_count=9`, `fixture_count=6`, `findings=[]`.
 
-Migration-matrix validator output:
-
-- `valid=true`
-- `entry_count=32`
-- `next_candidate=Admissible-Existence/Existence`
-- `authority_effect=NONE_VALIDATION_ONLY`
-- `findings=[]`
-
-Existing relational-admissibility validator remained green in the same run:
-
-- `valid=true`
-- `axiom_count=9`
-- `fixture_count=6`
-- `admissibility_resolver=Admissible-Existence/AE`
-- `credential_authority_for_stegverse_runtime=TV/TVC`
-- `github_token_runtime_authority=NONE`
-- `findings=[]`
-
-The workflow checkout used the PR merge ref and `persist-credentials=false`. Empty `GH_TOKEN`, `GITHUB_TOKEN`, `STEGVERSE_TOKEN`, and `TVC_TOKEN` environment values were observed for validation steps. GitHub still exposed metadata-read token permission to the runner infrastructure; that platform metadata permission is not StegVerse runtime authority.
+All validation remains `NONE_VALIDATION_ONLY`; it creates no runtime, execution, publication, release, proof, credential, custody, or admissibility authority. TV/TVC remains the sole StegVerse credential authority and GitHub token runtime authority remains `NONE`.
 
 ## Migration result
 
@@ -104,12 +82,10 @@ The deterministic migration matrix covers 32 organization repositories from the 
 
 ## Execution order
 
-1. Preserve the validated PR and migration evidence above.
-2. Update the parent `FORMALISM_MIRROR_HANDOFF.md` with this bounded validated state and `Admissible-Existence/Existence` as the next migration candidate.
-3. Revalidate the exact resulting PR head.
-4. Merge only after parent synchronization is present and current checks remain green.
-5. After merge, close completed bootstrap/implementation issues and retain unknown-class/proof work as separate candidate lanes.
-6. Start the next bounded integration goal in `Admissible-Existence/Existence` by reading `docs/EXISTENCE_MIRROR_HANDOFF.md` before mutation and creating a scoped Tri-Form handoff/claim there if no current equivalent exists.
+1. Merge PR `#34` only while its expected head remains the validated bounded head or a newer head is revalidated.
+2. After merge, verify canonical `main` contains the Tri-Form contract, pilot, matrix, validators, and parent handoff integration.
+3. Close completed bootstrap/implementation issues where their bounded requirements are satisfied; retain unknown-class/proof work as separate candidate lanes.
+4. Start the next bounded integration goal in `Admissible-Existence/Existence` by reading `docs/EXISTENCE_MIRROR_HANDOFF.md` before mutation and creating a scoped Tri-Form handoff/claim there if no current equivalent exists.
 
 ## Authority boundaries
 
@@ -133,11 +109,11 @@ Ten bounded deliverables:
 7. deterministic validator pass on exact PR source — COMPLETE;
 8. hosted exact-head/PR validation observation — COMPLETE;
 9. migration matrix generated and deterministically validated from organization inventory — COMPLETE;
-10. parent formalism handoff updated with verified state and downstream candidate selection — PENDING.
+10. parent formalism handoff updated with verified state and downstream candidate selection — COMPLETE.
 
-Current bounded completion: `9/10 = 90%`.
+Current bounded implementation/integration completion: `10/10 = 100%` before merge. Canonical-main activation remains pending until merge and post-merge verification.
 
-Developed implementation/control files: `8/8` current bounded lane files installed; scaffolding/stubs: `0` within this bounded implementation set. Parent synchronization is a remaining integration mutation rather than a missing implementation file.
+Developed implementation/control files: `9/9` bounded files/surfaces present; scaffolding/stubs: `0` within this bounded implementation set.
 
 ## User work
 
