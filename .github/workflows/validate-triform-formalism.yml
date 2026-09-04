@@ -10,6 +10,15 @@ on:
       - "data/triform-relational-admissibility-manifest.json"
       - "scripts/validate_triform_formalism.py"
       - ".github/workflows/validate-triform-formalism.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "docs/TRIFORM_FORMALISM_*.md"
+      - "schemas/triform-formalism-manifest.schema.json"
+      - "data/triform-relational-admissibility-manifest.json"
+      - "scripts/validate_triform_formalism.py"
+      - ".github/workflows/validate-triform-formalism.yml"
   workflow_dispatch:
 
 permissions: {}
