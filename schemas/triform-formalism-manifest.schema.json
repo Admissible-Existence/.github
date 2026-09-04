@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stegverse.org/schemas/triform-formalism-manifest.schema.json",
+  "title": "Tri-Form Formalism Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "formalism_id",
+    "repository",
+    "maturity",
+    "authority_effect",
+    "forms",
+    "principles"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "formalism_id": {"type": "string", "minLength": 1},
+    "repository": {"type": "string", "pattern": "^[^/]+/[^/]+$"},
+    "maturity": {
+      "enum": [
+        "THESIS",
+        "PROSE_DEFINED",
+        "MATHEMATICALLY_FORMALIZED",
+        "EXECUTABLY_FORMALIZED",
+        "TRIFORM_BOUND",
+        "SIMULATED",
+        "PROOF_COUNTEREXAMPLE_REVIEW",
+        "INDEPENDENTLY_VALIDATED"
+      ]
+    },
+    "authority_effect": {"const": "NONE_VALIDATION_ONLY"},
+    "forms": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prose", "mathematics", "code"],
+      "properties": {
+        "prose": {"$ref": "#/$defs/formBinding"},
+        "mathematics": {"$ref": "#/$defs/formBinding"},
+        "code": {"$ref": "#/$defs/formBinding"}
+      }
+    },
+    "principles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/principle"}
+    }
+  },
+  "$defs": {
+    "formBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["paths"],
+      "properties": {
+        "paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "principle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "principle_id",
+        "title",
+        "normative",
+        "prose_binding",
+        "mathematical_binding",
+        "code_binding",
+        "assumptions",
+        "invariants",
+        "unknown_class_relevance",
+        "witnesses",
+        "counterexamples",
+        "proof_status",
+        "falsification_conditions",
+        "equivalence_status"
+      ],
+      "properties": {
+        "principle_id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "normative": {"type": "boolean"},
+        "prose_binding": {"type": "string", "minLength": 1},
+        "mathematical_binding": {"type": "string", "minLength": 1},
+        "code_binding": {"type": "string", "minLength": 1},
+        "assumptions": {"type": "array", "items": {"type": "string"}},
+        "invariants": {"type": "array", "items": {"type": "string"}},
+        "unknown_class_relevance": {
+          "enum": ["NONE", "DECLARED", "CANDIDATE", "REQUIRED"]
+        },
+        "witnesses": {"type": "array", "items": {"type": "string"}},
+        "counterexamples": {"type": "array", "items": {"type": "string"}},
+        "proof_status": {
+          "enum": ["NONE", "CANDIDATE", "REVIEW_REQUIRED", "ACCEPTED", "REJECTED", "SUPERSEDED"]
+        },
+        "falsification_conditions": {"type": "array", "items": {"type": "string"}},
+        "equivalence_status": {
+          "enum": ["UNBOUND", "PARTIAL", "BOUND_CANDIDATE", "TRIFORM_BOUND"]
+        }
+      }
+    }
+  }
+}
