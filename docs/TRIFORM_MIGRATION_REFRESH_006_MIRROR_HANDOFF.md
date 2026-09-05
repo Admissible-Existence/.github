@@ -5,7 +5,7 @@
 **Branch:** `triform-migration-refresh-006`  
 **Canonical issue:** `#44`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** CHF_COMPLETION_REGISTRATION_PENDING
+**Status:** CHF_COMPLETION_REGISTERED_PENDING_EXACT_HEAD_VALIDATION
 
 ## Purpose
 
@@ -30,6 +30,19 @@ proof_promotion: false
 historical_source_replacement: false
 ```
 
+## Matrix and validator changes
+
+The 32-row matrix now records:
+
+- completed source migrations: `6 / 32`;
+- completed sources: Existence, GTG, ET, learning-transition-governance, BC, CHF;
+- CHF state: `BOUNDED_TRIFORM_COMPLETE_MERGED`;
+- CHF bounded principle count: `4`;
+- CHF identifier provenance: `NEW_BINDING_IDS_NOT_HISTORICAL_SOURCE_IDS`;
+- CHF authority/proof-promotion/historical-source-replacement flags: all `false`.
+
+The deterministic migration validator now requires those CHF invariants in addition to all previously preserved Existence, GTG, ET, LTG, BC, TT, and STCM constraints.
+
 ## Required preservation
 
 - preserve 32-repository denominator;
@@ -45,14 +58,18 @@ historical_source_replacement: false
 
 1. scoped refresh handoff — COMPLETE;
 2. CHF completion evidence registered in handoff — COMPLETE;
-3. 32-row matrix update — PENDING;
-4. deterministic validator update — PENDING;
-5. preservation invariants retained — PENDING;
+3. 32-row matrix update — COMPLETE;
+4. deterministic validator update — COMPLETE;
+5. preservation invariants retained — COMPLETE;
 6. exact-head validation — PENDING;
 7. parent Tri-Form handoff reconciliation — PENDING;
 8. merge/issue closure — PENDING.
 
-Current bounded completion: `2/8 = 25%`.
+Current bounded completion: `5/8 = 62.5%`.
+
+## Exact next task
+
+Open the bounded PR, observe exact-head `Validate Tri-Form Formalism`, repair only proven defects, merge only while current head is green, reconcile the parent Tri-Form handoff on `main`, and close issue `#44`.
 
 ## User work
 
