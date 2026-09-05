@@ -2,47 +2,34 @@
 
 **Goal ID:** `AEX-TRIFORM-MIGRATION-REFRESH-005`  
 **Repository:** `Admissible-Existence/.github`  
-**Branch:** `triform-migration-refresh-005`  
-**Canonical issue:** `#42`  
+**Canonical issue:** `#42` — CLOSED_COMPLETED  
+**Implementation PR:** `#43` — MERGED  
+**Merge commit:** `762b881710fac8f73e9c67d67c8ff5b2ec80af83`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** BC_COMPLETION_REGISTERED_PENDING_EXACT_HEAD_VALIDATION
+**Status:** COMPLETE_MERGED
 
-## Purpose
+## Completed result
 
-Register completed bounded Tri-Form migration for `Admissible-Existence/BC` and advance organization accounting from 4/32 to 5/32 without altering native mathematical authority or colliding with active repository claims.
-
-## Verified BC evidence
-
-Repository-native completion evidence:
-
-- `Admissible-Existence/BC/docs/BC_TRIFORM_MIRROR_HANDOFF.md`;
-- PR `#3`;
-- exact validated PR head `542d140c789247de3f5b256bdd4e933f87e76bb4`;
-- `BC Build` run `33997295094`;
-- `Validate BC Tri-Form` run `33997295116`, job `101389936448`;
-- merge commit `71f5650556d8097234956a11503dfc15cc6e9b5b`.
-
-BC bounded result:
+The completed bounded Tri-Form migration for `Admissible-Existence/BC` is registered in the canonical 32-repository migration matrix.
 
 ```text
-BC-P001..BC-P004: bounded Tri-Form complete
-bounded_identifier_provenance: NEW_BINDING_IDS_NOT_HISTORICAL_SOURCE_IDS
-authority_effect: false
+completed source migrations: 5 / 32
+Existence: BOUNDED_TRIFORM_COMPLETE_MERGED
+GTG: BOUNDED_TRIFORM_COMPLETE_MERGED_HISTORICAL_COLLISION_OPEN
+ET: BOUNDED_TRIFORM_COMPLETE_MERGED_SEMANTIC_EXCLUSIONS
+learning-transition-governance: BOUNDED_TRIFORM_COMPLETE_MERGED
+BC: BOUNDED_TRIFORM_COMPLETE_MERGED
 ```
 
-## Matrix changes
+BC retains explicit provenance that `BC-P001..BC-P004` are new bounded binding identifiers over existing BC semantics, not historical source IDs, and `authority_effect=false` remains enforced.
 
-- completed source migrations: `5 / 32`;
-- completed sources: Existence, GTG, ET, learning-transition-governance, BC;
-- BC state: `BOUNDED_TRIFORM_COMPLETE_MERGED`;
-- GTG historical non-equivalence remains preserved;
-- ET semantic exclusions remain preserved;
-- LTG no-capture/no-predetermined-destination/no-authority invariants remain preserved;
-- TT and STCM remain deferred by active canonical claims;
-- `next_executable_candidate: null`;
-- `selection_evidence_state: EVIDENCE_PASS_REQUIRED`.
+## Exact validation evidence
 
-The deterministic validator now requires BC completion, four bounded principles, new-binding-ID provenance, and no authority effect in addition to all prior invariants.
+PR head `83b2b3726b82f7f3dc236482c637f989159b8d80` passed `Validate Tri-Form Formalism` run `33997379634`, job `101390160843`.
+
+Successful gates included Tri-Form pilot validation, 32-row migration-matrix validation with BC provenance controls, existing relational-formalism regression, and the validation-only authority declaration.
+
+PR `#43` merged as `762b881710fac8f73e9c67d67c8ff5b2ec80af83`; issue `#42` closed completed.
 
 ## Completion denominator
 
@@ -51,16 +38,20 @@ The deterministic validator now requires BC completion, four bounded principles,
 3. 32-row matrix updated — COMPLETE;
 4. deterministic validator updated — COMPLETE;
 5. preservation invariants retained — COMPLETE;
-6. exact-head validation — PENDING;
-7. parent Tri-Form handoff reconciliation — PENDING;
-8. merge/issue closure — PENDING.
+6. exact-head validation — COMPLETE;
+7. parent Tri-Form handoff reconciliation — COMPLETE;
+8. merge/issue closure — COMPLETE.
 
-Current bounded completion: `5/8 = 62.5%`.
+Current bounded completion: `8/8 = 100%`.
 
 ## Authority boundaries
 
 This coordination lane records and validates evidence only. It creates no proof, runtime, execution, publication, release, admissibility, credential, custody, identity, final cross-repository, or native mathematical authority.
 
+## Next integration goal
+
+Continue repository-native evidence inspection across remaining `INSPECTION_REQUIRED` source repositories and admit the next candidate only when maturity and non-collision are established.
+
 ## User work
 
-None currently. Remaining work is repository-native and machine-executable.
+None. This refresh goal is complete.
