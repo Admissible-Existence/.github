@@ -2,10 +2,9 @@
 
 **Goal ID:** `AEX-TRIFORM-MIGRATION-REFRESH-006`  
 **Repository:** `Admissible-Existence/.github`  
-**Branch:** `triform-migration-refresh-006`  
-**Canonical issue:** `#44`  
+**Canonical issue / PR:** `#44` / `#45` — COMPLETE_MERGED  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** CHF_COMPLETION_REGISTERED_PENDING_EXACT_HEAD_VALIDATION
+**Status:** COMPLETE_MERGED
 
 ## Purpose
 
@@ -14,11 +13,11 @@ Register completed bounded Tri-Form migration for `Admissible-Existence/CHF` and
 ## Verified CHF evidence
 
 - `Admissible-Existence/CHF/docs/CHF_TRIFORM_MIRROR_HANDOFF.md`;
-- PR `#3`;
-- exact repaired PR head `fa3f03b98da757bf63103429add18c5abef1be95`;
-- `Validate CHF Tri-Form` run `33998528999`, job `101393155366`;
-- merge commit `af6c34585ccc206f77d032b997d9eb3b8440803e`;
-- issue `#2` closed completed.
+- CHF PR `#3`;
+- exact repaired CHF PR head `fa3f03b98da757bf63103429add18c5abef1be95`;
+- CHF validation run `33998528999`, job `101393155366`;
+- CHF merge commit `af6c34585ccc206f77d032b997d9eb3b8440803e`;
+- CHF issue `#2` closed completed.
 
 CHF bounded result:
 
@@ -30,47 +29,43 @@ proof_promotion: false
 historical_source_replacement: false
 ```
 
-## Matrix and validator changes
+## Organization validation and merge evidence
 
-The 32-row matrix now records:
+The refresh updated the canonical 32-row matrix and deterministic validator to require CHF completion plus its provenance/non-authority/non-promotion invariants while preserving all earlier migration constraints.
 
-- completed source migrations: `6 / 32`;
+Exact PR head `e8208a965fc6ef072b994a2b53a491e77b1f05bc` passed `Validate Tri-Form Formalism` run `34000064949`, job `101397207436`:
+
+- Tri-Form pilot validation — success;
+- migration-matrix validation — success;
+- existing relational-formalism regression — success;
+- authority-boundary declaration — success.
+
+PR `#45` merged as `8539eee235af5b99e1e6c18eb281ee562a8aaa55`; issue `#44` closed completed.
+
+## Current matrix result
+
+- completed source migrations: `6 / 32 = 18.75%`;
 - completed sources: Existence, GTG, ET, learning-transition-governance, BC, CHF;
-- CHF state: `BOUNDED_TRIFORM_COMPLETE_MERGED`;
-- CHF bounded principle count: `4`;
-- CHF identifier provenance: `NEW_BINDING_IDS_NOT_HISTORICAL_SOURCE_IDS`;
-- CHF authority/proof-promotion/historical-source-replacement flags: all `false`.
-
-The deterministic migration validator now requires those CHF invariants in addition to all previously preserved Existence, GTG, ET, LTG, BC, TT, and STCM constraints.
-
-## Required preservation
-
-- preserve 32-repository denominator;
-- preserve Existence, GTG, ET, LTG, and BC completion evidence;
-- preserve GTG historical non-equivalence and ET semantic exclusions;
-- preserve LTG no-capture/no-predetermined-destination/no-authority invariants;
-- preserve BC and CHF bounded-ID provenance as new binding identifiers rather than historical source IDs;
-- preserve TT and STCM active-claim deferrals;
-- keep validation-only authority effect;
-- do not infer a next executable candidate without repository-native evidence.
+- TT and STCM remain deferred by active canonical claims;
+- `next_executable_candidate: null` pending a fresh evidence pass.
 
 ## Completion denominator
 
 1. scoped refresh handoff — COMPLETE;
-2. CHF completion evidence registered in handoff — COMPLETE;
+2. CHF completion evidence registered — COMPLETE;
 3. 32-row matrix update — COMPLETE;
 4. deterministic validator update — COMPLETE;
 5. preservation invariants retained — COMPLETE;
-6. exact-head validation — PENDING;
-7. parent Tri-Form handoff reconciliation — PENDING;
-8. merge/issue closure — PENDING.
+6. exact-head validation — COMPLETE;
+7. parent Tri-Form handoff reconciliation — COMPLETE via follow-on canonical update;
+8. merge/issue closure — COMPLETE.
 
-Current bounded completion: `5/8 = 62.5%`.
+Current bounded completion: `8/8 = 100%`.
 
-## Exact next task
+## Authority boundaries
 
-Open the bounded PR, observe exact-head `Validate Tri-Form Formalism`, repair only proven defects, merge only while current head is green, reconcile the parent Tri-Form handoff on `main`, and close issue `#44`.
+This coordination lane records and validates evidence only. It creates no mathematical, proof, runtime, execution, publication, release, admissibility, credential, custody, identity, final cross-repository, or native mathematical authority.
 
 ## User work
 
-None. Remaining work is repository-native and machine-executable.
+None.
