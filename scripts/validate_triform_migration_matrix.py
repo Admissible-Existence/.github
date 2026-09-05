@@ -21,12 +21,13 @@ def main():
         findings.append("entry_count_mismatch")
     if len(set(repos)) != len(repos):
         findings.append("duplicate_repository")
-    if data.get("completed_source_migrations") != 3:
+    if data.get("completed_source_migrations") != 4:
         findings.append("completed_source_migration_count_mismatch")
     if data.get("completed_source_repositories") != [
         "Admissible-Existence/Existence",
         "Admissible-Existence/GTG",
         "Admissible-Existence/ET",
+        "Admissible-Existence/learning-transition-governance",
     ]:
         findings.append("completed_source_repository_set_mismatch")
 
@@ -52,6 +53,18 @@ def main():
         findings.append("et_semantic_exclusion_set_mismatch")
     if et.get("historical_source_replacement") is not False:
         findings.append("et_historical_source_replacement_must_remain_false")
+
+    ltg = by_repo.get("Admissible-Existence/learning-transition-governance", {})
+    if ltg.get("triform_state") != "BOUNDED_TRIFORM_COMPLETE_MERGED":
+        findings.append("ltg_completion_not_recorded")
+    if ltg.get("bounded_principle_count") != 4:
+        findings.append("ltg_bounded_principle_count_mismatch")
+    if ltg.get("identity_capture") is not False:
+        findings.append("ltg_identity_capture_must_remain_false")
+    if ltg.get("predetermined_intellectual_destination") is not False:
+        findings.append("ltg_predetermined_destination_must_remain_false")
+    if ltg.get("authority_effect") is not False:
+        findings.append("ltg_authority_effect_must_remain_false")
 
     tt = by_repo.get("Admissible-Existence/TT", {})
     if data.get("logical_next_candidate") != "Admissible-Existence/TT":
