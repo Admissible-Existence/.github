@@ -21,11 +21,12 @@ def main():
         findings.append("entry_count_mismatch")
     if len(set(repos)) != len(repos):
         findings.append("duplicate_repository")
-    if data.get("completed_source_migrations") != 2:
+    if data.get("completed_source_migrations") != 3:
         findings.append("completed_source_migration_count_mismatch")
     if data.get("completed_source_repositories") != [
         "Admissible-Existence/Existence",
         "Admissible-Existence/GTG",
+        "Admissible-Existence/ET",
     ]:
         findings.append("completed_source_repository_set_mismatch")
 
@@ -39,6 +40,19 @@ def main():
     if gtg.get("historical_gtg_a1_a8_equivalence") != "NOT_ESTABLISHED":
         findings.append("gtg_historical_equivalence_must_remain_not_established")
 
+    et = by_repo.get("Admissible-Existence/ET", {})
+    if et.get("triform_state") != "BOUNDED_TRIFORM_COMPLETE_MERGED_SEMANTIC_EXCLUSIONS":
+        findings.append("et_completion_or_exclusion_state_mismatch")
+    if et.get("bounded_principle_count") != 4:
+        findings.append("et_bounded_principle_count_mismatch")
+    if et.get("excluded_historical_equivalence_principles") != [
+        "ET-AUTHORITY-003",
+        "ET-TEMPORAL-004",
+    ]:
+        findings.append("et_semantic_exclusion_set_mismatch")
+    if et.get("historical_source_replacement") is not False:
+        findings.append("et_historical_source_replacement_must_remain_false")
+
     tt = by_repo.get("Admissible-Existence/TT", {})
     if data.get("logical_next_candidate") != "Admissible-Existence/TT":
         findings.append("unexpected_logical_next_candidate")
@@ -48,6 +62,13 @@ def main():
         findings.append("tt_entry_not_deferred")
     if tt.get("claim_state") != "CLAIMED_FOR_INTEGRATION":
         findings.append("tt_active_claim_not_preserved")
+
+    stcm = by_repo.get("Admissible-Existence/STCM", {})
+    if stcm.get("triform_state") != "DEFER_ACTIVE_CANONICAL_CLAIM":
+        findings.append("stcm_entry_not_deferred")
+    if stcm.get("claim_state") != "CLAIMED_FOR_INTEGRATION":
+        findings.append("stcm_active_claim_not_preserved")
+
     if data.get("next_executable_candidate") is not None:
         findings.append("next_executable_candidate_requires_evidence_pass")
     if data.get("selection_evidence_state") != "EVIDENCE_PASS_REQUIRED":
