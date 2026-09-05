@@ -2,87 +2,70 @@
 
 **Goal ID:** `AEX-TRIFORM-MIGRATION-REFRESH-002`  
 **Repository:** `Admissible-Existence/.github`  
-**Branch:** `triform-migration-refresh-002`  
-**Canonical issue:** `#35`  
+**Canonical issue:** `#35` — CLOSED_COMPLETED  
+**Implementation PR:** `#36`  
+**Merge commit:** `ff9eaf94eeee55b5d6659d264567134a77e82e15`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Parent organization coordination:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** REFRESH_IMPLEMENTED_PENDING_EXACT_HEAD_VALIDATION
+**Status:** COMPLETE_MERGED
 
-## Purpose
+## Completed result
 
-Refresh the 32-repository Tri-Form migration matrix after completed bounded migrations in `Admissible-Existence/Existence` and `Admissible-Existence/GTG`, then select the next executable candidate without colliding with an active repository-native claim.
-
-## Refreshed state
-
-The matrix now records two completed source migrations:
+The 32-repository Tri-Form migration matrix is refreshed after bounded migrations in `Admissible-Existence/Existence` and `Admissible-Existence/GTG`.
 
 ```text
-Admissible-Existence/Existence — BOUNDED_TRIFORM_COMPLETE_MERGED
-Admissible-Existence/GTG — BOUNDED_TRIFORM_COMPLETE_MERGED_HISTORICAL_COLLISION_OPEN
+completed source migrations: 2 / 32
+Existence: BOUNDED_TRIFORM_COMPLETE_MERGED
+GTG: BOUNDED_TRIFORM_COMPLETE_MERGED_HISTORICAL_COLLISION_OPEN
 ```
 
-GTG historical bare `GTG-A1..GTG-A8` semantic equivalence remains `NOT_ESTABLISHED`; GTG issue `#20` remains a separate continuation and is not erased by the six-principle governed-state binding.
+GTG historical bare `GTG-A1..GTG-A8` semantic equivalence remains `NOT_ESTABLISHED`; GTG issue `#20` remains separate.
 
-The logical next formal-stack candidate is TT, but TT is not currently an executable migration target:
+TT remains the logical next formal-stack repository but is not an executable target because its canonical handoff reports active `TT-RELATIONAL-GOVERNANCE-MATH-ALIGNMENT-001` / `CLAIMED_FOR_INTEGRATION`.
 
 ```text
 logical_next_candidate: Admissible-Existence/TT
 logical_candidate_state: DEFER_ACTIVE_CANONICAL_CLAIM
-active_goal: TT-RELATIONAL-GOVERNANCE-MATH-ALIGNMENT-001
-claim_state: CLAIMED_FOR_INTEGRATION
 next_executable_candidate: null
 selection_evidence_state: EVIDENCE_PASS_REQUIRED
 ```
 
-No TT mutation has been started from this lane.
+No TT mutation was started.
 
-## Selection rule
+## Merged implementation
 
-A repository may be the logical next formal-stack candidate while still being non-executable because of an active canonical claim. The matrix distinguishes:
+- `data/triform-migration-matrix.json` — schema v2, completion and candidate-deferral semantics;
+- `scripts/validate_triform_migration_matrix.py` — deterministic v2 validator;
+- `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md` — parent coordination reconciliation;
+- this handoff.
 
-```text
-logical_next_candidate
-logical_candidate_state
-next_executable_candidate
-selection_evidence_state
-```
+## Exact validation evidence
 
-No executable candidate may be named merely from stack order, filename presence, or an expired/stale assumption. If live repository evidence is insufficient, `next_executable_candidate` remains null and the matrix records `EVIDENCE_PASS_REQUIRED`.
+Pre-parent reconciliation head `ee1845d1f2ff32eaa70eaed122ba7dfe404406c1` passed `Validate Tri-Form Formalism` run `33945352377`.
 
-## Installed changes
+Exact final PR head `cfb126157afde2e0d57f6badf45652e4890ecadb` passed `Validate Tri-Form Formalism` run `33945380139` before merge. PR `#36` then merged as `ff9eaf94eeee55b5d6659d264567134a77e82e15`, and issue `#35` was closed completed.
 
-- `data/triform-migration-matrix.json` upgraded to schema `v2` with completion and deferred-candidate semantics;
-- `scripts/validate_triform_migration_matrix.py` upgraded to deterministic `v2` validation;
-- this refresh handoff records the scoped evidence and collision boundary.
+Validation remains `NONE_VALIDATION_ONLY` and creates no runtime, execution, admissibility, proof, publication, release, credential, or custody authority.
 
-The validator requires the 32-repository denominator, exactly two completed source migrations, Existence and GTG completion states, preserved GTG historical non-equivalence, TT active-claim deferral, null executable candidate, and `EVIDENCE_PASS_REQUIRED` until another repository-native evidence pass names a safe candidate.
-
-## Bounded deliverables
+## Completion denominator
 
 1. scoped handoff — COMPLETE;
-2. current Existence/GTG completion evidence reflected in matrix — COMPLETE;
-3. TT active-claim deferral represented — COMPLETE;
-4. next-executable-candidate semantics added — COMPLETE;
-5. deterministic matrix validator updated — COMPLETE;
-6. exact-head validation — PENDING;
-7. parent Tri-Form handoff reconciled — PENDING;
-8. merge/issue closure — PENDING.
+2. Existence/GTG completion accounting — COMPLETE;
+3. TT active-claim deferral — COMPLETE;
+4. next-executable-candidate semantics — COMPLETE;
+5. deterministic matrix validator v2 — COMPLETE;
+6. exact-head validation — COMPLETE;
+7. parent Tri-Form handoff reconciliation — COMPLETE;
+8. merge/issue closure — COMPLETE.
 
-Current bounded completion: `5/8 = 62.5%`.
+Current bounded completion: `8/8 = 100%`.
 
-## Authority boundaries
+Developed/updated control surfaces: `4/4`; scaffolding/stubs: `0`.
 
-This coordination lane may register evidence and validate migration state. It does not own native mathematics and creates no execution, admissibility, proof, publication, release, credential, custody, or runtime authority.
+## Next integration goal
 
-## Next execution
-
-1. Open the bounded refresh PR.
-2. Observe exact-head migration validation and existing Tri-Form regressions.
-3. Repair only a proven defect.
-4. Reconcile `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md` after successful exact-head validation.
-5. Revalidate and merge only while all current gates remain green.
-6. Leave executable candidate selection unresolved until live evidence identifies a non-colliding repository.
+The next machine-owned goal is a repository-native evidence pass over remaining source repositories currently marked `INSPECTION_REQUIRED`, to identify a mature non-colliding executable Tri-Form candidate. TT remains deferred while its active canonical claim persists.
 
 ## User work
 
-None currently. The lane is repository-native and machine-executable.
+None. This refresh goal is complete and requires no user-operated action.
