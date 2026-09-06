@@ -2,69 +2,70 @@
 
 **Goal ID:** `AEX-TRIFORM-MIGRATION-REFRESH-007`  
 **Repository:** `Admissible-Existence/.github`  
-**Branch:** `triform-migration-refresh-007-selection`  
 **Canonical issue:** `#46`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** RE_REGISTERED / NEXT_CANDIDATE_SELECTED_PENDING_EXACT_HEAD_VALIDATION
+**Status:** COMPLETE_MERGED / RE_REGISTERED / RE_REDUCTION_SELECTED
 
-## Purpose
+## Purpose and result
 
-Register completed bounded Tri-Form migration for `Admissible-Existence/RE`, advance organization accounting from `6/32` to `7/32`, and select the next admissible source candidate using direct repository evidence without altering source mathematics, authority, or Master Records propagation semantics.
+This refresh registered the completed bounded Tri-Form migration for `Admissible-Existence/RE`, advanced organization accounting from `6/32` to `7/32`, and completed the repository-native evidence pass that selected `Admissible-Existence/RE-Reduction` as the next executable candidate.
 
-## Completed RE registration
+## RE registration evidence
 
-RE canonical/scoped handoffs, exact-head workflow evidence, merge `805d3159223027f0e1f5b36735c2904264e77994`, and issue closure are verified. Central PR `#48` registered RE at `7/32`; exact PR head `33648608bce092242b88e66471ec7827841357b8` passed `Validate Tri-Form Formalism` run `34001439642`, job `101400909213`, and merged as `0ab56b212aa77589c2f58ee29e19adb188a7ed11`.
+RE PR `#4` merged at `805d3159223027f0e1f5b36735c2904264e77994`; exact validated RE head `529fdce5c223cd6ddf08595c41bebd975fd69609` passed `Validate RE Tri-Form` run/job `34001278294` / `101400473614` and existing `RE Proof Obligations` run/job `34001278325` / `101400473717`.
+
+Central registration PR `#48`, exact head `33648608bce092242b88e66471ec7827841357b8`, passed `Validate Tri-Form Formalism` run/job `34001439642` / `101400909213` and merged as `0ab56b212aa77589c2f58ee29e19adb188a7ed11`.
 
 RE remains `tested_not_proven` for `PO-RE-001..PO-RE-005`, with `19/19` bounded fixtures, `4/4` base structural checks, `0/5` universally proven, and all non-authority/non-promotion/non-bypass/non-erasure predicates preserved.
 
-## Machine preflight / collision / Master Records state
+## Machine preflight / README / Master Records
 
-The refresh preflight passed before accounting mutation. `data/formalism-task-claims.json` contains no active or unexpired claim colliding with this refresh. Existing RTG and organization-audit claims retain their own collision boundaries; TT and STCM remain deferred under their active canonical integration claims.
+The refresh preflight resolved canonical handoffs, task claims, cross-task coordination, and organization-transition/Master Records boundaries before mutation. No active or unexpired task claim collided with this refresh. TT and STCM remain deferred under their own active claims.
 
-`docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. Tri-Form accounting and candidate selection do not themselves propagate to Master Records or create Master Records authority.
+README impact for the central accounting/selection changes was `NO_CHANGE_REQUIRED`: `profile/README.md` already describes the organization validation role and source-owned maturity/authority boundaries, while this refresh changed coordination/accounting state only. No organization behavior, runtime semantics, interfaces, governance/authority boundaries, prerequisites, dependencies, failure behavior, or public capability meaning changed.
 
-README impact for this central accounting/selection change remains **NO_CHANGE_REQUIRED**. `profile/README.md` already states the organization role and source-owned maturity/authority boundaries; selecting the next source candidate changes coordination state only, not organization behavior, runtime semantics, interfaces, governance/authority boundaries, prerequisites, dependencies, failure behavior, or public capability meaning.
+Tri-Form accounting and candidate selection do not propagate to Master Records. Repository transitions remain source-replayable; organization rollup remains governed by the organization transition ledger; only verified organization receipts may later traverse the existing InTr federation.
 
-## Next-candidate evidence pass — COMPLETE
+## Candidate-selection evidence — COMPLETE
 
-Direct repository-native evidence selects `Admissible-Existence/RE-Reduction` as the next executable Tri-Form candidate:
+`Admissible-Existence/RE-Reduction` is selected from direct repository evidence:
 
-- canonical handoff: `Admissible-Existence/RE-Reduction/docs/RE_REDUCTION_MIRROR_HANDOFF.md` reports `HOSTED_VALIDATED_COMPLETE_NOTIFY_ONLY`, completed/released implementation and validation, completed RE consumer integration, and repository-local archive readiness true;
-- README defines the executable reduction role and explicit non-authorizing boundary;
-- existing consumer profile, validator, fixtures, deterministic integration receipt, and hosted completion evidence already provide executable/evidence counterparts;
-- standing re-entry remains required;
-- execution authority remains false;
+- canonical handoff reports `HOSTED_VALIDATED_COMPLETE_NOTIFY_ONLY`, completed/released implementation and validation, completed RE consumer integration, and repository-local archive readiness true;
+- repository README defines an executable reduction surface with explicit non-authorizing boundaries;
+- consumer profile, validator, fixtures, deterministic integration receipt, and hosted completion evidence already exist;
+- standing re-entry is required;
+- execution authority is false;
 - existing reducer and `REDUCTION_RECEIPT.schema.json` must not be replaced absent direct regression evidence;
-- no historical stable principle-ID registry was established by the initial identifier search, so any later bounded IDs require explicit provenance rather than invented historical lineage.
+- no historical stable principle-ID registry was established in the initial identifier search, so later bounded IDs require explicit new-binding provenance.
 
-The matrix therefore records:
+Candidate-selection PR `#49`, exact head `a96cde90b9b0a02f665b27a54293f56bb90d4056`, passed `Validate Tri-Form Formalism` run `34001628346`, job `101401407663`, with all substantive steps successful, and merged as `ad82bf3ecf0532829a82699b921e318b7b45888b`.
+
+Canonical matrix state:
 
 ```text
+completed source migrations: 7 / 32
 next_executable_candidate: Admissible-Existence/RE-Reduction
 selection_evidence_state: EVIDENCE_PASS_COMPLETE
-RE-Reduction triform_state: SELECTED_NEXT_EXECUTABLE_CANDIDATE
 ```
-
-The deterministic matrix validator now fails closed on drift from the exact candidate evidence and replacement boundary while preserving the existing 7/32 completion set and all prior semantic exclusions/authority boundaries.
 
 ## Completion denominator
 
 1. scoped refresh handoff — COMPLETE;
 2. canonical/task/Master Records/cross-task preflight — COMPLETE;
 3. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED`);
-4. RE 32-row matrix + deterministic validator registration — COMPLETE;
+4. RE matrix + deterministic validator registration — COMPLETE;
 5. RE registration exact-head validation + merge — COMPLETE;
 6. parent Tri-Form RE registration reconciliation — COMPLETE;
 7. next-candidate evidence pass + selection implementation — COMPLETE;
-8. candidate-selection exact-head validation + merge/issue closure — PENDING.
+8. candidate-selection exact-head validation + merge/issue closure — COMPLETE.
 
-Current bounded completion: `7/8 = 87.5%`.
+Current bounded completion: `8/8 = 100%`.
 
-## Exact next task
+## Next integration boundary
 
-Open and validate the candidate-selection PR. Merge only while its exact current head is green, reconcile this handoff and the parent Tri-Form handoff on `main`, close issue `#46`, then begin the separately admitted RE-Reduction repository preflight before any source mutation.
+The next admitted candidate is `Admissible-Existence/RE-Reduction`. Source mutation must begin only after its own repository-native machine preflight resolves its canonical handoff, task registry collision state, Master Records/cross-task boundaries, existing predicates/evidence, and README completeness predicate. A scoped RE-Reduction Tri-Form handoff must be created before substantive source mutation.
 
 ## User work
 
-None. Remaining work is repository-native and machine-executable.
+None.
