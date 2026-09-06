@@ -2,109 +2,68 @@
 
 **Goal ID:** `AEX-TRIFORM-MIGRATION-REFRESH-007`  
 **Repository:** `Admissible-Existence/.github`  
-**Branch:** `triform-migration-refresh-007`  
+**Branch:** `triform-migration-refresh-007-selection`  
 **Canonical issue:** `#46`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** RE_REGISTRATION_IMPLEMENTED_PENDING_EXACT_HEAD_VALIDATION
+**Status:** RE_REGISTERED / NEXT_CANDIDATE_SELECTED_PENDING_EXACT_HEAD_VALIDATION
 
 ## Purpose
 
-Register completed bounded Tri-Form migration for `Admissible-Existence/RE` and advance organization accounting from `6/32` to `7/32` without altering native RE mathematics, proof maturity, standing semantics, runtime authority, or Master Records propagation semantics.
+Register completed bounded Tri-Form migration for `Admissible-Existence/RE`, advance organization accounting from `6/32` to `7/32`, and select the next admissible source candidate using direct repository evidence without altering source mathematics, authority, or Master Records propagation semantics.
 
-## Resolved canonical state
+## Completed RE registration
 
-- RE canonical handoff: `Admissible-Existence/RE/docs/RE_MIRROR_HANDOFF.md`;
-- RE scoped Tri-Form handoff: `Admissible-Existence/RE/docs/RE_TRIFORM_MIRROR_HANDOFF.md`;
-- RE PR `#4` merged at `805d3159223027f0e1f5b36735c2904264e77994`;
-- exact validated RE head: `529fdce5c223cd6ddf08595c41bebd975fd69609`;
-- final Tri-Form run/job: `34001278294` / `101400473614` — success;
-- existing RE proof-obligation run/job: `34001278325` / `101400473717` — success;
-- RE issue `#3` closed completed;
-- parent organization Tri-Form accounting was `6/32` before this refresh.
+RE canonical/scoped handoffs, exact-head workflow evidence, merge `805d3159223027f0e1f5b36735c2904264e77994`, and issue closure are verified. Central PR `#48` registered RE at `7/32`; exact PR head `33648608bce092242b88e66471ec7827841357b8` passed `Validate Tri-Form Formalism` run `34001439642`, job `101400909213`, and merged as `0ab56b212aa77589c2f58ee29e19adb188a7ed11`.
 
-## Task registry / collision state
+RE remains `tested_not_proven` for `PO-RE-001..PO-RE-005`, with `19/19` bounded fixtures, `4/4` base structural checks, `0/5` universally proven, and all non-authority/non-promotion/non-bypass/non-erasure predicates preserved.
 
-`data/formalism-task-claims.json` has no active or unexpired task claim for `AEX-RE-TRIFORM-001` or `AEX-TRIFORM-MIGRATION-REFRESH-007`. Existing RTG/organization-audit claims retain their own collision boundaries and are not touched. TT and STCM remain deferred by their active canonical integration claims.
+## Machine preflight / collision / Master Records state
 
-The organization coherence audit currently has a separate proven repository-visibility blocker. That stale/partial visibility does not override direct repository-native RE validation evidence and is not modified by this accounting refresh.
+The refresh preflight passed before accounting mutation. `data/formalism-task-claims.json` contains no active or unexpired claim colliding with this refresh. Existing RTG and organization-audit claims retain their own collision boundaries; TT and STCM remain deferred under their active canonical integration claims.
 
-## Master Records / transition continuity
+`docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. Tri-Form accounting and candidate selection do not themselves propagate to Master Records or create Master Records authority.
 
-`docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. Repository completion and Tri-Form accounting do not themselves propagate to Master Records. A verified repo transition must first be represented through the organization transition ledger; only the resulting exact organization receipt may later traverse the existing InTr federation. This refresh creates no Master Records authority and performs no such propagation.
+README impact for this central accounting/selection change remains **NO_CHANGE_REQUIRED**. `profile/README.md` already states the organization role and source-owned maturity/authority boundaries; selecting the next source candidate changes coordination state only, not organization behavior, runtime semantics, interfaces, governance/authority boundaries, prerequisites, dependencies, failure behavior, or public capability meaning.
 
-## Reused predicates and evidence
+## Next-candidate evidence pass — COMPLETE
 
-No duplicate RE proof model is introduced. This refresh reuses:
+Direct repository-native evidence selects `Admissible-Existence/RE-Reduction` as the next executable Tri-Form candidate:
 
-- stable IDs `PO-RE-001..PO-RE-005`;
-- proof maturity `tested_not_proven` for all five;
-- bounded fixture total `19/19`;
-- base structural checks `4/4`;
-- universally proven `0/5`;
-- RE Tri-Form manifest and counterpart inventory;
-- final exact-head workflow evidence;
-- non-authority predicates from the RE handoffs.
+- canonical handoff: `Admissible-Existence/RE-Reduction/docs/RE_REDUCTION_MIRROR_HANDOFF.md` reports `HOSTED_VALIDATED_COMPLETE_NOTIFY_ONLY`, completed/released implementation and validation, completed RE consumer integration, and repository-local archive readiness true;
+- README defines the executable reduction role and explicit non-authorizing boundary;
+- existing consumer profile, validator, fixtures, deterministic integration receipt, and hosted completion evidence already provide executable/evidence counterparts;
+- standing re-entry remains required;
+- execution authority remains false;
+- existing reducer and `REDUCTION_RECEIPT.schema.json` must not be replaced absent direct regression evidence;
+- no historical stable principle-ID registry was established by the initial identifier search, so any later bounded IDs require explicit provenance rather than invented historical lineage.
 
-## README completeness predicate
+The matrix therefore records:
 
-README impact determination: **NO_CHANGE_REQUIRED**.
+```text
+next_executable_candidate: Admissible-Existence/RE-Reduction
+selection_evidence_state: EVIDENCE_PASS_COMPLETE
+RE-Reduction triform_state: SELECTED_NEXT_EXECUTABLE_CANDIDATE
+```
 
-Evidence-supported basis:
-
-1. `profile/README.md` already states that the organization contains formal/executable validation work and that individual repositories own their maturity/proof/authority boundaries.
-2. This refresh only registers already-validated RE completion in the existing migration matrix and strengthens the existing matrix validator with RE preservation predicates.
-3. It does not change organization behavior, runtime semantics, interfaces, governance/authority boundaries, prerequisites, dependencies, failure behavior, public capability meaning, or Master Records routing.
-4. The RE repository README itself was updated in the source change set because the new repository-visible Tri-Form capability did affect RE's local evidence/capability documentation. Repeating that repository-specific detail in the organization profile would duplicate source-owned semantics.
-
-Therefore no `profile/README.md` change is required for this central accounting-only refresh.
-
-Preflight result: `PASS`.
-
-## Implemented accounting
-
-`data/triform-migration-matrix.json` now records:
-
-- completed source migrations: `7 / 32`;
-- completed sources: Existence, GTG, ET, learning-transition-governance, BC, CHF, RE;
-- RE state: `BOUNDED_TRIFORM_COMPLETE_MERGED_TESTED_NOT_PROVEN`;
-- RE bounded principle count: `5`;
-- proof maturity: `tested_not_proven`;
-- bounded fixture total: `19`;
-- base structural checks: `4`;
-- universally proven: `0`;
-- authority/proof-promotion/standing-bypass/receipt-erasure/historical-source-replacement flags: all `false`.
-
-`scripts/validate_triform_migration_matrix.py` now fails closed if any of those RE constraints drift while preserving all prior Existence/GTG/ET/LTG/BC/CHF and TT/STCM constraints.
-
-## Required preservation
-
-- preserve 32-repository denominator;
-- preserve Existence, GTG, ET, LTG, BC, and CHF completion evidence;
-- preserve GTG historical non-equivalence;
-- preserve ET semantic exclusions and `historical_source_replacement=false`;
-- preserve LTG no-capture/no-predetermined-destination/no-authority conditions;
-- preserve BC/CHF bounded-ID provenance;
-- preserve TT/STCM active-claim deferrals;
-- preserve RE `tested_not_proven`, `19/19`, `4/4`, `0/5 proven`, and all non-authority predicates;
-- keep `next_executable_candidate=null` until a separate evidence pass names one.
+The deterministic matrix validator now fails closed on drift from the exact candidate evidence and replacement boundary while preserving the existing 7/32 completion set and all prior semantic exclusions/authority boundaries.
 
 ## Completion denominator
 
 1. scoped refresh handoff — COMPLETE;
 2. canonical/task/Master Records/cross-task preflight — COMPLETE;
 3. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED`);
-4. 32-row matrix + deterministic validator update — COMPLETE;
-5. exact-head validation — PENDING;
-6. parent Tri-Form handoff reconciliation — PENDING;
-7. merge/issue closure — PENDING;
-8. next-candidate evidence pass — PENDING.
+4. RE 32-row matrix + deterministic validator registration — COMPLETE;
+5. RE registration exact-head validation + merge — COMPLETE;
+6. parent Tri-Form RE registration reconciliation — COMPLETE;
+7. next-candidate evidence pass + selection implementation — COMPLETE;
+8. candidate-selection exact-head validation + merge/issue closure — PENDING.
 
-Current bounded completion: `4/8 = 50%`.
+Current bounded completion: `7/8 = 87.5%`.
 
 ## Exact next task
 
-Open the bounded PR, observe exact-head `Validate Tri-Form Formalism`, repair only proven defects, merge only while current head is green, reconcile the parent Tri-Form handoff, close issue `#46`, then execute the next-candidate evidence pass.
+Open and validate the candidate-selection PR. Merge only while its exact current head is green, reconcile this handoff and the parent Tri-Form handoff on `main`, close issue `#46`, then begin the separately admitted RE-Reduction repository preflight before any source mutation.
 
 ## User work
 
