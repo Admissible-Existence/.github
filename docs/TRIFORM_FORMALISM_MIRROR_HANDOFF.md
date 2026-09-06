@@ -4,8 +4,8 @@
 **Repository:** `Admissible-Existence/.github`  
 **Parent coordination authority:** `FORMALISM_MIRROR_HANDOFF.md`  
 **Migration refresh v9 issue / PRs:** `#53` / `#54`, `#55` — COMPLETE_MERGED  
-**Migration refresh v10 issue / registration PR:** `#56` / `#57` — REGISTRATION_COMPLETE_MERGED / GCAT_BCAT_ROOT_SELECTION_PENDING_VALIDATION  
-**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / GCAT_BCAT_ROOT_SELECTED_PENDING_VALIDATION
+**Migration refresh v10 issue / PRs:** `#56` / `#57`, `#58` — COMPLETE_MERGED  
+**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / GCAT_BCAT_ROOT_SELECTED
 
 ## Purpose and invariant
 
@@ -13,7 +13,7 @@ Tri-Form binds prose, mathematical, and executable/code semantics through stable
 
 ## Completed source migrations
 
-Canonical `main` now records `10/32 = 31.25%`: Existence, GTG, ET, learning-transition-governance, BC, CHF, RE, RE-Reduction, DC, and Triad. All previously recorded semantic/proof/authority boundaries remain enforced.
+Canonical `main` records `10/32 = 31.25%`: Existence, GTG, ET, learning-transition-governance, BC, CHF, RE, RE-Reduction, DC, and Triad. All previously recorded semantic/proof/authority boundaries remain enforced.
 
 Triad registration evidence:
 
@@ -40,11 +40,34 @@ TT and STCM remain deferred under active canonical integration claims.
 
 GCAT-BCAT is selected from direct repository-native evidence and **only for its repository-root formalism**. `GCAT_BCAT_MIRROR_HANDOFF.md` reports `ROOT_PRINCIPLE_COMPLETENESS_HOSTED_VALIDATED`, released root implementation/validation, and 100% bounded root activation. Root issue `#2` is closed completed. Historical root IDs are `GCAT-BCAT-COMMIT-GATE`, `GCAT-BCAT-FAIL-CLOSED`, `GCAT-BCAT-TRANSITION-ECONOMICS`, and `GCAT-BCAT-RECEIPT-REPLAY`.
 
-The root validation receipt is valid with four principles and empty findings; execution, publication, and proof acceptance remain false. It also explicitly records `decision_envelope_claims_satisfied=false`.
+The root validation receipt is valid with four principles and empty findings; execution, publication, and proof acceptance remain false. It explicitly records `decision_envelope_claims_satisfied=false`.
 
 The Decision Envelope child workstream remains active under `docs/DECISION_ENVELOPE_MIRROR_HANDOFF.md`, with `DE-006` in `CLAIMED_FOR_INTEGRATION`. That child workstream is a disjoint ownership surface and must not be modified, satisfied, released, or reinterpreted by the root Tri-Form migration.
 
 GCAT-BCAT's README currently accurately distinguishes root completion from the active Decision Envelope child. A source Tri-Form preflight must still determine whether adding Tri-Form capability requires a same-change README update.
+
+## Refresh v10 evidence
+
+Registration:
+
+```text
+PR: #57
+head: 08848b9255043e166b13c76ca5f12974dec989c9
+run/job: 34017131735 / 101442773288 — SUCCESS
+merge: 09ad2e89c0b3d696ee4257729235382905019ce4
+```
+
+Candidate selection:
+
+```text
+PR: #58
+head: d900eca58fa35f82f6c2d7b207af8eb6ce24407f
+run/job: 34017285754 / 101443195746 — SUCCESS
+merge: 2eecff077ce5de0f74f642296d43916990080c2f
+next executable candidate: Admissible-Existence/GCAT-BCAT (repository root only)
+```
+
+Central README impact was `NO_CHANGE_REQUIRED` for both registration and selection because these changes only register evidence/accounting and source capability changes remain source-owned.
 
 ## Authority / Master Records boundaries
 
@@ -56,18 +79,18 @@ Repository-level transitions remain replayable at their source. Organization rep
 
 1. Preserve 10/32 accounting and every registered semantic/authority boundary.
 2. Preserve TT/STCM deferral.
-3. Validate and merge the GCAT-BCAT root-selection continuation.
-4. Begin GCAT-BCAT only through a separately admitted repository-native, root-scoped machine preflight and scoped handoff.
-5. Reuse root historical IDs, cost model, receipt schema, validators, fixtures, build/readiness surfaces, principle receipt, and existing root `build.yml`; do not duplicate them.
-6. Preserve `papers/decision-envelope/`, `security/`, Decision Envelope claims/workflows/handoff, and destination-owned `DE-006` as untouched active child scope.
-7. Apply the README completeness predicate before any root functional mutation.
+3. Begin GCAT-BCAT only through a separately admitted repository-native, root-scoped machine preflight and scoped handoff.
+4. Reuse root historical IDs, cost model, receipt schema, validators, fixtures, build/readiness surfaces, principle receipt, and existing root `build.yml`; do not duplicate them.
+5. Preserve `papers/decision-envelope/`, `security/`, Decision Envelope claims/workflows/handoff, and destination-owned `DE-006` as untouched active child scope.
+6. Apply the README completeness predicate before any root functional mutation.
+7. On root source completion, register its validated evidence centrally before selecting another source.
 
 ## Completion/accounting
 
 Migration refresh v9: `8/8 = 100% complete/merged`.  
-Migration refresh v10: `7/8 = 87.5%`; selection validation/merge and final issue closure remain.  
+Migration refresh v10: `8/8 = 100% complete/merged`.  
 Completed source migrations: `10/32 = 31.25%`.
 
 ## User work
 
-None currently. Remaining selection validation and the GCAT-BCAT root source preflight are machine-executable.
+None currently. The GCAT-BCAT root source preflight and bounded Tri-Form migration are machine-executable.
