@@ -6,7 +6,7 @@
 **Canonical issue:** `#56`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** PREFLIGHT_PASSED_TRIAD_REGISTRATION_PENDING
+**Status:** TRIAD_REGISTRATION_IMPLEMENTED_PENDING_EXACT_HEAD_VALIDATION
 
 ## Purpose
 
@@ -24,17 +24,15 @@ Register completed bounded Tri-Form migration for `Admissible-Existence/Triad` a
 - source README reconciliation completed in the Triad change set;
 - existing RC1/management/integration/schema/validator/receipt/artifact workflow remains source-owned.
 
-## Task registry / collision state
+## Machine preflight / collision / Master Records
 
-The active formalism task registry contains no admitted claim for `AEX-TRIFORM-MIGRATION-REFRESH-010` or `AEX-TRIAD-TRIFORM-001` that collides with this accounting lane. Existing RTG/organization-audit boundaries remain separate. TT/STCM remain deferred under active canonical integration claims.
-
-## Master Records / transition continuity
+The active formalism task registry contains no admitted claim for `AEX-TRIFORM-MIGRATION-REFRESH-010` or `AEX-TRIAD-TRIFORM-001` that collides with this accounting lane. Existing RTG and organization-audit boundaries remain separate. TT/STCM remain deferred under active canonical integration claims.
 
 `docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. This refresh records organization Tri-Form accounting only; it does not emit or federate a Master Records transition. Any later propagation requires the separately governed exact organization receipt/InTr path.
 
-## Reused predicates and evidence
+## Reused predicates
 
-No duplicate Triad model is introduced. This refresh preserves:
+No duplicate Triad model is introduced. Registration preserves:
 
 ```text
 historical IDs = TRIAD-SUBJECT-STANDING, TRIAD-BOUNDARY-STANDING, TRIAD-GOVERNANCE-STANDING
@@ -64,29 +62,28 @@ README impact determination: **NO_CHANGE_REQUIRED** for this central registratio
 
 Preflight result: `PASS`.
 
-## Execution order
+## Implemented registration
 
-1. Register Triad in the 32-row migration matrix and advance completed source migrations to `10/32`.
-2. Extend the migration validator with fail-closed Triad historical-ID, proof-maturity, standing-separation, commit-time-governance, fail-closed uncertainty, authority, and AE-retention predicates.
-3. Reset `next_executable_candidate` to null pending a separate evidence pass.
-4. Validate exact branch head through the existing Tri-Form workflow.
-5. Merge only while exact current head is green.
-6. Reconcile scoped and parent handoffs.
-7. Execute a next-candidate evidence pass and close issue `#56` only after selection validation/merge.
-8. Begin any selected source only through its repository-native preflight.
+`data/triform-migration-matrix.json` now records `10/32` completed source migrations and Triad as `BOUNDED_TRIFORM_COMPLETE_MERGED` with its historical IDs, `tested_not_proven` maturity, standing-separation/commit-time/fail-closed semantics, non-authority/non-publication/non-proof-acceptance boundaries, AE final admissibility authority, no historical source replacement, and reconciled README state.
+
+`scripts/validate_triform_migration_matrix.py` now fails closed on drift from those Triad predicates while preserving all previously registered source boundaries and TT/STCM deferrals. `next_executable_candidate` is reset to null and `selection_evidence_state` to `EVIDENCE_PASS_REQUIRED` until a separate repository-native evidence pass selects the next source.
 
 ## Completion denominator
 
 1. scoped central handoff + machine preflight — COMPLETE;
 2. Triad source evidence capture — COMPLETE;
 3. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED`);
-4. 32-row matrix + deterministic validator update — PENDING;
+4. 32-row matrix + deterministic validator update — COMPLETE;
 5. exact-head registration validation — PENDING;
 6. parent Tri-Form registration reconciliation — PENDING;
 7. registration merge — PENDING;
 8. next-candidate evidence pass + final closure — PENDING.
 
-Current bounded completion: `3/8 = 37.5%`.
+Current bounded completion: `4/8 = 50%`.
+
+## Exact next task
+
+Reconcile parent Tri-Form registration state, open the bounded registration PR, observe exact-head `Validate Tri-Form Formalism`, repair only proven defects, merge only while the exact current head is green, then execute the next-candidate evidence pass.
 
 ## User work
 
