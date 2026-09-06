@@ -10,8 +10,8 @@
 **Migration refresh v5 issue / PR:** `#42` / `#43` — COMPLETE_MERGED  
 **Migration refresh v6 issue / PR:** `#44` / `#45` — COMPLETE_MERGED  
 **Migration refresh v7 issue / PRs:** `#46` / `#48`, `#49` — COMPLETE_MERGED  
-**Migration refresh v8 issue / registration PR:** `#50` / `#51` — REGISTRATION_COMPLETE_MERGED / SELECTION_PENDING  
-**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / NEXT_CANDIDATE_EVIDENCE_PASS_PENDING
+**Migration refresh v8 issue / registration PR:** `#50` / `#51` — REGISTRATION_COMPLETE_MERGED / DC_SELECTION_PENDING_VALIDATION  
+**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / DC_SELECTED_PENDING_VALIDATION
 
 ## Purpose
 
@@ -41,32 +41,22 @@ Existence binds `EXIST-01..EXIST-10` without proof promotion.
 
 GTG binds `GTG-GS-01..GTG-GS-06`; historical bare `GTG-A1..GTG-A8` equivalence remains `NOT_ESTABLISHED` and issue `#20` remains separate.
 
-ET binds four conflict-free historical principles while `ET-AUTHORITY-003` and `ET-TEMPORAL-004` remain explicitly excluded from historical equivalence; `historical_source_replacement=false` remains enforced.
-
-Learning Transition Governance binds `LTG-P001..LTG-P004` while preserving learning != authority, becoming without capture, no predetermined intellectual destination, and distinct human/AI agency-consent-accountability boundaries.
-
-Boundary-Coherence binds `BC-P001..BC-P004` as new bounded binding IDs over existing BC semantics, not historical source identifiers.
-
-Consequence Horizon Formalism binds `CHF-P001..CHF-P004` over canonical post-consequence recoverability, observability, absorption-capacity, and coherence-retention conditions as new bounded binding IDs; non-authority/non-promotion/non-replacement remain enforced.
-
-RE binds historical stable proof-obligation IDs `PO-RE-001..PO-RE-005`. All remain `tested_not_proven`; bounded fixture evidence remains `19/19`, base structural checks `4/4`, and `universally_proven=0`. Non-authority/non-promotion/non-bypass/non-erasure/non-replacement remain enforced.
-
-RE-Reduction binds `RR-P001..RR-P005` as `NEW_BINDING_IDS_NOT_HISTORICAL_SOURCE_IDS` over existing measurable reduction, lineage, standing re-entry, non-authority, and replay/fail-closed semantics. Existing reducer, reduction receipt schema, consumer profile, and consumer validator remain source-owned and preserved. Standing re-entry and lineage preservation remain required; execution authority remains false.
+ET preserves its explicit semantic exclusions; LTG preserves no-capture/no-predetermined-destination/non-authority boundaries; BC/CHF preserve new-binding-ID provenance; RE remains `tested_not_proven`; RE-Reduction preserves new-binding-ID, standing, lineage, replay/fail-closed, source-preservation, and non-authority boundaries.
 
 ## Candidate-selection state
 
 ```text
 logical_next_candidate: Admissible-Existence/TT
 logical_candidate_state: DEFER_ACTIVE_CANONICAL_CLAIM
-next_executable_candidate: null
-selection_evidence_state: EVIDENCE_PASS_REQUIRED
+next_executable_candidate: Admissible-Existence/DC
+selection_evidence_state: EVIDENCE_PASS_COMPLETE
 ```
 
 TT remains deferred by active canonical goal `TT-RELATIONAL-GOVERNANCE-MATH-ALIGNMENT-001` / `CLAIMED_FOR_INTEGRATION`.
 
 STCM remains deferred by active canonical goal `STCM-RELATIONAL-GOVERNANCE-MATH-ALIGNMENT-001` / `CLAIMED_FOR_INTEGRATION`.
 
-No executable candidate is named merely from stack order, filename presence, or stale assumptions.
+`Admissible-Existence/DC` is selected from direct repository-native evidence, not stack order. Its canonical handoff reports implementation, deterministic validation, and hosted validation complete; issue `#1` is closed completed; historical source IDs `DC-P1..DC-P4` already exist in `formalism/principle-registry.yaml`; deterministic validation records six passing paths and explicitly no authority/activation/final-cross-repository effect. The repository README remains stale in calling DC an "Early formalism repository", so the DC source preflight must require README reconciliation in the same source change set if Tri-Form capability is added.
 
 ## Refresh v8 registration evidence
 
@@ -80,7 +70,7 @@ registered source: Admissible-Existence/RE-Reduction
 completed source migrations: 8/32
 ```
 
-Machine preflight resolved parent handoffs, task registry, cross-task coordination, organization-transition/Master Records boundaries, and README completeness before mutation. Central README impact was `NO_CHANGE_REQUIRED`; the source RE-Reduction README had already been updated in its repository-local Tri-Form change set.
+The candidate-selection continuation remains pending exact-head validation/merge.
 
 ## Authority boundaries
 
@@ -95,9 +85,10 @@ Machine preflight resolved parent handoffs, task registry, cross-task coordinati
 
 1. Preserve 8/32 completed-source accounting and all registered semantic boundaries.
 2. Preserve TT/STCM deferral while their canonical claims remain active.
-3. Execute repository-native evidence inspection across remaining source repositories marked `INSPECTION_REQUIRED`.
-4. Name a next executable candidate only when live evidence establishes maturity, usable prose/math/code/evidence counterparts, and non-collision.
-5. Begin any selected source only through its repository-native machine preflight and scoped handoff.
+3. Validate and merge the DC-selection continuation.
+4. Begin DC only through a separately admitted repository-native machine preflight and scoped handoff.
+5. Reuse existing DC principle IDs, mathematical notation, checkers, fixtures, build/readiness paths, deterministic receipt, and hosted evidence rather than duplicating them.
+6. Reconcile the stale DC README status in the same source change set if Tri-Form capability is added.
 
 ## Completion/accounting
 
@@ -109,7 +100,7 @@ migration refresh v4: 8/8 = 100% complete/merged
 migration refresh v5: 8/8 = 100% complete/merged
 migration refresh v6: 8/8 = 100% complete/merged
 migration refresh v7: 8/8 = 100% complete/merged
-migration refresh v8: 7/8 complete pending next-candidate evidence pass and final closure
+migration refresh v8: 7/8 complete pending DC-selection validation/merge and final closure
 completed source migrations: 8/32 = 25%
 ```
 
@@ -119,4 +110,4 @@ Tri-Form accounting and candidate selection do not themselves propagate to Maste
 
 ## User work
 
-None currently. The next candidate-selection evidence pass is repository-native and machine-executable.
+None currently. The selection validation and DC source preflight are machine-executable.

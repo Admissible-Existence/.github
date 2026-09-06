@@ -4,82 +4,69 @@
 **Repository:** `Admissible-Existence/.github`  
 **Canonical issue:** `#50`  
 **Registration PR:** `#51` — COMPLETE_MERGED  
+**Selection branch:** `triform-migration-refresh-008-selection`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** RE_REDUCTION_REGISTERED / NEXT_CANDIDATE_EVIDENCE_PASS_PENDING
+**Status:** RE_REDUCTION_REGISTERED / DC_SELECTED_PENDING_EXACT_HEAD_VALIDATION
 
 ## Purpose
 
-Register completed bounded Tri-Form migration for `Admissible-Existence/RE-Reduction` and advance canonical organization accounting from `7/32` to `8/32` without altering native reducer/schema/consumer semantics, authority, or Master Records propagation.
+Register completed bounded Tri-Form migration for `Admissible-Existence/RE-Reduction`, advance canonical organization accounting to `8/32`, and select the next executable source only from direct repository-native evidence without changing source authority or Master Records propagation semantics.
 
-## Verified source evidence
+## Registration state
 
-- canonical source handoff: `Admissible-Existence/RE-Reduction/docs/RE_REDUCTION_MIRROR_HANDOFF.md`;
-- scoped source handoff: `Admissible-Existence/RE-Reduction/docs/RE_REDUCTION_TRIFORM_MIRROR_HANDOFF.md`;
-- source issue `#2` closed completed;
-- source PR `#3` exact head `0a7e902fe921e1864e28ec5df00c6be31ac9a57f`;
-- source validation run/job `34001812246` / `101401903011` — success;
-- source smoke run/job `34001812255` / `101401902907` — success;
-- source merge `ce69826cb4e5659bfe917944390c43df9729e5c3`;
-- bounded IDs `RR-P001..RR-P005` use `NEW_BINDING_IDS_NOT_HISTORICAL_SOURCE_IDS` provenance;
-- source reducer, receipt schema, consumer profile, and consumer validator were preserved.
+RE-Reduction registration is complete and merged. Exact registration head `eac4d5d5ff0725bbdf939db89a660c87d74fd97a` passed `Validate Tri-Form Formalism` run `34009861489`, job `101423670649`; PR `#51` merged as `f3c16cdc7369a7da8b4709cc864c56680b23f81f`.
+
+The migration matrix therefore preserves `8/32` completed sources and all prior GTG/ET/LTG/BC/CHF/RE/RE-Reduction semantic boundaries.
 
 ## Machine preflight / collision / README / Master Records
 
-The active formalism task registry has no admitted claim colliding with `AEX-TRIFORM-MIGRATION-REFRESH-008`. Existing RTG/organization-audit boundaries remain separate and TT/STCM remain deferred by active canonical claims.
+The active formalism task registry has no admitted claim colliding with `AEX-TRIFORM-MIGRATION-REFRESH-008`. Existing RTG and organization-audit claim boundaries remain separate; TT/STCM remain deferred by active canonical claims.
 
-`docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. Tri-Form accounting does not emit or federate a Master Records transition; only a separately governed exact organization receipt may later traverse InTr federation.
+`docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. Tri-Form registration or candidate selection does not emit or federate a Master Records transition.
 
-README impact determination was **NO_CHANGE_REQUIRED** for the central registration because source `RE-Reduction/README.md` already captured the changed repository capability/evidence meaning, while central registration changed accounting/evidence state only. Preflight result: `PASS`.
+Central README impact remains **NO_CHANGE_REQUIRED** because candidate selection changes coordination state only. A source README determination is separately required before any DC functional mutation.
 
-## Registration implementation and exact-head validation
+Preflight result: `PASS`.
 
-`data/triform-migration-matrix.json` now records `8/32` completed sources and RE-Reduction as `BOUNDED_TRIFORM_COMPLETE_MERGED`. `scripts/validate_triform_migration_matrix.py` fails closed on drift from RE-Reduction's bounded-ID provenance, standing re-entry, lineage preservation, replay compatibility, fail-closed outcome, non-authority, non-promotion, non-bypass, non-erasure, and source-preservation predicates.
+## Next-candidate evidence pass — COMPLETE
 
-Registration exact head:
+Direct repository-native evidence selects `Admissible-Existence/DC` as the next executable Tri-Form candidate:
 
-```text
-head: eac4d5d5ff0725bbdf939db89a660c87d74fd97a
-workflow: Validate Tri-Form Formalism
-run: 34009861489
-job: 101423670649
-conclusion: SUCCESS
-merge: f3c16cdc7369a7da8b4709cc864c56680b23f81f
-```
+- canonical handoff `docs/DC_MIRROR_HANDOFF.md` reports `IMPLEMENTATION_COMPLETE_DETERMINISTICALLY_AND_HOSTED_VALIDATED`, implementation/validation claims `COMPLETE_RELEASED`, no manual tasks, and repository-local goal activation `100%`;
+- issue `#1` is closed completed and records deterministic `6/6`, distributed-coherence fixtures `3/3`, W2 classifier fixtures `5/5`, and final hosted success;
+- `formalism/principle-registry.yaml` supplies historical stable source IDs `DC-P1..DC-P4` with explicit falsifiers and non-authority metadata;
+- `reports/dc-deterministic-validation-receipt.json` records deterministic replay/evidence reconciliation PASS with six validated paths and `authority_effect=false`, `activation_effect=false`, `final_cross_repository_validity=false`;
+- repository README contains substantive DC prose/math but still labels the repository an "Early formalism repository", which conflicts with the newer canonical handoff. A DC source preflight must therefore classify README reconciliation as REQUIRED if Tri-Form capability is added.
 
-All validation steps passed, including Tri-Form pilot validation, migration-matrix validation, existing relational formalism regression, and authority-boundary declaration.
-
-## Preserved RE-Reduction predicates
+The matrix now records:
 
 ```text
-identifier_provenance = NEW_BINDING_IDS_NOT_HISTORICAL_SOURCE_IDS
-standing_reentry_required = true
-lineage_preserved = true
-execution_authority_granted = false
-source_authority_assertion_forbidden = true
-replay_output_must_match_expected = true
-failure_outcome = FAIL_CLOSED
-source_replacement_authorized = false
+next_executable_candidate: Admissible-Existence/DC
+selection_evidence_state: EVIDENCE_PASS_COMPLETE
+DC triform_state: SELECTED_NEXT_EXECUTABLE_CANDIDATE
+historical_stable_ids: DC-P1..DC-P4
+readme_status_reconciliation_required: true
 ```
 
-No source implementation, theorem/proof maturity, runtime, publication, release, admissibility, credential, custody, standing-acceptance, or Master Records authority is created by central registration.
+The deterministic migration validator fails closed if the DC selection, historical IDs, source maturity, non-authority/final-cross-repository boundary, or README-reconciliation requirement drifts.
 
 ## Completion denominator
 
 1. scoped central handoff + machine preflight — COMPLETE;
 2. RE-Reduction source evidence capture — COMPLETE;
-3. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED`);
-4. 32-row matrix + deterministic validator update — COMPLETE;
-5. exact-head validation — COMPLETE;
-6. parent Tri-Form handoff reconciliation — COMPLETE;
+3. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED` centrally);
+4. 32-row matrix + deterministic validator registration — COMPLETE;
+5. registration exact-head validation — COMPLETE;
+6. parent Tri-Form registration reconciliation — COMPLETE;
 7. registration merge — COMPLETE;
-8. next-candidate evidence pass + final issue closure — PENDING.
+8. next-candidate evidence pass + selection validation/merge + final issue closure — PENDING.
 
 Current bounded completion: `7/8 = 87.5%`.
 
 ## Exact next task
 
-Execute a repository-native evidence pass over remaining source entries marked `INSPECTION_REQUIRED`, preserve TT/STCM deferrals and all existing boundaries, select a next executable source only if direct evidence establishes maturity and non-collision, validate the selection state, then close issue `#50`.
+Open and validate the DC-selection PR. Merge only while the exact current head is green, reconcile this handoff and the parent Tri-Form handoff on `main`, close issue `#50`, then begin DC only through a separately admitted repository-native preflight and scoped handoff.
 
 ## User work
 
