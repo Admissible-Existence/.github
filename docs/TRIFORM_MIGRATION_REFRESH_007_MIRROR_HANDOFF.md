@@ -6,7 +6,7 @@
 **Canonical issue:** `#46`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** PREFLIGHT_PASSED_RE_REGISTRATION_PENDING
+**Status:** RE_REGISTRATION_IMPLEMENTED_PENDING_EXACT_HEAD_VALIDATION
 
 ## Purpose
 
@@ -21,7 +21,7 @@ Register completed bounded Tri-Form migration for `Admissible-Existence/RE` and 
 - final Tri-Form run/job: `34001278294` / `101400473614` — success;
 - existing RE proof-obligation run/job: `34001278325` / `101400473717` — success;
 - RE issue `#3` closed completed;
-- organization Tri-Form accounting currently `6/32` and RE remains `INSPECTION_REQUIRED` until this refresh is validated and merged.
+- parent organization Tri-Form accounting was `6/32` before this refresh.
 
 ## Task registry / collision state
 
@@ -61,6 +61,22 @@ Therefore no `profile/README.md` change is required for this central accounting-
 
 Preflight result: `PASS`.
 
+## Implemented accounting
+
+`data/triform-migration-matrix.json` now records:
+
+- completed source migrations: `7 / 32`;
+- completed sources: Existence, GTG, ET, learning-transition-governance, BC, CHF, RE;
+- RE state: `BOUNDED_TRIFORM_COMPLETE_MERGED_TESTED_NOT_PROVEN`;
+- RE bounded principle count: `5`;
+- proof maturity: `tested_not_proven`;
+- bounded fixture total: `19`;
+- base structural checks: `4`;
+- universally proven: `0`;
+- authority/proof-promotion/standing-bypass/receipt-erasure/historical-source-replacement flags: all `false`.
+
+`scripts/validate_triform_migration_matrix.py` now fails closed if any of those RE constraints drift while preserving all prior Existence/GTG/ET/LTG/BC/CHF and TT/STCM constraints.
+
 ## Required preservation
 
 - preserve 32-repository denominator;
@@ -78,13 +94,17 @@ Preflight result: `PASS`.
 1. scoped refresh handoff — COMPLETE;
 2. canonical/task/Master Records/cross-task preflight — COMPLETE;
 3. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED`);
-4. 32-row matrix + deterministic validator update — PENDING;
+4. 32-row matrix + deterministic validator update — COMPLETE;
 5. exact-head validation — PENDING;
 6. parent Tri-Form handoff reconciliation — PENDING;
 7. merge/issue closure — PENDING;
 8. next-candidate evidence pass — PENDING.
 
-Current bounded completion: `3/8 = 37.5%`.
+Current bounded completion: `4/8 = 50%`.
+
+## Exact next task
+
+Open the bounded PR, observe exact-head `Validate Tri-Form Formalism`, repair only proven defects, merge only while current head is green, reconcile the parent Tri-Form handoff, close issue `#46`, then execute the next-candidate evidence pass.
 
 ## User work
 
