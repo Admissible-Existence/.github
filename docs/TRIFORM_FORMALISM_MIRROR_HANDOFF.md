@@ -10,8 +10,8 @@
 **Migration refresh v5 issue / PR:** `#42` / `#43` — COMPLETE_MERGED  
 **Migration refresh v6 issue / PR:** `#44` / `#45` — COMPLETE_MERGED  
 **Migration refresh v7 issue / PRs:** `#46` / `#48`, `#49` — COMPLETE_MERGED  
-**Migration refresh v8 issue / registration PR:** `#50` / `#51` — REGISTRATION_COMPLETE_MERGED / DC_SELECTION_PENDING_VALIDATION  
-**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / DC_SELECTED_PENDING_VALIDATION
+**Migration refresh v8 issue / PRs:** `#50` / `#51`, `#52` — COMPLETE_MERGED  
+**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / DC_SELECTED
 
 ## Purpose
 
@@ -37,11 +37,7 @@ Admissible-Existence/RE — BOUNDED_TRIFORM_COMPLETE_MERGED_TESTED_NOT_PROVEN
 Admissible-Existence/RE-Reduction — BOUNDED_TRIFORM_COMPLETE_MERGED
 ```
 
-Existence binds `EXIST-01..EXIST-10` without proof promotion.
-
-GTG binds `GTG-GS-01..GTG-GS-06`; historical bare `GTG-A1..GTG-A8` equivalence remains `NOT_ESTABLISHED` and issue `#20` remains separate.
-
-ET preserves its explicit semantic exclusions; LTG preserves no-capture/no-predetermined-destination/non-authority boundaries; BC/CHF preserve new-binding-ID provenance; RE remains `tested_not_proven`; RE-Reduction preserves new-binding-ID, standing, lineage, replay/fail-closed, source-preservation, and non-authority boundaries.
+Existence binds `EXIST-01..EXIST-10` without proof promotion. GTG preserves historical bare `GTG-A1..GTG-A8` non-equivalence. ET preserves semantic exclusions. LTG preserves no-capture/no-predetermined-destination/non-authority boundaries. BC/CHF preserve new-binding-ID provenance. RE remains `tested_not_proven`. RE-Reduction preserves new-binding-ID, standing, lineage, replay/fail-closed, source-preservation, and non-authority boundaries.
 
 ## Candidate-selection state
 
@@ -56,9 +52,11 @@ TT remains deferred by active canonical goal `TT-RELATIONAL-GOVERNANCE-MATH-ALIG
 
 STCM remains deferred by active canonical goal `STCM-RELATIONAL-GOVERNANCE-MATH-ALIGNMENT-001` / `CLAIMED_FOR_INTEGRATION`.
 
-`Admissible-Existence/DC` is selected from direct repository-native evidence, not stack order. Its canonical handoff reports implementation, deterministic validation, and hosted validation complete; issue `#1` is closed completed; historical source IDs `DC-P1..DC-P4` already exist in `formalism/principle-registry.yaml`; deterministic validation records six passing paths and explicitly no authority/activation/final-cross-repository effect. The repository README remains stale in calling DC an "Early formalism repository", so the DC source preflight must require README reconciliation in the same source change set if Tri-Form capability is added.
+`Admissible-Existence/DC` is selected from direct repository-native evidence. Its canonical handoff reports implementation, deterministic validation, and hosted validation complete; issue `#1` is closed completed; historical source IDs `DC-P1..DC-P4` exist in `formalism/principle-registry.yaml`; deterministic validation records six passing paths and explicitly no authority/activation/final-cross-repository effect. The repository README remains stale in calling DC an "Early formalism repository", so the DC source preflight must require README reconciliation in the same source change set if Tri-Form capability is added.
 
-## Refresh v8 registration evidence
+## Refresh v8 evidence
+
+Registration:
 
 ```text
 issue: #50
@@ -70,7 +68,17 @@ registered source: Admissible-Existence/RE-Reduction
 completed source migrations: 8/32
 ```
 
-The candidate-selection continuation remains pending exact-head validation/merge.
+Candidate selection:
+
+```text
+selection PR: #52
+exact head: 7eeb55251aa6e3c2734a4a6d269f4cfa7f45b6aa
+Validate Tri-Form Formalism run/job: 34010032288 / 101424114413 — SUCCESS
+merge: e87ceb7303f71b9f58366d51c48577a2c920d8b6
+next executable candidate: Admissible-Existence/DC
+```
+
+Machine preflight resolved parent handoffs, task registry, cross-task coordination, organization-transition/Master Records boundaries, and README completeness before mutation. Central README impact was `NO_CHANGE_REQUIRED` for both registration and selection.
 
 ## Authority boundaries
 
@@ -85,10 +93,10 @@ The candidate-selection continuation remains pending exact-head validation/merge
 
 1. Preserve 8/32 completed-source accounting and all registered semantic boundaries.
 2. Preserve TT/STCM deferral while their canonical claims remain active.
-3. Validate and merge the DC-selection continuation.
-4. Begin DC only through a separately admitted repository-native machine preflight and scoped handoff.
-5. Reuse existing DC principle IDs, mathematical notation, checkers, fixtures, build/readiness paths, deterministic receipt, and hosted evidence rather than duplicating them.
-6. Reconcile the stale DC README status in the same source change set if Tri-Form capability is added.
+3. Begin `Admissible-Existence/DC` only through a separately admitted repository-native machine preflight and scoped handoff.
+4. Reuse existing DC source IDs, mathematical notation, checkers, fixtures, build/readiness paths, deterministic receipt, and hosted evidence rather than duplicating them.
+5. Reconcile the stale DC README status in the same source change set if Tri-Form capability is added.
+6. Bind only repository-evidenced prose/math/code semantics and fail closed on proof promotion, local/global collapse, consensus/coherence collapse, authority promotion, historical-ID drift, or final-cross-repository validity promotion.
 
 ## Completion/accounting
 
@@ -100,7 +108,7 @@ migration refresh v4: 8/8 = 100% complete/merged
 migration refresh v5: 8/8 = 100% complete/merged
 migration refresh v6: 8/8 = 100% complete/merged
 migration refresh v7: 8/8 = 100% complete/merged
-migration refresh v8: 7/8 complete pending DC-selection validation/merge and final closure
+migration refresh v8: 8/8 = 100% complete/merged
 completed source migrations: 8/32 = 25%
 ```
 
@@ -110,4 +118,4 @@ Tri-Form accounting and candidate selection do not themselves propagate to Maste
 
 ## User work
 
-None currently. The selection validation and DC source preflight are machine-executable.
+None currently. DC source preflight and implementation are machine-executable.
