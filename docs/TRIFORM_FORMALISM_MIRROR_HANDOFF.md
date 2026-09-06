@@ -9,8 +9,8 @@
 **Migration refresh v4 issue / PR:** `#40` / `#41` — COMPLETE_MERGED  
 **Migration refresh v5 issue / PR:** `#42` / `#43` — COMPLETE_MERGED  
 **Migration refresh v6 issue / PR:** `#44` / `#45` — COMPLETE_MERGED  
-**Migration refresh v7 issue / registration PR:** `#46` / `#48` — COMPLETE_MERGED  
-**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / NEXT_CANDIDATE_SELECTED_PENDING_VALIDATION
+**Migration refresh v7 issue / PRs:** `#46` / `#48`, `#49` — COMPLETE_MERGED  
+**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / NEXT_CANDIDATE_SELECTED
 
 ## Purpose
 
@@ -43,11 +43,11 @@ ET binds four conflict-free historical principles while `ET-AUTHORITY-003` and `
 
 Learning Transition Governance binds `LTG-P001..LTG-P004` while preserving learning != authority, becoming without capture, no predetermined intellectual destination, and distinct human/AI agency-consent-accountability boundaries.
 
-Boundary-Coherence binds `BC-P001..BC-P004`. These are explicitly new bounded binding IDs over existing BC semantics, not historical source identifiers.
+Boundary-Coherence binds `BC-P001..BC-P004` as new bounded binding IDs over existing BC semantics, not historical source identifiers.
 
-Consequence Horizon Formalism binds `CHF-P001..CHF-P004` over the canonical post-consequence recoverability, observability, absorption-capacity, and coherence-retention conditions. These are explicitly new bounded binding IDs rather than historical source identifiers; `authority_effect=false`, `proof_promotion=false`, and `historical_source_replacement=false` remain enforced.
+Consequence Horizon Formalism binds `CHF-P001..CHF-P004` over canonical post-consequence recoverability, observability, absorption-capacity, and coherence-retention conditions as new bounded binding IDs; non-authority/non-promotion/non-replacement remain enforced.
 
-RE binds the historical stable proof-obligation IDs `PO-RE-001..PO-RE-005` across formal specification, data contracts, validators, fixtures, tests, and committed receipts. All five remain `tested_not_proven`; bounded fixture evidence remains exactly `19/19`, base structural checks `4/4`, and `universally_proven=0`. `authority_effect=false`, `proof_promotion=false`, `standing_bypass=false`, `receipt_history_erasure=false`, and `historical_source_replacement=false` remain enforced.
+RE binds historical stable proof-obligation IDs `PO-RE-001..PO-RE-005`. All remain `tested_not_proven`; bounded fixture evidence remains `19/19`, base structural checks `4/4`, and `universally_proven=0`. Non-authority/non-promotion/non-bypass/non-erasure/non-replacement remain enforced.
 
 ## Candidate-selection state
 
@@ -62,17 +62,33 @@ TT remains deferred by active canonical goal `TT-RELATIONAL-GOVERNANCE-MATH-ALIG
 
 STCM remains deferred by active canonical goal `STCM-RELATIONAL-GOVERNANCE-MATH-ALIGNMENT-001` / `CLAIMED_FOR_INTEGRATION`.
 
-`Admissible-Existence/RE-Reduction` is selected from direct repository evidence, not stack order: its canonical handoff reports hosted validation, RE consumer integration, and repository-local archive readiness complete; README and executable validation surfaces preserve standing re-entry, lineage, replay compatibility, and non-authority semantics. The existing reducer and reduction receipt schema remain source-owned and must not be replaced absent direct regression evidence.
+`Admissible-Existence/RE-Reduction` is selected from direct repository evidence, not stack order: its canonical handoff reports hosted validation, RE consumer integration, and repository-local archive readiness complete; README and executable validation surfaces preserve standing re-entry, lineage, replay compatibility, and non-authority semantics. Existing reducer and reduction receipt schema remain source-owned and must not be replaced absent direct regression evidence.
 
-No historical stable RE-Reduction principle-ID registry has yet been established; any later bounded binding IDs require explicit new-ID provenance.
+No historical stable RE-Reduction principle-ID registry has yet been established; any bounded binding IDs must declare new-ID provenance unless source evidence establishes historical lineage.
 
 ## Refresh v7 validation and merge evidence
 
-Issue `#46` / PR `#48` registered RE completion in the 32-row matrix. Machine preflight resolved the parent handoffs, task registry, cross-task coordination, organization-transition/Master Records boundary, and README completeness before matrix mutation. README impact for the central accounting-only refresh was `NO_CHANGE_REQUIRED`; the source RE README had already been updated in the repository-local Tri-Form change set.
+RE registration:
 
-Exact registration PR head `33648608bce092242b88e66471ec7827841357b8` passed `Validate Tri-Form Formalism` run `34001439642`, job `101400909213`, including Tri-Form pilot validation, migration-matrix validation with RE tested-not-proven/non-authority preservation, existing relational-formalism regression, and authority-boundary declaration. PR `#48` merged as `0ab56b212aa77589c2f58ee29e19adb188a7ed11`.
+```text
+issue: #46
+registration PR: #48
+exact head: 33648608bce092242b88e66471ec7827841357b8
+Validate Tri-Form Formalism run/job: 34001439642 / 101400909213 — SUCCESS
+merge: 0ab56b212aa77589c2f58ee29e19adb188a7ed11
+```
 
-The candidate-selection continuation under issue `#46` is implemented on branch `triform-migration-refresh-007-selection` and remains pending exact-head validation/merge before refresh v7 is closed.
+Candidate selection:
+
+```text
+selection PR: #49
+exact head: a96cde90b9b0a02f665b27a54293f56bb90d4056
+Validate Tri-Form Formalism run/job: 34001628346 / 101401407663 — SUCCESS
+merge: ad82bf3ecf0532829a82699b921e318b7b45888b
+next executable candidate: Admissible-Existence/RE-Reduction
+```
+
+Machine preflight resolved parent handoffs, task registry, cross-task coordination, organization-transition/Master Records boundaries, and README completeness before mutation. Central refresh README impact was `NO_CHANGE_REQUIRED`; selection changes coordination state only and do not alter organization behavior, runtime semantics, interfaces, authority boundaries, dependencies, failure behavior, or public capability meaning.
 
 ## Authority boundaries
 
@@ -85,13 +101,12 @@ The candidate-selection continuation under issue `#46` is implemented on branch 
 
 ## Current execution order
 
-1. Preserve 7/32 completed-source accounting.
-2. Preserve RE `tested_not_proven`, `19/19`, `4/4`, `0/5 proven`, non-authority/non-promotion/non-bypass/non-erasure conditions.
-3. Preserve ET semantic exclusions and GTG historical non-equivalence.
-4. Preserve LTG no-capture/no-predetermined-destination/no-authority conditions and BC/CHF new-binding-ID provenance.
-5. Preserve TT and STCM deferral while their canonical claims remain active.
-6. Validate and merge the RE-Reduction candidate-selection continuation.
-7. Begin RE-Reduction only through a separately admitted repository-native preflight and scoped handoff.
+1. Preserve 7/32 completed-source accounting and all registered semantic boundaries.
+2. Preserve TT/STCM deferral while their canonical claims remain active.
+3. Begin `Admissible-Existence/RE-Reduction` only through a repository-native machine preflight and scoped handoff.
+4. Reuse its existing reducer, receipt schema, consumer profile, validator, fixtures, and deterministic/hosted evidence; do not duplicate or replace them absent direct regression evidence.
+5. Determine README impact in the RE-Reduction source change set before functional mutation.
+6. Bind only repository-evidenced prose/math/code semantics and fail closed on identifier provenance gaps, standing bypass, lineage erasure, replay divergence, or authority promotion.
 
 ## Completion/accounting
 
@@ -102,7 +117,7 @@ migration refresh v3: 8/8 = 100% complete/merged
 migration refresh v4: 8/8 = 100% complete/merged
 migration refresh v5: 8/8 = 100% complete/merged
 migration refresh v6: 8/8 = 100% complete/merged
-migration refresh v7: 7/8 complete pending candidate-selection validation/merge
+migration refresh v7: 8/8 = 100% complete/merged
 completed source migrations: 7/32 = 21.875%
 ```
 
@@ -112,4 +127,4 @@ Tri-Form accounting and candidate selection do not themselves propagate to Maste
 
 ## User work
 
-None currently. The selection validation and next repository preflight are machine-executable.
+None currently. RE-Reduction source preflight and implementation are machine-executable.
