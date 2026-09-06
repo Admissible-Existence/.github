@@ -6,7 +6,7 @@
 **Canonical issue:** `#50`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** PREFLIGHT_PASSED_RE_REDUCTION_REGISTRATION_PENDING
+**Status:** RE_REDUCTION_REGISTRATION_IMPLEMENTED_PENDING_EXACT_HEAD_VALIDATION
 
 ## Purpose
 
@@ -34,7 +34,7 @@ The active formalism task registry has no admitted claim for `AEX-TRIFORM-MIGRAT
 
 ## Reused predicates
 
-This refresh must preserve, not reinterpret:
+This refresh preserves, without reinterpretation:
 
 ```text
 identifier_provenance = NEW_BINDING_IDS_NOT_HISTORICAL_SOURCE_IDS
@@ -47,7 +47,7 @@ failure_outcome = FAIL_CLOSED
 source_replacement_authorized = false
 ```
 
-It must also preserve the prior 7 completed-source entries and all GTG/ET/LTG/BC/CHF/RE semantic boundaries.
+It also preserves the prior seven completed-source entries and all GTG/ET/LTG/BC/CHF/RE semantic boundaries.
 
 ## README completeness predicate
 
@@ -62,22 +62,42 @@ Evidence-supported basis:
 
 Preflight result: `PASS`.
 
+## Implemented registration
+
+`data/triform-migration-matrix.json` now records:
+
+- completed source migrations: `8 / 32`;
+- completed sources: Existence, GTG, ET, learning-transition-governance, BC, CHF, RE, RE-Reduction;
+- RE-Reduction state: `BOUNDED_TRIFORM_COMPLETE_MERGED`;
+- bounded principle count: `5`;
+- bounded identifier provenance: `NEW_BINDING_IDS_NOT_HISTORICAL_SOURCE_IDS`;
+- standing re-entry required: `true`;
+- lineage preserved: `true`;
+- execution authority granted: `false`;
+- source authority assertion forbidden: `true`;
+- replay output must match expected: `true`;
+- failure outcome: `FAIL_CLOSED`;
+- source replacement authorized: `false`;
+- authority/proof-promotion/standing-bypass/receipt-erasure/historical-source-replacement effects: all `false`.
+
+`scripts/validate_triform_migration_matrix.py` now fails closed on drift from any of those RE-Reduction predicates while preserving all previously registered source constraints and TT/STCM deferrals. `next_executable_candidate` is reset to `null` and `selection_evidence_state` to `EVIDENCE_PASS_REQUIRED` until a separate evidence pass identifies the next non-colliding source.
+
 ## Completion denominator
 
 1. scoped central handoff + machine preflight — COMPLETE;
 2. RE-Reduction source evidence capture — COMPLETE;
 3. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED`);
-4. 32-row matrix + deterministic validator update — PENDING;
+4. 32-row matrix + deterministic validator update — COMPLETE;
 5. exact-head validation — PENDING;
 6. parent Tri-Form handoff reconciliation — PENDING;
 7. merge/issue closure — PENDING;
 8. next-candidate evidence pass — PENDING.
 
-Current bounded completion: `3/8 = 37.5%`.
+Current bounded completion: `4/8 = 50%`.
 
 ## Exact next task
 
-Advance the migration matrix to `8/32` and extend its deterministic validator with RE-Reduction provenance, standing, lineage, replay, non-authority, and source-preservation predicates. Then validate exact branch head before merge.
+Open the bounded PR, observe exact-head `Validate Tri-Form Formalism`, repair only proven defects, merge only while the current head is green, reconcile the parent Tri-Form handoff, close issue `#50`, then execute the next-candidate evidence pass.
 
 ## User work
 
