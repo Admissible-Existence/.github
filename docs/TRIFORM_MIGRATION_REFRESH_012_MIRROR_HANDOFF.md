@@ -6,7 +6,7 @@
 **Canonical issue:** `#62`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** PREFLIGHT_PASSED_ECAT_ICAT_REGISTRATION_PENDING
+**Status:** ECAT_ICAT_REGISTRATION_IMPLEMENTED_PENDING_VALIDATION
 
 ## Purpose
 
@@ -42,7 +42,28 @@ The ECAT-ICAT source README was reconciled in the source Tri-Form change set. Th
 
 Preflight result: `PASS`.
 
-## Preserved ECAT/ICAT boundaries
+## Implemented registration
+
+`data/triform-migration-matrix.json` now records `12/32 = 37.5%` completed source migrations and ECAT-ICAT as `BOUNDED_TRIFORM_COMPLETE_MERGED`.
+
+The completed-source set is now:
+
+```text
+Existence
+GTG
+ET
+learning-transition-governance
+BC
+CHF
+RE
+RE-Reduction
+DC
+Triad
+GCAT-BCAT
+ECAT-ICAT
+```
+
+ECAT/ICAT registration preserves:
 
 ```text
 historical IDs = ECAT-001, ICAT-001, ECAT-ICAT-001, ECAT-ICAT-002
@@ -62,31 +83,29 @@ final_cross_repository_validity = false
 historical_source_replacement = false
 workflow_authority_effect = NONE_VALIDATION_ONLY
 final_admissibility_authority = Admissible-Existence/AE
+README status reconciled = true
 ```
 
-## Execution order
+`scripts/validate_triform_migration_matrix.py` now fails closed on drift from those predicates while preserving every previously registered source boundary and the TT/STCM deferrals.
 
-1. register ECAT-ICAT in the 32-row migration matrix and advance completed source migrations to `12/32`;
-2. extend the migration validator with fail-closed ECAT/ICAT historical-ID, candidate-maturity, pre-boundary/commit-time, replay, fail-closed, non-authority, and AE-retention predicates;
-3. reset `next_executable_candidate` to null and require a separate next-source evidence pass;
-4. reconcile parent Tri-Form registration state;
-5. validate exact branch head through the existing Tri-Form workflow;
-6. merge only while exact current head is green and mergeable;
-7. execute a separate next-candidate evidence pass and close issue `#62` only after that selection is durable;
-8. begin any selected source only through its repository-native preflight and README completeness determination.
+`next_executable_candidate` is reset to null and `selection_evidence_state` to `EVIDENCE_PASS_REQUIRED`; no next source is inferred from registry order or stale candidate state.
 
 ## Completion denominator
 
 1. scoped central handoff + machine preflight — COMPLETE;
 2. ECAT-ICAT source evidence capture — COMPLETE;
 3. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED` centrally);
-4. 32-row matrix + deterministic validator update — PENDING;
+4. 32-row matrix + deterministic validator update — COMPLETE;
 5. exact-head registration validation — PENDING;
 6. parent Tri-Form registration reconciliation — PENDING;
 7. registration merge — PENDING;
 8. next-candidate evidence pass + final closure — PENDING.
 
-Current bounded completion: `3/8 = 37.5%`.
+Current bounded completion: `4/8 = 50%`.
+
+## Exact next task
+
+Reconcile the parent Tri-Form handoff with the 12/32 registration candidate, open the bounded registration PR, validate the exact current head through the existing Tri-Form workflow, merge only while green and mergeable, then execute a fresh next-candidate evidence pass.
 
 ## User work
 
