@@ -4,80 +4,55 @@
 **Repository:** `Admissible-Existence/.github`  
 **Canonical issue:** `#59`  
 **Registration PR:** `#60` — COMPLETE_MERGED  
+**Selection branch:** `triform-migration-refresh-011-selection`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** GCAT_BCAT_ROOT_REGISTERED / NEXT_CANDIDATE_EVIDENCE_PASS_PENDING
+**Status:** GCAT_BCAT_ROOT_REGISTERED / ECAT_ICAT_SELECTED_PENDING_EXACT_HEAD_VALIDATION
 
-## Purpose
+## Registration state
 
-Register completed bounded Tri-Form migration for the `Admissible-Existence/GCAT-BCAT` repository-root formalism, advance canonical organization accounting from `10/32` to `11/32`, and select the next executable source only from direct repository-native evidence without altering native root mathematics, proof maturity, source authority, Decision Envelope ownership, runtime semantics, or Master Records propagation.
-
-## Registration evidence
-
-Source evidence:
-
-```text
-source repository: Admissible-Existence/GCAT-BCAT
-source issue: #23 — CLOSED_COMPLETED
-source PR: #24
-source exact head: 1b2a675376b42572ee18b504d6b9b3007ea77083
-Build run/job: 34017556279 / 101443945971 — SUCCESS
-source merge: d77dab51cc168a063977d3f7471298d5ae406e23
-scope: REPOSITORY_ROOT_ONLY
-```
-
-Central registration evidence:
-
-```text
-registration PR: #60
-exact head: 16fab9934df84458b923cf3ff38cf340f1b47a0d
-Validate Tri-Form Formalism run/job: 34017799355 / 101444614388 — SUCCESS
-merge: 911518dca5df5723c643cf445b05e9ffe3e62e4c
-completed source migrations: 11/32 = 34.375%
-```
+GCAT-BCAT repository-root Tri-Form is canonically registered as source migration 11/32. Registration exact head `16fab9934df84458b923cf3ff38cf340f1b47a0d` passed `Validate Tri-Form Formalism` run/job `34017799355` / `101444614388`; PR `#60` merged as `911518dca5df5723c643cf445b05e9ffe3e62e4c`.
 
 ## Machine preflight / README / Master Records
 
-The formalism task registry, canonical parent handoff, cross-task collision state, organization-transition ledger, Master Records federation boundary, and central open-PR state were resolved before registration mutation. TT/STCM remain deferred under active canonical integration claims; RTG and organization-audit lanes remain separate.
+The formalism task registry, canonical parent handoff, cross-task collision state, organization-transition ledger, Master Records federation boundary, and candidate source open-PR/task state were re-resolved before selection mutation. TT/STCM remain deferred under active canonical integration claims; RTG and organization-audit lanes remain separate.
 
-Central README impact was **NO_CHANGE_REQUIRED** because the source GCAT-BCAT README already records its root Tri-Form capability/evidence changes and central registration changes accounting/evidence state only.
+Central README impact remains **NO_CHANGE_REQUIRED** because candidate selection changes coordination state only. A separate ECAT-ICAT source preflight must classify README reconciliation as REQUIRED if Tri-Form capability/evidence meaning is added, because the source README still describes an automated RC seed while the canonical handoff reports hosted-validated implementation complete.
 
-`docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. Registration does not emit or federate a Master Records transition.
+`docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. Selection does not emit or federate a Master Records transition.
 
 Preflight result: `PASS`.
 
-## Preserved GCAT-BCAT root predicates
+## Next-candidate evidence pass — COMPLETE
+
+Direct repository-native evidence selects `Admissible-Existence/ECAT-ICAT`:
+
+- `docs/ECAT_ICAT_MIRROR_HANDOFF.md` reports `IMPLEMENTATION_COMPLETE_HOSTED_VALIDATED`, implementation/validation claims `COMPLETE_RELEASED`, hosted workflow run/job `31147813783` / `92770919160` success, goal activation `100%`, and repository-local archive readiness after central synchronization;
+- issue `#1` is closed completed and no open PR exists;
+- `formalism/principle-registry.yaml` supplies historical source IDs `ECAT-001`, `ICAT-001`, `ECAT-ICAT-001`, and `ECAT-ICAT-002` with explicit statements, source bindings, falsifiers, and non-authority metadata;
+- `formalism/proof-candidates.yaml` preserves candidate maturity as two `tested_candidate` entries and one `bounded_candidate`, explicitly not universal proof;
+- `reports/ecat-icat-principle-completeness-validation.json` is valid with four principles, empty findings, and execution/publication/proof acceptance false;
+- source semantics preserve experiential/relational standing as pre-boundary evidence, not execution authority or a substitute for BCAT/GCAT/AE commit-time admissibility; replayed historical standing is not current authority; missing required evidence fails closed;
+- `README.md` is stale relative to the canonical handoff, still describing `0.1.0-rc1 automated testing active` / `Automated release candidate seed`; same-change README reconciliation is therefore required in the future source Tri-Form lane.
+
+The migration matrix now records:
 
 ```text
-historical IDs = GCAT-BCAT-COMMIT-GATE, GCAT-BCAT-FAIL-CLOSED, GCAT-BCAT-TRANSITION-ECONOMICS, GCAT-BCAT-RECEIPT-REPLAY
-commit gate maturity = tested_not_proven
-fail-closed maturity = tested_not_proven
-transition economics maturity = model_bound_tested_not_proven
-receipt/replay maturity = tested_not_proven
-proposal_is_permission = false
-unknown_or_contradictory_required_evidence_is_allow = false
-replay_renews_current_authority = false
-execution_authorized = false
-publication_authorized = false
-proofs_accepted = false
-final_cross_repository_validity = false
-decision_envelope_claims_satisfied = false
-decision_envelope_child_state = CLAIMED_FOR_INTEGRATION
-decision_envelope_scope_must_remain_untouched = true
-historical_source_replacement = false
-final_admissibility_authority = Admissible-Existence/AE
-workflow_authority_effect = NONE_VALIDATION_ONLY
+next_executable_candidate: Admissible-Existence/ECAT-ICAT
+selection_evidence_state: EVIDENCE_PASS_COMPLETE
+historical IDs: ECAT-001, ICAT-001, ECAT-ICAT-001, ECAT-ICAT-002
+readme_status_reconciliation_required: true
 ```
 
-All previously registered source boundaries remain preserved.
+The deterministic migration validator fails closed on ECAT/ICAT selection-evidence loss, historical-ID drift, candidate-maturity drift, experiential/relational standing authority promotion, pre-boundary/commit-time collapse, replay-authority promotion, fail-closed weakening, AE authority displacement, or README-reconciliation loss.
 
 ## Completion denominator
 
 1. scoped central handoff + machine preflight — COMPLETE;
 2. GCAT-BCAT root source evidence capture — COMPLETE;
-3. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED`);
-4. 32-row matrix + deterministic validator update — COMPLETE;
-5. exact-head registration validation — COMPLETE;
+3. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED` centrally);
+4. 32-row matrix + deterministic validator registration — COMPLETE;
+5. registration exact-head validation — COMPLETE;
 6. parent Tri-Form registration reconciliation — COMPLETE;
 7. registration merge — COMPLETE;
 8. next-candidate evidence pass + selection validation/merge + final issue closure — PENDING.
@@ -86,7 +61,7 @@ Current bounded completion: `7/8 = 87.5%`.
 
 ## Exact next task
 
-Execute a repository-native evidence pass over remaining source entries marked `INSPECTION_REQUIRED`, preserve TT/STCM deferrals and every active source/child collision boundary, select a next executable source only if direct evidence establishes maturity and non-collision, validate/merge that selection, then close issue `#59`.
+Open and validate the ECAT-ICAT selection PR. Merge only while the exact current head is green, reconcile central handoffs, close issue `#59`, then begin ECAT-ICAT only through a separately admitted repository-native preflight and scoped handoff with REQUIRED README reconciliation.
 
 ## User work
 
