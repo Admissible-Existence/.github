@@ -4,10 +4,10 @@
 **Repository:** `Admissible-Existence/.github`  
 **Canonical issue:** `#50`  
 **Registration PR:** `#51` — COMPLETE_MERGED  
-**Selection branch:** `triform-migration-refresh-008-selection`  
+**Selection PR:** `#52` — COMPLETE_MERGED  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** RE_REDUCTION_REGISTERED / DC_SELECTED_PENDING_EXACT_HEAD_VALIDATION
+**Status:** COMPLETE_MERGED / RE_REDUCTION_REGISTERED / DC_SELECTED
 
 ## Purpose
 
@@ -17,27 +17,40 @@ Register completed bounded Tri-Form migration for `Admissible-Existence/RE-Reduc
 
 RE-Reduction registration is complete and merged. Exact registration head `eac4d5d5ff0725bbdf939db89a660c87d74fd97a` passed `Validate Tri-Form Formalism` run `34009861489`, job `101423670649`; PR `#51` merged as `f3c16cdc7369a7da8b4709cc864c56680b23f81f`.
 
-The migration matrix therefore preserves `8/32` completed sources and all prior GTG/ET/LTG/BC/CHF/RE/RE-Reduction semantic boundaries.
+The migration matrix preserves `8/32` completed sources and all prior GTG/ET/LTG/BC/CHF/RE/RE-Reduction semantic boundaries.
 
 ## Machine preflight / collision / README / Master Records
 
-The active formalism task registry has no admitted claim colliding with `AEX-TRIFORM-MIGRATION-REFRESH-008`. Existing RTG and organization-audit claim boundaries remain separate; TT/STCM remain deferred by active canonical claims.
+The active formalism task registry contained no admitted claim colliding with `AEX-TRIFORM-MIGRATION-REFRESH-008`. Existing RTG and organization-audit claim boundaries remained separate; TT/STCM remained deferred by active canonical claims.
 
 `docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. Tri-Form registration or candidate selection does not emit or federate a Master Records transition.
 
-Central README impact remains **NO_CHANGE_REQUIRED** because candidate selection changes coordination state only. A source README determination is separately required before any DC functional mutation.
+Central README impact was **NO_CHANGE_REQUIRED** because registration and candidate selection changed coordination state only. A separate source README determination remains required before DC functional mutation.
 
 Preflight result: `PASS`.
 
 ## Next-candidate evidence pass — COMPLETE
 
-Direct repository-native evidence selects `Admissible-Existence/DC` as the next executable Tri-Form candidate:
+Direct repository-native evidence selected `Admissible-Existence/DC` as the next executable Tri-Form candidate:
 
 - canonical handoff `docs/DC_MIRROR_HANDOFF.md` reports `IMPLEMENTATION_COMPLETE_DETERMINISTICALLY_AND_HOSTED_VALIDATED`, implementation/validation claims `COMPLETE_RELEASED`, no manual tasks, and repository-local goal activation `100%`;
 - issue `#1` is closed completed and records deterministic `6/6`, distributed-coherence fixtures `3/3`, W2 classifier fixtures `5/5`, and final hosted success;
 - `formalism/principle-registry.yaml` supplies historical stable source IDs `DC-P1..DC-P4` with explicit falsifiers and non-authority metadata;
-- `reports/dc-deterministic-validation-receipt.json` records deterministic replay/evidence reconciliation PASS with six validated paths and `authority_effect=false`, `activation_effect=false`, `final_cross_repository_validity=false`;
-- repository README contains substantive DC prose/math but still labels the repository an "Early formalism repository", which conflicts with the newer canonical handoff. A DC source preflight must therefore classify README reconciliation as REQUIRED if Tri-Form capability is added.
+- `reports/dc-deterministic-validation-receipt.json` records PASS with six validated paths and `authority_effect=false`, `activation_effect=false`, `final_cross_repository_validity=false`;
+- repository README still calls DC an "Early formalism repository", so a DC source preflight must require README reconciliation if Tri-Form capability is added.
+
+Selection exact head:
+
+```text
+head: 7eeb55251aa6e3c2734a4a6d269f4cfa7f45b6aa
+workflow: Validate Tri-Form Formalism
+run: 34010032288
+job: 101424114413
+conclusion: SUCCESS
+merge: e87ceb7303f71b9f58366d51c48577a2c920d8b6
+```
+
+All validation steps passed, including Tri-Form pilot validation, migration-matrix validation, existing relational formalism regression, and authority-boundary declaration.
 
 The matrix now records:
 
@@ -49,8 +62,6 @@ historical_stable_ids: DC-P1..DC-P4
 readme_status_reconciliation_required: true
 ```
 
-The deterministic migration validator fails closed if the DC selection, historical IDs, source maturity, non-authority/final-cross-repository boundary, or README-reconciliation requirement drifts.
-
 ## Completion denominator
 
 1. scoped central handoff + machine preflight — COMPLETE;
@@ -60,14 +71,14 @@ The deterministic migration validator fails closed if the DC selection, historic
 5. registration exact-head validation — COMPLETE;
 6. parent Tri-Form registration reconciliation — COMPLETE;
 7. registration merge — COMPLETE;
-8. next-candidate evidence pass + selection validation/merge + final issue closure — PENDING.
+8. next-candidate evidence pass + selection validation/merge + final issue closure — COMPLETE.
 
-Current bounded completion: `7/8 = 87.5%`.
+Current bounded completion: `8/8 = 100%`.
 
 ## Exact next task
 
-Open and validate the DC-selection PR. Merge only while the exact current head is green, reconcile this handoff and the parent Tri-Form handoff on `main`, close issue `#50`, then begin DC only through a separately admitted repository-native preflight and scoped handoff.
+Begin `Admissible-Existence/DC` only through a separately admitted repository-native machine preflight and scoped handoff. Reuse existing source IDs, mathematical notation, checkers, fixtures, build/readiness paths, deterministic receipt, and hosted evidence. Reconcile the stale README status in the same source change set if Tri-Form capability is added.
 
 ## User work
 
-None. Remaining work is repository-native and machine-executable.
+None. The next source task is repository-native and machine-executable.
