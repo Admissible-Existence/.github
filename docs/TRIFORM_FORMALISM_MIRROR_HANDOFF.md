@@ -4,31 +4,20 @@
 **Repository:** `Admissible-Existence/.github`  
 **Parent coordination authority:** `FORMALISM_MIRROR_HANDOFF.md`  
 **Migration refresh v10 issue / PRs:** `#56` / `#57`, `#58` — COMPLETE_MERGED  
-**Migration refresh v11 issue:** `#59` — GCAT_BCAT_ROOT_REGISTRATION_IMPLEMENTED_PENDING_VALIDATION  
-**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_ADVANCED_PENDING_VALIDATION / NEXT_CANDIDATE_EVIDENCE_PASS_PENDING
+**Migration refresh v11 issue / registration PR:** `#59` / `#60` — REGISTRATION_COMPLETE_MERGED / SELECTION_PENDING  
+**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / NEXT_CANDIDATE_EVIDENCE_PASS_PENDING
 
 ## Purpose and invariant
 
 Tri-Form binds prose, mathematical, and executable/code semantics through stable identifiers and deterministic conformance checks. Native repositories retain source mathematical authority. A bounded Tri-Form claim creates no theorem proof, runtime, publication, release, execution, admissibility, credential, custody, identity, Master Records, Decision Envelope completion, or final cross-repository authority.
 
-## Completed-source registration candidate state
+## Completed source migrations
 
-Canonical `main` currently records `10/32 = 31.25%`. The current refresh branch records `11/32 = 34.375%` by adding the completed **repository-root-only** GCAT-BCAT Tri-Form migration. The 11/32 accounting remains pending exact-head central validation and merge; canonical `main` remains authoritative until merge.
+Canonical `main` records `11/32 = 34.375%`: Existence, GTG, ET, learning-transition-governance, BC, CHF, RE, RE-Reduction, DC, Triad, and the GCAT-BCAT repository-root formalism. All previously recorded semantic/proof/authority boundaries remain enforced.
 
-GCAT-BCAT registration preserves historical root IDs:
+GCAT-BCAT registration preserves the four historical root IDs and the exact proof-maturity split: commit gate, fail-closed, and receipt/replay remain `tested_not_proven`; transition economics remains `model_bound_tested_not_proven`. Proposal remains distinct from permission; unknown or contradictory required evidence remains fail-closed; replay does not renew authority; execution/publication/proof acceptance and final cross-repository validity remain false; AE retains final admissibility authority.
 
-```text
-GCAT-BCAT-COMMIT-GATE
-GCAT-BCAT-FAIL-CLOSED
-GCAT-BCAT-TRANSITION-ECONOMICS
-GCAT-BCAT-RECEIPT-REPLAY
-```
-
-It also preserves the exact proof-maturity split (`tested_not_proven` for commit gate, fail-closed, and receipt/replay; `model_bound_tested_not_proven` for transition economics), proposal != permission, fail-closed unknown/contradictory evidence, replay != renewed authority, execution/publication/proof acceptance false, final cross-repository validity false, and AE final admissibility authority.
-
-The Decision Envelope child workstream remains disjoint: `decision_envelope_claims_satisfied=false`, `DE-006` remains `CLAIMED_FOR_INTEGRATION`, and root registration does not modify or release the child scope.
-
-All previously recorded semantic/proof/authority boundaries remain enforced.
+The Decision Envelope child workstream remains disjoint: `decision_envelope_claims_satisfied=false`, `DE-006` remains `CLAIMED_FOR_INTEGRATION`, and central root registration does not modify, satisfy, release, or reinterpret that child scope.
 
 ## Candidate-selection state
 
@@ -41,20 +30,23 @@ selection_evidence_state: EVIDENCE_PASS_REQUIRED
 
 TT and STCM remain deferred under active canonical integration claims. No next executable source is selected merely from stack order, registry position, filenames, or stale assumptions.
 
-## Refresh v11 source evidence
+## Refresh v11 registration evidence
 
 ```text
 source repository: Admissible-Existence/GCAT-BCAT
 source issue: #23 — CLOSED_COMPLETED
 source PR: #24
 source exact head: 1b2a675376b42572ee18b504d6b9b3007ea77083
-Build run/job: 34017556279 / 101443945971 — SUCCESS
+source Build run/job: 34017556279 / 101443945971 — SUCCESS
 source merge: d77dab51cc168a063977d3f7471298d5ae406e23
-README reconciliation: COMPLETE
-scope: REPOSITORY_ROOT_ONLY
+registration PR: #60
+central exact head: 16fab9934df84458b923cf3ff38cf340f1b47a0d
+Validate Tri-Form Formalism run/job: 34017799355 / 101444614388 — SUCCESS
+central merge: 911518dca5df5723c643cf445b05e9ffe3e62e4c
+completed source migrations: 11/32
 ```
 
-Central refresh v11 machine preflight resolved the singular formalism handoff, formalism task registry, cross-task collision boundaries, organization transition ledger, Master Records federation boundary, central open-PR state, and README completeness before mutation. Central README impact is `NO_CHANGE_REQUIRED` because the source README already captures source capability/evidence changes and the central change is accounting/validation registration only.
+Central refresh v11 machine preflight resolved the singular formalism handoff, formalism task registry, cross-task collision boundaries, organization transition ledger, Master Records federation boundary, central open-PR state, and README completeness before mutation. Central README impact was `NO_CHANGE_REQUIRED` because source capability/evidence changes were already documented in the source README and central registration changes accounting only.
 
 ## Authority / Master Records boundaries
 
@@ -64,20 +56,19 @@ Repository-level transitions remain replayable at their source. Organization rep
 
 ## Current execution order
 
-1. Preserve every previously registered semantic and authority boundary.
-2. Preserve TT/STCM deferral.
-3. Validate the exact v11 central registration head through the existing `Validate Tri-Form Formalism` workflow.
-4. Merge only while the exact current head is green and mergeable.
-5. Reconcile scoped and parent handoffs on `main`.
-6. Execute a separate repository-native evidence pass for the next non-colliding source.
-7. Close issue `#59` only after registration and next-candidate selection are validated/merged.
-8. Begin a selected source only after its own machine preflight, including the README completeness predicate.
+1. Preserve 11/32 accounting and every registered semantic/authority boundary.
+2. Preserve TT/STCM deferral and the active Decision Envelope child claim.
+3. Execute a repository-native evidence pass across remaining source repositories marked `INSPECTION_REQUIRED`.
+4. Select a next executable source only when direct evidence establishes maturity, usable prose/math/code/evidence counterparts, and non-collision.
+5. Validate and merge that selection continuation.
+6. Close refresh issue `#59` only after selection is durable.
+7. Begin the selected source only through its own repository-native machine preflight and scoped handoff, applying the README completeness predicate before functional mutation.
 
 ## Completion/accounting
 
 Migration refresh v10: `8/8 = 100% complete/merged`.  
-Migration refresh v11: `5/8 = 62.5%` through parent registration reconciliation; exact-head validation, merge, and next-candidate evidence/closure remain.  
-Current branch accounting candidate: `11/32 = 34.375%`; canonical main remains `10/32` until validated merge.
+Migration refresh v11: `7/8 = 87.5%`; next-candidate evidence selection/validation/merge and final closure remain.  
+Completed source migrations: `11/32 = 34.375%`.
 
 ## User work
 
