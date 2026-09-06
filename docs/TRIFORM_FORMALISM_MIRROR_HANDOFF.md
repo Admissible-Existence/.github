@@ -4,69 +4,68 @@
 **Repository:** `Admissible-Existence/.github`  
 **Parent coordination authority:** `FORMALISM_MIRROR_HANDOFF.md`  
 **Migration refresh v9 issue / PRs:** `#53` / `#54`, `#55` — COMPLETE_MERGED  
-**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / TRIAD_SELECTED
+**Migration refresh v10 issue:** `#56` — TRIAD_REGISTRATION_IMPLEMENTED_PENDING_VALIDATION  
+**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_ADVANCED_PENDING_VALIDATION / NEXT_CANDIDATE_EVIDENCE_PASS_PENDING
 
 ## Purpose and invariant
 
 Tri-Form binds prose, mathematical, and executable/code semantics through stable identifiers and deterministic conformance checks. Native repositories retain source mathematical authority. A bounded Tri-Form claim creates no theorem proof, runtime, publication, release, execution, admissibility, credential, custody, identity, Master Records, or final cross-repository authority.
 
-## Completed source migrations
+## Completed-source registration candidate state
 
-`9/32 = 28.125%`: Existence, GTG, ET, learning-transition-governance, BC, CHF, RE, RE-Reduction, and DC. All previously recorded semantic/proof/authority boundaries remain enforced.
+The current refresh branch records `10/32 = 31.25%` completed source migrations: Existence, GTG, ET, learning-transition-governance, BC, CHF, RE, RE-Reduction, DC, and Triad. This `10/32` accounting remains pending exact-head central validation and merge; canonical `main` remains the authority until that merge occurs.
+
+Triad registration preserves historical IDs `TRIAD-SUBJECT-STANDING`, `TRIAD-BOUNDARY-STANDING`, and `TRIAD-GOVERNANCE-STANDING`, all `tested_not_proven`; review standing remains distinct from execution authority; Subject/Boundary/Governance Standing remain distinct; prior review does not substitute for commit-time governance standing; unknown/stale/unrecoverable/contradictory required standing remains fail-closed; execution/publication/proof acceptance remain false; AE remains final admissibility authority; historical source replacement remains false.
+
+All previously recorded semantic/proof/authority boundaries remain enforced.
 
 ## Candidate-selection state
 
 ```text
 logical_next_candidate: Admissible-Existence/TT
 logical_candidate_state: DEFER_ACTIVE_CANONICAL_CLAIM
-next_executable_candidate: Admissible-Existence/Triad
-selection_evidence_state: EVIDENCE_PASS_COMPLETE
+next_executable_candidate: null
+selection_evidence_state: EVIDENCE_PASS_REQUIRED
 ```
 
-TT and STCM remain deferred under active canonical integration claims.
+TT and STCM remain deferred under active canonical integration claims. No next executable source is selected merely from stack order, registry position, filename presence, or stale assumptions.
 
-Triad is selected from direct repository-native evidence. Its canonical handoff reports hosted-validated principle completeness and 100% bounded goal activation. Historical source IDs are `TRIAD-SUBJECT-STANDING`, `TRIAD-BOUNDARY-STANDING`, and `TRIAD-GOVERNANCE-STANDING`; all remain `tested_not_proven`, with mathematics, falsification, and executable evidence. Execution/publication/proof acceptance remain false and AE retains final admissibility authority. Triad's README is stale relative to the canonical handoff, so a Triad source preflight must require README reconciliation if Tri-Form capability is added.
+## Refresh v10 source evidence
 
-## Refresh v9 evidence
-
-Registration:
+Triad source integration completed before central registration:
 
 ```text
-registration PR: #54
-exact head: eb6eb02c13523f6edcd7322cff94b340520a7035
-Validate Tri-Form Formalism: 34010346180 / 101424952703 — SUCCESS
-merge: 6e19aeb6b736fbb835d48993944c5e6205220c35
-registered source: Admissible-Existence/DC
-completed source migrations: 9/32
+source issue: Admissible-Existence/Triad#2 — CLOSED_COMPLETED
+source PR: Admissible-Existence/Triad#3
+source exact head: 0e3cdf78bfa61ce7c073815a5b074221c7e005d9
+RC1 Validation run/job: 34010677447 / 101425826881 — SUCCESS
+source merge: f871b9c42de1d5b394d658523ef70ea20ef9b596
+README reconciliation: COMPLETE
 ```
 
-Selection:
-
-```text
-selection PR: #55
-exact head: 98b92c67936d4fd1abb554214eb389c9e266988c
-Validate Tri-Form Formalism: 34010488525 / 101425332804 — SUCCESS
-merge: b9e47edbeae2180ad56d66c9a7b36d1dc06a2cd5
-next executable candidate: Admissible-Existence/Triad
-```
+Central refresh v10 machine preflight resolved the singular formalism handoff, formalism task registry, cross-task collision boundaries, organization transition ledger, Master Records federation boundary, and README completeness before mutation. Central README impact is `NO_CHANGE_REQUIRED` because the source Triad README already captures the source capability/evidence change and this central change is accounting/validation registration only.
 
 ## Authority / Master Records boundaries
 
 Native repositories retain source mathematics. AE remains final commit-time admissibility resolver where applicable. TV/TVC remains StegVerse credential authority. GitHub validation is `NONE_VALIDATION_ONLY`. Organization accounting and candidate selection do not themselves emit or federate Master Records transitions; only separately governed exact organization receipts may traverse InTr federation.
 
+Repository-level transitions remain replayable at their source. Organization replay remains governed by `docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md`; Master Records propagation remains governed by `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md`.
+
 ## Current execution order
 
-1. Preserve 9/32 accounting and every registered semantic boundary.
+1. Preserve every previously registered semantic and authority boundary.
 2. Preserve TT/STCM deferral.
-3. Begin Triad only through a separately admitted repository-native preflight and scoped handoff.
-4. Reuse Triad historical IDs, RC1/management/integration surfaces, validators, receipts, and existing `rc1-validation.yml`; do not create a duplicate control plane.
-5. Reconcile the stale Triad README in the same source change set if Tri-Form capability is added.
-6. Bind only repository-evidenced semantics and fail closed on standing collapse, proof promotion, authority promotion, stale/current-governance conflation, or AE-authority displacement.
+3. Validate the exact v10 central registration head through the existing `Validate Tri-Form Formalism` workflow.
+4. Merge only while the exact current head is green and mergeable.
+5. Reconcile scoped and parent handoffs on `main` and close issue `#56` only after the next-candidate evidence pass is also complete.
+6. Select the next source only from repository-native evidence and begin it only after its own machine preflight, including the README completeness predicate.
 
 ## Completion/accounting
 
-Migration refresh v9: `8/8 = 100% complete/merged`. Completed source migrations: `9/32 = 28.125%`.
+Migration refresh v9: `8/8 = 100% complete/merged`.  
+Migration refresh v10: `5/8 = 62.5%` through parent registration reconciliation; exact-head validation, merge, and next-candidate evidence/closure remain.  
+Current branch accounting candidate: `10/32 = 31.25%`; canonical main remains `9/32` until validated merge.
 
 ## User work
 
-None currently. Triad source preflight and implementation are machine-executable.
+None currently. Remaining work is repository-native and machine-executable.
