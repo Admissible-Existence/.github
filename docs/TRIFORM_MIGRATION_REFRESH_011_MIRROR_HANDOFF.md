@@ -2,47 +2,51 @@
 
 **Goal ID:** `AEX-TRIFORM-MIGRATION-REFRESH-011`  
 **Repository:** `Admissible-Existence/.github`  
-**Branch:** `triform-migration-refresh-011`  
 **Canonical issue:** `#59`  
+**Registration PR:** `#60` — COMPLETE_MERGED  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** GCAT_BCAT_ROOT_REGISTRATION_IMPLEMENTED_PENDING_EXACT_HEAD_VALIDATION
+**Status:** GCAT_BCAT_ROOT_REGISTERED / NEXT_CANDIDATE_EVIDENCE_PASS_PENDING
 
 ## Purpose
 
-Register completed bounded Tri-Form migration for the `Admissible-Existence/GCAT-BCAT` repository-root formalism and advance canonical organization accounting from `10/32` to `11/32` without altering native root mathematics, proof maturity, source authority, runtime semantics, Decision Envelope ownership, or Master Records propagation.
+Register completed bounded Tri-Form migration for the `Admissible-Existence/GCAT-BCAT` repository-root formalism, advance canonical organization accounting from `10/32` to `11/32`, and select the next executable source only from direct repository-native evidence without altering native root mathematics, proof maturity, source authority, Decision Envelope ownership, runtime semantics, or Master Records propagation.
 
-## Resolved source evidence
+## Registration evidence
 
-- canonical root handoff: `Admissible-Existence/GCAT-BCAT/GCAT_BCAT_MIRROR_HANDOFF.md`;
-- scoped Tri-Form handoff: `Admissible-Existence/GCAT-BCAT/docs/GCAT_BCAT_TRIFORM_MIRROR_HANDOFF.md`;
-- source issue `#23` closed completed;
-- source PR `#24` exact head `1b2a675376b42572ee18b504d6b9b3007ea77083`;
-- root `Build` run/job `34017556279` / `101443945971` — success;
-- source merge `d77dab51cc168a063977d3f7471298d5ae406e23`;
-- source README reconciliation completed in the root Tri-Form change set;
-- historical source IDs and mixed proof maturity preserved;
-- Decision Envelope child scope remained untouched.
+Source evidence:
 
-## Machine preflight / collision / Master Records
+```text
+source repository: Admissible-Existence/GCAT-BCAT
+source issue: #23 — CLOSED_COMPLETED
+source PR: #24
+source exact head: 1b2a675376b42572ee18b504d6b9b3007ea77083
+Build run/job: 34017556279 / 101443945971 — SUCCESS
+source merge: d77dab51cc168a063977d3f7471298d5ae406e23
+scope: REPOSITORY_ROOT_ONLY
+```
 
-The formalism task registry, canonical parent handoff, and central open-PR state were re-resolved before mutation. No open `.github` pull request existed at admission time. TT/STCM remain deferred under their active canonical integration claims; RTG and organization-audit lanes remain separate.
+Central registration evidence:
 
-The source Decision Envelope child workstream remains independently owned: `DE-006` is `CLAIMED_FOR_INTEGRATION`, and `decision_envelope_claims_satisfied=false` remains a required boundary.
+```text
+registration PR: #60
+exact head: 16fab9934df84458b923cf3ff38cf340f1b47a0d
+Validate Tri-Form Formalism run/job: 34017799355 / 101444614388 — SUCCESS
+merge: 911518dca5df5723c643cf445b05e9ffe3e62e4c
+completed source migrations: 11/32 = 34.375%
+```
+
+## Machine preflight / README / Master Records
+
+The formalism task registry, canonical parent handoff, cross-task collision state, organization-transition ledger, Master Records federation boundary, and central open-PR state were resolved before registration mutation. TT/STCM remain deferred under active canonical integration claims; RTG and organization-audit lanes remain separate.
+
+Central README impact was **NO_CHANGE_REQUIRED** because the source GCAT-BCAT README already records its root Tri-Form capability/evidence changes and central registration changes accounting/evidence state only.
 
 `docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. Registration does not emit or federate a Master Records transition.
 
 Preflight result: `PASS`.
 
-## README completeness predicate
-
-README impact determination: **NO_CHANGE_REQUIRED** for this central registration-only refresh. The source GCAT-BCAT README already documents the source Tri-Form capability/evidence changes; central registration changes accounting/evidence state only and does not alter organization behavior, runtime semantics, interfaces, governance/authority boundaries, prerequisites, dependencies, failure behavior, public capability meaning, or Master Records routing.
-
-## Implemented registration
-
-`data/triform-migration-matrix.json` now records `11/32` completed source migrations and GCAT-BCAT as `BOUNDED_TRIFORM_COMPLETE_MERGED_ROOT_ONLY`.
-
-The registration preserves:
+## Preserved GCAT-BCAT root predicates
 
 ```text
 historical IDs = GCAT-BCAT-COMMIT-GATE, GCAT-BCAT-FAIL-CLOSED, GCAT-BCAT-TRANSITION-ECONOMICS, GCAT-BCAT-RECEIPT-REPLAY
@@ -65,7 +69,7 @@ final_admissibility_authority = Admissible-Existence/AE
 workflow_authority_effect = NONE_VALIDATION_ONLY
 ```
 
-`scripts/validate_triform_migration_matrix.py` fails closed on drift from those predicates while preserving all previously registered source boundaries and TT/STCM deferrals. `next_executable_candidate` is reset to null and `selection_evidence_state` to `EVIDENCE_PASS_REQUIRED` pending a separate evidence pass.
+All previously registered source boundaries remain preserved.
 
 ## Completion denominator
 
@@ -73,16 +77,16 @@ workflow_authority_effect = NONE_VALIDATION_ONLY
 2. GCAT-BCAT root source evidence capture — COMPLETE;
 3. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED`);
 4. 32-row matrix + deterministic validator update — COMPLETE;
-5. exact-head registration validation — PENDING;
-6. parent Tri-Form registration reconciliation — PENDING;
-7. registration merge — PENDING;
-8. next-candidate evidence pass + final closure — PENDING.
+5. exact-head registration validation — COMPLETE;
+6. parent Tri-Form registration reconciliation — COMPLETE;
+7. registration merge — COMPLETE;
+8. next-candidate evidence pass + selection validation/merge + final issue closure — PENDING.
 
-Current bounded completion: `4/8 = 50%`.
+Current bounded completion: `7/8 = 87.5%`.
 
 ## Exact next task
 
-Reconcile parent Tri-Form registration state, open the bounded registration PR, observe exact-head `Validate Tri-Form Formalism`, repair only proven defects, merge only while the exact current head is green, then execute the next-candidate evidence pass.
+Execute a repository-native evidence pass over remaining source entries marked `INSPECTION_REQUIRED`, preserve TT/STCM deferrals and every active source/child collision boundary, select a next executable source only if direct evidence establishes maturity and non-collision, validate/merge that selection, then close issue `#59`.
 
 ## User work
 
