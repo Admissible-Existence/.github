@@ -9,8 +9,8 @@
 **Migration refresh v4 issue / PR:** `#40` / `#41` — COMPLETE_MERGED  
 **Migration refresh v5 issue / PR:** `#42` / `#43` — COMPLETE_MERGED  
 **Migration refresh v6 issue / PR:** `#44` / `#45` — COMPLETE_MERGED  
-**Migration refresh v7 issue / PR:** `#46` / `#48` — COMPLETE_MERGED  
-**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT
+**Migration refresh v7 issue / registration PR:** `#46` / `#48` — COMPLETE_MERGED  
+**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / NEXT_CANDIDATE_SELECTED_PENDING_VALIDATION
 
 ## Purpose
 
@@ -54,21 +54,25 @@ RE binds the historical stable proof-obligation IDs `PO-RE-001..PO-RE-005` acros
 ```text
 logical_next_candidate: Admissible-Existence/TT
 logical_candidate_state: DEFER_ACTIVE_CANONICAL_CLAIM
-next_executable_candidate: null
-selection_evidence_state: EVIDENCE_PASS_REQUIRED
+next_executable_candidate: Admissible-Existence/RE-Reduction
+selection_evidence_state: EVIDENCE_PASS_COMPLETE
 ```
 
 TT remains deferred by active canonical goal `TT-RELATIONAL-GOVERNANCE-MATH-ALIGNMENT-001` / `CLAIMED_FOR_INTEGRATION`.
 
 STCM remains deferred by active canonical goal `STCM-RELATIONAL-GOVERNANCE-MATH-ALIGNMENT-001` / `CLAIMED_FOR_INTEGRATION`.
 
-No executable candidate is named merely from stack order, filename presence, or stale assumptions.
+`Admissible-Existence/RE-Reduction` is selected from direct repository evidence, not stack order: its canonical handoff reports hosted validation, RE consumer integration, and repository-local archive readiness complete; README and executable validation surfaces preserve standing re-entry, lineage, replay compatibility, and non-authority semantics. The existing reducer and reduction receipt schema remain source-owned and must not be replaced absent direct regression evidence.
+
+No historical stable RE-Reduction principle-ID registry has yet been established; any later bounded binding IDs require explicit new-ID provenance.
 
 ## Refresh v7 validation and merge evidence
 
 Issue `#46` / PR `#48` registered RE completion in the 32-row matrix. Machine preflight resolved the parent handoffs, task registry, cross-task coordination, organization-transition/Master Records boundary, and README completeness before matrix mutation. README impact for the central accounting-only refresh was `NO_CHANGE_REQUIRED`; the source RE README had already been updated in the repository-local Tri-Form change set.
 
-Exact PR head `33648608bce092242b88e66471ec7827841357b8` passed `Validate Tri-Form Formalism` run `34001439642`, job `101400909213`, including Tri-Form pilot validation, migration-matrix validation with RE tested-not-proven/non-authority preservation, existing relational-formalism regression, and authority-boundary declaration. PR `#48` merged as `0ab56b212aa77589c2f58ee29e19adb188a7ed11`.
+Exact registration PR head `33648608bce092242b88e66471ec7827841357b8` passed `Validate Tri-Form Formalism` run `34001439642`, job `101400909213`, including Tri-Form pilot validation, migration-matrix validation with RE tested-not-proven/non-authority preservation, existing relational-formalism regression, and authority-boundary declaration. PR `#48` merged as `0ab56b212aa77589c2f58ee29e19adb188a7ed11`.
+
+The candidate-selection continuation under issue `#46` is implemented on branch `triform-migration-refresh-007-selection` and remains pending exact-head validation/merge before refresh v7 is closed.
 
 ## Authority boundaries
 
@@ -77,7 +81,7 @@ Exact PR head `33648608bce092242b88e66471ec7827841357b8` passed `Validate Tri-Fo
 - `Admissible-Existence/AE` remains final commit-time admissibility resolver where applicable.
 - TV/TVC remains the sole StegVerse credential authority.
 - GitHub token/runtime authority remains `NONE`.
-- Validation success creates no runtime, release, proof, publication, execution, admissibility, credential, custody, identity, standing-acceptance, Master Records, final cross-repository, or predetermined-destination authority.
+- Validation success or candidate selection creates no runtime, release, proof, publication, execution, admissibility, credential, custody, identity, standing-acceptance, Master Records, final cross-repository, or predetermined-destination authority.
 
 ## Current execution order
 
@@ -86,8 +90,8 @@ Exact PR head `33648608bce092242b88e66471ec7827841357b8` passed `Validate Tri-Fo
 3. Preserve ET semantic exclusions and GTG historical non-equivalence.
 4. Preserve LTG no-capture/no-predetermined-destination/no-authority conditions and BC/CHF new-binding-ID provenance.
 5. Preserve TT and STCM deferral while their canonical claims remain active.
-6. Continue repository-native evidence inspection across remaining source repositories marked `INSPECTION_REQUIRED`.
-7. Name a next executable candidate only when live repository evidence establishes maturity and non-collision; otherwise keep `next_executable_candidate=null`.
+6. Validate and merge the RE-Reduction candidate-selection continuation.
+7. Begin RE-Reduction only through a separately admitted repository-native preflight and scoped handoff.
 
 ## Completion/accounting
 
@@ -98,14 +102,14 @@ migration refresh v3: 8/8 = 100% complete/merged
 migration refresh v4: 8/8 = 100% complete/merged
 migration refresh v5: 8/8 = 100% complete/merged
 migration refresh v6: 8/8 = 100% complete/merged
-migration refresh v7: 7/8 complete pending next-candidate evidence pass
+migration refresh v7: 7/8 complete pending candidate-selection validation/merge
 completed source migrations: 7/32 = 21.875%
 ```
 
 ## Master Records / transition boundary
 
-Tri-Form accounting does not itself propagate to Master Records. Repository transitions remain replayable in their source repositories, organization rollup remains governed by the organization transition ledger, and only verified organization receipts may later traverse the existing InTr federation. Recording creates no authority.
+Tri-Form accounting and candidate selection do not themselves propagate to Master Records. Repository transitions remain replayable in their source repositories, organization rollup remains governed by the organization transition ledger, and only verified organization receipts may later traverse the existing InTr federation. Recording creates no authority.
 
 ## User work
 
-None currently. The next candidate-selection evidence pass is repository-native and machine-executable.
+None currently. The selection validation and next repository preflight are machine-executable.
