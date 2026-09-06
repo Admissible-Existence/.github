@@ -4,49 +4,49 @@
 **Repository:** `Admissible-Existence/.github`  
 **Canonical issue:** `#56`  
 **Registration PR:** `#57` — COMPLETE_MERGED  
-**Selection branch:** `triform-migration-refresh-010-selection`  
+**Selection PR:** `#58` — COMPLETE_MERGED  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** TRIAD_REGISTERED / GCAT_BCAT_ROOT_SELECTED_PENDING_EXACT_HEAD_VALIDATION
+**Status:** COMPLETE_MERGED / TRIAD_REGISTERED / GCAT_BCAT_ROOT_SELECTED
 
 ## Registration state
 
-Triad is now the tenth completed source migration. Registration exact head `08848b9255043e166b13c76ca5f12974dec989c9` passed `Validate Tri-Form Formalism` run/job `34017131735` / `101442773288`; PR `#57` merged as `09ad2e89c0b3d696ee4257729235382905019ce4`.
+Triad is the tenth completed source migration. Registration exact head `08848b9255043e166b13c76ca5f12974dec989c9` passed `Validate Tri-Form Formalism` run/job `34017131735` / `101442773288`; PR `#57` merged as `09ad2e89c0b3d696ee4257729235382905019ce4`.
 
-The canonical matrix therefore records `10/32 = 31.25%` completed source migrations while preserving all prior semantic/proof/authority boundaries.
+Canonical completed-source accounting is `10/32 = 31.25%`.
 
 ## Machine preflight / README / Master Records
 
-The singular formalism handoff, task registry/collision state, organization-transition ledger, Master Records federation boundary, and cross-task ownership were re-resolved before candidate selection. TT/STCM remain deferred by active canonical claims. RTG and organization-audit lanes remain separate.
+The singular formalism handoff, formalism task registry, cross-task collision state, organization-transition ledger, and Master Records federation boundary were resolved before both registration and candidate-selection mutation.
 
-Central README impact remains **NO_CHANGE_REQUIRED** because candidate selection changes coordination state only. Any GCAT-BCAT source mutation must perform its own README completeness determination.
+Central README impact was **NO_CHANGE_REQUIRED**: registration and selection changed coordination/accounting state only, while source capability changes were documented in their source repositories.
 
-`docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. This selection does not emit or federate a Master Records transition.
+`docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. Neither registration nor selection emits or federates a Master Records transition.
 
 Preflight result: `PASS`.
 
-## Next-candidate evidence pass — COMPLETE
+## Next-candidate evidence pass and validation
 
-Direct repository-native evidence selects the **repository-root GCAT/BCAT formalism only** as the next executable Tri-Form candidate:
+Direct repository-native evidence selected the **repository-root GCAT/BCAT formalism only** as the next executable Tri-Form candidate.
 
-- `Admissible-Existence/GCAT-BCAT/GCAT_BCAT_MIRROR_HANDOFF.md` reports `ROOT_PRINCIPLE_COMPLETENESS_HOSTED_VALIDATED`, implementation/validation claims `COMPLETE_RELEASED`, root goal activation `100%`, and hosted root build success;
-- issue `#2` is closed completed and is explicitly scoped to root formalism completeness only;
-- `formalism/principle-registry.yaml` supplies historical IDs `GCAT-BCAT-COMMIT-GATE`, `GCAT-BCAT-FAIL-CLOSED`, `GCAT-BCAT-TRANSITION-ECONOMICS`, and `GCAT-BCAT-RECEIPT-REPLAY` with explicit mathematics, falsification, proof status, and executable evidence;
-- `reports/gcat-bcat-principle-completeness-validation.json` is valid with four principles, empty findings, `execution_authorized=false`, `publication_authorized=false`, `proofs_accepted=false`, and `decision_envelope_claims_satisfied=false`;
-- `README.md` accurately distinguishes completed root GCAT/BCAT from the active Decision Envelope child workstream;
-- `docs/DECISION_ENVELOPE_MIRROR_HANDOFF.md` reports `DE-006` as `CLAIMED_FOR_INTEGRATION`; therefore the child workstream is an active disjoint ownership surface and must remain untouched by the root Tri-Form lane.
-
-The matrix now records:
+Preserved evidence and collision boundary:
 
 ```text
-next_executable_candidate: Admissible-Existence/GCAT-BCAT
-selection_evidence_state: EVIDENCE_PASS_COMPLETE
-GCAT-BCAT triform_state: SELECTED_NEXT_EXECUTABLE_CANDIDATE_ROOT_ONLY
-Decision Envelope child state: CLAIMED_FOR_INTEGRATION
-Decision Envelope scope must remain untouched: true
+root status = ROOT_PRINCIPLE_COMPLETENESS_HOSTED_VALIDATED
+root implementation/validation = COMPLETE_RELEASED
+root historical IDs = GCAT-BCAT-COMMIT-GATE, GCAT-BCAT-FAIL-CLOSED, GCAT-BCAT-TRANSITION-ECONOMICS, GCAT-BCAT-RECEIPT-REPLAY
+execution_authorized = false
+publication_authorized = false
+proofs_accepted = false
+decision_envelope_claims_satisfied = false
+Decision Envelope DE-006 = CLAIMED_FOR_INTEGRATION
+Decision Envelope scope must remain untouched = true
+final admissibility authority = Admissible-Existence/AE
 ```
 
-The migration validator fails closed on loss of the root-only collision boundary, historical-ID drift, source maturity drift, authority promotion, Decision Envelope claim promotion, or AE authority displacement.
+Selection exact head `d900eca58fa35f82f6c2d7b207af8eb6ce24407f` passed `Validate Tri-Form Formalism` run/job `34017285754` / `101443195746`; PR `#58` merged as `2eecff077ce5de0f74f642296d43916990080c2f`.
+
+The active Decision Envelope child workstream remains a disjoint ownership surface. Root Tri-Form work may not modify, satisfy, release, or reinterpret `papers/decision-envelope/`, `security/`, its claims/workflows, or destination-owned `DE-006`.
 
 ## Completion denominator
 
@@ -57,14 +57,14 @@ The migration validator fails closed on loss of the root-only collision boundary
 5. registration exact-head validation — COMPLETE;
 6. parent Tri-Form registration reconciliation — COMPLETE;
 7. registration merge — COMPLETE;
-8. next-candidate evidence pass + selection validation/merge + final issue closure — PENDING.
+8. next-candidate evidence pass + selection validation/merge + final issue closure — COMPLETE.
 
-Current bounded completion: `7/8 = 87.5%`.
+Current bounded completion: `8/8 = 100%`.
 
 ## Exact next task
 
-Open and validate the GCAT-BCAT root-selection PR. Merge only while the exact current head is green, reconcile central handoffs, close issue `#56`, then begin GCAT-BCAT only through a separately admitted root-scoped repository-native preflight and handoff that leaves Decision Envelope surfaces untouched.
+Begin `Admissible-Existence/GCAT-BCAT` only through a separately admitted repository-native root-scoped machine preflight and scoped handoff. Reuse the existing root principles, cost model, receipt schema, validators, fixtures, build/readiness surfaces, principle receipt, and root build workflow. Apply the README completeness predicate before functional mutation and preserve the active Decision Envelope child scope untouched.
 
 ## User work
 
-None. Remaining work is repository-native and machine-executable.
+None. The next source task is machine-executable.
