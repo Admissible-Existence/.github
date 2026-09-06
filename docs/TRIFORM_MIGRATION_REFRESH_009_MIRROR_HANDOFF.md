@@ -6,7 +6,7 @@
 **Canonical issue:** `#53`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** PREFLIGHT_PASSED_DC_REGISTRATION_PENDING
+**Status:** DC_REGISTRATION_IMPLEMENTED_PENDING_EXACT_HEAD_VALIDATION
 
 ## Purpose
 
@@ -56,38 +56,32 @@ It also preserves every previously registered Existence/GTG/ET/LTG/BC/CHF/RE/RE-
 
 README impact determination: **NO_CHANGE_REQUIRED** for this central registration-only refresh.
 
-Evidence-supported basis:
-
-1. DC's source README was updated in the repository-local Tri-Form change set because its source capability/evidence meaning changed.
-2. `.github/profile/README.md` already describes the organization's validation role and source-owned maturity/authority boundaries.
-3. This refresh only registers already-validated source evidence and strengthens deterministic migration accounting.
-4. It changes no organization behavior, runtime semantics, interfaces, governance/authority boundary, prerequisites, dependencies, failure behavior, public capability meaning, or Master Records routing.
+DC's source README already captured the changed repository capability/evidence meaning. The organization profile already describes source-owned maturity and validation boundaries. This refresh changes accounting/evidence registration only and does not change organization behavior, runtime semantics, interfaces, governance/authority boundaries, prerequisites, dependencies, failure behavior, public capability meaning, or Master Records routing.
 
 Preflight result: `PASS`.
 
-## Execution order
+## Implemented registration
 
-1. Register DC in the 32-row migration matrix and advance completed source migrations to `9/32`.
-2. Extend the existing migration validator with fail-closed DC historical-ID, proof-maturity, local/global, consensus/coherence, non-authority, and non-replacement predicates.
-3. Reset `next_executable_candidate` to null and require a separate evidence pass for the next source.
-4. Validate exact branch head through the existing Tri-Form workflow.
-5. Merge only while exact current head is green.
-6. Reconcile this handoff and the parent Tri-Form handoff.
-7. Close issue `#53` only after registration and next-candidate evidence selection are complete.
-8. Begin the next selected source only through its own repository-native preflight.
+`data/triform-migration-matrix.json` now records `9/32` completed source migrations and DC as `BOUNDED_TRIFORM_COMPLETE_MERGED`, preserving historical IDs `DC-P1..DC-P4`, candidate-not-theorem maturity, `proven_theorems=0`, local/global and consensus/coherence distinctions, non-authority/non-activation, no final cross-repository validity, no historical source replacement, and validation-only workflow authority.
+
+`scripts/validate_triform_migration_matrix.py` fails closed on drift from those DC predicates and preserves all prior registered boundaries. `next_executable_candidate` is reset to null and `selection_evidence_state` to `EVIDENCE_PASS_REQUIRED` pending a separate source evidence pass.
 
 ## Completion denominator
 
 1. scoped central handoff + machine preflight — COMPLETE;
 2. DC source evidence capture — COMPLETE;
 3. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED`);
-4. 32-row matrix + deterministic validator update — PENDING;
+4. 32-row matrix + deterministic validator update — COMPLETE;
 5. exact-head registration validation — PENDING;
 6. parent Tri-Form registration reconciliation — PENDING;
 7. registration merge — PENDING;
 8. next-candidate evidence pass + final closure — PENDING.
 
-Current bounded completion: `3/8 = 37.5%`.
+Current bounded completion: `4/8 = 50%`.
+
+## Exact next task
+
+Open the bounded registration PR, observe exact-head `Validate Tri-Form Formalism`, repair only proven defects, merge only while the exact current head is green, reconcile parent state, then execute the next-candidate evidence pass.
 
 ## User work
 
