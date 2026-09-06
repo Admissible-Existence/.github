@@ -4,8 +4,8 @@
 **Repository:** `Admissible-Existence/.github`  
 **Parent coordination authority:** `FORMALISM_MIRROR_HANDOFF.md`  
 **Migration refresh v10 issue / PRs:** `#56` / `#57`, `#58` — COMPLETE_MERGED  
-**Migration refresh v11 issue / registration PR:** `#59` / `#60` — REGISTRATION_COMPLETE_MERGED / ECAT_ICAT_SELECTION_PENDING_VALIDATION  
-**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / ECAT_ICAT_SELECTED_PENDING_VALIDATION
+**Migration refresh v11 issue / PRs:** `#59` / `#60`, `#61` — COMPLETE_MERGED  
+**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / ECAT_ICAT_SELECTED
 
 ## Purpose and invariant
 
@@ -28,15 +28,17 @@ selection_evidence_state: EVIDENCE_PASS_COMPLETE
 
 TT and STCM remain deferred under active canonical integration claims.
 
-ECAT-ICAT is selected from direct repository-native evidence, not registry order alone. `docs/ECAT_ICAT_MIRROR_HANDOFF.md` reports `IMPLEMENTATION_COMPLETE_HOSTED_VALIDATED`, released implementation/validation, hosted run/job `31147813783` / `92770919160` success, goal activation `100%`, and repository-local archive readiness. Issue `#1` is closed completed and there are no open PRs.
+ECAT-ICAT is selected from direct repository-native evidence. `docs/ECAT_ICAT_MIRROR_HANDOFF.md` reports `IMPLEMENTATION_COMPLETE_HOSTED_VALIDATED`, released implementation/validation, hosted run/job `31147813783` / `92770919160` success, goal activation `100%`, and repository-local archive readiness. Issue `#1` is closed completed and there were no open PRs at selection time.
 
 Historical source IDs are `ECAT-001`, `ICAT-001`, `ECAT-ICAT-001`, and `ECAT-ICAT-002`. The source proof-candidate registry preserves two `tested_candidate` claims and one `bounded_candidate`; candidate status is explicitly not universal proof. The principle-completeness receipt is valid with four principles, empty findings, and execution/publication/proof acceptance false.
 
 Selection preserves experiential and relational standing as pre-boundary support evidence rather than execution authority, preserves downstream BCAT/GCAT/AE commit-time standing, treats replayed historical standing as non-authorizing, and preserves fail-closed missing evidence.
 
-The source README still describes `0.1.0-rc1 automated testing active` and an `Automated release candidate seed`, which is stale relative to the canonical hosted-complete handoff. An ECAT-ICAT source Tri-Form preflight must therefore classify README reconciliation as REQUIRED in the same source change set.
+The source README still describes `0.1.0-rc1 automated testing active` and an `Automated release candidate seed`, stale relative to the canonical hosted-complete handoff. An ECAT-ICAT source Tri-Form preflight must therefore classify README reconciliation as REQUIRED in the same source change set.
 
-## Refresh v11 registration evidence
+## Refresh v11 evidence
+
+Registration:
 
 ```text
 source repository: Admissible-Existence/GCAT-BCAT
@@ -51,7 +53,17 @@ central merge: 911518dca5df5723c643cf445b05e9ffe3e62e4c
 completed source migrations: 11/32
 ```
 
-The ECAT-ICAT selection continuation remains pending exact-head validation/merge.
+Candidate selection:
+
+```text
+selection PR: #61
+exact head: 1e793f7ab4659dd4b1b6378caf698e27f6be0b0d
+Validate Tri-Form Formalism run/job: 34018050162 / 101445320703 — SUCCESS
+merge: affa2a7d918f956c00cfc3a50aecf55cff35414e
+next executable candidate: Admissible-Existence/ECAT-ICAT
+```
+
+Central README impact was `NO_CHANGE_REQUIRED` for registration and selection because source capability/evidence changes remain source-owned and central work only records validated accounting/coordination state.
 
 ## Authority / Master Records boundaries
 
@@ -63,18 +75,17 @@ Repository-level transitions remain replayable at their source. Organization rep
 
 1. Preserve 11/32 accounting and every registered semantic/authority boundary.
 2. Preserve TT/STCM deferral and the active GCAT-BCAT Decision Envelope child claim.
-3. Validate and merge the ECAT-ICAT selection continuation.
-4. Close refresh issue `#59` after selection is durable.
-5. Begin ECAT-ICAT only through a separately admitted repository-native machine preflight and scoped handoff.
-6. Reuse its historical IDs, schemas, fixtures, round-trip examples, validators, receipt/completion machinery, and existing `rc1-validation.yml`; do not create a duplicate control plane.
-7. Reconcile the stale ECAT-ICAT README in the same source change set if Tri-Form capability is added.
+3. Begin ECAT-ICAT only through a separately admitted repository-native machine preflight and scoped handoff.
+4. Reuse historical IDs, schemas, fixtures, round-trip examples, validators, receipt/completion machinery, management/consumer/release records, and the existing `rc1-validation.yml`; do not duplicate them.
+5. Reconcile the stale ECAT-ICAT README in the same source change set if Tri-Form capability is added.
+6. On ECAT-ICAT source completion, register its validated evidence centrally before selecting another source.
 
 ## Completion/accounting
 
 Migration refresh v10: `8/8 = 100% complete/merged`.  
-Migration refresh v11: `7/8 = 87.5%`; ECAT-ICAT selection validation/merge and final closure remain.  
+Migration refresh v11: `8/8 = 100% complete/merged`.  
 Completed source migrations: `11/32 = 34.375%`.
 
 ## User work
 
-None currently. Remaining selection validation and the ECAT-ICAT source preflight are machine-executable.
+None currently. The ECAT-ICAT source preflight and bounded Tri-Form migration are machine-executable.
