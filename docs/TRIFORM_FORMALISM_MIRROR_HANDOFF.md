@@ -3,8 +3,8 @@
 **Goal ID:** `AEX-TRIFORM-FORMALISM-001`  
 **Repository:** `Admissible-Existence/.github`  
 **Parent coordination authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Migration refresh v9 issue / registration PR:** `#53` / `#54` — REGISTRATION_COMPLETE_MERGED / TRIAD_SELECTION_PENDING_VALIDATION  
-**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / TRIAD_SELECTED_PENDING_VALIDATION
+**Migration refresh v9 issue / PRs:** `#53` / `#54`, `#55` — COMPLETE_MERGED  
+**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / TRIAD_SELECTED
 
 ## Purpose and invariant
 
@@ -25,11 +25,11 @@ selection_evidence_state: EVIDENCE_PASS_COMPLETE
 
 TT and STCM remain deferred under active canonical integration claims.
 
-Triad is selected from direct repository-native evidence: `docs/TRIAD_MIRROR_HANDOFF.md` reports hosted-validated principle completeness and 100% bounded goal activation; `formalism/principle-registry.yaml` supplies historical IDs `TRIAD-SUBJECT-STANDING`, `TRIAD-BOUNDARY-STANDING`, and `TRIAD-GOVERNANCE-STANDING`, each `tested_not_proven` with mathematics, falsification, and executable evidence; the canonical hosted run is `31141831561` / job `92753176606`; execution/publication/proof authority remain false and AE retains final admissibility authority.
+Triad is selected from direct repository-native evidence. Its canonical handoff reports hosted-validated principle completeness and 100% bounded goal activation. Historical source IDs are `TRIAD-SUBJECT-STANDING`, `TRIAD-BOUNDARY-STANDING`, and `TRIAD-GOVERNANCE-STANDING`; all remain `tested_not_proven`, with mathematics, falsification, and executable evidence. Execution/publication/proof acceptance remain false and AE retains final admissibility authority. Triad's README is stale relative to the canonical handoff, so a Triad source preflight must require README reconciliation if Tri-Form capability is added.
 
-Triad's README still says `Formalism seed entering integration build`, so a Triad source preflight must classify README reconciliation as REQUIRED if Tri-Form capability is added.
+## Refresh v9 evidence
 
-## Refresh v9 registration evidence
+Registration:
 
 ```text
 registration PR: #54
@@ -40,7 +40,15 @@ registered source: Admissible-Existence/DC
 completed source migrations: 9/32
 ```
 
-The candidate-selection continuation remains pending exact-head validation/merge.
+Selection:
+
+```text
+selection PR: #55
+exact head: 98b92c67936d4fd1abb554214eb389c9e266988c
+Validate Tri-Form Formalism: 34010488525 / 101425332804 — SUCCESS
+merge: b9e47edbeae2180ad56d66c9a7b36d1dc06a2cd5
+next executable candidate: Admissible-Existence/Triad
+```
 
 ## Authority / Master Records boundaries
 
@@ -50,15 +58,15 @@ Native repositories retain source mathematics. AE remains final commit-time admi
 
 1. Preserve 9/32 accounting and every registered semantic boundary.
 2. Preserve TT/STCM deferral.
-3. Validate and merge Triad selection.
-4. Begin Triad only through a separately admitted repository-native preflight and scoped handoff.
-5. Reuse Triad historical IDs, RC1/management/integration surfaces, validators, receipts, and existing `rc1-validation.yml`; do not create a duplicate control plane.
-6. Reconcile the stale Triad README in the same source change set if Tri-Form capability is added.
+3. Begin Triad only through a separately admitted repository-native preflight and scoped handoff.
+4. Reuse Triad historical IDs, RC1/management/integration surfaces, validators, receipts, and existing `rc1-validation.yml`; do not create a duplicate control plane.
+5. Reconcile the stale Triad README in the same source change set if Tri-Form capability is added.
+6. Bind only repository-evidenced semantics and fail closed on standing collapse, proof promotion, authority promotion, stale/current-governance conflation, or AE-authority displacement.
 
 ## Completion/accounting
 
-Migration refresh v9 remains `7/8`, pending selection validation/merge and final closure. Completed source migrations remain `9/32 = 28.125%`.
+Migration refresh v9: `8/8 = 100% complete/merged`. Completed source migrations: `9/32 = 28.125%`.
 
 ## User work
 
-None currently.
+None currently. Triad source preflight and implementation are machine-executable.
