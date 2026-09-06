@@ -6,7 +6,7 @@
 **Canonical issue:** `#65`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** PREFLIGHT_PASSED / IICT_REGISTRATION_ACTIVE
+**Status:** IICT_REGISTRATION_IMPLEMENTED / EXACT_HEAD_VALIDATION_PENDING
 
 ## Purpose
 
@@ -30,7 +30,7 @@ Register the completed bounded Tri-Form migration for `Admissible-Existence/IICT
 
 ## Task / collision state
 
-Before mutation, the singular formalism handoff, parent Tri-Form handoff, current matrix/validator, source completion evidence, central issue/PR state, and organization transition / Master Records boundaries were resolved. No open central pull request existed at admission time. Issue `#65` is the newly admitted accounting task.
+Before mutation, the singular formalism handoff, parent Tri-Form handoff, current matrix/validator, source completion evidence, central issue/PR state, and organization transition / Master Records boundaries were resolved. No open central pull request existed at admission time. Issue `#65` is the admitted accounting task.
 
 TT and STCM remain deferred under active canonical integration claims. RTG machine-owned lanes, AE publication/review, GCAT-BCAT Decision Envelope child scope, and organization transition/Master Records lanes remain separately owned and untouched.
 
@@ -42,57 +42,45 @@ The IICT source README was reconciled in the source Tri-Form change set. This ce
 
 Preflight result: `PASS`.
 
-## Preserved IICT boundaries
+## Implemented registration
+
+`data/triform-migration-matrix.json` now records the refresh-v13 candidate state:
 
 ```text
-historical IDs = IICT-001, IICT-002, IICT-003, IICT-004
-IICT-PC-001 = tested_candidate
-IICT-PC-002 = tested_candidate
-IICT-PC-003 = tested_candidate
-IICT-PC-004 = theorem_candidate_not_proven
-theorem_status = candidate_not_proven
-baseline_cases = 5
-Governance Distance is authority = false
-convergence observation grants execution authority = false
-reconstruction creates present authority = false
-baseline support is universal proof = false
-execution_authorized = false
-publication_authorized = false
-proofs_accepted = false
-final_cross_repository_validity = false
-historical_source_replacement = false
-workflow_authority_effect = NONE_VALIDATION_ONLY
-final_admissibility_authority = Admissible-Existence/AE
-README status reconciled = true
+completed_source_migrations = 13
+completed source appended = Admissible-Existence/IICT
+next_executable_candidate = null
+selection_evidence_state = EVIDENCE_PASS_REQUIRED
+logical_next_candidate = Admissible-Existence/TT
+logical_candidate_state = DEFER_ACTIVE_CANONICAL_CLAIM
 ```
+
+`scripts/validate_triform_migration_matrix.py` now fails closed on IICT completion drift while preserving every prior registered source predicate, TT/STCM deferral, and the GCAT-BCAT Decision Envelope collision boundary.
+
+Preserved IICT predicates include historical IDs, exact proof-candidate maturity, `candidate_not_proven`, five baseline cases, non-authorizing Governance Distance/convergence/reconstruction/baseline support, execution/publication/proof acceptance false, final cross-repository validity false, historical source replacement false, `NONE_VALIDATION_ONLY`, AE final admissibility authority, README reconciliation complete, and required source completion evidence.
+
+The parent `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md` is reconciled to refresh v12 complete and refresh v13 registration pending validation.
 
 ## Master Records / organization transition boundary
 
 `docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. This refresh records organization Tri-Form accounting only and emits no Master Records transition. Any later propagation requires the separately governed exact organization receipt/InTr path.
-
-## Execution order
-
-1. register IICT as the 13th completed source migration;
-2. preserve every prior source boundary and TT/STCM deferrals;
-3. extend the matrix validator with fail-closed IICT completion predicates;
-4. reset `next_executable_candidate` to null and `selection_evidence_state` to `EVIDENCE_PASS_REQUIRED`;
-5. reconcile the parent Tri-Form handoff;
-6. validate the exact central branch head through the existing Tri-Form workflow;
-7. merge only while green and mergeable;
-8. execute a fresh next-candidate evidence pass in a separate continuation before beginning another source.
 
 ## Completion denominator
 
 1. scoped central handoff + machine preflight — COMPLETE;
 2. IICT source evidence capture — COMPLETE;
 3. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED` centrally);
-4. 32-row matrix + deterministic validator update — PENDING;
-5. parent Tri-Form registration reconciliation — PENDING;
+4. 32-row matrix + deterministic validator update — COMPLETE;
+5. parent Tri-Form registration reconciliation — COMPLETE;
 6. exact-head central validation — PENDING;
 7. registration merge — PENDING;
 8. next-candidate evidence pass / continuation handoff — PENDING.
 
-Current bounded completion: `3/8 = 37.5%`.
+Current bounded completion: `5/8 = 62.5%`.
+
+## Exact next task
+
+Open the bounded central registration PR, validate its exact head through the existing `Validate Tri-Form Formalism` workflow, merge only while green and mergeable, close issue `#65` after durable registration, then execute a separate fresh next-candidate evidence pass.
 
 ## User work
 
