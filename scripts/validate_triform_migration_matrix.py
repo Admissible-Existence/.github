@@ -52,13 +52,27 @@ def main():
     if re.get('standing_bypass') is not False: f.append('re_standing_bypass_must_remain_false')
     if re.get('receipt_history_erasure') is not False: f.append('re_receipt_history_erasure_must_remain_false')
     if re.get('historical_source_replacement') is not False: f.append('re_historical_source_replacement_must_remain_false')
+    rr=by.get('Admissible-Existence/RE-Reduction',{})
+    if data.get('next_executable_candidate')!='Admissible-Existence/RE-Reduction': f.append('unexpected_next_executable_candidate')
+    if data.get('selection_evidence_state')!='EVIDENCE_PASS_COMPLETE': f.append('selection_evidence_state_mismatch')
+    required_selection_evidence={
+        'Admissible-Existence/RE-Reduction@main:docs/RE_REDUCTION_MIRROR_HANDOFF.md',
+        'Admissible-Existence/RE-Reduction@main:README.md',
+        'Admissible-Existence/.github@main:data/re-reduction-hosted-completion-evidence.json'
+    }
+    if not required_selection_evidence.issubset(set(data.get('selection_evidence',[]))): f.append('selection_evidence_incomplete')
+    if rr.get('triform_state')!='SELECTED_NEXT_EXECUTABLE_CANDIDATE': f.append('re_reduction_selection_state_mismatch')
+    if rr.get('prior_goal')!='RE-REDUCTION-CONSUMER-INTEGRATION-001': f.append('re_reduction_prior_goal_mismatch')
+    if rr.get('prior_goal_state')!='COMPLETE_RELEASED_NOTIFY_ONLY': f.append('re_reduction_prior_goal_state_mismatch')
+    if rr.get('repository_local_archive_readiness') is not True: f.append('re_reduction_archive_readiness_must_be_true')
+    if rr.get('standing_reentry_required') is not True: f.append('re_reduction_standing_reentry_must_be_true')
+    if rr.get('execution_authority_granted') is not False: f.append('re_reduction_execution_authority_must_be_false')
+    if rr.get('replacement_boundary')!='DO_NOT_REPLACE_REDUCER_OR_REDUCTION_RECEIPT_SCHEMA_ABSENT_DIRECT_REGRESSION_EVIDENCE': f.append('re_reduction_replacement_boundary_mismatch')
     tt=by.get('Admissible-Existence/TT',{}); stcm=by.get('Admissible-Existence/STCM',{})
     if data.get('logical_next_candidate')!='Admissible-Existence/TT': f.append('unexpected_logical_next_candidate')
     if data.get('logical_candidate_state')!='DEFER_ACTIVE_CANONICAL_CLAIM': f.append('tt_logical_candidate_must_be_deferred')
     if tt.get('triform_state')!='DEFER_ACTIVE_CANONICAL_CLAIM' or tt.get('claim_state')!='CLAIMED_FOR_INTEGRATION': f.append('tt_deferral_not_preserved')
     if stcm.get('triform_state')!='DEFER_ACTIVE_CANONICAL_CLAIM' or stcm.get('claim_state')!='CLAIMED_FOR_INTEGRATION': f.append('stcm_deferral_not_preserved')
-    if data.get('next_executable_candidate') is not None: f.append('next_executable_candidate_requires_evidence_pass')
-    if data.get('selection_evidence_state')!='EVIDENCE_PASS_REQUIRED': f.append('selection_evidence_state_mismatch')
     for e in entries:
         if not e.get('triform_state'): f.append(f"missing_triform_state:{e.get('repository')}")
     print(json.dumps({'schema':'admissible-existence.triform-migration-validation/v2','valid':not f,'entry_count':len(entries),'completed_source_migrations':data.get('completed_source_migrations'),'logical_next_candidate':data.get('logical_next_candidate'),'logical_candidate_state':data.get('logical_candidate_state'),'next_executable_candidate':data.get('next_executable_candidate'),'selection_evidence_state':data.get('selection_evidence_state'),'findings':f,'authority_effect':'NONE_VALIDATION_ONLY'},indent=2,sort_keys=True))
