@@ -3,108 +3,95 @@
 **Goal ID:** `AEX-TRIFORM-FORMALISM-001`  
 **Repository:** `Admissible-Existence/.github`  
 **Parent coordination authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Migration refresh v12 issue / PRs:** `#62` / `#63`, `#64` — COMPLETE_MERGED  
-**Migration refresh v13 issue / registration PR:** `#65` / `#66` — REGISTRATION_COMPLETE_MERGED / HPS_SELECTION_PENDING_VALIDATION  
-**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / HPS_SELECTED_PENDING_VALIDATION
+**Migration refresh v13 issue / PRs:** `#65` / `#66`, `#67` — COMPLETE_MERGED  
+**Migration refresh v14 issue:** `#68` — HPS_REGISTRATION_ACTIVE  
+**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_ADVANCED_PENDING_VALIDATION / NEXT_CANDIDATE_EVIDENCE_PASS_REQUIRED
 
 ## Purpose and invariant
 
 Tri-Form binds prose, mathematical, and executable/code semantics through stable identifiers and deterministic conformance checks. Native repositories retain source mathematical authority. A bounded Tri-Form claim creates no theorem proof, runtime, publication, release, execution, admissibility, credential, custody, identity, Master Records, Decision Envelope completion, clinical authority, relational authority, or final cross-repository authority.
 
-## Completed source migrations
+## Canonical completed-source state
 
-Canonical `main` now records `13/32 = 40.625%`: Existence, GTG, ET, learning-transition-governance, BC, CHF, RE, RE-Reduction, DC, Triad, GCAT-BCAT repository root, ECAT-ICAT, and IICT.
+Canonical `main` before refresh v14 records `13/32 = 40.625%`: Existence, GTG, ET, learning-transition-governance, BC, CHF, RE, RE-Reduction, DC, Triad, GCAT-BCAT repository root, ECAT-ICAT, and IICT.
 
-Refresh-v13 registration evidence:
+Refresh v13 is complete. IICT registration PR `#66` validated through `Validate Tri-Form Formalism` run/job `34033205248` / `101486480121` and merged as `087af37809a95ac170081c45dae386708435a587`. HPS selection PR `#67` validated through run/job `34033555390` / `101487427974` and merged as `3ec44dc3c95c593e7d4ff6a5ee65c0871297c19c`. Issue `#65` is closed completed.
 
-```text
-IICT source issue: #2 — CLOSED_COMPLETED
-IICT source PR: #3
-source final validated head: dd89b88b8db12c3ada3991e91835516e047aaa37
-source IICT Build: 34032965896 / 101485817530 — SUCCESS
-source merge: 4b88435515864b721dabe346eaaa41ba6bfbdd55
-central registration PR: #66
-registration exact head: 6b6f48d58742bbc346682544776c1025d4174c65
-Validate Tri-Form Formalism: 34033205248 / 101486480121 — SUCCESS
-registration merge: 087af37809a95ac170081c45dae386708435a587
-completed source migrations: 13/32
-```
+The current refresh-v14 branch advances the registration candidate to `14/32 = 43.75%` by adding HPS. Canonical `main` remains authoritative until exact-head validation and merge.
 
-All previously registered semantic/proof/collision/authority boundaries remain enforced.
-
-## Fresh candidate-selection state
+## HPS source completion evidence
 
 ```text
-logical_next_candidate: Admissible-Existence/TT
-logical_candidate_state: DEFER_ACTIVE_CANONICAL_CLAIM
-next_executable_candidate: Admissible-Existence/HPS
-selection_evidence_state: EVIDENCE_PASS_COMPLETE
+source repository: Admissible-Existence/HPS
+source issue: #5 — CLOSED_COMPLETED
+source PR: #6
+source final validated head: 7370eec5d946151834a4fab980682ba6512d1a68
+final HPS Verify run/job: 34033957911 / 101488512438 — SUCCESS
+source merge: 13e16142fe398c4ab63d6b4ad8cbf0ad0dd04a1a
+README reconciliation: COMPLETE
+bounded Tri-Form source goal: AEX-HPS-TRIFORM-001
 ```
 
-TT and STCM remain deferred under active canonical integration claims.
+Historical IDs remain `HPS-P-001` through `HPS-P-004`. Proof-candidate maturity remains three `tested_not_universal_proof` entries plus `HPS-PC-004` as `tested_non_authority_contract`.
 
-The fresh pass first inspected CTA. CTA is not selected because open CTA issue `#1`, `Complete CTA automation and provenance-bound integration`, owns automation, provenance, exact-commit workflow receipt, prerelease publication, external-adapter, and remaining integration surfaces. The matrix therefore records CTA as `DEFER_ACTIVE_CANONICAL_CLAIM` with `ACTIVE_INTEGRATION`; no root Tri-Form source mutation is admitted while that claim remains active or unpartitioned.
-
-HPS is selected from direct repository-native evidence. `HPS_MIRROR_HANDOFF.md` reports source implementation `COMPLETE`, historical hosted validation `COMPLETE`, current handoff-hash regression `COMPLETE_VALIDATED_RELEASED`, developed completeness surfaces `8/8`, validation classes `3/3`, and local clarification activation `100%`. HPS has no open issues or pull requests; prior regression issue `#2` is closed completed.
-
-Historical HPS stable IDs are:
-
-```text
-HPS-P-001
-HPS-P-002
-HPS-P-003
-HPS-P-004
-```
-
-Proof-candidate maturity remains:
-
-```text
-HPS-PC-001  tested_not_universal_proof
-HPS-PC-002  tested_not_universal_proof
-HPS-PC-003  tested_not_universal_proof
-HPS-PC-004  tested_non_authority_contract
-```
-
-The current HPS completeness receipt reports `valid=true`, four principles, empty findings, `proofs_accepted=false`, `execution_authorized=false`, `publication_authorized=false`, and `downstream_activation_authorized=false`.
-
-Selection preserves these source semantics:
+Preserved HPS boundaries:
 
 ```text
 standing restoration requires current reconstructable evidence
 capability standing is window-bound
+prior standing cannot reopen a closed current window
 standing classification is evidence-bound and fail-closed
 visualization grants no authority
-bounded candidate support != universal proof
-execution/publication/proof/downstream activation authority = false
+heartbeat evidence does not independently grant execution authority
+execution_authorized = false
+publication_authorized = false
+proofs_accepted = false
+downstream_activation_authorized = false
+final_cross_repository_validity = false
+historical_source_replacement = false
+workflow_authority_effect = NONE_VALIDATION_ONLY
 final_admissibility_authority = Admissible-Existence/AE
 ```
 
+The source Tri-Form handoff on canonical `main` still contains its pre-merge status text. Organization registration therefore relies on directly observed source issue/PR/run/merge evidence and merged source files rather than silently inferring completion from that stale status string.
+
+## Candidate-selection state
+
+Refresh-v14 registration intentionally resets selection:
+
+```text
+logical_next_candidate: Admissible-Existence/TT
+logical_candidate_state: DEFER_ACTIVE_CANONICAL_CLAIM
+next_executable_candidate: null
+selection_evidence_state: EVIDENCE_PASS_REQUIRED
+```
+
+TT and STCM remain deferred under active canonical integration claims. CTA remains deferred under its active automation/provenance/release integration issue. RTG machine-owned lanes, AE publication/review, and GCAT-BCAT Decision Envelope child scope remain separately owned. No next executable source may be inferred from registry order or prior selection state.
+
 ## README / authority / Master Records boundaries
 
-Central README impact remains **NO_CHANGE_REQUIRED** because registration and candidate selection modify accounting/coordination only and do not change central runtime behavior, interfaces, governance or authority boundaries, prerequisites, dependencies, failure behavior, public capability meaning, or Master Records routing.
-
-HPS source README impact is **REQUIRED** for a later source Tri-Form change set. Its build-status section still says the CI observation receipt is `pending/no-run-observed`, while the canonical HPS handoff records current hosted validation and `COMPLETE_VALIDATED_RELEASED`. Source preflight must reconcile that stale evidence/status language without promoting bounded candidates to universal proof or granting authority.
+Central README impact for refresh v14 is **NO_CHANGE_REQUIRED**. HPS source README reconciliation was completed in the source Tri-Form change set; central registration changes only accounting/evidence state and does not change runtime behavior, interfaces, governance or authority boundaries, prerequisites, dependencies, failure behavior, public capability meaning, or Master Records routing.
 
 Native repositories retain source mathematics. AE remains final commit-time admissibility resolver where applicable. TV/TVC remains StegVerse credential authority. GitHub validation is `NONE_VALIDATION_ONLY`.
 
-`docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. Registration/selection does not emit or federate a Master Records transition.
+`docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. This registration emits no organization transition receipt and no Master Records transition.
 
 ## Current execution order
 
-1. Preserve 13/32 accounting and every registered semantic/proof/collision/authority boundary.
-2. Preserve TT/STCM deferral, CTA active-claim deferral, and the active GCAT-BCAT Decision Envelope child claim.
-3. Validate and merge the HPS selection continuation through the existing `Validate Tri-Form Formalism` workflow.
-4. Close refresh issue `#65` after HPS selection is durable.
-5. Begin HPS only through a separately admitted repository-native machine preflight and scoped handoff.
-6. Reuse HPS historical IDs, source doctrine, mathematics, schemas, fixtures, verifiers, proof-candidate records, completeness receipt, and existing `hps-verify.yml`; do not duplicate them.
-7. Reconcile stale HPS README CI-observation/build-status language in the same source change set if Tri-Form capability is added.
+1. Preserve every previously registered semantic, proof, collision, and authority boundary.
+2. Preserve TT/STCM, CTA, RTG, AE, and GCAT-BCAT child collision boundaries.
+3. Validate the exact refresh-v14 branch through the existing `Validate Tri-Form Formalism` workflow.
+4. Merge only while the exact current head is green and mergeable.
+5. Close issue `#68` after canonical registration is durable.
+6. Execute a fresh repository-native evidence pass over remaining source entries marked `INSPECTION_REQUIRED`.
+7. Select the next source only from direct evidence and only through a separately admitted source preflight with README completeness determination.
 
 ## Completion/accounting
 
-Migration refresh v12: `8/8 = 100% complete/merged`.  
-Migration refresh v13: `7/8 = 87.5%`; registration is complete/merged and HPS selection evidence is implemented, with exact-head selection validation/merge remaining.  
-Completed source migrations: `13/32 = 40.625%`.
+Migration refresh v13: `8/8 = 100% complete/merged`.  
+Migration refresh v14: registration implementation is active; exact-head validation, merge, and next-candidate evidence continuation remain.  
+Registration candidate accounting: `14/32 = 43.75%`; canonical `main` remains `13/32` until validated merge.
 
 ## User work
 
-None currently. Remaining selection validation and HPS source preflight are machine-executable.
+None currently. Remaining work is repository-native and machine-executable.
