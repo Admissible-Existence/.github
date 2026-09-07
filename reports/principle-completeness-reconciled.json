@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "activation_id": "AEX-PC-RECONCILE-20260806-01",
-  "generated_at": "2026-08-31T17:31:39.659095+00:00",
+  "generated_at": "2026-09-07T13:02:37.920464+00:00",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "expected_repository_count": 32,
   "live_observed_repository_count": 4,
@@ -44,12 +44,6 @@
           "label": "1. Definition of complete",
           "sources": [
             "docs/PRINCIPLE_COMPLETENESS_STANDARD.md"
-          ]
-        },
-        {
-          "label": "1. Existence Is Not Mere Presence",
-          "sources": [
-            "profile/README.md"
           ]
         },
         {
@@ -173,12 +167,6 @@
           ]
         },
         {
-          "label": "2. Boundary Is Constitutive",
-          "sources": [
-            "profile/README.md"
-          ]
-        },
-        {
           "label": "2. Primitive state",
           "sources": [
             "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
@@ -269,12 +257,6 @@
           ]
         },
         {
-          "label": "3. Conservation Is Not Stability",
-          "sources": [
-            "profile/README.md"
-          ]
-        },
-        {
           "label": "3. Governed admissibility resolution",
           "sources": [
             "docs/RELATIONAL_ADMISSIBILITY_FORMALISM.md"
@@ -317,21 +299,9 @@
           ]
         },
         {
-          "label": "4. Consequence Requires Horizon Awareness",
-          "sources": [
-            "profile/README.md"
-          ]
-        },
-        {
           "label": "5. `Admissible-Existence/TT`",
           "sources": [
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
-          ]
-        },
-        {
-          "label": "5. Distributed Validity Is Stronger Than Local Validity",
-          "sources": [
-            "profile/README.md"
           ]
         },
         {
@@ -359,12 +329,6 @@
           ]
         },
         {
-          "label": "6. Continuity Is Not Storage",
-          "sources": [
-            "profile/README.md"
-          ]
-        },
-        {
           "label": "6. Organization completeness",
           "sources": [
             "docs/PRINCIPLE_COMPLETENESS_STANDARD.md"
@@ -380,12 +344,6 @@
           "label": "7. Audit order",
           "sources": [
             "docs/PRINCIPLE_COMPLETENESS_STANDARD.md"
-          ]
-        },
-        {
-          "label": "7. Entropy Records Transition",
-          "sources": [
-            "profile/README.md"
           ]
         },
         {
@@ -509,7 +467,7 @@
           ]
         },
         {
-          "label": "Admissible Existence",
+          "label": "Admissible-Existence",
           "sources": [
             "profile/README.md"
           ]
@@ -593,15 +551,21 @@
           ]
         },
         {
-          "label": "AE \u2014 Admissible Existence",
-          "sources": [
-            "profile/README.md"
-          ]
-        },
-        {
           "label": "AE-native consumer",
           "sources": [
             "docs/RELATIONAL_ADMISSIBILITY_MINIMUM_SET_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "AID AI Discovery endpoint",
+          "sources": [
+            "ORG_BOUNDARY_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "AID Discovery Integration Mirror Handoff",
+          "sources": [
+            "docs/AID_DISCOVERY_INTEGRATION_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -614,6 +578,12 @@
           "label": "Archive / continuation",
           "sources": [
             "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Archive condition",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_003_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -662,6 +632,12 @@
           ]
         },
         {
+          "label": "Attribution",
+          "sources": [
+            "docs/AID_DISCOVERY_INTEGRATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Audit behavior",
           "sources": [
             "docs/FORMALISM_WORKER_SYSTEM_STATUS.md"
@@ -671,6 +647,7 @@
           "label": "Authority",
           "sources": [
             "FORMALISM_MIRROR_HANDOFF.md",
+            "HB_MACHINE_CONTINUATION_ORG_PROFILE_MIRROR_HANDOFF.md",
             "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
           ]
         },
@@ -678,6 +655,12 @@
           "label": "Authority and claim discipline",
           "sources": [
             "docs/external-formalisms/VERFI.md"
+          ]
+        },
+        {
+          "label": "Authority and runtime boundary",
+          "sources": [
+            "docs/AID_DISCOVERY_INTEGRATION_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -689,7 +672,11 @@
         {
           "label": "Authority boundaries",
           "sources": [
-            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_003_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_004_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_005_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_006_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -711,9 +698,9 @@
           ]
         },
         {
-          "label": "BC \u2014 Boundary-Coherence",
+          "label": "Blocker-fallback continuation proof lane \u2014 2026-09-03",
           "sources": [
-            "profile/README.md"
+            "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -729,6 +716,12 @@
           ]
         },
         {
+          "label": "Candidate evidence",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Candidate formalizations",
           "sources": [
             "docs/DISCOVERY_FRONTIER.md"
@@ -741,9 +734,27 @@
           ]
         },
         {
+          "label": "Candidate selection",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_009_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Candidate-selection evidence \u2014 COMPLETE",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_007_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Canonical claims and collision boundaries",
           "sources": [
             "docs/FORMALISM_WORKER_SESSION_TRANSFER.md"
+          ]
+        },
+        {
+          "label": "Canonical completed-source state",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -790,6 +801,12 @@
           ]
         },
         {
+          "label": "Canonical rule",
+          "sources": [
+            "ORG_BOUNDARY_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Canonical status",
           "sources": [
             "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
@@ -802,6 +819,12 @@
           ]
         },
         {
+          "label": "Canonical technical knowledge",
+          "sources": [
+            "HB_MACHINE_CONTINUATION_ORG_PROFILE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Central controls \u2014 `Admissible-Existence/.github`",
           "sources": [
             "reports/principle-completeness-baseline-2026-08-06.md"
@@ -811,12 +834,6 @@
           "label": "CHF",
           "sources": [
             "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
-          ]
-        },
-        {
-          "label": "CHF \u2014 Consequence Horizon Formalism",
-          "sources": [
-            "profile/README.md"
           ]
         },
         {
@@ -833,9 +850,21 @@
           ]
         },
         {
+          "label": "Collision / continuation rule",
+          "sources": [
+            "HB_MACHINE_CONTINUATION_ORG_PROFILE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Collision and authority boundaries",
           "sources": [
             "docs/SESSION_EXECUTION_INVENTORY_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Collision and task-registry boundaries",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -848,6 +877,15 @@
           "label": "Commits",
           "sources": [
             "reports/principle-worker-activation-observer-installation.md"
+          ]
+        },
+        {
+          "label": "Completed result",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_003_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_004_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_005_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -881,6 +919,27 @@
           ]
         },
         {
+          "label": "Completion denominator",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_003_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_004_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_005_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_006_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_007_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_008_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_009_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_010_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_011_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_012_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_013_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_014_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_014_SELECTION_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Completion metrics",
           "sources": [
             "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
@@ -890,6 +949,12 @@
           "label": "Completion metrics for this lane",
           "sources": [
             "docs/RELATIONAL_ADMISSIBILITY_MINIMUM_SET_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Completion/accounting",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -926,18 +991,6 @@
           "label": "Coordination completion decision",
           "sources": [
             "docs/FORMALISM_ARCHIVE_GATE_HOSTED_EVIDENCE.md"
-          ]
-        },
-        {
-          "label": "Core Lines",
-          "sources": [
-            "profile/README.md"
-          ]
-        },
-        {
-          "label": "Core Thesis",
-          "sources": [
-            "profile/README.md"
           ]
         },
         {
@@ -983,6 +1036,12 @@
           ]
         },
         {
+          "label": "Current execution order",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Current hosted-proven routing",
           "sources": [
             "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
@@ -992,6 +1051,12 @@
           "label": "Current matrix",
           "sources": [
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Current matrix result",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_006_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1049,21 +1114,27 @@
           ]
         },
         {
-          "label": "DaCo \u2014 Data Continuity",
+          "label": "DaCo selection boundaries",
           "sources": [
-            "profile/README.md"
+            "docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md"
           ]
         },
         {
-          "label": "DC \u2014 Distributed Coherence",
+          "label": "DaCo \u2014 selected",
           "sources": [
-            "profile/README.md"
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
           ]
         },
         {
           "label": "Deliverable accounting",
           "sources": [
             "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Derived-window rule",
+          "sources": [
+            "HB_MACHINE_CONTINUATION_ORG_PROFILE_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1217,18 +1288,6 @@
           ]
         },
         {
-          "label": "Early Formal Vocabulary",
-          "sources": [
-            "profile/README.md"
-          ]
-        },
-        {
-          "label": "Early Research Roadmap",
-          "sources": [
-            "profile/README.md"
-          ]
-        },
-        {
           "label": "Empty or undeveloped source repository",
           "sources": [
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
@@ -1256,6 +1315,12 @@
           "label": "Evidence rules",
           "sources": [
             "HANDOFF_COMPLETENESS_STANDARD.md"
+          ]
+        },
+        {
+          "label": "Evidence-drift finding",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_014_SELECTION_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1290,6 +1355,27 @@
           ]
         },
         {
+          "label": "Exact next task",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_008_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_009_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_010_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_011_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_012_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_013_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_014_SELECTION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Exact validation evidence",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_003_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_004_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_005_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Exact-main validation closure \u2014 2026-08-31",
           "sources": [
             "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
@@ -1298,6 +1384,7 @@
         {
           "label": "Execution order",
           "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_014_MIRROR_HANDOFF.md",
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
           ]
         },
@@ -1374,6 +1461,12 @@
           ]
         },
         {
+          "label": "Fail-closed conformance",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_CONTRACT.md"
+          ]
+        },
+        {
           "label": "Failure posture",
           "sources": [
             "HANDOFF_COMPLETENESS_STANDARD.md"
@@ -1383,6 +1476,12 @@
           "label": "Fallback precedence",
           "sources": [
             "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md"
+          ]
+        },
+        {
+          "label": "FI completion evidence",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1425,6 +1524,24 @@
           "label": "Formalism Worker System Status",
           "sources": [
             "docs/FORMALISM_WORKER_SYSTEM_STATUS.md"
+          ]
+        },
+        {
+          "label": "Fresh candidate evidence pass",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_013_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Fresh candidate-selection state",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Fresh FI evidence",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_014_SELECTION_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1472,6 +1589,18 @@
           ]
         },
         {
+          "label": "HB / InTr",
+          "sources": [
+            "ORG_BOUNDARY_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "HB Machine Continuation Organization Profile Mirror Handoff",
+          "sources": [
+            "HB_MACHINE_CONTINUATION_ORG_PROFILE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Heartbeat Response Mirror Handoff",
           "sources": [
             "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
@@ -1494,6 +1623,13 @@
           "label": "Hosted result",
           "sources": [
             "docs/FORMALISM_ARCHIVE_GATE_HOSTED_EVIDENCE.md"
+          ]
+        },
+        {
+          "label": "Hosted validation evidence",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1521,6 +1657,12 @@
           ]
         },
         {
+          "label": "HPS source completion evidence",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_014_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "HPS \u2014 PASS, hash-current hosted validation complete",
           "sources": [
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
@@ -1533,15 +1675,21 @@
           ]
         },
         {
-          "label": "Immediate Repository Tasks",
+          "label": "IICT registration \u2014 complete",
           "sources": [
-            "profile/README.md"
+            "docs/TRIFORM_MIGRATION_REFRESH_013_MIRROR_HANDOFF.md"
           ]
         },
         {
           "label": "Implementation claim",
           "sources": [
             "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Implemented selection state",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_014_SELECTION_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1600,9 +1748,9 @@
           ]
         },
         {
-          "label": "Key Shared Principles",
+          "label": "IW \u2014 admissible but deferred behind DaCo for this pass",
           "sources": [
-            "profile/README.md"
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1672,6 +1820,35 @@
           ]
         },
         {
+          "label": "Local implementation status",
+          "sources": [
+            "HB_MACHINE_CONTINUATION_ORG_PROFILE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Machine preflight",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Machine preflight / collision / README / Master Records",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_008_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Machine preflight / README / Master Records",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_007_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_009_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_010_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_011_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_012_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Machine-owned activation observer",
           "sources": [
             "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
@@ -1690,9 +1867,42 @@
           ]
         },
         {
+          "label": "Master Records / authority boundary",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_014_SELECTION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Master Records / organization transition boundary",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_013_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_014_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Mathematical Completeness Mirror Handoff",
           "sources": [
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Matrix and validator implementation",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Matrix and validator result",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Matrix state",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_013_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1708,9 +1918,27 @@
           ]
         },
         {
+          "label": "Maturity states",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_CONTRACT.md"
+          ]
+        },
+        {
+          "label": "Merged implementation",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Metrics",
           "sources": [
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Migration rule",
+          "sources": [
+            "ORG_BOUNDARY_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1726,6 +1954,12 @@
           ]
         },
         {
+          "label": "Native ownership",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_CONTRACT.md"
+          ]
+        },
+        {
           "label": "Next Execution Session Prompt",
           "sources": [
             "NEXT_EXECUTION_SESSION_PROMPT.md"
@@ -1735,6 +1969,21 @@
           "label": "Next execution target",
           "sources": [
             "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Next integration boundary",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_007_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Next integration goal",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_003_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_004_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_005_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1750,15 +1999,23 @@
           ]
         },
         {
-          "label": "Non-authority",
+          "label": "Next-candidate evidence pass and validation",
           "sources": [
-            "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md"
+            "docs/TRIFORM_MIGRATION_REFRESH_010_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_011_MIRROR_HANDOFF.md"
           ]
         },
         {
-          "label": "Non-Claims",
+          "label": "Next-candidate evidence pass \u2014 COMPLETE",
           "sources": [
-            "profile/README.md"
+            "docs/TRIFORM_MIGRATION_REFRESH_008_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_012_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Non-authority",
+          "sources": [
+            "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md"
           ]
         },
         {
@@ -1792,9 +2049,27 @@
           ]
         },
         {
+          "label": "ORG_BOUNDARY_MIRROR_HANDOFF.md",
+          "sources": [
+            "ORG_BOUNDARY_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Organization adoption rule",
+          "sources": [
+            "HB_MACHINE_CONTINUATION_ORG_PROFILE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Organization conformance owner",
           "sources": [
             "docs/RELATIONAL_ADMISSIBILITY_MINIMUM_SET_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Organization Description",
+          "sources": [
+            "ORG_DESCRIPTION.md"
           ]
         },
         {
@@ -1816,6 +2091,18 @@
           ]
         },
         {
+          "label": "Organization Resident Runtime",
+          "sources": [
+            "resident-runtime/README.md"
+          ]
+        },
+        {
+          "label": "Organization Resident Runtime + Interlock/InTr Boundary Mirror Handoff",
+          "sources": [
+            "ORG_RESIDENT_RUNTIME_INTR_BOUNDARY_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Organization result",
           "sources": [
             "reports/principle-completeness-latest.md"
@@ -1828,9 +2115,21 @@
           ]
         },
         {
-          "label": "Organization Status",
+          "label": "Organization to Master Records Transition Handoff",
           "sources": [
-            "profile/README.md"
+            "docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Organization Transition Ledger Mirror Handoff",
+          "sources": [
+            "docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Organization validation and merge evidence",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_006_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1914,45 +2213,27 @@
           ]
         },
         {
-          "label": "Phase 1 \u2014 Baseline Definitions",
+          "label": "Pilot",
           "sources": [
-            "profile/README.md"
+            "docs/TRIFORM_FORMALISM_CONTRACT.md"
           ]
         },
         {
-          "label": "Phase 2 \u2014 Shared Glossary",
+          "label": "Preservation Invariants",
           "sources": [
-            "profile/README.md"
+            "reports/triform-migration-refresh-006-preservation.md"
           ]
         },
         {
-          "label": "Phase 3 \u2014 Cross-Scale Examples",
+          "label": "Preserved FI semantics",
           "sources": [
-            "profile/README.md"
+            "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md"
           ]
         },
         {
-          "label": "Phase 4 \u2014 Mathematical Skeletons",
+          "label": "Preserved HPS semantics",
           "sources": [
-            "profile/README.md"
-          ]
-        },
-        {
-          "label": "Phase 5 \u2014 Failure Modes",
-          "sources": [
-            "profile/README.md"
-          ]
-        },
-        {
-          "label": "Phase 6 \u2014 Simple Test Harnesses",
-          "sources": [
-            "profile/README.md"
-          ]
-        },
-        {
-          "label": "Phase 7 \u2014 StegVerse Integration",
-          "sources": [
-            "profile/README.md"
+            "docs/TRIFORM_MIGRATION_REFRESH_014_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -2040,15 +2321,49 @@
           ]
         },
         {
+          "label": "Purpose and invariant",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Purpose and result",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_007_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "RE",
           "sources": [
             "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
           ]
         },
         {
+          "label": "RE registration evidence",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_007_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "RE-Reduction",
           "sources": [
             "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "README / authority / Master Records boundaries",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "README completeness predicate",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_013_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_014_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_014_SELECTION_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -2070,9 +2385,18 @@
           ]
         },
         {
-          "label": "Relation to StegVerse",
+          "label": "Registration",
           "sources": [
-            "profile/README.md"
+            "docs/TRIFORM_MIGRATION_REFRESH_009_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Registration state",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_008_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_010_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_011_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_012_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -2094,15 +2418,21 @@
           ]
         },
         {
-          "label": "Relationship Between the Repositories",
-          "sources": [
-            "profile/README.md"
-          ]
-        },
-        {
           "label": "Relationship to canonical program handoff",
           "sources": [
             "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Relationship to HB-derived carriers / InTr",
+          "sources": [
+            "HB_MACHINE_CONTINUATION_ORG_PROFILE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Relationship to StegVerse",
+          "sources": [
+            "profile/README.md"
           ]
         },
         {
@@ -2161,21 +2491,15 @@
           ]
         },
         {
+          "label": "Repository families",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
           "label": "Repository inventory and baseline classification",
           "sources": [
             "reports/principle-completeness-baseline-2026-08-06.md"
-          ]
-        },
-        {
-          "label": "Repository Roles",
-          "sources": [
-            "profile/README.md"
-          ]
-        },
-        {
-          "label": "Repository Stack",
-          "sources": [
-            "profile/README.md"
           ]
         },
         {
@@ -2188,6 +2512,12 @@
           "label": "Required behavior",
           "sources": [
             "docs/WORKER_BLOCKER_FALLBACK_INVARIANT.md"
+          ]
+        },
+        {
+          "label": "Required binding dimensions",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_CONTRACT.md"
           ]
         },
         {
@@ -2221,9 +2551,40 @@
           ]
         },
         {
+          "label": "Resolved canonical state",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_014_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_014_SELECTION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Responsibilities",
+          "sources": [
+            "ORG_BOUNDARY_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Route",
+          "sources": [
+            "docs/AID_DISCOVERY_INTEGRATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Runtime home",
+          "sources": [
+            "ORG_BOUNDARY_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Security and authority",
           "sources": [
             "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "Selection result",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -2285,6 +2646,18 @@
           ]
         },
         {
+          "label": "Stable semantic identifiers",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_CONTRACT.md"
+          ]
+        },
+        {
+          "label": "standing-proof-formalism \u2014 admissible but deferred behind DaCo for this pass",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "State",
           "sources": [
             "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md",
@@ -2329,15 +2702,159 @@
           ]
         },
         {
+          "label": "Support bindings",
+          "sources": [
+            "docs/AID_DISCOVERY_INTEGRATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Support repositories",
           "sources": [
             "reports/principle-completeness-baseline-2026-08-06.md"
           ]
         },
         {
+          "label": "Supported operations",
+          "sources": [
+            "docs/AID_DISCOVERY_INTEGRATION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Transition learning",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_CONTRACT.md"
+          ]
+        },
+        {
+          "label": "Transition Ledger Mirror Handoff",
+          "sources": [
+            "docs/TRANSITION_LEDGER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Transition prerequisite hardening",
           "sources": [
             "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Formalism Contract",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_CONTRACT.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Formalism integration \u2014 2026-09-04",
+          "sources": [
+            "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Formalism Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 003 Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_003_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 004 Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_004_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 005 Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_005_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 006 Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_006_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 006 Summary",
+          "sources": [
+            "reports/triform-migration-refresh-006-summary.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 007 Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_007_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 008 Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_008_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 009 Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_009_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 010 Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_010_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 011 Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_011_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 012 Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_012_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 013 Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_013_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 014 Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_014_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 014 Selection Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_014_SELECTION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 015 Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh 015 Selection Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form Migration Refresh Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -2368,6 +2885,40 @@
           "label": "TVC implementation, proof, and observer lanes",
           "sources": [
             "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Universal Organization Resident Kernel",
+          "sources": [
+            "org-kernel/README.md"
+          ]
+        },
+        {
+          "label": "Unknown classes",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_CONTRACT.md"
+          ]
+        },
+        {
+          "label": "User work",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_003_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_004_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_005_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_006_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_007_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_008_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_009_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_010_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_011_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_012_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_013_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_014_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_014_SELECTION_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -2402,6 +2953,12 @@
           ]
         },
         {
+          "label": "Validation Intent",
+          "sources": [
+            "reports/triform-migration-refresh-006-validation-intent.md"
+          ]
+        },
+        {
           "label": "Validation state",
           "sources": [
             "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
@@ -2432,15 +2989,21 @@
           ]
         },
         {
-          "label": "Why prior percentages are superseded",
+          "label": "Verified CHF evidence",
           "sources": [
-            "reports/principle-completeness-baseline-2026-08-06.md"
+            "docs/TRIFORM_MIGRATION_REFRESH_006_MIRROR_HANDOFF.md"
           ]
         },
         {
-          "label": "Why This Organization Exists",
+          "label": "What belongs here",
           "sources": [
             "profile/README.md"
+          ]
+        },
+        {
+          "label": "Why prior percentages are superseded",
+          "sources": [
+            "reports/principle-completeness-baseline-2026-08-06.md"
           ]
         },
         {
@@ -2484,7 +3047,7 @@
         {
           "severity": "error",
           "code": "UNRESOLVED_PLACEHOLDERS",
-          "count": 140
+          "count": 161
         },
         {
           "severity": "warning",
@@ -2496,6 +3059,7 @@
             "DC",
             "DaCo",
             "GTG",
+            "IW",
             "RE",
             "RTG",
             "STCM",
@@ -2504,14 +3068,14 @@
         }
       ],
       "metrics": {
-        "files": 151,
-        "markdown_files": 38,
-        "structured_files": 85,
-        "handoffs": 8,
-        "principle_candidates": 404,
-        "placeholder_markers": 140,
+        "files": 215,
+        "markdown_files": 69,
+        "structured_files": 100,
+        "handoffs": 31,
+        "principle_candidates": 486,
+        "placeholder_markers": 161,
         "broken_local_links": 0,
-        "ambiguous_short_repository_identities": 10,
+        "ambiguous_short_repository_identities": 11,
         "dimensions_met": 12,
         "dimensions_total": 12
       },
@@ -2979,6 +3543,12 @@
           "label": "Assumptions",
           "sources": [
             "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Authority",
+          "sources": [
+            "docs/TRANSITION_LEDGER_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -3456,6 +4026,12 @@
           ]
         },
         {
+          "label": "Invariant",
+          "sources": [
+            "docs/TRANSITION_LEDGER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Latest source commits",
           "sources": [
             "docs/STCM_V0_6_VALIDATION_RECORD.md"
@@ -3685,6 +4261,12 @@
           "label": "Proof maturity",
           "sources": [
             "docs/MATHEMATICAL_NOTATION.md"
+          ]
+        },
+        {
+          "label": "Propagation",
+          "sources": [
+            "docs/TRANSITION_LEDGER_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -4077,6 +4659,12 @@
           ]
         },
         {
+          "label": "Transition Ledger Mirror Handoff",
+          "sources": [
+            "docs/TRANSITION_LEDGER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Updated fixture surface",
           "sources": [
             "docs/STCM_V0_6_CONFLICT_POSTURE_NOTE.md",
@@ -4159,11 +4747,11 @@
         }
       ],
       "metrics": {
-        "files": 118,
-        "markdown_files": 21,
-        "structured_files": 52,
-        "handoffs": 2,
-        "principle_candidates": 237,
+        "files": 121,
+        "markdown_files": 22,
+        "structured_files": 53,
+        "handoffs": 3,
+        "principle_candidates": 241,
         "placeholder_markers": 9,
         "broken_local_links": 0,
         "ambiguous_short_repository_identities": 4,
@@ -4172,7 +4760,7 @@
       },
       "next_task": {
         "owner": "Admissible-Existence/STCM",
-        "target": "docs/STCM_MIRROR_HANDOFF.md",
+        "target": "docs/TRANSITION_LEDGER_MIRROR_HANDOFF.md",
         "action": "Resolve the first listed blocking completeness finding without duplicating active claims",
         "release_condition": "All twelve dimensions are evidenced and independently reviewed"
       },
@@ -4241,6 +4829,12 @@
           ]
         },
         {
+          "label": "AID consumer integration \u2014 2026-09-01",
+          "sources": [
+            "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Alignment and Authority",
           "sources": [
             "artificial-intelligence/README.md"
@@ -4265,6 +4859,12 @@
           ]
         },
         {
+          "label": "Authority boundaries",
+          "sources": [
+            "docs/LTG_TRIFORM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Authority Boundaries",
           "sources": [
             "general/README.md"
@@ -4277,13 +4877,13 @@
           ]
         },
         {
-          "label": "Canonical owner and claims",
+          "label": "Bounded Tri-Form completion \u2014 2026-09-05",
           "sources": [
             "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
           ]
         },
         {
-          "label": "Central activation \u2014 COMPLETE",
+          "label": "Canonical owner and claims",
           "sources": [
             "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
           ]
@@ -4295,9 +4895,21 @@
           ]
         },
         {
+          "label": "Completed bounded binding",
+          "sources": [
+            "docs/LTG_TRIFORM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Completed repository capability",
           "sources": [
             "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Completion denominator",
+          "sources": [
+            "docs/LTG_TRIFORM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -4349,7 +4961,7 @@
           ]
         },
         {
-          "label": "Deterministic validation",
+          "label": "Deterministic and hosted validation",
           "sources": [
             "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
           ]
@@ -4382,6 +4994,12 @@
           "label": "Evidence flow",
           "sources": [
             "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Exact-head validation",
+          "sources": [
+            "docs/LTG_TRIFORM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -4421,12 +5039,6 @@
           ]
         },
         {
-          "label": "Hosted validation \u2014 COMPLETE",
-          "sources": [
-            "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md"
-          ]
-        },
-        {
           "label": "Human Learning Transition Governance",
           "sources": [
             "human/README.md"
@@ -4448,6 +5060,12 @@
           "label": "Limits",
           "sources": [
             "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "LTG Tri-Form Mirror Handoff",
+          "sources": [
+            "docs/LTG_TRIFORM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -4499,6 +5117,12 @@
           ]
         },
         {
+          "label": "Preserved invariants",
+          "sources": [
+            "docs/LTG_TRIFORM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Relationship to General Doctrine",
           "sources": [
             "artificial-intelligence/README.md"
@@ -4535,6 +5159,18 @@
           ]
         },
         {
+          "label": "Transition Ledger Mirror Handoff",
+          "sources": [
+            "docs/TRANSITION_LEDGER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "User work",
+          "sources": [
+            "docs/LTG_TRIFORM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Whole-Repository Theory Map",
           "sources": [
             "docs/WHOLE_REPO_THEORY_MAP.md"
@@ -4563,11 +5199,11 @@
         }
       ],
       "metrics": {
-        "files": 19,
-        "markdown_files": 9,
-        "structured_files": 8,
-        "handoffs": 1,
-        "principle_candidates": 52,
+        "files": 29,
+        "markdown_files": 11,
+        "structured_files": 13,
+        "handoffs": 3,
+        "principle_candidates": 60,
         "placeholder_markers": 0,
         "broken_local_links": 0,
         "ambiguous_short_repository_identities": 1,
@@ -4576,7 +5212,7 @@
       },
       "next_task": {
         "owner": "Admissible-Existence/learning-transition-governance",
-        "target": "docs/LEARNING_TRANSITION_GOVERNANCE_MIRROR_HANDOFF.md",
+        "target": "docs/TRANSITION_LEDGER_MIRROR_HANDOFF.md",
         "action": "Resolve the first listed blocking completeness finding without duplicating active claims",
         "release_condition": "All twelve dimensions are evidenced and independently reviewed"
       },
@@ -4815,8 +5451,13 @@
         {
           "label": "Assumptions",
           "sources": [
-            "README.md",
             "docs/release-candidate-0.1.0-rc1.md"
+          ]
+        },
+        {
+          "label": "Assumptions and vocabulary",
+          "sources": [
+            "README.md"
           ]
         },
         {
@@ -4914,6 +5555,12 @@
           ]
         },
         {
+          "label": "Completion denominator",
+          "sources": [
+            "docs/ECAT_ICAT_TRIFORM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Completion meaning",
           "sources": [
             "docs/ecosystem-management-handoff.md"
@@ -4974,13 +5621,7 @@
           ]
         },
         {
-          "label": "Current release-candidate status",
-          "sources": [
-            "README.md"
-          ]
-        },
-        {
-          "label": "Current status",
+          "label": "Current repository state",
           "sources": [
             "README.md"
           ]
@@ -4989,18 +5630,6 @@
           "label": "Decision",
           "sources": [
             "docs/license-decision.md"
-          ]
-        },
-        {
-          "label": "Decision vocabulary",
-          "sources": [
-            "README.md"
-          ]
-        },
-        {
-          "label": "Done criteria for first formal release",
-          "sources": [
-            "README.md"
           ]
         },
         {
@@ -5058,6 +5687,12 @@
           ]
         },
         {
+          "label": "ECAT/ICAT Tri-Form Mirror Handoff",
+          "sources": [
+            "docs/ECAT_ICAT_TRIFORM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "ECAT/ICAT Whole-Repository Theory Map",
           "sources": [
             "docs/WHOLE_REPO_THEORY_MAP.md"
@@ -5082,7 +5717,13 @@
           ]
         },
         {
-          "label": "Existence interpretation",
+          "label": "Exact next task",
+          "sources": [
+            "docs/ECAT_ICAT_TRIFORM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Existing implementation and evidence",
           "sources": [
             "README.md"
           ]
@@ -5124,6 +5765,12 @@
           ]
         },
         {
+          "label": "Historical principle semantics",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
           "label": "Hosted validation evidence",
           "sources": [
             "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
@@ -5154,9 +5801,9 @@
           ]
         },
         {
-          "label": "Intended role in the ecosystem",
+          "label": "Installed/reused Tri-Form surfaces",
           "sources": [
-            "README.md"
+            "docs/ECAT_ICAT_TRIFORM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -5178,12 +5825,6 @@
           ]
         },
         {
-          "label": "License",
-          "sources": [
-            "README.md"
-          ]
-        },
-        {
           "label": "License Decision",
           "sources": [
             "docs/license-decision.md"
@@ -5196,15 +5837,15 @@
           ]
         },
         {
-          "label": "Machine-owned continuation",
+          "label": "Machine preflight / canonical state",
           "sources": [
-            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+            "docs/ECAT_ICAT_TRIFORM_MIRROR_HANDOFF.md"
           ]
         },
         {
-          "label": "Maintainer note",
+          "label": "Machine-owned continuation",
           "sources": [
-            "README.md"
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -5226,25 +5867,19 @@
           ]
         },
         {
+          "label": "Mathematical boundary",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
           "label": "Metrics",
           "sources": [
             "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
           ]
         },
         {
-          "label": "Minimal model",
-          "sources": [
-            "README.md"
-          ]
-        },
-        {
-          "label": "Minimum ECAT profile fields",
-          "sources": [
-            "README.md"
-          ]
-        },
-        {
-          "label": "Minimum ICAT profile fields",
+          "label": "Minimum profile fields",
           "sources": [
             "README.md"
           ]
@@ -5268,12 +5903,6 @@
           ]
         },
         {
-          "label": "Non-goals",
-          "sources": [
-            "README.md"
-          ]
-        },
-        {
           "label": "Organization completeness surfaces installed",
           "sources": [
             "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
@@ -5283,6 +5912,18 @@
           "label": "Originating goal",
           "sources": [
             "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Preserved semantics and authority boundaries",
+          "sources": [
+            "docs/ECAT_ICAT_TRIFORM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Preserved source identifiers and candidate maturity",
+          "sources": [
+            "docs/ECAT_ICAT_TRIFORM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -5307,6 +5948,12 @@
           "label": "RC1 validation",
           "sources": [
             "tests/README.md"
+          ]
+        },
+        {
+          "label": "README completeness predicate \u2014 SATISFIED",
+          "sources": [
+            "docs/ECAT_ICAT_TRIFORM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -5340,13 +5987,7 @@
           ]
         },
         {
-          "label": "Relationship to commit-time admissibility",
-          "sources": [
-            "README.md"
-          ]
-        },
-        {
-          "label": "Relationship to Triad governance",
+          "label": "Relationship to Triad and commit-time governance",
           "sources": [
             "README.md"
           ]
@@ -5382,6 +6023,12 @@
           ]
         },
         {
+          "label": "Release, publication, and reuse boundary",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
           "label": "Remaining before formal release",
           "sources": [
             "docs/release-notes-0.1.0-rc1.md"
@@ -5394,7 +6041,7 @@
           ]
         },
         {
-          "label": "Repository structure",
+          "label": "Safety and non-authority posture",
           "sources": [
             "README.md"
           ]
@@ -5403,12 +6050,6 @@
           "label": "Safety boundary",
           "sources": [
             "docs/release-candidate-0.1.0-rc1.md"
-          ]
-        },
-        {
-          "label": "Safety posture",
-          "sources": [
-            "README.md"
           ]
         },
         {
@@ -5442,9 +6083,33 @@
           ]
         },
         {
+          "label": "Transition Ledger Mirror Handoff",
+          "sources": [
+            "docs/TRANSITION_LEDGER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Tri-Form conformance",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Tri-Form source binding \u2014 AEX-ECAT-ICAT-TRIFORM-001",
+          "sources": [
+            "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Triad governance",
           "sources": [
             "docs/glossary.md"
+          ]
+        },
+        {
+          "label": "User work",
+          "sources": [
+            "docs/ECAT_ICAT_TRIFORM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -5456,8 +6121,15 @@
         {
           "label": "Validation commands",
           "sources": [
+            "README.md",
             "RELEASE_CANDIDATE.md",
             "docs/ECAT_ICAT_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Validation evidence and proven repair",
+          "sources": [
+            "docs/ECAT_ICAT_TRIFORM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -5487,7 +6159,7 @@
         {
           "severity": "error",
           "code": "UNRESOLVED_PLACEHOLDERS",
-          "count": 3
+          "count": 4
         },
         {
           "severity": "warning",
@@ -5498,12 +6170,12 @@
         }
       ],
       "metrics": {
-        "files": 68,
-        "markdown_files": 19,
-        "structured_files": 33,
-        "handoffs": 1,
-        "principle_candidates": 113,
-        "placeholder_markers": 3,
+        "files": 76,
+        "markdown_files": 21,
+        "structured_files": 36,
+        "handoffs": 3,
+        "principle_candidates": 119,
+        "placeholder_markers": 4,
         "broken_local_links": 0,
         "ambiguous_short_repository_identities": 1,
         "dimensions_met": 11,
@@ -5511,7 +6183,7 @@
       },
       "next_task": {
         "owner": "Admissible-Existence/ECAT-ICAT",
-        "target": "docs/ECAT_ICAT_MIRROR_HANDOFF.md",
+        "target": "docs/TRANSITION_LEDGER_MIRROR_HANDOFF.md",
         "action": "Resolve the first listed blocking completeness finding without duplicating active claims",
         "release_condition": "All twelve dimensions are evidenced and independently reviewed"
       },
