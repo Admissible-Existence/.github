@@ -23,6 +23,7 @@ expected={
  "AEX-MATHEMATICAL-COMPLETENESS-AUDIT-002":"50000000109000",
  "AEX-CROSS-REPOSITORY-REMEDIATION-001":"40000000104000",
  "HB-RESPONSE-ORG-NODE-0001":"50000000100110",
+ "AEX-TRIFORM-MIGRATION-REFRESH-016":"40000000110000",
 }
 assert set(rows)==set(expected)
 for task_id, vector in expected.items():
@@ -35,6 +36,18 @@ for task_id, vector in expected.items():
     assert v["vector"]==vector and len(vector)==14
     assert v["authority_effect"]=="NONE"
     assert v["exact_metrics"]["symbol_order"]=="LRUIVGOCMTBEAP"
+
+refresh=rows["AEX-TRIFORM-MIGRATION-REFRESH-016"]
+assert refresh["binding_mode"]=="SOURCE_BOUND_HANDOFF"
+assert refresh["state_ref"]=="docs/TRIFORM_MIGRATION_REFRESH_016_MIRROR_HANDOFF.md"
+refresh_vector=json.loads((ROOT/refresh["vector_ref"]).read_text())
+assert refresh_vector["exact_metrics"]["lifecycle"]=="CLAIMED_INTEGRATION"
+assert refresh_vector["exact_metrics"]["canonical_owner_installed"] is True
+assert refresh_vector["exact_metrics"]["thread_required"] is True
+assert refresh_vector["exact_metrics"]["blocker_count"]==0
+assert refresh_vector["exact_metrics"]["evidence_complete"] is False
+assert refresh_vector["exact_metrics"]["activated"] is False
+assert refresh_vector["exact_metrics"]["propagated"] is False
 
 claim_rows={x["task_id"]:x for x in claims["tasks"]}
 assert claim_rows["AEX-ORG-COHERENCE-AUDIT"]["claim_state"]=="BLOCKED"
@@ -50,9 +63,9 @@ assert cross["state"]=="ACTIVE"
 assert claims["claim_semantics"]["expired_claim_without_renewal_is_active"] is False
 
 cov=idx["coverage"]
-assert cov["current_structured_active_tasks_audited"]==5
-assert cov["current_structured_active_tasks_projected"]==5
+assert cov["current_structured_active_tasks_audited"]==6
+assert cov["current_structured_active_tasks_projected"]==6
 assert cov["current_structured_active_task_gap"]==0
 assert cov["repository_active_task_surface_audit_complete"] is True
 assert cov["repository_vector_present_claimed"] is True
-print("AEX_GITHUB_COSV_PROJECTION_PASS active_tasks=5 projected=5 gap=0")
+print("AEX_GITHUB_COSV_PROJECTION_PASS active_tasks=6 projected=6 gap=0 refresh016=40000000110000")
