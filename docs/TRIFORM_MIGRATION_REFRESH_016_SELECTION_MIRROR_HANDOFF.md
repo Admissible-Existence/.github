@@ -1,12 +1,14 @@
 # Tri-Form Migration Refresh 016 Selection Mirror Handoff
 
 **Goal ID:** `AEX-TRIFORM-MIGRATION-REFRESH-016-SELECTION`  
+**COSV ID:** `40000000110000`  
 **Repository:** `Admissible-Existence/.github`  
 **Branch:** `triform-migration-refresh-016-selection`  
 **Canonical issue:** `#77`  
+**Selection PR:** `#78` — DRAFT_OPEN  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** PREFLIGHT_PASSED / DIRECT_EVIDENCE_PASS_COMPLETE / IW_SELECTION_ADMISSIBLE
+**Status:** PREFLIGHT_PASSED / DIRECT_EVIDENCE_PASS_COMPLETE / IW_SELECTION_ADMISSIBLE / IMPLEMENTATION_PR_OPEN
 
 ## Purpose
 
@@ -77,6 +79,10 @@ Preflight result: `PASS`.
 ## Master Records / organization transition boundary
 
 This selection emits no repository transition receipt, organization transition receipt, or Master Records transition. Recording candidate routing creates no authority.
+
+## Pull request state
+
+Draft PR `#78` now carries the selection handoff and COSV binding. It must remain draft until the matrix/validator selection mutation, parent Tri-Form reconciliation, and exact-head hosted validation are complete.
 
 ## Completion denominator
 
