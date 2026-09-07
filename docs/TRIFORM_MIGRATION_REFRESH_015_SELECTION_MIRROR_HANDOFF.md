@@ -4,9 +4,10 @@
 **Repository:** `Admissible-Existence/.github`  
 **Branch:** `triform-migration-refresh-015-selection`  
 **Canonical issue:** `#74`  
+**Implementation PR:** `#75`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** IMPLEMENTATION_COMPLETE / HOSTED_VALIDATION_PENDING
+**Status:** HOSTED_VALIDATED / FINAL_EVIDENCE_HEAD_REVALIDATION_PENDING
 
 ## Purpose
 
@@ -31,26 +32,9 @@ Task-registry collision result: `PASS` for evidence-only source selection.
 
 ### DaCo — selected
 
-Canonical `docs/DACO_MIRROR_HANDOFF.md` records:
+Canonical `docs/DACO_MIRROR_HANDOFF.md` records `DACO-PRINCIPLE-COMPLETENESS-001` complete/released, source complete and hosted validated, centrally activated complete-notify-only, no manual tasks, archive-safe status, stable IDs `DACO-P-001..004`, hosted run/job `31152578496 / 92785152312` success, 4/4 principle completeness with zero findings, and all final cross-repository/execution/publication/proof authority false.
 
-```text
-goal: DACO-PRINCIPLE-COMPLETENESS-001
-claim_state: COMPLETE_AND_RELEASED
-repo_build_state: source_complete_and_hosted_validated
-activation_state: centrally_activated_complete_notify_only
-manual_tasks_remaining: false
-archive_safe: true
-stable source IDs: DACO-P-001, DACO-P-002, DACO-P-003, DACO-P-004
-source workflow: DaCo Validation
-hosted run/job: 31152578496 / 92785152312 — SUCCESS
-principle completeness: 4/4, zero findings
-final_cross_repository_validity: false
-execution_authorized: false
-publication_authorized: false
-proofs_accepted: false
-```
-
-DaCo already has explicit prose, mathematical, executable, deterministic-evidence, registry, proof-candidate, and handoff surfaces. Its compact source contract is therefore directly inspectable and bounded for a future Tri-Form binding without reopening source completeness or importing DC authority.
+DaCo already has explicit prose, mathematical, executable, deterministic-evidence, registry, proof-candidate, and handoff surfaces. Its compact source contract is directly inspectable and bounded for a future Tri-Form binding without reopening source completeness or importing DC authority.
 
 ### IW — admissible but deferred behind DaCo for this pass
 
@@ -69,40 +53,39 @@ next_executable_candidate = Admissible-Existence/DaCo
 selection_evidence_state = EVIDENCE_PASS_COMPLETE
 ```
 
-DaCo is selected because direct current evidence establishes a source-complete, validation-backed, claim-released, archive-safe, four-principle source with no active issue/PR and no active consumer-integration or release surface that must be modified for the bounded binding.
-
 ## Matrix and validator implementation
 
-`data/triform-migration-matrix.json` now records the direct evidence pass and DaCo selection while preserving the canonical 15/32 completed-source count. The DaCo row is evidence-backed and keeps continuity/truth, cross-repository validity, execution, publication, proof acceptance, authority, execution-commitment, and DC identity boundaries false.
+`data/triform-migration-matrix.json` records the direct evidence pass and DaCo selection while preserving the canonical 15/32 completed-source count. The DaCo row keeps continuity/truth, cross-repository validity, execution, publication, proof acceptance, authority, execution-commitment, and DC identity boundaries false.
 
-`scripts/validate_triform_migration_matrix.py` was extended in place, not duplicated, to fail closed on:
+`scripts/validate_triform_migration_matrix.py` was extended in place, not duplicated, to fail closed on the exact selection evidence, `DACO-P-001..004`, prior completed/released goal state, archive readiness, all DaCo non-authority boundaries, and all prior migration/collision predicates.
 
-- the refresh-v15 selection goal ID;
-- exact DaCo selection evidence including the comparative candidate handoffs and zero-open-work checks;
-- `DACO-P-001..004` and principle count 4;
-- prior goal/state `DACO-PRINCIPLE-COMPLETENESS-001 / COMPLETE_AND_RELEASED`;
-- archive readiness;
-- continuity-is-not-truth and no final cross-repository validity;
-- no execution/publication/proof authority;
-- no created authority or committed execution;
-- Data Continuity remaining distinct from Distributed Coherence;
-- all prior FI/HPS/IICT/ECAT/GCAT/Triad/DC/RE/CHF/BC/LTG/ET/GTG and collision predicates.
-
-The parent Tri-Form handoff is reconciled to canonical `15/32 = 46.875%`, completed FI registration, and the direct DaCo selection.
+The parent Tri-Form handoff is reconciled to canonical `15/32 = 46.875%`, completed FI registration, and direct DaCo selection.
 
 ## README completeness predicate
 
 Central README impact: **NO_CHANGE_REQUIRED**.
 
-This selection changes coordination/evidence routing only. It does not materially change `.github` runtime behavior, interfaces, governance or authority boundaries, evidence semantics, prerequisites, dependencies, failure behavior, capability meaning, or Master Records routing.
-
-A later DaCo source mutation must make its own README determination after repository-native preflight.
+This selection changes coordination/evidence routing only. It does not materially change `.github` runtime behavior, interfaces, governance or authority boundaries, evidence semantics, prerequisites, dependencies, failure behavior, capability meaning, or Master Records routing. A later DaCo source mutation must make its own README determination after repository-native preflight.
 
 Preflight result: `PASS`.
 
 ## Master Records / organization transition boundary
 
 This selection emits no repository transition receipt, organization transition receipt, or Master Records transition. Recording candidate routing creates no authority.
+
+## Hosted validation evidence
+
+Passing implementation head:
+
+```text
+head: 28ab99830c1abb945c5358b1245381b631844ec9
+workflow: Validate Tri-Form Formalism
+run: 34074136653
+job: 101596879708
+conclusion: SUCCESS
+```
+
+All validation steps passed: Tri-Form pilot, migration matrix, existing relational formalism, and authority declaration. This evidence-only handoff update changes the branch head, so the current exact head must itself pass the same workflow before merge; earlier success is not inherited by inference.
 
 ## Completion denominator
 
@@ -112,10 +95,10 @@ This selection emits no repository transition receipt, organization transition r
 4. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED` centrally);
 5. matrix + deterministic validator selection update — COMPLETE;
 6. parent Tri-Form reconciliation — COMPLETE;
-7. exact-head hosted validation + merge + issue closure — PENDING;
+7. exact-head hosted validation + merge + issue closure — validation PASS on prior implementation head; final head revalidation/merge pending;
 8. separately admitted DaCo source preflight — PENDING.
 
-Current bounded completion: `6/8 = 75%`.
+Current bounded completion: `6/8 = 75%`; item 7 is not counted complete until the exact current head is green, merged, and issue `#74` is closed.
 
 ## User work
 
