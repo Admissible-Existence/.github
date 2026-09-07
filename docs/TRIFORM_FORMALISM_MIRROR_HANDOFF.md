@@ -4,8 +4,8 @@
 **Repository:** `Admissible-Existence/.github`  
 **Parent coordination authority:** `FORMALISM_MIRROR_HANDOFF.md`  
 **Migration refresh v15 registration issue / PR:** `#72` / `#73` — COMPLETE_MERGED  
-**Migration refresh v15 selection issue:** `#74` — ACTIVE  
-**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_CURRENT / DACO_SELECTED_PENDING_VALIDATION
+**Migration refresh v16 issue / PR:** `#76` — ACTIVE_VALIDATION  
+**Status:** ORGANIZATION_CONTRACT_ACTIVE / MIGRATION_ACCOUNTING_16_OF_32_IMPLEMENTED / FINAL_HEAD_VALIDATION_PENDING
 
 ## Purpose and invariant
 
@@ -13,30 +13,30 @@ Tri-Form binds prose, mathematical, and executable/code semantics through stable
 
 ## Canonical completed-source state
 
-Canonical `main` records `15/32 = 46.875%` completed source migrations after FI registration PR `#73` passed exact-head validation and merged as `238f7c7db1454fdae442d2955d350c1adc6e8de6`; issue `#72` is closed completed.
+`main` currently records `15/32` completed source migrations after FI registration. Refresh v16 PR `#76` carries the repository-native registration of `Admissible-Existence/DaCo`; the branch implementation records `16/32 = 50%` and remains non-canonical until exact-head hosted validation and merge complete.
 
-Completed source set: Existence, GTG, ET, learning-transition-governance, BC, CHF, RE, RE-Reduction, DC, Triad, GCAT-BCAT repository root, ECAT-ICAT, IICT, HPS, and FI.
+Completed branch source set: Existence, GTG, ET, learning-transition-governance, BC, CHF, RE, RE-Reduction, DC, Triad, GCAT-BCAT repository root, ECAT-ICAT, IICT, HPS, FI, and DaCo.
 
 All previously registered semantic/proof/collision/authority boundaries remain enforced.
 
-## Fresh candidate-selection state
-
-The refresh-v15 direct evidence pass inspected the remaining source candidates `DaCo`, `IW`, and `standing-proof-formalism`, including their canonical handoffs and current open issue/PR state. All three had zero open issues and zero open pull requests at selection time.
-
-Selection branch state:
+## Refresh v16 DaCo registration state
 
 ```text
+refresh_goal_id: AEX-TRIFORM-MIGRATION-REFRESH-016
+COSV: task.v1 [L R U I V G O C M T B E A P] = 40000000110000
+completed_source_migrations: 16
+DaCo.triform_state: BOUNDED_TRIFORM_COMPLETE_MERGED
 logical_next_candidate: Admissible-Existence/TT
 logical_candidate_state: DEFER_ACTIVE_CANONICAL_CLAIM
-next_executable_candidate: Admissible-Existence/DaCo
-selection_evidence_state: EVIDENCE_PASS_COMPLETE
+next_executable_candidate: null
+selection_evidence_state: EVIDENCE_PASS_REQUIRED
 ```
 
-DaCo is selected from direct evidence, not registry ordering. Its canonical handoff records source completion, hosted validation, central activation, released claim, archive-safe state, and a compact four-principle contract with stable IDs `DACO-P-001..004`. Existing prose, mathematics, executable validation, evidence receipts, and organization-completeness surfaces are already present and must be reused rather than duplicated.
+DaCo registration reuses its native completed source work and does not reopen source completeness. Source evidence is issue `#2` closed completed, PR `#3` merged, validated source head `0f5b70310b94fb7e88dc6785131ddf979727a809`, DaCo Validation run/job `34074584865 / 101598103222` success, and source merge `a5e4e2969fad89b612212eb8743ae52a420c0616`.
 
-IW remains an admissible future source candidate but its release-verification and completed downstream-application machinery must remain untouched by any later Tri-Form binding. `standing-proof-formalism` also remains admissible but its later AID and SV-011 consumer-integration addenda are destination-owned and outside a future source binding.
+Stable IDs remain `DACO-P-001..004`. Candidate maturities remain `bounded_candidate_not_universal_proof` for DACO-PC-001..003 and `boundary_assertion_testable_not_authority` for DACO-PC-004.
 
-## DaCo selection boundaries
+## DaCo preserved boundaries
 
 ```text
 Data Continuity != Distributed Coherence
@@ -49,44 +49,52 @@ final_cross_repository_validity = false
 execution_authorized = false
 publication_authorized = false
 proofs_accepted = false
+Master Records custody = false
+historical_source_replacement = false
+workflow_authority_effect = NONE_VALIDATION_ONLY
 ```
-
-The selection does not reopen `DACO-PRINCIPLE-COMPLETENESS-001`, does not accept any proof candidate, and does not grant DaCo Master Records custody or source authority over DC.
 
 ## Collision and task-registry boundaries
 
 `data/formalism-task-claims.json` remains the formalism task registry. Existing live/reserved boundaries remain preserved:
 
 - `AEX-RTG-MACHINE-LANES`: no duplicate RTG rendering, evidence closure, theorem review, or readiness convergence;
-- `AEX-ORG-COHERENCE-AUDIT`: its visibility gate remains fail-closed and is not weakened;
-- `AEX-ORG-MATHEMATICS-REGISTRY`: registry tracks source claims without proof acceptance/source authority;
+- `AEX-ORG-COHERENCE-AUDIT`: visibility gate remains fail-closed;
+- `AEX-ORG-MATHEMATICS-REGISTRY`: registry records source claims without proof acceptance/source authority;
 - TT/STCM remain deferred by active canonical integration claims;
 - CTA remains deferred by its active integration claim;
 - AE publication/review and GCAT-BCAT Decision Envelope child scope remain untouched.
 
 ## README / authority / Master Records boundaries
 
-Central README impact for refresh-v15 selection is **NO_CHANGE_REQUIRED**. Candidate selection changes coordination/evidence routing only and does not materially change `.github` runtime behavior, interfaces, governance/authority boundaries, evidence semantics, prerequisites, dependencies, failure behavior, capability meaning, or Master Records routing.
+Central README impact for refresh v16 is **NO_CHANGE_REQUIRED**. DaCo README reconciliation was completed in the source change set; central registration changes accounting/evidence state only and does not materially change `.github` runtime behavior, interfaces, governance/authority boundaries, prerequisites, dependencies, failure behavior, public capability meaning, or Master Records routing.
 
-A later DaCo source mutation must perform its own repository-native README completeness determination before functional mutation.
+`docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. Refresh v16 emits no repository transition receipt, organization transition receipt, or Master Records transition. Recording and COSV projection create no authority.
 
-`docs/ORGANIZATION_TRANSITION_LEDGER_MIRROR_HANDOFF.md` and `docs/ORG_TO_MASTER_RECORDS_TRANSITION_HANDOFF.md` remain authoritative. This selection emits no repository transition receipt, organization transition receipt, or Master Records transition. Recording creates no authority.
+## Hosted validation state
+
+Implementation head `5cd993a3e1de9c50c9d9d5aadf640d5c839af034` passed:
+
+- `Validate Tri-Form Formalism` run `34139736537` — SUCCESS;
+- `Validate COSV Projection` run `34139736533` — SUCCESS.
+
+The documentation reconciliation commits change the branch head, so exact final-head validation is required before merge. Prior green state is not inherited by inference.
 
 ## Current execution order
 
-1. Keep the 15/32 canonical migration state and all prior semantic/proof/collision/authority predicates fail-closed.
-2. Validate the exact DaCo-selection branch through the existing `Validate Tri-Form Formalism` workflow.
-3. Merge only while that exact head is green and mergeable.
-4. Close issue `#74` only after durable canonical selection.
-5. Begin DaCo only through a separately admitted repository-native preflight and scoped handoff.
-6. Reuse `DACO-P-001..004`, existing formalism/validation/evidence surfaces, and the existing `daco-validation.yml`; do not duplicate them.
-7. Keep IW and standing-proof-formalism unselected until their own future evidence/admission pass.
+1. Preserve all existing migration, proof, collision, COSV non-authority, organization-transition, and Master Records predicates.
+2. Revalidate the exact final refresh-v16 documentation head through Tri-Form and COSV hosted checks.
+3. Merge PR `#76` only while that exact head is green and mergeable.
+4. Confirm `main` records `16/32 = 50%` after merge.
+5. Perform a fresh repository-native evidence pass across remaining source entries marked `INSPECTION_REQUIRED` before selecting another source.
+6. Keep IW and standing-proof-formalism unselected until that evidence pass admits one of them.
 
 ## Completion/accounting
 
 Refresh-v15 FI registration: complete/validated/merged.  
-Completed source migrations: `15/32 = 46.875%`.  
-Refresh-v15 DaCo selection: implementation active pending exact-head validation/merge.
+Refresh-v16 DaCo registration: implementation complete; final exact-head hosted validation pending.  
+Branch completed source migrations: `16/32 = 50%`.  
+Next-source selection: `EVIDENCE_PASS_REQUIRED`.
 
 ## User work
 
