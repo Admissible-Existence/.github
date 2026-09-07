@@ -1,0 +1,32 @@
+{
+  "identity": "Admissible-Existence/.github:task:AEX-TRIFORM-MIGRATION-REFRESH-016",
+  "profile": "task.v1",
+  "level": "task",
+  "vector": "40000000110000",
+  "evidence_refs": [
+    "docs/TRIFORM_MIGRATION_REFRESH_016_MIRROR_HANDOFF.md",
+    "data/triform-migration-matrix.json",
+    "scripts/validate_triform_migration_matrix.py",
+    "issue:76"
+  ],
+  "source_owner_ref": "docs/TRIFORM_MIGRATION_REFRESH_016_MIRROR_HANDOFF.md",
+  "observed_at": "2026-09-07T09:21:00-05:00",
+  "authority_effect": "NONE",
+  "exact_metrics": {
+    "symbol_order": "LRUIVGOCMTBEAP",
+    "lifecycle": "CLAIMED_INTEGRATION",
+    "archive_ready": false,
+    "unassigned_work": 0,
+    "chat_owned_implementation": 0,
+    "chat_owned_validation": 0,
+    "chat_owned_integration": 0,
+    "chat_owned_observation": 0,
+    "chat_owned_credentials": 0,
+    "canonical_owner_installed": true,
+    "thread_required": true,
+    "blocker_count": 0,
+    "evidence_complete": false,
+    "activated": false,
+    "propagated": false
+  }
+}

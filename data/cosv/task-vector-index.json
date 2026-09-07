@@ -5,7 +5,7 @@
   "notation": "L R U I V G O C M T B E A P",
   "width": 14,
   "canonical_profile_ref": "StegVerse-Labs/.github/management/COSV_PROFILE_V1.json",
-  "observed_at": "2026-08-31T11:58:00-05:00",
+  "observed_at": "2026-09-07T09:21:00-05:00",
   "authority_effect": "NONE",
   "tasks": [
     {
@@ -42,6 +42,13 @@
       "vector_ref": "data/cosv/task-vectors/HB-RESPONSE-ORG-NODE-0001.json",
       "vector": "50000000100110",
       "binding_mode": "SOURCE_BOUND_HANDOFF"
+    },
+    {
+      "task_id": "AEX-TRIFORM-MIGRATION-REFRESH-016",
+      "state_ref": "docs/TRIFORM_MIGRATION_REFRESH_016_MIRROR_HANDOFF.md",
+      "vector_ref": "data/cosv/task-vectors/AEX-TRIFORM-MIGRATION-REFRESH-016.json",
+      "vector": "40000000110000",
+      "binding_mode": "SOURCE_BOUND_HANDOFF"
     }
   ],
   "terminal_tasks_excluded": [
@@ -57,8 +64,8 @@
     "AEX-PC-EXISTENCE-VALIDATION"
   ],
   "coverage": {
-    "current_structured_active_tasks_audited": 5,
-    "current_structured_active_tasks_projected": 5,
+    "current_structured_active_tasks_audited": 6,
+    "current_structured_active_tasks_projected": 6,
     "current_structured_active_task_gap": 0,
     "repository_active_task_surface_audit_complete": true,
     "repository_vector_present_claimed": true
