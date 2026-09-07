@@ -6,7 +6,7 @@
 **Canonical issue:** `#74`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** PREFLIGHT_PASSED / DACO_SELECTION_ACTIVE
+**Status:** IMPLEMENTATION_COMPLETE / HOSTED_VALIDATION_PENDING
 
 ## Purpose
 
@@ -71,6 +71,25 @@ selection_evidence_state = EVIDENCE_PASS_COMPLETE
 
 DaCo is selected because direct current evidence establishes a source-complete, validation-backed, claim-released, archive-safe, four-principle source with no active issue/PR and no active consumer-integration or release surface that must be modified for the bounded binding.
 
+## Matrix and validator implementation
+
+`data/triform-migration-matrix.json` now records the direct evidence pass and DaCo selection while preserving the canonical 15/32 completed-source count. The DaCo row is evidence-backed and keeps continuity/truth, cross-repository validity, execution, publication, proof acceptance, authority, execution-commitment, and DC identity boundaries false.
+
+`scripts/validate_triform_migration_matrix.py` was extended in place, not duplicated, to fail closed on:
+
+- the refresh-v15 selection goal ID;
+- exact DaCo selection evidence including the comparative candidate handoffs and zero-open-work checks;
+- `DACO-P-001..004` and principle count 4;
+- prior goal/state `DACO-PRINCIPLE-COMPLETENESS-001 / COMPLETE_AND_RELEASED`;
+- archive readiness;
+- continuity-is-not-truth and no final cross-repository validity;
+- no execution/publication/proof authority;
+- no created authority or committed execution;
+- Data Continuity remaining distinct from Distributed Coherence;
+- all prior FI/HPS/IICT/ECAT/GCAT/Triad/DC/RE/CHF/BC/LTG/ET/GTG and collision predicates.
+
+The parent Tri-Form handoff is reconciled to canonical `15/32 = 46.875%`, completed FI registration, and the direct DaCo selection.
+
 ## README completeness predicate
 
 Central README impact: **NO_CHANGE_REQUIRED**.
@@ -91,12 +110,12 @@ This selection emits no repository transition receipt, organization transition r
 2. DaCo/IW/standing-proof direct evidence capture — COMPLETE;
 3. collision/open-task/open-PR check — COMPLETE;
 4. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED` centrally);
-5. matrix + deterministic validator selection update — PENDING;
-6. parent Tri-Form reconciliation — PENDING;
+5. matrix + deterministic validator selection update — COMPLETE;
+6. parent Tri-Form reconciliation — COMPLETE;
 7. exact-head hosted validation + merge + issue closure — PENDING;
 8. separately admitted DaCo source preflight — PENDING.
 
-Current bounded completion: `4/8 = 50%`.
+Current bounded completion: `6/8 = 75%`.
 
 ## User work
 
