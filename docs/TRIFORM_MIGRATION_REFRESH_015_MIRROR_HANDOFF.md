@@ -4,9 +4,10 @@
 **Repository:** `Admissible-Existence/.github`  
 **Branch:** `triform-migration-refresh-015`  
 **Canonical issue:** `#72`  
+**Implementation PR:** `#73`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
-**Status:** PREFLIGHT_PASSED / FI_REGISTRATION_ACTIVE
+**Status:** IMPLEMENTATION_COMPLETE / HOSTED_VALIDATED / FINAL_HANDOFF_HEAD_REVALIDATION_PENDING
 
 ## Purpose
 
@@ -65,6 +66,37 @@ Preflight result: `PASS`.
 
 Repository transitions remain owned and replayable by their source repositories. This refresh emits no organization transition receipt and no Master Records transition. Organization recording creates no authority, and any later federation must use an exact verified organization receipt through the existing InTr route.
 
+## Matrix and validator result
+
+The branch now records:
+
+```text
+refresh_goal_id = AEX-TRIFORM-MIGRATION-REFRESH-015
+completed_source_migrations = 15
+completed_source_repositories includes Admissible-Existence/FI
+FI.triform_state = BOUNDED_TRIFORM_COMPLETE_MERGED
+next_executable_candidate = null
+selection_evidence_state = EVIDENCE_PASS_REQUIRED
+```
+
+The deterministic validator now fail-closes on FI historical IDs, candidate status, exact proof maturity, prerequisite completion, non-promotion of cross-domain support/universal law, non-authority predicates, README/prerequisite reconciliation, source validation/merge evidence, and all prior migration/collision predicates.
+
+## Hosted validation evidence
+
+Passing implementation head:
+
+```text
+head: a3878a083e2f96fc7382ccf7b397e1dd6bfe641e
+workflow: Validate Tri-Form Formalism
+run: 34073741518
+job: 101595794706
+conclusion: SUCCESS
+```
+
+All workflow steps passed, including Tri-Form pilot validation, migration-matrix validation, existing relational formalism validation, and authority-boundary declaration.
+
+This handoff evidence update changes the branch head, so the new exact head must itself revalidate before merge; success is not inherited by inference.
+
 ## Preserved FI semantics
 
 ```text
@@ -89,13 +121,13 @@ final_admissibility_authority = Admissible-Existence/AE
 1. scoped handoff + machine preflight — COMPLETE;
 2. FI source completion evidence capture — COMPLETE;
 3. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED` centrally);
-4. 32-row matrix + deterministic validator update — PENDING;
-5. parent Tri-Form registration reconciliation — PENDING;
-6. exact-head central validation — PENDING;
+4. 32-row matrix + deterministic validator update — COMPLETE;
+5. parent Tri-Form registration reconciliation — COMPLETE;
+6. exact-head central validation — PASS on implementation head; final handoff-head revalidation pending;
 7. registration merge + issue closure — PENDING;
 8. next-candidate evidence pass / continuation — PENDING.
 
-Current bounded completion: `3/8 = 37.5%`.
+Current bounded completion: `5/8 = 62.5%`; item 6 is not counted complete until the exact current handoff head passes.
 
 ## User work
 
