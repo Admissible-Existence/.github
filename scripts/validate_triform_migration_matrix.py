@@ -29,6 +29,7 @@ def main():
 
     require(data.get('schema') == 'admissible-existence.triform-migration-matrix/v2', 'unexpected_schema', f)
     require(data.get('refresh_goal_id') == 'AEX-TRIFORM-MIGRATION-REFRESH-015', 'refresh_goal_id_mismatch', f)
+    require(data.get('selection_goal_id') == 'AEX-TRIFORM-MIGRATION-REFRESH-015-SELECTION', 'selection_goal_id_mismatch', f)
     require(data.get('registry_repository_count') == 32, 'registry_repository_count_mismatch', f)
     require(len(entries) == 32, 'entry_count_mismatch', f)
     require(len(set(repos)) == len(repos), 'duplicate_repository', f)
@@ -49,6 +50,7 @@ def main():
     iict = by.get('Admissible-Existence/IICT', {})
     hps = by.get('Admissible-Existence/HPS', {})
     fi = by.get('Admissible-Existence/FI', {})
+    daco = by.get('Admissible-Existence/DaCo', {})
     cta = by.get('Admissible-Existence/CTA', {})
     tt = by.get('Admissible-Existence/TT', {})
     stcm = by.get('Admissible-Existence/STCM', {})
@@ -114,8 +116,23 @@ def main():
     require(fi.get('readme_status_reconciled') is True and fi.get('prerequisite_metadata_reconciled') is True, 'fi_source_reconciliation_not_complete', f)
     require({'docs/FI_MIRROR_HANDOFF.md','docs/FI_TRIFORM_MIRROR_HANDOFF.md','formalism/triform-counterpart-inventory.json','formalism/triform-manifest.json','README.md','issue:3','PR:4','merge:3ee2c1d1b7376e2b14c3d6faf67285fcc4c90c63','validation_run:34035414344','validation_job:101492457501'}.issubset(set(fi.get('evidence',[]))), 'fi_completion_evidence_incomplete', f)
 
-    require(data.get('next_executable_candidate') is None, 'next_executable_candidate_requires_fresh_evidence_pass', f)
-    require(data.get('selection_evidence_state') == 'EVIDENCE_PASS_REQUIRED', 'selection_evidence_state_mismatch', f)
+    require(data.get('next_executable_candidate') == 'Admissible-Existence/DaCo', 'unexpected_next_executable_candidate', f)
+    require(data.get('selection_evidence_state') == 'EVIDENCE_PASS_COMPLETE', 'selection_evidence_state_mismatch', f)
+    require({
+        'Admissible-Existence/DaCo@main:docs/DACO_MIRROR_HANDOFF.md',
+        'Admissible-Existence/IW@main:IW_MIRROR_HANDOFF.md',
+        'Admissible-Existence/standing-proof-formalism@main:docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md',
+        'open_issue_check:DaCo=0,IW=0,standing-proof-formalism=0',
+        'open_pr_check:DaCo=0,IW=0,standing-proof-formalism=0'
+    }.issubset(set(data.get('selection_evidence',[]))), 'daco_selection_evidence_incomplete', f)
+    require(daco.get('triform_state') == 'SELECTED_NEXT_EXECUTABLE_CANDIDATE', 'daco_selection_state_mismatch', f)
+    require(daco.get('prior_goal') == 'DACO-PRINCIPLE-COMPLETENESS-001' and daco.get('prior_goal_state') == 'COMPLETE_AND_RELEASED', 'daco_prior_goal_state_mismatch', f)
+    require(daco.get('repository_local_archive_readiness') is True, 'daco_archive_readiness_must_be_true', f)
+    require(daco.get('historical_stable_ids') == ['DACO-P-001','DACO-P-002','DACO-P-003','DACO-P-004'] and daco.get('principle_count') == 4, 'daco_identity_or_count_drift', f)
+    require(daco.get('continuity_equals_truth') is False and daco.get('final_cross_repository_validity') is False, 'daco_truth_or_cross_repository_promotion', f)
+    require(daco.get('execution_authorized') is False and daco.get('publication_authorized') is False and daco.get('proofs_accepted') is False, 'daco_authority_promotion', f)
+    require(daco.get('creates_authority') is False and daco.get('commits_execution') is False and daco.get('data_continuity_is_distributed_coherence') is False, 'daco_boundary_drift', f)
+    require({'docs/DACO_MIRROR_HANDOFF.md','formalism/principle-registry.yaml','formalism/dependency-graph.yaml','formalism/proof-candidates.yaml','docs/WHOLE_REPO_THEORY_MAP.md','docs/MATHEMATICAL_NOTATION.md','docs/FALSIFICATION_AND_LIMITS.md','tools/validate_principle_completeness.py','.github/workflows/daco-validation.yml','reports/daco-principle-completeness-validation.json'}.issubset(set(daco.get('evidence',[]))), 'daco_source_evidence_incomplete', f)
 
     for e in entries:
         require(bool(e.get('triform_state')), f"missing_triform_state:{e.get('repository')}", f)
