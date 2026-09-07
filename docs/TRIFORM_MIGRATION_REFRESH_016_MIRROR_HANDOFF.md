@@ -3,13 +3,13 @@
 **Goal ID:** `AEX-TRIFORM-MIGRATION-REFRESH-016`  
 **Repository:** `Admissible-Existence/.github`  
 **Branch:** `triform-migration-refresh-016`  
-**Canonical issue:** `#76`  
+**Canonical issue / implementation PR:** `#76`  
 **Parent Tri-Form authority:** `docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md`  
 **Program authority:** `FORMALISM_MIRROR_HANDOFF.md`  
 **COSV profile:** `task.v1 [L R U I V G O C M T B E A P]`  
 **COSV identifier/vector:** `40000000110000`  
 **COSV source:** `data/cosv/task-vectors/AEX-TRIFORM-MIGRATION-REFRESH-016.json`  
-**Status:** PREFLIGHT_PASSED / COSV_SOURCE_BOUND / DACO_REGISTRATION_ACTIVE
+**Status:** IMPLEMENTATION_COMPLETE / HOSTED_VALIDATED_IMPLEMENTATION_HEAD / FINAL_HANDOFF_HEAD_REVALIDATION_PENDING
 
 ## Purpose
 
@@ -33,8 +33,6 @@ Task-registry collision result: `PASS`. This refresh is coordination/accounting 
 
 ## COSV source binding
 
-The task is now source-bound before further registration work:
-
 ```text
 universal_task_id = AEX-TRIFORM-MIGRATION-REFRESH-016
 profile = task.v1
@@ -42,12 +40,6 @@ notation = L R U I V G O C M T B E A P
 vector = 40000000110000
 lifecycle = CLAIMED_INTEGRATION
 archive_ready = false
-unassigned_work = 0
-chat_owned_implementation = 0
-chat_owned_validation = 0
-chat_owned_integration = 0
-chat_owned_observation = 0
-chat_owned_credentials = 0
 canonical_owner_installed = true
 thread_required = true
 blocker_count = 0
@@ -57,7 +49,7 @@ propagated = false
 authority_effect = NONE
 ```
 
-Canonical source: `data/cosv/task-vectors/AEX-TRIFORM-MIGRATION-REFRESH-016.json`. The repository task-vector index and projection validator include this exact binding. COSV state is evidence/coordination state only; it does not create execution, proof, admissibility, publication, credential, custody, or Master Records authority.
+Canonical source: `data/cosv/task-vectors/AEX-TRIFORM-MIGRATION-REFRESH-016.json`. COSV state remains evidence/coordination state only; it creates no execution, proof, admissibility, publication, credential, custody, or Master Records authority.
 
 ## DaCo completion evidence
 
@@ -89,9 +81,37 @@ workflow authority: NONE_VALIDATION_ONLY
 
 Central README impact: **NO_CHANGE_REQUIRED**.
 
-DaCo README reconciliation was completed in the source Tri-Form change set. This refresh only registers already-verified source evidence/accounting and the canonical COSV pointer required to continue the task. It does not materially change `.github` repository runtime behavior, interfaces, governance or authority boundaries, evidence meaning beyond task-state projection, prerequisites, dependencies, failure behavior, capability meaning, or Master Records routing.
+DaCo README reconciliation was completed in the source Tri-Form change set. This refresh registers already-verified source evidence/accounting and the canonical COSV pointer; it does not materially change `.github` runtime behavior, interfaces, governance or authority boundaries, prerequisites, dependencies, failure behavior, public capability meaning, or Master Records routing.
 
 Preflight result: `PASS`.
+
+## Matrix and validator result
+
+The branch now records:
+
+```text
+refresh_goal_id = AEX-TRIFORM-MIGRATION-REFRESH-016
+completed_source_migrations = 16
+completed_source_repositories includes Admissible-Existence/DaCo
+DaCo.triform_state = BOUNDED_TRIFORM_COMPLETE_MERGED
+next_executable_candidate = null
+selection_evidence_state = EVIDENCE_PASS_REQUIRED
+```
+
+The deterministic validator fail-closes on DaCo historical IDs, exact candidate maturities, merged/validated source evidence, README reconciliation, non-authority predicates, Master Records non-custody, non-equivalence with Distributed Coherence, and all preserved prior migration/collision predicates.
+
+## Hosted validation evidence
+
+Passing implementation head:
+
+```text
+head: 5cd993a3e1de9c50c9d9d5aadf640d5c839af034
+Validate Tri-Form Formalism run: 34139736537 — SUCCESS
+Validate COSV Projection run: 34139736533 — SUCCESS
+PR: #76
+```
+
+This handoff and parent-handoff reconciliation change the branch head, so the exact final documentation head must revalidate before merge. Success is not inherited by inference.
 
 ## Master Records / organization transition boundary
 
@@ -102,13 +122,13 @@ Repository transitions remain source-owned and replayable. This refresh emits no
 1. scoped handoff + machine preflight + required COSV source binding — COMPLETE;
 2. DaCo source completion evidence capture — COMPLETE;
 3. README completeness determination — COMPLETE (`NO_CHANGE_REQUIRED` centrally);
-4. 32-row matrix + deterministic validator update — PENDING;
-5. parent Tri-Form registration reconciliation — PENDING;
-6. exact-head central validation — PENDING;
-7. registration merge + issue closure — PENDING;
+4. 32-row matrix + deterministic validator update — COMPLETE;
+5. parent Tri-Form registration reconciliation — IN PROGRESS;
+6. exact-head central validation — PASS on implementation head; final documentation head pending;
+7. registration merge + issue/PR closure — PENDING;
 8. next-candidate evidence pass / continuation — PENDING.
 
-Current bounded completion: `3/8 = 37.5%`; COSV source binding is an execution prerequisite within item 1 and does not alter the denominator.
+Current bounded completion: `4/8 = 50%`; items 5-6 complete only after parent reconciliation and exact final-head hosted validation.
 
 ## User work
 
