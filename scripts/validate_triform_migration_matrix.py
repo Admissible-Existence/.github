@@ -10,7 +10,8 @@ EXPECTED_COMPLETED = [
     'Admissible-Existence/learning-transition-governance','Admissible-Existence/BC',
     'Admissible-Existence/CHF','Admissible-Existence/RE','Admissible-Existence/RE-Reduction',
     'Admissible-Existence/DC','Admissible-Existence/Triad','Admissible-Existence/GCAT-BCAT',
-    'Admissible-Existence/ECAT-ICAT','Admissible-Existence/IICT','Admissible-Existence/HPS'
+    'Admissible-Existence/ECAT-ICAT','Admissible-Existence/IICT','Admissible-Existence/HPS',
+    'Admissible-Existence/FI'
 ]
 
 
@@ -27,11 +28,11 @@ def main():
     f = []
 
     require(data.get('schema') == 'admissible-existence.triform-migration-matrix/v2', 'unexpected_schema', f)
-    require(data.get('refresh_goal_id') == 'AEX-TRIFORM-MIGRATION-REFRESH-014', 'refresh_goal_id_mismatch', f)
+    require(data.get('refresh_goal_id') == 'AEX-TRIFORM-MIGRATION-REFRESH-015', 'refresh_goal_id_mismatch', f)
     require(data.get('registry_repository_count') == 32, 'registry_repository_count_mismatch', f)
     require(len(entries) == 32, 'entry_count_mismatch', f)
     require(len(set(repos)) == len(repos), 'duplicate_repository', f)
-    require(data.get('completed_source_migrations') == 14, 'completed_source_migration_count_mismatch', f)
+    require(data.get('completed_source_migrations') == 15, 'completed_source_migration_count_mismatch', f)
     require(data.get('completed_source_repositories') == EXPECTED_COMPLETED, 'completed_source_repository_set_mismatch', f)
 
     gtg = by.get('Admissible-Existence/GTG', {})
@@ -101,17 +102,7 @@ def main():
     require(hps.get('final_cross_repository_validity') is False and hps.get('historical_source_replacement') is False and hps.get('workflow_authority_effect') == 'NONE_VALIDATION_ONLY' and hps.get('final_admissibility_authority') == 'Admissible-Existence/AE' and hps.get('readme_status_reconciled') is True, 'hps_preservation_boundary_drift', f)
     require({'HPS_MIRROR_HANDOFF.md','docs/HPS_TRIFORM_MIRROR_HANDOFF.md','formalism/triform-counterpart-inventory.json','formalism/triform-manifest.json','PR:6'}.issubset(set(hps.get('evidence',[]))), 'hps_completion_evidence_incomplete', f)
 
-    require(data.get('next_executable_candidate') == 'Admissible-Existence/FI', 'unexpected_next_executable_candidate', f)
-    require(data.get('selection_evidence_state') == 'EVIDENCE_PASS_COMPLETE', 'selection_evidence_state_mismatch', f)
-    require({
-        'Admissible-Existence/FI@main:docs/FI_MIRROR_HANDOFF.md',
-        'Admissible-Existence/FI@main:formalism/principle-registry.yaml',
-        'Admissible-Existence/FI@main:formalism/proof-candidates.yaml',
-        'Admissible-Existence/FI@main:reports/fi-principle-completeness-validation.json',
-        'Admissible-Existence/FI@main:README.md',
-        'Admissible-Existence/FI#1','Admissible-Existence/FI#2'
-    }.issubset(set(data.get('selection_evidence',[]))), 'fi_selection_evidence_incomplete', f)
-    require(fi.get('triform_state') == 'SELECTED_NEXT_EXECUTABLE_CANDIDATE', 'fi_selection_state_mismatch', f)
+    require(fi.get('triform_state') == 'BOUNDED_TRIFORM_COMPLETE_MERGED', 'fi_completion_not_recorded', f)
     require(fi.get('prior_goal') == 'FI-PRINCIPLE-COMPLETENESS-001' and fi.get('prior_goal_state') == 'COMPLETE_HOSTED_VALIDATED_CENTRALLY_ACTIVATED', 'fi_prior_goal_state_mismatch', f)
     require(fi.get('repository_local_archive_readiness') is True, 'fi_archive_readiness_must_be_true', f)
     require(fi.get('historical_stable_ids') == ['FI-TRANSITION-001','FI-SCALE-001','FI-OBSERVER-001'] and fi.get('principle_count') == 3 and fi.get('principle_status') == 'candidate', 'fi_identity_or_candidate_status_drift', f)
@@ -119,8 +110,12 @@ def main():
     require(fi.get('destination_bootstrap_completed') is True and fi.get('canonical_continuity_execution_completed') is True and fi.get('cross_domain_evidence_intake_ready') is True, 'fi_prerequisite_completion_evidence_drift', f)
     require(fi.get('cross_domain_support_established') is False and fi.get('universal_law_established') is False, 'fi_cross_domain_or_universal_promotion', f)
     require(fi.get('execution_authorized') is False and fi.get('publication_authorized') is False and fi.get('proofs_accepted') is False and fi.get('historical_source_replacement') is False, 'fi_authority_or_source_promotion', f)
-    require(fi.get('final_admissibility_authority') == 'Admissible-Existence/AE', 'fi_final_admissibility_authority_mismatch', f)
-    require(fi.get('readme_status_reconciliation_required') is True and fi.get('prerequisite_metadata_reconciliation_required') is True, 'fi_source_reconciliation_requirement_missing', f)
+    require(fi.get('workflow_authority_effect') == 'NONE_VALIDATION_ONLY' and fi.get('final_admissibility_authority') == 'Admissible-Existence/AE', 'fi_validation_or_admissibility_boundary_drift', f)
+    require(fi.get('readme_status_reconciled') is True and fi.get('prerequisite_metadata_reconciled') is True, 'fi_source_reconciliation_not_complete', f)
+    require({'docs/FI_MIRROR_HANDOFF.md','docs/FI_TRIFORM_MIRROR_HANDOFF.md','formalism/triform-counterpart-inventory.json','formalism/triform-manifest.json','README.md','issue:3','PR:4','merge:3ee2c1d1b7376e2b14c3d6faf67285fcc4c90c63','validation_run:34035414344','validation_job:101492457501'}.issubset(set(fi.get('evidence',[]))), 'fi_completion_evidence_incomplete', f)
+
+    require(data.get('next_executable_candidate') is None, 'next_executable_candidate_requires_fresh_evidence_pass', f)
+    require(data.get('selection_evidence_state') == 'EVIDENCE_PASS_REQUIRED', 'selection_evidence_state_mismatch', f)
 
     for e in entries:
         require(bool(e.get('triform_state')), f"missing_triform_state:{e.get('repository')}", f)
