@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "activation_id": "AEX-PC-RECONCILE-20260806-01",
-  "generated_at": "2026-09-07T13:02:37.920464+00:00",
+  "generated_at": "2026-09-14T13:22:59.714201+00:00",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "expected_repository_count": 32,
   "live_observed_repository_count": 4,
@@ -936,6 +936,7 @@
             "docs/TRIFORM_MIGRATION_REFRESH_014_SELECTION_MIRROR_HANDOFF.md",
             "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md",
             "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_016_MIRROR_HANDOFF.md",
             "docs/TRIFORM_MIGRATION_REFRESH_MIRROR_HANDOFF.md"
           ]
         },
@@ -997,6 +998,12 @@
           "label": "COSV control-plane task-surface reconciliation \u2014 2026-08-31",
           "sources": [
             "FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "COSV source binding",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_016_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1114,7 +1121,13 @@
           ]
         },
         {
-          "label": "DaCo selection boundaries",
+          "label": "DaCo completion evidence",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_016_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "DaCo preserved boundaries",
           "sources": [
             "docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md"
           ]
@@ -1533,12 +1546,6 @@
           ]
         },
         {
-          "label": "Fresh candidate-selection state",
-          "sources": [
-            "docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md"
-          ]
-        },
-        {
           "label": "Fresh FI evidence",
           "sources": [
             "docs/TRIFORM_MIGRATION_REFRESH_014_SELECTION_MIRROR_HANDOFF.md"
@@ -1629,13 +1636,20 @@
           "label": "Hosted validation evidence",
           "sources": [
             "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md",
-            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_016_MIRROR_HANDOFF.md"
           ]
         },
         {
           "label": "Hosted validation evidence \u2014 public-source-grounded tree",
           "sources": [
             "docs/external-formalisms/VERFI_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Hosted validation state",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1829,7 +1843,8 @@
           "label": "Machine preflight",
           "sources": [
             "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md",
-            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_016_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1878,7 +1893,8 @@
             "docs/TRIFORM_MIGRATION_REFRESH_013_MIRROR_HANDOFF.md",
             "docs/TRIFORM_MIGRATION_REFRESH_014_MIRROR_HANDOFF.md",
             "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md",
-            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_016_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1896,7 +1912,8 @@
         {
           "label": "Matrix and validator result",
           "sources": [
-            "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md"
+            "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_016_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -2363,7 +2380,8 @@
             "docs/TRIFORM_MIGRATION_REFRESH_014_MIRROR_HANDOFF.md",
             "docs/TRIFORM_MIGRATION_REFRESH_014_SELECTION_MIRROR_HANDOFF.md",
             "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md",
-            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
+            "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_016_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -2382,6 +2400,12 @@
           "label": "Reconstruction Singularity orientation",
           "sources": [
             "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
+          "label": "Refresh v16 DaCo registration state",
+          "sources": [
+            "docs/TRIFORM_FORMALISM_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -2852,6 +2876,12 @@
           ]
         },
         {
+          "label": "Tri-Form Migration Refresh 016 Mirror Handoff",
+          "sources": [
+            "docs/TRIFORM_MIGRATION_REFRESH_016_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Tri-Form Migration Refresh Mirror Handoff",
           "sources": [
             "docs/TRIFORM_MIGRATION_REFRESH_MIRROR_HANDOFF.md"
@@ -2918,6 +2948,7 @@
             "docs/TRIFORM_MIGRATION_REFRESH_014_SELECTION_MIRROR_HANDOFF.md",
             "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md",
             "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md",
+            "docs/TRIFORM_MIGRATION_REFRESH_016_MIRROR_HANDOFF.md",
             "docs/TRIFORM_MIGRATION_REFRESH_MIRROR_HANDOFF.md"
           ]
         },
@@ -3047,7 +3078,7 @@
         {
           "severity": "error",
           "code": "UNRESOLVED_PLACEHOLDERS",
-          "count": 161
+          "count": 164
         },
         {
           "severity": "warning",
@@ -3068,12 +3099,12 @@
         }
       ],
       "metrics": {
-        "files": 215,
-        "markdown_files": 69,
-        "structured_files": 100,
-        "handoffs": 31,
-        "principle_candidates": 486,
-        "placeholder_markers": 161,
+        "files": 217,
+        "markdown_files": 70,
+        "structured_files": 101,
+        "handoffs": 32,
+        "principle_candidates": 490,
+        "placeholder_markers": 164,
         "broken_local_links": 0,
         "ambiguous_short_repository_identities": 11,
         "dimensions_met": 12,
