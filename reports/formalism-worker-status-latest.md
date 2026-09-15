@@ -1,8 +1,8 @@
 # Principle Completeness Worker Status
 
-Generated: `2026-09-14T10:46:37Z`
+Generated: `2026-09-15T10:10:05Z`
 Repositories: **32**
-Blockers durably queued: **27**
+Blockers durably queued: **26**
 Fallback mode: **PERSIST_BLOCKER_AND_CONTINUE**
 Archive permitted: **false**
 
@@ -31,7 +31,7 @@ Archive permitted: **false**
 | `Admissible-Existence/FI` | BLOCKED | BLOCKED | 0 |  |
 | `Admissible-Existence/DaCo` | BLOCKED | BLOCKED | 0 |  |
 | `Admissible-Existence/IW` | BLOCKED | BLOCKED | 0 |  |
-| `Admissible-Existence/standing-proof-formalism` | BLOCKED | BLOCKED | 0 |  |
+| `Admissible-Existence/standing-proof-formalism` | COMPLETE | COMPLETE_VALIDATED | 0 | NOTIFY_ONLY |
 | `Admissible-Existence/core-lite` | BLOCKED | BLOCKED | 0 |  |
 | `Admissible-Existence/validator` | BLOCKED | BLOCKED | 0 |  |
 | `Admissible-Existence/tracker` | BLOCKED | BLOCKED | 0 |  |
@@ -61,7 +61,6 @@ Archive permitted: **false**
 - `Admissible-Existence/FI` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
 - `Admissible-Existence/DaCo` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
 - `Admissible-Existence/IW` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
-- `Admissible-Existence/standing-proof-formalism` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
 - `Admissible-Existence/core-lite` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
 - `Admissible-Existence/validator` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
 - `Admissible-Existence/tracker` — `REPOSITORY_ACCESS_FAILED` — next: Restore authorized repository visibility, then resume from the recorded release condition
