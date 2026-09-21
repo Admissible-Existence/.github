@@ -1,18 +1,18 @@
 {
   "schema_version": "2.0.0",
-  "generated_at": "2026-09-14T13:22:59.618863+00:00",
+  "generated_at": "2026-09-21T13:23:19.946242+00:00",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
-  "repository_count": 4,
+  "repository_count": 5,
   "dimension_count": 12,
   "state_counts": {
     "BLOCKED": 3,
     "COMPLETE_CANDIDATE": 0,
     "EMPTY": 0,
-    "FORMALIZED_UNVALIDATED": 1,
+    "FORMALIZED_UNVALIDATED": 2,
     "REVIEW_REQUIRED": 0,
     "SCAFFOLD": 0
   },
-  "organization_score": 91.67,
+  "organization_score": 88.33,
   "repositories": [
     {
       "repository": "Admissible-Existence/.github",
@@ -4314,6 +4314,318 @@
       },
       "next_task": {
         "owner": "Admissible-Existence/learning-transition-governance",
+        "target": "docs/TRANSITION_LEDGER_MIRROR_HANDOFF.md",
+        "action": "Resolve the first listed blocking completeness finding without duplicating active claims",
+        "release_condition": "All twelve dimensions are evidenced and independently reviewed"
+      }
+    },
+    {
+      "repository": "Admissible-Existence/standing-proof-formalism",
+      "default_branch": "main",
+      "role": "source",
+      "state": "FORMALIZED_UNVALIDATED",
+      "score": 75.0,
+      "dimensions": {
+        "identity": false,
+        "purpose": true,
+        "theory": true,
+        "mathematics": true,
+        "formal_status": true,
+        "falsification": true,
+        "dependencies": false,
+        "whole_repo_role": false,
+        "ecosystem_relationships": true,
+        "executable_correspondence": true,
+        "evidence_binding": true,
+        "handoff_binding": true
+      },
+      "principles": [
+        {
+          "label": "AID consumer integration \u2014 2026-09-01",
+          "sources": [
+            "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Archive Conditions",
+          "sources": [
+            "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Canonical thesis",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Canonical Thesis and Boundary",
+          "sources": [
+            "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Central Activation",
+          "sources": [
+            "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Commit-time limit",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "Completion State",
+          "sources": [
+            "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Construction use",
+          "sources": [
+            "docs/SV_011_CONSUMER_CONTRACT.md"
+          ]
+        },
+        {
+          "label": "Core Thesis",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Cross-repository boundary",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Executable Standing Relation",
+          "sources": [
+            "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Failure posture",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "Falsifiable claims",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "Falsifiable Coverage",
+          "sources": [
+            "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Goal Status",
+          "sources": [
+            "docs/GOAL_STATUS.md"
+          ]
+        },
+        {
+          "label": "Installed Source Surfaces",
+          "sources": [
+            "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Integration and Propagation",
+          "sources": [
+            "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Limits",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "Machine-Owned Continuation",
+          "sources": [
+            "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Metrics",
+          "sources": [
+            "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Minimum Standing Surfaces",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Non-transfer",
+          "sources": [
+            "docs/SV_011_CONSUMER_CONTRACT.md"
+          ]
+        },
+        {
+          "label": "Relationship to AE",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Relationship to StegVerse",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Required standing semantics",
+          "sources": [
+            "docs/SV_011_CONSUMER_CONTRACT.md"
+          ]
+        },
+        {
+          "label": "Result Classes",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Session Consolidation",
+          "sources": [
+            "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Source Hosted Validation",
+          "sources": [
+            "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Source layers",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Standing decision relation",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "Standing Proof Falsification and Limits",
+          "sources": [
+            "docs/FALSIFICATION_AND_LIMITS.md"
+          ]
+        },
+        {
+          "label": "Standing Proof Formalism",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
+          "label": "Standing Proof Formalism Mirror Handoff",
+          "sources": [
+            "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Standing Proof Mathematical Notation",
+          "sources": [
+            "docs/MATHEMATICAL_NOTATION.md"
+          ]
+        },
+        {
+          "label": "Standing Proof Mirror Handoff Redirect",
+          "sources": [
+            "docs/STANDING_PROOF_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Standing Proof Status",
+          "sources": [
+            "docs/STANDING_PROOF_STATUS.md"
+          ]
+        },
+        {
+          "label": "Standing Proof Whole-Repository Theory Map",
+          "sources": [
+            "docs/WHOLE_REPO_THEORY_MAP.md"
+          ]
+        },
+        {
+          "label": "SV-011 consumer integration \u2014 2026-09-01",
+          "sources": [
+            "docs/STANDING_PROOF_FORMALISM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "SV-011 Standing Consumer Contract",
+          "sources": [
+            "docs/SV_011_CONSUMER_CONTRACT.md"
+          ]
+        },
+        {
+          "label": "Time dependence",
+          "sources": [
+            "docs/MATHEMATICAL_NOTATION.md"
+          ]
+        },
+        {
+          "label": "Transition Ledger Mirror Handoff",
+          "sources": [
+            "docs/TRANSITION_LEDGER_MIRROR_HANDOFF.md"
+          ]
+        }
+      ],
+      "findings": [
+        {
+          "severity": "error",
+          "code": "MISSING_IDENTITY"
+        },
+        {
+          "severity": "error",
+          "code": "MISSING_DEPENDENCIES"
+        },
+        {
+          "severity": "error",
+          "code": "MISSING_WHOLE_REPO_ROLE"
+        },
+        {
+          "severity": "warning",
+          "code": "AMBIGUOUS_SHORT_REPOSITORY_IDENTITIES",
+          "identities": [
+            "AE",
+            "BC",
+            "CHF",
+            "DC",
+            "DaCo"
+          ]
+        }
+      ],
+      "metrics": {
+        "files": 26,
+        "markdown_files": 10,
+        "structured_files": 10,
+        "handoffs": 3,
+        "principle_candidates": 41,
+        "placeholder_markers": 0,
+        "broken_local_links": 0,
+        "ambiguous_short_repository_identities": 5,
+        "dimensions_met": 9,
+        "dimensions_total": 12
+      },
+      "next_task": {
+        "owner": "Admissible-Existence/standing-proof-formalism",
         "target": "docs/TRANSITION_LEDGER_MIRROR_HANDOFF.md",
         "action": "Resolve the first listed blocking completeness finding without duplicating active claims",
         "release_condition": "All twelve dimensions are evidenced and independently reviewed"

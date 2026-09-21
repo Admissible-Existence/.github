@@ -2,7 +2,7 @@
 
 - Activation: `AEX-PC-RECONCILE-20260806-01`
 - Expected repositories: **32**
-- Live-observed repositories: **4**
+- Live-observed repositories: **5**
 - Reconciled repositories: **32**
 - Full live coverage: **false**
 - Publication authorized: **false**
@@ -32,7 +32,7 @@
 | `Admissible-Existence/FI` | REGISTRY_ONLY_NOT_LIVE_OBSERVED | BLOCKED | UNASSESSED | NONE |
 | `Admissible-Existence/DaCo` | REGISTRY_ONLY_NOT_LIVE_OBSERVED | BLOCKED | UNASSESSED | NONE |
 | `Admissible-Existence/IW` | REGISTRY_ONLY_NOT_LIVE_OBSERVED | BLOCKED | UNASSESSED | NONE |
-| `Admissible-Existence/standing-proof-formalism` | REGISTRY_ONLY_NOT_LIVE_OBSERVED | BLOCKED | UNASSESSED | NONE |
+| `Admissible-Existence/standing-proof-formalism` | LIVE_OBSERVED | FORMALIZED_UNVALIDATED | UNASSESSED | NONE |
 | `Admissible-Existence/core-lite` | REGISTRY_ONLY_NOT_LIVE_OBSERVED | BLOCKED | UNASSESSED | NONE |
 | `Admissible-Existence/validator` | REGISTRY_ONLY_NOT_LIVE_OBSERVED | BLOCKED | UNASSESSED | NONE |
 | `Admissible-Existence/tracker` | REGISTRY_ONLY_NOT_LIVE_OBSERVED | BLOCKED | UNASSESSED | NONE |
