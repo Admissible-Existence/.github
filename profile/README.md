@@ -29,3 +29,7 @@ Representative areas include:
 - **public formalism surfaces** — selected documentation and educational material
 
 This is an active research organization. Individual repositories state their own maturity, proof status, and authority boundaries.
+
+## Research intake (not admitted)
+
+A [bounded STCM–CHF / external thermodynamic-witness comparison proposal](../docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md) is being reconciled under [coordination issue #79](https://github.com/Admissible-Existence/.github/issues/79). Both formalisms retain their native ownership and semantics. This intake is neither an authorized execution task nor experimental validation.
