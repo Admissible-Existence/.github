@@ -28,7 +28,21 @@
       "tools/check_chf_integration.py",
       "tools/check_chf_mirror_handoff.py"
     ],
-    "expected": "six independent native baseline checks exit 0"
+    "expected": "six independent native baseline checks exit 0",
+    "existing_owner_ci_validation": {
+      "source_baseline_commit": "369737c3ca1985cd9b1e0a2696ebfbc7ecb84b93",
+      "existing_owner_pr": "Admissible-Existence/CHF#4",
+      "workflow_only_pr_head": "889271b703e765c7017acf1da038dba005d5e9d8",
+      "merged_commit": "52f1f226dc3be9dbc53e52429d03fa87d3087519",
+      "native_six_check_run": 36086125184,
+      "native_six_check_conclusion": "success",
+      "triform_check_run": 36086125211,
+      "triform_conclusion": "success",
+      "validation_artifact_id": 10843369973,
+      "validation_artifact_zip_sha256": "sha256:7b80c604186151508385f834196f75b36346b144634f653fa7872b0846d2dbfd",
+      "classification": "INDEPENDENT_ORIGINAL_PRIVATE_SOURCE_OWNER_HOSTED_VALIDATION",
+      "native_comparison_common_specimen_executed": false
+    }
   },
   "evidence_boundary": {
     "proves": [
