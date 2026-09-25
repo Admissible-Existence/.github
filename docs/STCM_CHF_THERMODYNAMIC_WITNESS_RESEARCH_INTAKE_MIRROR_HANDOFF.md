@@ -1,8 +1,9 @@
 # STCM–CHF × Thermodynamic Witness Research Intake Mirror Handoff
 
-## Current state (2026-09-23)
-- Coordination-only candidate: [Admissible-Existence/.github#79](https://github.com/Admissible-Existence/.github/issues/79).
-- Canonical Task Registry admission: NOT VERIFIED / NOT CLAIMED. This issue and draft handoff do not create a Goal Task ID, COSV vector, authority, worker claim or execution right.
+## Current source state (2026-09-24)
+- Canonical Goal Task ID: `STCM-CHF-THERMODYNAMIC-WITNESS-COMPARISON-001`; COSV `10111010112000`, ACTIVE / UNCLAIMED, Registry generation **225** at observation. Current generation must be re-read before further mutations.
+- Coordination owner: [Admissible-Existence/.github#79](https://github.com/Admissible-Existence/.github/issues/79). Initial PR #80 is already incorporated into main; this is a distinct source-only successor.
+- Under merged component-010 source-only policy PR #2670, this bounded owner-scoped schema/negative-test candidate does not require a fabricated AI_SESSION_GATE receipt. Any actual AI-session admission/governed runtime consequence still requires genuine current-generation disposition and applicable WorkerCoordinator/InTr/Master Records evidence.
 - External collaborator: Kevin Flint; LinkedIn exchange and DM proposal reported by user, exact export/specification not yet received or independently inspected.
 - This handoff controls only the proposed comparison intake and does not supersede any source handoff.
 
@@ -47,3 +48,9 @@ Verified through GitHub reads at intake: named STCM and CHF handoffs, local task
 Not yet verified: central Task Registry admission, current exact CI after this draft, Kevin's underlying implementation or export, physical heat measurement, external participation in any test, or any authentic experiment/organization/Master Records receipt.
 
 This handoff is a **proposal**, not activation, publication, release, empirical validation, canonical proof or authority transfer.
+
+## Bounded synthetic source-only package (successor)
+
+`research/stcm-chf-witness/` contains the **inert** common-specimen schema, independent-receipt comparison schema, deterministic synthetic negative controls, local validator and tests, and a source-native binding inventory. The frozen source bytes are `{"synthetic":"source-v0"}\n` and MUST match the fixture digest before comparison. All synthetic outcomes retain `authority_effect=NONE`; claimed physical erasure with computed Landauer bound is never called measured heat. Coincident timestamps without a predecessor and independent causal witness preserve UNKNOWN. These fixtures may not be promoted to native STCM/CHF execution, SDK manifest invocation, third-party collaboration or authentic experimental observations. Source-native mathematics stays in STCM and CHF repositories, and cross-formalism SDK binding stays with the distinct `ADMISSIBLE-EXISTENCE-MATHEMATICAL-PROCESSING-INTEGRATION` owner.
+
+Current completion boundary: exact-head hosted validation of this successor is source evidence only. Genuine current-generation session gate origin/consumption, external export permission and exact bytes, native independently run receipts, physical measurements, and applicable organization/Master Records closure require separate authentic proof; no user-operated second device.
