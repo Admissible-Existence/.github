@@ -2,7 +2,7 @@
   "schema": "admissible-existence.stcm-chf.same-specimen-capability-map/v1",
   "goal_task_id": "STCM-CHF-THERMODYNAMIC-WITNESS-COMPARISON-001",
   "cosv_id": "10111010112000",
-  "registry_generation_inspected": 233,
+  "registry_generation_inspected": 242,
   "authority_effect": "NONE",
   "frozen_source_sha256": "sha256:fa95f04d35e51df5892a35dc2dd28e823696334082320c60df29d06c50bead02",
   "source_owners": {
@@ -14,7 +14,16 @@
       "sample_input": "frozen synthetic specimen mapped to source-native record and transition",
       "status": "SYNTHETIC_ONLY_PINNED_ORIGINAL_NATIVE_CODE",
       "authentic_prior_receipt": "NOT_RECEIVED",
-      "observed_physical_consequence": "NOT_OBSERVED"
+      "observed_physical_consequence": "NOT_OBSERVED",
+      "native_original_source_evidence": {
+        "source_only_comparison_pr": "Admissible-Existence/.github#83",
+        "merge_sha": "5425301bef8f3276bc9cd805c926f0661d9a6c70",
+        "native_run_id": 36091077891,
+        "retained_artifact_id": 10845258620,
+        "retained_artifact_sha256": "sha256:19018fb77b3ed6d9a08a85ffe5e3c8d0486add21f249f5b3ccb6149bf8b387ad",
+        "same_frozen_source_sha256": "sha256:fa95f04d35e51df5892a35dc2dd28e823696334082320c60df29d06c50bead02",
+        "scope": "FOUR_SYNTHETIC_LINEAGE_AND_CLOSURE_CONTROLS_CONSTRUCTED_PRIOR_NOT_REAL"
+      }
     },
     "CHF": {
       "repository": "Admissible-Existence/CHF",
@@ -34,10 +43,39 @@
         "tools/check_chf_integration.py",
         "tools/check_chf_mirror_handoff.py"
       ],
-      "semantic_classification": "STATIC_CONTRACT_VALIDATORS_NOT_PER_SPECIMEN_MATH",
-      "same_specimen_numerical_callable": "NOT_ESTABLISHED",
+      "semantic_classification": "NEW_NATIVE_DECLARED_THRESHOLD_COMPARATOR_MERGED_PRESERVES_HISTORICAL_STATIC_CHECKERS",
+      "same_specimen_numerical_callable": "BOUNDED_DECLARED_THRESHOLDS_ONLY_FULL_NATIVE_CONSEQUENCE_HORIZON_NOT_ESTABLISHED",
       "owner_task": "CHF native source/Triform",
-      "owner_review_ref": "StegVerse-Labs/.github#2615"
+      "owner_review_ref": "StegVerse-Labs/.github#2615",
+      "bounded_original_source_callable": {
+        "entrypoint": "tools/evaluate_chf_specimen_thresholds.py::evaluate_specimen",
+        "native_owner_pr": "Admissible-Existence/CHF#5",
+        "merged_source_commit": "27b42eb19f8adc2dd2ee3d1130045a6c5d15a19a",
+        "native_hosted_run_id": 36095046140,
+        "native_hosted_conclusion": "success",
+        "tri_form_run_id": 36095046224,
+        "tri_form_conclusion": "success",
+        "native_artifact_id": 10847107096,
+        "artifact_zip_sha256": "sha256:7d3db6a52e1af1716894de8e75bbfb223496d8fa96da8275483531c01b2a4084",
+        "same_frozen_source_sha256": "sha256:fa95f04d35e51df5892a35dc2dd28e823696334082320c60df29d06c50bead02",
+        "synthetic_native_controls": [
+          "ALL_FOUR_DECLARED_THRESHOLDS_SATISFIED",
+          "BELOW_DECLARED_THRESHOLD",
+          "UNKNOWN_INPUT",
+          "DENY_ORIGINAL_SOURCE_HASH"
+        ],
+        "original_source_bytes_verified": true,
+        "evaluates": "SUPPLIED_R_O_A_K_VERSUS_SUPPLIED_MINIMUMS_ONLY",
+        "does_not_evaluate": [
+          "physical consequence field",
+          "derived or observed R/O/A/K measures",
+          "actual consequence horizon flux",
+          "physical heat",
+          "independent causal custody"
+        ],
+        "consequence_horizon_disposition": "NOT_ESTABLISHED",
+        "input_provenance": "SYNTHETIC_NOT_EXTERNAL_MEASUREMENT"
+      }
     }
   },
   "sdk": {
@@ -55,12 +93,15 @@
     "cosv_id": "10111110111000",
     "issue": "StegVerse-Labs/.github#2615"
   },
-  "comparison_status": "PARTIAL_SYNTHETIC_STCM_ONLY_CHF_NATIVE_MATH_NOT_ESTABLISHED",
+  "comparison_status": "SAME_FROZEN_SYNTHETIC_SOURCE_EXECUTED_IN_TWO_NATIVE_OWNERS_SEPARATELY_DIFFERENT_LIMITED_SEMANTICS_NOT_FULL_HORIZON",
   "prohibited_inferences": [
     "native CHF contracted checks imply source callable",
     "synthetic predecessor counts as independent causal witness",
     "green source CI proves SDK manifest execution",
     "Landauer calculated bound is measured physical heat",
-    "repository receipt is Master Records transition"
+    "repository receipt is Master Records transition",
+    "supplied synthetic CHF values imply measured consequence field or real horizon",
+    "same frozen source digest implies independent real specimen observations or comparable full formalism output",
+    "source-only CHF comparator implies installed generic SDK math route"
   ]
 }
