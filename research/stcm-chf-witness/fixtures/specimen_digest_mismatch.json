@@ -1,0 +1,42 @@
+{
+  "schema_version": "candidate-v0",
+  "specimen_id": "SYNTHETIC-MISMATCH",
+  "source": {
+    "format": "synthetic/json",
+    "sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "initial_state": {
+    "format": "synthetic/json",
+    "sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "resulting_state": {
+    "format": "synthetic/json",
+    "sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "transition": {
+    "id": "SIMULATED-TRANSITION-001",
+    "proposed_effect": "change mock state",
+    "observed_effect": "synthetic state changed",
+    "causal_relation": "established",
+    "predecessor_receipt_sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "causal_witness_sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "time_basis": "synthetic sequence only"
+  },
+  "independent_witness": {
+    "identity": "SYNTHETIC_ONLY",
+    "provenance": "fixture generator",
+    "evidence_class": "derived",
+    "evidence_sha256": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "custody_status": "unverified",
+    "uncertainty": null,
+    "units": null
+  },
+  "thermodynamic_claim": {
+    "erase_count_status": "not_applicable",
+    "irreversible_erase_count": null,
+    "temperature_kelvin": null,
+    "landauer_bound_joules": null,
+    "physical_heat_status": "not_applicable",
+    "physical_heat_measurement_sha256": null
+  }
+}

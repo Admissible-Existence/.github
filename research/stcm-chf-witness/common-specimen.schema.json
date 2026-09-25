@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stegverse.org/research/stcm-chf/common-specimen.candidate-v0.schema.json",
+  "title": "STCM CHF thermodynamic witness common specimen (inert candidate)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "specimen_id",
+    "source",
+    "initial_state",
+    "resulting_state",
+    "transition",
+    "independent_witness"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "candidate-v0"
+    },
+    "specimen_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "$ref": "#/$defs/blob"
+    },
+    "initial_state": {
+      "$ref": "#/$defs/blob"
+    },
+    "resulting_state": {
+      "$ref": "#/$defs/blob"
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "proposed_effect",
+        "observed_effect",
+        "causal_relation",
+        "time_basis"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "proposed_effect": {
+          "type": "string"
+        },
+        "observed_effect": {
+          "type": "string"
+        },
+        "causal_relation": {
+          "enum": [
+            "established",
+            "unknown",
+            "not_observed",
+            "not_applicable"
+          ]
+        },
+        "predecessor_receipt_sha256": {
+          "$ref": "#/$defs/optionalHash"
+        },
+        "causal_witness_sha256": {
+          "$ref": "#/$defs/optionalHash"
+        },
+        "time_basis": {
+          "type": "string"
+        }
+      }
+    },
+    "independent_witness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity",
+        "provenance",
+        "evidence_class",
+        "evidence_sha256",
+        "custody_status"
+      ],
+      "properties": {
+        "identity": {
+          "type": "string"
+        },
+        "provenance": {
+          "type": "string"
+        },
+        "evidence_class": {
+          "enum": [
+            "measured",
+            "derived",
+            "not_observed",
+            "unknown",
+            "not_applicable"
+          ]
+        },
+        "evidence_sha256": {
+          "$ref": "#/$defs/optionalHash"
+        },
+        "custody_status": {
+          "enum": [
+            "verified",
+            "unverified",
+            "unknown"
+          ]
+        },
+        "uncertainty": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "units": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "thermodynamic_claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "erase_count_status",
+        "physical_heat_status"
+      ],
+      "properties": {
+        "erase_count_status": {
+          "enum": [
+            "measured",
+            "derived",
+            "not_observed",
+            "unknown",
+            "not_applicable"
+          ]
+        },
+        "irreversible_erase_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "temperature_kelvin": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "landauer_bound_joules": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "physical_heat_status": {
+          "enum": [
+            "measured",
+            "not_observed",
+            "unknown",
+            "not_applicable"
+          ]
+        },
+        "physical_heat_measurement_sha256": {
+          "$ref": "#/$defs/optionalHash"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "optionalHash": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/hash"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "blob": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "sha256"
+      ],
+      "properties": {
+        "format": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/hash"
+        }
+      }
+    }
+  }
+}

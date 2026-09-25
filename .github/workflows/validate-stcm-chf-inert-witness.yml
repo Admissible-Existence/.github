@@ -1,0 +1,37 @@
+name: Validate STCM CHF inert witness comparison — non-authorizing
+on:
+  pull_request:
+    paths:
+      - 'research/stcm-chf-witness/**'
+      - 'docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md'
+      - 'profile/README.md'
+      - '.github/workflows/validate-stcm-chf-inert-witness.yml'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  validate-inert-fixtures:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Anonymous checkout without GitHub token
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          test -z "${GITHUB_TOKEN:-}"
+          git init .
+          git remote add origin https://github.com/Admissible-Existence/.github.git
+          if [ -n "${PR_NUMBER:-}" ]; then
+            env -u GITHUB_TOKEN -u GH_TOKEN git fetch --depth=1 origin "refs/pull/${PR_NUMBER}/merge"
+          else
+            env -u GITHUB_TOKEN -u GH_TOKEN git fetch --depth=1 origin "${GITHUB_SHA}"
+          fi
+          git checkout --detach FETCH_HEAD
+      - name: Run frozen synthetic-only tests and reject runtime claims
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check 'jsonschema==4.23.0'
+          cd research/stcm-chf-witness
+          python -m unittest -v test_inert_comparison.py
+          python -m py_compile validate_inert_comparison.py test_inert_comparison.py

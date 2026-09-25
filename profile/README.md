@@ -30,6 +30,6 @@ Representative areas include:
 
 This is an active research organization. Individual repositories state their own maturity, proof status, and authority boundaries.
 
-## Research intake (not admitted)
+## Registered source-only research comparison
 
-A [bounded STCM–CHF / external thermodynamic-witness comparison proposal](../docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md) is being reconciled under [coordination issue #79](https://github.com/Admissible-Existence/.github/issues/79). Both formalisms retain their native ownership and semantics. This intake is neither an authorized execution task nor experimental validation.
+A [bounded STCM–CHF / external thermodynamic-witness comparison proposal](../docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md) is being reconciled under [coordination issue #79](https://github.com/Admissible-Existence/.github/issues/79). Both formalisms retain their native ownership and semantics. The comparison has registered Goal ID `STCM-CHF-THERMODYNAMIC-WITNESS-COMPARISON-001` and COSV `10111010112000`. Its [inert synthetic fixture and validation package](../research/stcm-chf-witness/README.md) supports nonauthoritative research review only; actual native execution, independent external witness permission and any governed transition remain separately evidenced.
