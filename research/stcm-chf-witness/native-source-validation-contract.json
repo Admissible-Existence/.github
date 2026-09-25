@@ -1,0 +1,62 @@
+{
+  "schema": "admissible-existence.stcm-chf.pinned-native-source-validation/v1",
+  "authority_effect": "NONE",
+  "purpose": "Independent read-only validation of two pinned native source baselines; not shared-specimen equivalence",
+  "stcm": {
+    "repo": "Admissible-Existence/STCM",
+    "commit": "92f6bb8ac61377792970da16a835430ebe20f000",
+    "blob_guards": {
+      "tools/closure-harness/closure.py": "ee1d1fc647282e9d6d748593de58b8638e74056a",
+      "tools/closure-harness/lineage_gate.py": "c0d6a9329b4ba88e6e82ebe6f0a4df9c3097906e"
+    },
+    "entry": "tools/closure-harness/run_closure_harness.py",
+    "report": "reports/closure_harness_report.json",
+    "expected": "total_unexpected == 0; closure and lineage layers present"
+  },
+  "chf": {
+    "repo": "Admissible-Existence/CHF",
+    "commit": "369737c3ca1985cd9b1e0a2696ebfbc7ecb84b93",
+    "blob_guards": {
+      "tools/check_chf_conditions.py": "5c2cdef26d6fd0c289213ca87db67deafcd1ac6c",
+      "data/chf-conditions.json": "7088981d7e3091574cf2be2a8be42ea9d9880295"
+    },
+    "checks": [
+      "tools/check_chf_conditions.py",
+      "tools/check_chf_thresholds.py",
+      "tools/check_chf_proof_surfaces.py",
+      "tools/check_chf_cross_domain.py",
+      "tools/check_chf_integration.py",
+      "tools/check_chf_mirror_handoff.py"
+    ],
+    "expected": "six independent native baseline checks exit 0",
+    "existing_owner_ci_validation": {
+      "source_baseline_commit": "369737c3ca1985cd9b1e0a2696ebfbc7ecb84b93",
+      "existing_owner_pr": "Admissible-Existence/CHF#4",
+      "workflow_only_pr_head": "889271b703e765c7017acf1da038dba005d5e9d8",
+      "merged_commit": "52f1f226dc3be9dbc53e52429d03fa87d3087519",
+      "native_six_check_run": 36086125184,
+      "native_six_check_conclusion": "success",
+      "triform_check_run": 36086125211,
+      "triform_conclusion": "success",
+      "validation_artifact_id": 10843369973,
+      "validation_artifact_zip_sha256": "sha256:7b80c604186151508385f834196f75b36346b144634f653fa7872b0846d2dbfd",
+      "classification": "INDEPENDENT_ORIGINAL_PRIVATE_SOURCE_OWNER_HOSTED_VALIDATION",
+      "native_comparison_common_specimen_executed": false
+    }
+  },
+  "evidence_boundary": {
+    "proves": [
+      "pinned source revision available to CI",
+      "native baseline code executed read-only in ephemeral CI",
+      "actual return codes and exact report digests retained"
+    ],
+    "does_not_prove": [
+      "shared specimen evaluated identically",
+      "SDK manifest route invokes source-native mathematics",
+      "authenticated resident gate or WorkerCoordinator execution",
+      "external participant export permission",
+      "physical heat measurement",
+      "organization-ledger or Master Records custody"
+    ]
+  }
+}
