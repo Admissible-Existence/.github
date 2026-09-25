@@ -96,7 +96,7 @@ def assess_chf(root: Path, spec: dict) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--stcm-root", required=True, type=Path)
-    parser.add_argument("--chf-root", required=True, type=Path)
+    parser.add_argument("--chf-root", type=Path, help="Use only the authorized existing CHF owner source root")
     parser.add_argument("--report", required=True, type=Path)
     args = parser.parse_args()
 
@@ -114,7 +114,7 @@ def main() -> int:
     failures = []
     for kind, root, assessor in (
         ("STCM", args.stcm_root, assess_stcm),
-        ("CHF", args.chf_root, assess_chf),
+        *((("CHF", args.chf_root, assess_chf),) if args.chf_root else ()),
     ):
         try:
             report[kind] = assessor(root.resolve(), CONTRACT[kind.lower()])
@@ -124,11 +124,19 @@ def main() -> int:
             report[kind] = {"baseline_validation_pass": False,
                             "error_class": type(exc).__name__, "reason": str(exc)}
             failures.append(kind + "_SOURCE_OR_EXECUTION_FAILED")
+    if args.chf_root is None:
+        report["CHF"] = {"baseline_validation_pass": False,
+            "classification": "NATIVE_SOURCE_EXECUTION_NOT_OBSERVED",
+            "reason": "private CHF source requires its own authorized native repository CI",
+            "native_owner": "Admissible-Existence/CHF"}
+    report["source_baselines_complete"] = args.chf_root is not None
+    report["scoped_validation_pass"] = not failures
     report["failure_classes"] = failures
-    report["source_baselines_pass"] = not failures
+    report["source_baselines_pass"] = not failures and args.chf_root is not None
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({"source_baselines_pass": not failures,
+    print(json.dumps({"source_baselines_pass": report["source_baselines_pass"],
+                      "scoped_validation_pass": report["scoped_validation_pass"],
                       "failure_classes": failures,
                       "report": str(args.report)}, sort_keys=True))
     return int(bool(failures))
