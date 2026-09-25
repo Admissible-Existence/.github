@@ -34,4 +34,5 @@ jobs:
           python -m pip install --disable-pip-version-check 'jsonschema==4.23.0'
           cd research/stcm-chf-witness
           python -m unittest -v test_inert_comparison.py
+          python -m unittest -v test_independent_native_source_correlation.py
           python -m py_compile validate_inert_comparison.py test_inert_comparison.py
