@@ -39,15 +39,20 @@ jobs:
       - name: Execute the pinned native STCM baseline; classify CHF as separately owned
         run: |
           set -euo pipefail
-          python3 -m pip install --disable-pip-version-check 'PyYAML==6.0.2'
+          python3 -m pip install --disable-pip-version-check 'PyYAML==6.0.2' 'jsonschema==4.23.0'
           python3 -m unittest discover -s research/stcm-chf-witness -p 'test_pinned_native_source_validation.py' -v
           python3 research/stcm-chf-witness/validate_pinned_native_sources.py \
             --stcm-root "${RUNNER_TEMP}/source-stcm" \
             --report "${RUNNER_TEMP}/stcm-chf-native-source-validation.json"
+          python3 research/stcm-chf-witness/probe_frozen_stcm_native.py \
+            --stcm-root "${RUNNER_TEMP}/source-stcm" \
+            --output "${RUNNER_TEMP}/stcm-frozen-specimen-one-sided-probe.json"
       - name: Retain partial source-only evidence with explicit CHF NOT_OBSERVED
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pinned-native-source-baseline-report
-          path: ${{ runner.temp }}/stcm-chf-native-source-validation.json
+          path: |
+            ${{ runner.temp }}/stcm-chf-native-source-validation.json
+            ${{ runner.temp }}/stcm-frozen-specimen-one-sided-probe.json
           if-no-files-found: warn
