@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Inert independent receipt comparison candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "specimen_sha256",
+    "stcm_receipt_sha256",
+    "chf_receipt_sha256",
+    "external_receipt_sha256",
+    "comparison_status",
+    "authority_effect"
+  ],
+  "properties": {
+    "specimen_sha256": {
+      "$ref": "#/$defs/hash"
+    },
+    "stcm_receipt_sha256": {
+      "$ref": "#/$defs/optionalHash"
+    },
+    "chf_receipt_sha256": {
+      "$ref": "#/$defs/optionalHash"
+    },
+    "external_receipt_sha256": {
+      "$ref": "#/$defs/optionalHash"
+    },
+    "comparison_status": {
+      "enum": [
+        "INERT",
+        "UNKNOWN",
+        "DENY_SPECIMEN_MISMATCH",
+        "DENY_CAUSAL_WITNESS_MISSING",
+        "DENY_RECEIPT_MISMATCH",
+        "NOT_EXECUTED"
+      ]
+    },
+    "differences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "authority_effect": {
+      "const": "NONE"
+    }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "optionalHash": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/hash"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}
