@@ -1,0 +1,3 @@
+# Admissible-Existence organization coordination
+
+Original authority remains in [`ORG_BOUNDARY_MIRROR_HANDOFF.md`](ORG_BOUNDARY_MIRROR_HANDOFF.md). [Organization root-license audit](docs/OPEN_SOURCE_ORGANIZATION_INVENTORY_20260926.json) records 34 repository root LICENSE/LICENSE.md checks under central `ECOSYSTEM-OPEN-SOURCE-STRATEGY-001` / COSV `20010010100000`: 2 observed MIT text roots and 32 roots without either checked path. These are observations only; complete file grants, author title, dependencies, redistribution and release remain unverified. Central public census gets aggregate counts only; nonpublic names stay in this source owner.

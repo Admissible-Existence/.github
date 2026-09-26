@@ -1,0 +1,232 @@
+{
+  "schema": "stegverse.organization-open-source-inventory/v1",
+  "organization": "Admissible-Existence",
+  "snapshot_date": "2026-09-26",
+  "canonical_goal": "ECOSYSTEM-OPEN-SOURCE-STRATEGY-001",
+  "cosv": "20010010100000",
+  "scope": "Authenticated organization listing and exact LICENSE/LICENSE.md reads at default-branch root paths; not file-level/historical rights proof.",
+  "visibility": "INTERNAL_SOURCE_OWNER_EVIDENCE",
+  "counts": {
+    "repositories": 34,
+    "public": 5,
+    "private": 27,
+    "internal": 2,
+    "root_mit_text_observed": 2,
+    "checked_root_paths_missing": 32,
+    "copyright_title_verified": 0,
+    "release_authorizations": 0
+  },
+  "repositories": [
+    {
+      "repository": "Admissible-Existence/STCM",
+      "visibility": "public",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/RTG",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/telemetry",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/FI",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/HPS",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/GTG",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/IICT",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/BC",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/.github",
+      "visibility": "public",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/TT",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/Fundamental-Invariants-of-Reality",
+      "visibility": "internal",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/ae-validation-research",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/AID",
+      "visibility": "internal",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/ae-validation-factory",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/Triad",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/CTA",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/learning-transition-governance",
+      "visibility": "public",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/CHF",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/core-lite",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/ET",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/DaCo",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/DC",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/tracker",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/GCAT-BCAT",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/standing-proof-formalism",
+      "visibility": "public",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/validation-profile-registry",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/Existence",
+      "visibility": "private",
+      "root_license_observation": "MIT_TEXT_OBSERVED",
+      "root_license_blob_sha": "9ace0fc81a5f8ff5b3ee421c69ce553b95ac27b7"
+    },
+    {
+      "repository": "Admissible-Existence/AE",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/validator",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/ECAT-ICAT",
+      "visibility": "public",
+      "root_license_observation": "MIT_TEXT_OBSERVED",
+      "root_license_blob_sha": "9ace0fc81a5f8ff5b3ee421c69ce553b95ac27b7"
+    },
+    {
+      "repository": "Admissible-Existence/IW",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/RE-Reduction",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/SOL",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    },
+    {
+      "repository": "Admissible-Existence/RE",
+      "visibility": "private",
+      "root_license_observation": "LICENSE_AND_LICENSE_MD_NOT_FOUND",
+      "root_license_blob_sha": null
+    }
+  ],
+  "dispositions": [
+    "ROOT_ONLY_LICENSE_SCOPE_PARTIAL",
+    "CONTRIBUTOR_RIGHTS_UNVERIFIED",
+    "THIRD_PARTY_RIGHTS_UNVERIFIED",
+    "RELEASE_NOT_AUTHORIZED"
+  ],
+  "central_disclosure": "AGGREGATE_COUNTS_ONLY_NO_NONPUBLIC_REPOSITORY_NAMES"
+}
