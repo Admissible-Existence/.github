@@ -1,6 +1,6 @@
 """Non-authoritative evidence correlation of two independently run native synthetic paths.
 
-This does not fetch private CHF source, claim generic SDK invocation, or convert
+This does not fetch private CHF source, claim STCM SDK invocation, or convert
 supplied threshold values or synthetic lineage into measurements.
 """
 import json
@@ -44,9 +44,24 @@ class SameSourceTwoNativeOwners(unittest.TestCase):
         self.assertEqual(EVIDENCE["sdk"]["integration_owner"],
                          "ADMISSIBLE-EXISTENCE-MATHEMATICAL-PROCESSING-INTEGRATION")
 
-    def test_generic_sdk_native_math_is_not_false_positive(self):
-        self.assertEqual(EVIDENCE["sdk"]["native_mathematical_processor_binding"], "NOT_ESTABLISHED")
-        self.assertIn("NOT_FULL_HORIZON", EVIDENCE["comparison_status"])
+    def test_generic_sdk_native_math_preserves_stcm_owner_boundary(self):
+        self.assertEqual(
+            EVIDENCE["sdk"]["native_mathematical_processor_binding"],
+            "GENERIC_ROUTE_ESTABLISHED_STCM_BINDING_NOT_ESTABLISHED",
+        )
+        self.assertEqual(EVIDENCE["sdk"]["route_id"], "stegverse.route.source-native-math.v1")
+        self.assertEqual(
+            EVIDENCE["source_owners"]["CHF"]["bounded_original_source_callable"]["sdk_binding_state"],
+            "ESTABLISHED_BOUNDED_PRIVATE_ORIGINAL_SOURCE",
+        )
+        self.assertEqual(
+            EVIDENCE["source_owners"]["STCM"]["sdk_binding_state"],
+            "NOT_ESTABLISHED_FOR_STCM",
+        )
+        self.assertEqual(
+            EVIDENCE["comparison_status"],
+            "MUTUAL_REVIEW_PROTOCOL_PREPARED_COMMON_SPECIMEN_EXECUTION_NOT_STARTED",
+        )
 
     def test_no_promoted_real_evidence(self):
         self.assertEqual(EVIDENCE["authority_effect"], "NONE")
