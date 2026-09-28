@@ -26,6 +26,11 @@ STCM [merged PR #83](https://github.com/Admissible-Existence/.github/pull/83) se
 
 ## XF-001 external exact-byte intake boundary
 
-The collaborator has now agreed in writing to preserve both native implementations unchanged, freeze the smallest native transition with a reconstructable witness, keep calculated Landauer lower bounds distinct from measured dissipation, and compare independently produced receipts while preserving divergence and unexplained residuals. The actual XF-001 specimen bytes and external native receipt are still **NOT_RECEIVED**.
+The collaborator has now agreed in writing to preserve both native implementations unchanged, freeze the smallest native transition with a reconstructable witness, keep calculated Landauer lower bounds distinct from measured dissipation, and compare independently produced receipts while preserving divergence and unexplained residuals. The actual common XF-001 execution specimen bytes and Flint native receipt are still **NOT_RECEIVED**, but they are not prerequisites to completing the StegVerse-native protocol conditions and presenting them for mutual review.
 
 `xf001-external-intake.schema.json` and `validate_xf001_external_intake.py` therefore prepare only the evidence-ingestion boundary. The preflight is bound to Goal `STCM-CHF-THERMODYNAMIC-WITNESS-COMPARISON-001` / COSV `10111010112000` and fails closed unless exact original/result state hashes, source bindings, verified independent-witness custody, and the external receipt digest are supplied. It never populates external semantics, derives Flint accounting, substitutes the synthetic fixture, or runs STCM/CHF. Its sole positive disposition is `ALLOW_XF001_NATIVE_EVALUATION_INPUT_READY`, meaning only that an externally supplied envelope is sufficiently bound to be handed to the separately owned native evaluators.
+
+
+## Mutual development boundary
+
+StegVerse and Flint develop their native XF-001 sides independently and review the shared evidence boundary mutually before common-specimen execution. StegVerse must not wait for Flint's specimen to finish its own admissibility conditions, exact-byte/custody requirements, native STCM/CHF routing, and receipt-comparison semantics. Flint's eventual specimen/receipt remains opaque external evidence and is never populated by StegVerse. Once both native sides are reviewable and the common specimen is mutually selected, the execution intake validates the exact shared bytes and routes the unchanged specimen to the existing native owners.
