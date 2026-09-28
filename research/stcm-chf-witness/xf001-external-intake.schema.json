@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "XF-001 external frozen specimen intake",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol_id","goal_task_id","cosv_id","specimen_id","transition_id","original_state","resulting_state","source_bindings","independent_witness","external_accounting"],
+  "properties": {
+    "protocol_id":{"const":"XF-001"},
+    "goal_task_id":{"const":"STCM-CHF-THERMODYNAMIC-WITNESS-COMPARISON-001"},
+    "cosv_id":{"const":"10111010112000"},
+    "specimen_id":{"type":"string","minLength":1},
+    "transition_id":{"type":"string","minLength":1},
+    "original_state":{"$ref":"#/$defs/blob"},
+    "resulting_state":{"$ref":"#/$defs/blob"},
+    "source_bindings":{"type":"array","minItems":1,"items":{"$ref":"#/$defs/blob"}},
+    "independent_witness":{"type":"object","additionalProperties":false,"required":["identity","evidence_sha256","custody_status"],"properties":{
+      "identity":{"type":"string","minLength":1},
+      "evidence_sha256":{"$ref":"#/$defs/hash"},
+      "custody_status":{"enum":["verified","unverified","unknown"]}
+    }},
+    "external_accounting":{"type":"object","additionalProperties":true,"required":["receipt_sha256"],"properties":{
+      "receipt_sha256":{"$ref":"#/$defs/hash"}
+    }}
+  },
+  "$defs":{
+    "hash":{"type":"string","pattern":"^sha256:[0-9a-f]{64}$"},
+    "blob":{"type":"object","additionalProperties":false,"required":["format","sha256"],"properties":{"format":{"type":"string","minLength":1},"sha256":{"$ref":"#/$defs/hash"}}}
+  }
+}
