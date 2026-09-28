@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "activation_id": "AEX-PC-RECONCILE-20260806-01",
-  "generated_at": "2026-09-21T13:23:20.031439+00:00",
+  "generated_at": "2026-09-28T14:31:51.437300+00:00",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "expected_repository_count": 32,
   "live_observed_repository_count": 5,
@@ -485,6 +485,12 @@
           ]
         },
         {
+          "label": "Admissible-Existence organization coordination",
+          "sources": [
+            "README.md"
+          ]
+        },
+        {
           "label": "Admissible-Existence Organization Mathematical Architecture",
           "sources": [
             "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
@@ -716,6 +722,12 @@
           ]
         },
         {
+          "label": "Bounded synthetic source-only package (successor)",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Candidate evidence",
           "sources": [
             "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
@@ -725,6 +737,12 @@
           "label": "Candidate formalizations",
           "sources": [
             "docs/DISCOVERY_FRONTIER.md"
+          ]
+        },
+        {
+          "label": "Candidate minimal common specimen contract",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -798,6 +816,12 @@
           "label": "Canonical layer orientation",
           "sources": [
             "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
+          "label": "Canonical owners and collision boundaries",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1082,6 +1106,12 @@
           "label": "Current repository-touch summary",
           "sources": [
             "reports/PRINCIPLE_COMPLETENESS_FINDINGS_AND_FIX_PLAN_2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Current source state (2026-09-24)",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1552,6 +1582,12 @@
           ]
         },
         {
+          "label": "Frozen-specimen source-native STCM probe",
+          "sources": [
+            "research/stcm-chf-witness/README.md"
+          ]
+        },
+        {
           "label": "GCAT-BCAT \u2014 PASS, root mathematical completeness current",
           "sources": [
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
@@ -1611,6 +1647,12 @@
           "label": "Heartbeat Response Mirror Handoff",
           "sources": [
             "HEARTBEAT_RESPONSE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Historical admission and execution sequence (superseded for nonauthoritative source work)",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1710,6 +1752,12 @@
           "label": "Incomplete work and exact locations",
           "sources": [
             "docs/FORMALISM_WORKER_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Independent pinned native-source baselines",
+          "sources": [
+            "research/stcm-chf-witness/README.md"
           ]
         },
         {
@@ -1977,6 +2025,12 @@
           ]
         },
         {
+          "label": "Native same-specimen callable reconciliation (source-only)",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Next Execution Session Prompt",
           "sources": [
             "NEXT_EXECUTION_SESSION_PROMPT.md"
@@ -2174,6 +2228,18 @@
           ]
         },
         {
+          "label": "Original native CHF bounded same-frozen-source threshold execution (source-only)",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Original-source CHF four-threshold execution on the same frozen synthetic source",
+          "sources": [
+            "research/stcm-chf-witness/README.md"
+          ]
+        },
+        {
           "label": "Originating session goal",
           "sources": [
             "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md",
@@ -2233,6 +2299,12 @@
           "label": "Pilot",
           "sources": [
             "docs/TRIFORM_FORMALISM_CONTRACT.md"
+          ]
+        },
+        {
+          "label": "Pinned native-source baseline validation (source-only, independent)",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -2409,6 +2481,12 @@
           ]
         },
         {
+          "label": "Registered source-only research comparison",
+          "sources": [
+            "profile/README.md"
+          ]
+        },
+        {
           "label": "Registration",
           "sources": [
             "docs/TRIFORM_MIGRATION_REFRESH_009_MIRROR_HANDOFF.md"
@@ -2557,6 +2635,12 @@
           ]
         },
         {
+          "label": "Required negative controls",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Required repository projection",
           "sources": [
             "docs/ORGANIZATION_MATHEMATICAL_ARCHITECTURE.md"
@@ -2609,6 +2693,12 @@
           "label": "Selection result",
           "sources": [
             "docs/TRIFORM_MIGRATION_REFRESH_015_SELECTION_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "September 26, 2026 \u2014 native organization source-only open-source census",
+          "sources": [
+            "ORG_BOUNDARY_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -2693,6 +2783,18 @@
           "sources": [
             "docs/CROSS_REPOSITORY_REMEDIATION_MIRROR_HANDOFF.md",
             "docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "STCM/CHF \u00d7 thermodynamic-witness inert comparison (source-only)",
+          "sources": [
+            "research/stcm-chf-witness/README.md"
+          ]
+        },
+        {
+          "label": "STCM\u2013CHF \u00d7 Thermodynamic Witness Research Intake Mirror Handoff",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -3032,6 +3134,12 @@
           ]
         },
         {
+          "label": "What is and is not verified",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Why prior percentages are superseded",
           "sources": [
             "reports/principle-completeness-baseline-2026-08-06.md"
@@ -3081,6 +3189,20 @@
           "count": 164
         },
         {
+          "severity": "error",
+          "code": "BROKEN_LOCAL_LINKS",
+          "examples": [
+            {
+              "source": "profile/README.md",
+              "target": "../docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
+            },
+            {
+              "source": "profile/README.md",
+              "target": "../research/stcm-chf-witness/README.md"
+            }
+          ]
+        },
+        {
           "severity": "warning",
           "code": "AMBIGUOUS_SHORT_REPOSITORY_IDENTITIES",
           "identities": [
@@ -3099,13 +3221,13 @@
         }
       ],
       "metrics": {
-        "files": 217,
-        "markdown_files": 70,
-        "structured_files": 101,
-        "handoffs": 32,
-        "principle_candidates": 490,
+        "files": 238,
+        "markdown_files": 73,
+        "structured_files": 113,
+        "handoffs": 33,
+        "principle_candidates": 508,
         "placeholder_markers": 164,
-        "broken_local_links": 0,
+        "broken_local_links": 2,
         "ambiguous_short_repository_identities": 11,
         "dimensions_met": 12,
         "dimensions_total": 12
@@ -4778,9 +4900,9 @@
         }
       ],
       "metrics": {
-        "files": 121,
+        "files": 122,
         "markdown_files": 22,
-        "structured_files": 53,
+        "structured_files": 54,
         "handoffs": 3,
         "principle_candidates": 241,
         "placeholder_markers": 9,
