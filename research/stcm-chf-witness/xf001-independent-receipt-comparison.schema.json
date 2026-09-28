@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "XF-001 independent receipt comparison",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_id",
+    "specimen_sha256",
+    "stcm_receipt_sha256",
+    "chf_receipt_sha256",
+    "external_receipt_sha256",
+    "classification",
+    "differences",
+    "unexplained_residuals",
+    "preserve_all_discrepancies",
+    "authority_effect"
+  ],
+  "properties": {
+    "protocol_id": {
+      "const": "XF-001"
+    },
+    "specimen_sha256": {
+      "$ref": "#/$defs/hash"
+    },
+    "stcm_receipt_sha256": {
+      "$ref": "#/$defs/hash"
+    },
+    "chf_receipt_sha256": {
+      "$ref": "#/$defs/hash"
+    },
+    "external_receipt_sha256": {
+      "$ref": "#/$defs/hash"
+    },
+    "classification": {
+      "enum": [
+        "EXACT_CORRESPONDENCE",
+        "COMPATIBLE_SEMANTICALLY_DISTINCT",
+        "DIRECT_DIVERGENCE",
+        "ONE_FRAMEWORK_ONLY",
+        "UNEXPLAINED_RESIDUAL"
+      ]
+    },
+    "differences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "unexplained_residuals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "preserve_all_discrepancies": {
+      "const": true
+    },
+    "preserve_unexplained_residuals": {
+      "const": true
+    },
+    "external_semantics_inferred": {
+      "const": false
+    },
+    "authority_effect": {
+      "const": "NONE"
+    }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

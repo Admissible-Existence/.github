@@ -34,3 +34,8 @@ The collaborator has now agreed in writing to preserve both native implementatio
 ## Mutual development boundary
 
 StegVerse and Flint develop their native XF-001 sides independently and review the shared evidence boundary mutually before common-specimen execution. StegVerse must not wait for Flint's specimen to finish its own admissibility conditions, exact-byte/custody requirements, native STCM/CHF routing, and receipt-comparison semantics. Flint's eventual specimen/receipt remains opaque external evidence and is never populated by StegVerse. Once both native sides are reviewable and the common specimen is mutually selected, the execution intake validates the exact shared bytes and routes the unchanged specimen to the existing native owners.
+
+
+## StegVerse artifact for XF-001 mutual review
+
+`xf001-stegverse-mutual-review.json` is the StegVerse-native side to review with the collaborator before selecting the common execution specimen. It fixes admissibility, exact-byte/custody requirements, existing-owner STCM/CHF routing and receipt comparison while keeping external accounting opaque. Flint's specimen and receipt are not inputs to reviewing this contract. The installed generic SDK native-math route is reused where the original owner has established a binding: CHF has bounded manifested original-source invocation; STCM's SDK binding remains an existing math/SDK-owner obligation and is not replaced by a comparison-specific route.

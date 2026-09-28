@@ -1,0 +1,73 @@
+{
+  "schema": "admissible-existence.xf001.stegverse-mutual-review/v1",
+  "protocol_id": "XF-001",
+  "goal_task_id": "STCM-CHF-THERMODYNAMIC-WITNESS-COMPARISON-001",
+  "cosv_id": "10111010112000",
+  "authority_effect": "NONE",
+  "purpose": "StegVerse-native protocol artifact for mutual review before common-specimen execution",
+  "external_semantics_policy": "OPAQUE_UNPOPULATED",
+  "common_specimen_execution_state": "NOT_STARTED",
+  "admissibility_predicates": [
+    "COMMON_SPECIMEN_EXACT_BYTES_AND_SHA256_BOUND",
+    "ORIGINAL_AND_RESULTING_STATE_EXACT_BYTES_BOUND",
+    "TRANSITION_ID_BOUND",
+    "INDEPENDENT_WITNESS_IDENTITY_EVIDENCE_AND_CUSTODY_VERIFIED",
+    "EXTERNAL_NATIVE_RECEIPT_EXACT_DIGEST_BOUND_WITHOUT_INTERPRETATION",
+    "STCM_NATIVE_RECEIPT_BOUND_TO_IDENTICAL_SPECIMEN",
+    "CHF_NATIVE_RECEIPT_BOUND_TO_IDENTICAL_SPECIMEN",
+    "CALCULATED_THERMODYNAMIC_BOUND_DISTINCT_FROM_MEASURED_DISSIPATION",
+    "ALL_DISCREPANCIES_AND_UNEXPLAINED_RESIDUALS_PRESERVED"
+  ],
+  "fail_closed_dispositions": [
+    "FAIL_CLOSED_COMMON_SPECIMEN_BINDING",
+    "FAIL_CLOSED_STATE_BINDING",
+    "FAIL_CLOSED_TRANSITION_IDENTITY",
+    "FAIL_CLOSED_WITNESS_CUSTODY",
+    "FAIL_CLOSED_EXTERNAL_RECEIPT_BINDING",
+    "FAIL_CLOSED_STCM_NATIVE_RECEIPT_BINDING",
+    "FAIL_CLOSED_CHF_NATIVE_RECEIPT_BINDING",
+    "FAIL_CLOSED_RECEIPT_SPECIMEN_MISMATCH"
+  ],
+  "native_owner_routing": {
+    "STCM": {
+      "repository": "Admissible-Existence/STCM",
+      "callable": "tools/closure-harness/lineage_gate.py::gated_close",
+      "pinned_source_commit": "92f6bb8ac61377792970da16a835430ebe20f000",
+      "sdk_route": "stegverse.route.source-native-math.v1",
+      "sdk_binding_state": "NOT_ESTABLISHED_FOR_STCM",
+      "rule": "Existing mathematical-processing owner must establish/review binding; comparison owner must not create STCM-specific route."
+    },
+    "CHF": {
+      "repository": "Admissible-Existence/CHF",
+      "callable": "tools/evaluate_chf_specimen_thresholds.py::evaluate_specimen",
+      "bounded_owner_merge": "27b42eb19f8adc2dd2ee3d1130045a6c5d15a19a",
+      "sdk_route": "stegverse.route.source-native-math.v1",
+      "sdk_binding_state": "ESTABLISHED_BOUNDED_PRIVATE_ORIGINAL_SOURCE",
+      "limitation": "Supplied R/O/A/K versus supplied minima only; full consequence horizon and physical heat not established."
+    }
+  },
+  "receipt_comparison": {
+    "requires_identical_specimen_digest": true,
+    "classifications": [
+      "EXACT_CORRESPONDENCE",
+      "COMPATIBLE_SEMANTICALLY_DISTINCT",
+      "DIRECT_DIVERGENCE",
+      "ONE_FRAMEWORK_ONLY",
+      "UNEXPLAINED_RESIDUAL"
+    ],
+    "preserve_all_discrepancies": true,
+    "preserve_unexplained_residuals": true,
+    "external_receipt_semantics_inferred": false,
+    "no_convergence_coercion": true
+  },
+  "mutual_review_ready_when": [
+    "THIS_CONTRACT_EXACT_HEAD_VALIDATED_AND_MERGED",
+    "STEGVERSE_ADMISSIBILITY_AND_COMPARISON_SEMANTICS_REVIEWABLE",
+    "EXISTING_OWNER_ROUTING_IDENTIFIED_WITH_LIMITATIONS"
+  ],
+  "not_required_for_stegverse_protocol_review": [
+    "FLINT_SPECIMEN_BYTES",
+    "FLINT_NATIVE_RECEIPT",
+    "PHYSICAL_DISSIPATION_MEASUREMENT"
+  ]
+}

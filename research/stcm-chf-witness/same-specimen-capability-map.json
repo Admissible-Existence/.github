@@ -2,7 +2,7 @@
   "schema": "admissible-existence.stcm-chf.same-specimen-capability-map/v1",
   "goal_task_id": "STCM-CHF-THERMODYNAMIC-WITNESS-COMPARISON-001",
   "cosv_id": "10111010112000",
-  "registry_generation_inspected": 242,
+  "registry_generation_inspected": 271,
   "authority_effect": "NONE",
   "frozen_source_sha256": "sha256:fa95f04d35e51df5892a35dc2dd28e823696334082320c60df29d06c50bead02",
   "source_owners": {
@@ -23,7 +23,8 @@
         "retained_artifact_sha256": "sha256:19018fb77b3ed6d9a08a85ffe5e3c8d0486add21f249f5b3ccb6149bf8b387ad",
         "same_frozen_source_sha256": "sha256:fa95f04d35e51df5892a35dc2dd28e823696334082320c60df29d06c50bead02",
         "scope": "FOUR_SYNTHETIC_LINEAGE_AND_CLOSURE_CONTROLS_CONSTRUCTED_PRIOR_NOT_REAL"
-      }
+      },
+      "sdk_binding_state": "NOT_ESTABLISHED_FOR_STCM"
     },
     "CHF": {
       "repository": "Admissible-Existence/CHF",
@@ -74,7 +75,8 @@
           "independent causal custody"
         ],
         "consequence_horizon_disposition": "NOT_ESTABLISHED",
-        "input_provenance": "SYNTHETIC_NOT_EXTERNAL_MEASUREMENT"
+        "input_provenance": "SYNTHETIC_NOT_EXTERNAL_MEASUREMENT",
+        "sdk_binding_state": "ESTABLISHED_BOUNDED_PRIVATE_ORIGINAL_SOURCE"
       }
     }
   },
@@ -86,14 +88,17 @@
       "governance",
       "ecosystem_diagnostic",
       "purpose_bound_worker",
-      "atomic_task_worker"
+      "atomic_task_worker",
+      "native_source_math"
     ],
-    "native_mathematical_processor_binding": "NOT_ESTABLISHED",
+    "native_mathematical_processor_binding": "GENERIC_ROUTE_ESTABLISHED_STCM_BINDING_NOT_ESTABLISHED",
     "integration_owner": "ADMISSIBLE-EXISTENCE-MATHEMATICAL-PROCESSING-INTEGRATION",
     "cosv_id": "10111110111000",
-    "issue": "StegVerse-Labs/.github#2615"
+    "issue": "StegVerse-Labs/.github#2615",
+    "route_id": "stegverse.route.source-native-math.v1",
+    "generic_route_merge": "StegVerse-org/StegVerse-SDK#348@3ba4de05b639059d1bffb036b32b99d53df7526e"
   },
-  "comparison_status": "SAME_FROZEN_SYNTHETIC_SOURCE_EXECUTED_IN_TWO_NATIVE_OWNERS_SEPARATELY_DIFFERENT_LIMITED_SEMANTICS_NOT_FULL_HORIZON",
+  "comparison_status": "MUTUAL_REVIEW_PROTOCOL_PREPARED_COMMON_SPECIMEN_EXECUTION_NOT_STARTED",
   "prohibited_inferences": [
     "native CHF contracted checks imply source callable",
     "synthetic predecessor counts as independent causal witness",
@@ -102,6 +107,6 @@
     "repository receipt is Master Records transition",
     "supplied synthetic CHF values imply measured consequence field or real horizon",
     "same frozen source digest implies independent real specimen observations or comparable full formalism output",
-    "source-only CHF comparator implies installed generic SDK math route"
+    "generic SDK native-math route implies STCM binding without original-owner adapter evidence"
   ]
 }
