@@ -16,3 +16,8 @@ PR #89 exact head `8e06d5efdfa9f643a75fa045b7aa47681f8b75c9` passed the non-auth
 ## PR #89 merged source checkpoint (2026-09-29)
 
 PR #89 merged as `b7d431ad7d2d2d5a424378cc3ccd02762cd40647` from exact head `72edfdd17a1b2e4bb6158dc163d026624d0d879b`; exact-head validation run `36632060356` succeeded. No submitted PR review is visible through GitHub review enumeration. This is historical source evidence only and does not establish an independent-review receipt or governed runtime execution. Authenticated ChatGPT-origin exposure remains with existing owner `ECOSYSTEM-INGRESS-AI-BOUNDARIES-001`; do not duplicate that surface.
+
+
+## STCM/CHF PR #90 source-complete boundary (2026-09-29)
+
+PR #90 merged as `687a09098461d24580702b754d8bb1504f587e47` from exact head `81d30440491df788a7a21a3d2247a02428bac649`; validation run `36632916970` succeeded and submitted-review enumeration remains empty. The bounded StegVerse-side comparison source package is complete without claiming external common-specimen execution or runtime custody. Central Registry still says `STCM-CHF-THERMODYNAMIC-WITNESS-COMPARISON-001` ACTIVE/UNCLAIMED, so this repository does not fabricate retirement. Authenticated ChatGPT-origin exposure remains owned by `ECOSYSTEM-INGRESS-AI-BOUNDARIES-001`; future external common-specimen execution requires a genuinely separable canonical successor rather than a prompt-budget reset. See `docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md`.
