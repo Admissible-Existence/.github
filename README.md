@@ -11,3 +11,8 @@ PR #88 historical head `e4de8d53b7bb01d366e6801f9177fb3b4b126c13` and merge `0d2
 ## PR #89 current coordination checkpoint (2026-09-29)
 
 PR #89 exact head `8e06d5efdfa9f643a75fa045b7aa47681f8b75c9` passed the non-authorizing witness-comparison workflow as run `36631511320`. The PR remains unmerged because no independent review is recorded. Authenticated ChatGPT-origin exposure is not owned by this comparison Goal: canonical owner `ECOSYSTEM-INGRESS-AI-BOUNDARIES-001` is already ACTIVE/CHECKED_OUT in StegVerse-Labs/.github and retains the authentic-origin seam. This comparison must reuse that existing owner surface when authentically exposed; it must not create another runtime, scheduler, dispatcher, authority plane, ledger, credential route, or device dependency.
+
+
+## PR #89 merged source checkpoint (2026-09-29)
+
+PR #89 merged as `b7d431ad7d2d2d5a424378cc3ccd02762cd40647` from exact head `72edfdd17a1b2e4bb6158dc163d026624d0d879b`; exact-head validation run `36632060356` succeeded. No submitted PR review is visible through GitHub review enumeration. This is historical source evidence only and does not establish an independent-review receipt or governed runtime execution. Authenticated ChatGPT-origin exposure remains with existing owner `ECOSYSTEM-INGRESS-AI-BOUNDARIES-001`; do not duplicate that surface.
