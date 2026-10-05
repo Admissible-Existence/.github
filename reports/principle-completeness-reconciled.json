@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "activation_id": "AEX-PC-RECONCILE-20260806-01",
-  "generated_at": "2026-09-28T14:31:51.437300+00:00",
+  "generated_at": "2026-10-05T15:18:52.488500+00:00",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "expected_repository_count": 32,
   "live_observed_repository_count": 5,
@@ -2019,6 +2019,18 @@
           ]
         },
         {
+          "label": "Mutual development boundary",
+          "sources": [
+            "research/stcm-chf-witness/README.md"
+          ]
+        },
+        {
+          "label": "Mutual XF-001 development correction (2026-09-28)",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Native ownership",
           "sources": [
             "docs/TRIFORM_FORMALISM_CONTRACT.md"
@@ -2736,6 +2748,18 @@
           ]
         },
         {
+          "label": "Session-1 continuation checkpoint (2026-09-29)",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Session-12 continuation checkpoint (2026-09-29)",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Session-close rule",
           "sources": [
             "HANDOFF_COMPLETENESS_STANDARD.md"
@@ -2798,6 +2822,12 @@
           ]
         },
         {
+          "label": "StegVerse artifact for XF-001 mutual review",
+          "sources": [
+            "research/stcm-chf-witness/README.md"
+          ]
+        },
+        {
           "label": "StegVerse boundary",
           "sources": [
             "docs/external-formalisms/VERFI.md"
@@ -2813,6 +2843,12 @@
           "label": "StegVerse runtime authority",
           "sources": [
             "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
+          "label": "StegVerse XF-001 mutual-review artifact (2026-09-28)",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -3180,6 +3216,18 @@
           "sources": [
             "reports/principle-worker-activation-observer-installation.md"
           ]
+        },
+        {
+          "label": "XF-001 collaborator agreement and prepared intake seam (2026-09-28)",
+          "sources": [
+            "docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "XF-001 external exact-byte intake boundary",
+          "sources": [
+            "research/stcm-chf-witness/README.md"
+          ]
         }
       ],
       "findings": [
@@ -3221,11 +3269,11 @@
         }
       ],
       "metrics": {
-        "files": 238,
+        "files": 244,
         "markdown_files": 73,
-        "structured_files": 113,
+        "structured_files": 116,
         "handoffs": 33,
-        "principle_candidates": 508,
+        "principle_candidates": 516,
         "placeholder_markers": 164,
         "broken_local_links": 2,
         "ambiguous_short_repository_identities": 11,
