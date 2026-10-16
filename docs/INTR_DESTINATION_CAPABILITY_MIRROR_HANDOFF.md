@@ -121,6 +121,14 @@ answer, and close `ALLOW` when the fabricated far side answers.
 Both ledger roots in the unittest and in CI are redirected. The mesh is a
 temporary directory.
 
+## Diagnostic self-closure on the organization ledger
+
+`self_close` in `resident-runtime/intr_destination_ingress.py` records one diagnostic this organization addresses to its own ingress. The repository receipt and the organization receipt both carry `communication_id`. No peer is named and no mesh frame is sent.
+
+`.github/workflows/organization-ledger-transition.yml` is the `workflow_dispatch` that runs that closure with the ledger roots pointed at `refs/stegverse/organization-ledger`, fast-forward pushes the ref, and reads both chains back from a fresh fetch. Authority and time stay constraint variables. The disposition is transition evidence only.
+
+`tests/test_organization_ledger_git_ref.py` runs the same closure against a temporary git repository. Those receipts are fixtures of that temporary ref.
+
 ## What other organizations do next
 
 StegVerse-org/.github#175 is the template. StegVerse-Labs/.github#3200 is the

@@ -456,7 +456,7 @@ def reconstruct_far_side_chain(packet_id: str, service_id: str, payload_hash: st
 
 
 def recorded_emission(packet_id: str) -> dict[str, Any] | None:
-    store = ledger_store.PosixLedgerStore(repository_ledger.lr())
+    store = ledger_store.open_store(repository_ledger.lr())
     head = store.get(ledger_store.HEAD_KEY)
     cursor = (head or {}).get("receipt_sha256")
     wanted = EMITTED_CLASS + ":" + packet_id
