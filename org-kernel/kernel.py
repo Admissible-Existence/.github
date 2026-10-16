@@ -2,7 +2,7 @@
 """Universal StegVerse organization resident kernel.
 
 Organization-neutral runtime behavior extracted from StegVerse-Labs/.github.
-No GitHub, hosted scheduler, provider, or carrier grants authority.
+No GitHub, hosted scheduler, provider, or carrier sets authority. Authority and time are constraint variables; a disposition is transition evidence only.
 """
 from __future__ import annotations
 import base64, hashlib, importlib.util, json, os, subprocess, tempfile
@@ -85,6 +85,28 @@ def node_standing(root:Path):
     module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
     return module
 
+#: The boundary role whose dispatch resolves a bound capability's address.
+#:
+#: The role vocabulary is this kernel's, as ``BOUNDARY_LOCAL_DIAGNOSTIC`` and
+#: ``BOUNDARY_LOCAL_CONTROL`` already are. ``capability_ingress.ROLE`` is that
+#: module's assertion of which role it serves. A resolver serving a role the
+#: kernel never dispatches would be unreachable.
+CAPABILITY_INGRESS_ROLE="BOUNDARY_LOCAL_CAPABILITY_INGRESS"
+
+def capability_ingress(root:Path):
+    """Load the organization's capability-ingress module from its boundary runtime.
+
+    A registered capability is bound to a receiving operation in the
+    organization's own overlay. This resolves the address to that operation.
+    Loaded only when a capability address is dispatched: a root that never
+    serves one is not defective for having no resolver until it is addressed.
+    """
+    path=root/"org-boundary/runtime/capability_ingress.py"
+    if not path.is_file(): raise ValueError("org_boundary_capability_ingress_missing")
+    spec=importlib.util.spec_from_file_location("capability_ingress",path)
+    module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+    return module
+
 def carried_standing(request_packet:dict[str,Any])->dict[str,Any]:
     """Carry a request's standing onto its response, unchanged and marked as carried.
 
@@ -96,7 +118,7 @@ def carried_standing(request_packet:dict[str,Any])->dict[str,Any]:
     if not isinstance(declared,dict): raise ValueError("response_requires_request_standing")
     return {**declared,"standing_carried_forward_from_request":True}
 
-def dispatch(root:Path, packet:dict[str,Any])->dict[str,Any]:
+def dispatch(root:Path, packet:dict[str,Any], *, mesh_root:Path|None=None)->dict[str,Any]:
     registry=load_registry(root)
     if packet["destination"]["org"]!=registry["organization"]: raise ValueError("wrong_destination_org")
     service=next((s for s in registry["services"] if s["service_id"]==packet["destination"]["service"]),None)
@@ -125,21 +147,35 @@ def dispatch(root:Path, packet:dict[str,Any])->dict[str,Any]:
             result=json.loads(out.read_text())
             if not isinstance(result,dict): raise ValueError("endpoint_adapter_result_invalid")
             return {**result,**standing}
-    if role not in {"BOUNDARY_LOCAL_DIAGNOSTIC","BOUNDARY_LOCAL_CONTROL"}:
+    if role not in {"BOUNDARY_LOCAL_DIAGNOSTIC","BOUNDARY_LOCAL_CONTROL",CAPABILITY_INGRESS_ROLE}:
         raise ValueError("endpoint_adapter_not_installed")
     prev=None; receipts=[]
     for kind in ("INGRESS_ACCEPTED","DISPATCHED","CONSUMED","RESULT_BOUND","EGRESS_EMITTED"):
         r=receipt(kind,packet["packet_id"],service["service_id"],prev,{"payload_hash":sha(packet["payload"])})
         receipts.append(r); prev=r["receipt_id"]
-    if role=="BOUNDARY_LOCAL_CONTROL":
+    if role==CAPABILITY_INGRESS_ROLE:
+        # The address resolves to the receiving operation the overlay binds.
+        # That operation records both ledger levels itself. A refusal here is
+        # this boundary's refusal. The in-memory receipt chain above is what a
+        # later closure recomputes; this dispatch does not write a second
+        # ledger receipt for the same frame.
+        try:
+            application_result=capability_ingress(root).receive(
+                root,service,packet,registry=registry,mesh_root=mesh_root)
+        except SystemExit as refused:
+            raise ValueError("capability_ingress_refused:"+str(refused)) from None
+    elif role=="BOUNDARY_LOCAL_CONTROL":
         application_result=handle_control_message(root,packet,registry)
     else:
         application_result={"echo":packet["payload"]}
-    return {"schema_version":SCHEMA,"organization":registry["organization"],"packet_id":packet["packet_id"],
+    result={"schema_version":SCHEMA,"organization":registry["organization"],"packet_id":packet["packet_id"],
             "service_id":service["service_id"],"consumed":True,"application_result":application_result,
             **standing,
             "authority_effect":packet["transition"]["authority_effect"],"receipts":receipts,
             "reconstruction":{"same_execution_required":True,"status":"RECONSTRUCTED","terminal_receipt_id":prev}}
+    if role==CAPABILITY_INGRESS_ROLE:
+        result["processing_selection"]="BOUNDARY_LOCAL_NO_PROCESSOR_SELECTED"
+    return result
 
 def persist_outbox(root:Path, frame:dict[str,Any])->Path:
     out=root/"resident-runtime/federation/outbox"; out.mkdir(parents=True,exist_ok=True)
@@ -150,15 +186,16 @@ def persist_outbox(root:Path, frame:dict[str,Any])->Path:
     path.write_text(json.dumps(frame,indent=2,sort_keys=True)+"\n")
     return path
 
-def ingest_frame(root:Path, frame:dict[str,Any])->dict[str,Any]:
+def ingest_frame(root:Path, frame:dict[str,Any], *, mesh_root:Path|None=None)->dict[str,Any]:
     packet=recover_packet(frame)
     registry=load_registry(root)
     if frame["destination_org"]!=registry["organization"]:
         return {"status":"IGNORED_NOT_ADDRESSED","packet_id":frame["packet_id"]}
-    result=dispatch(root,packet)
+    result=dispatch(root,packet,mesh_root=mesh_root)
     return {"status":"CONSUMED","packet":packet,"execution_result":result}
 
-__all__=["hb_reference","derive_channel","carrier_frame","recover_packet","dispatch","persist_outbox","ingest_frame"]
+__all__=["hb_reference","derive_channel","carrier_frame","recover_packet","dispatch","persist_outbox","ingest_frame",
+        "capability_ingress","CAPABILITY_INGRESS_ROLE","RESPONDED_REQUEST_CLASSES"]
 
 
 # --- Federation mesh v1.1 additions ---
@@ -239,7 +276,7 @@ def consume_addressed_frames(repo_root:Path, *, mesh_root:Path|None=None, seen:s
     organization=registry["organization"]
     results=[]
     for item in scan_addressed_frames(organization,root=mesh_root,seen=seen):
-        result=ingest_frame(repo_root,item["frame"])
+        result=ingest_frame(repo_root,item["frame"],mesh_root=mesh_root)
         results.append({"path":item["path"],"result":result})
     return results
 
@@ -366,7 +403,8 @@ def persist_work_request(root:Path, packet:dict[str,Any])->dict[str,Any]:
       "transition":packet["transition"],
       "state":"QUEUED_FOR_LOCAL_ADMISSION_EVALUATION",
       "execution_authority_inferred":False,
-      "carrier_grants_execution_authority":False
+      "execution_authority_constraint":"CONSTRAINT_VARIABLE",
+      "time_constraint":"CONSTRAINT_VARIABLE"
     }
     if path.exists():
         if json.loads(path.read_text())!=record:
@@ -395,6 +433,9 @@ def handle_control_message(root:Path, packet:dict[str,Any], registry:dict[str,An
     elif message_class in {"ecosystem.monitor.response","ecosystem.work.ack","ecosystem.communication.ack"}:
         result["response_acknowledged"]=True
     return result
+
+RESPONDED_REQUEST_CLASSES=frozenset({
+    "ecosystem.monitor.request","ecosystem.work.request","ecosystem.communication"})
 
 def response_message_class(request_class:str|None)->str:
     return {
