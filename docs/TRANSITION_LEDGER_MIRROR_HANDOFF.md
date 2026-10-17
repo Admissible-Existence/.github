@@ -6,8 +6,9 @@ Every durable transition owned by this repository is recorded first in this repo
 
 - Contract: `.stegverse/transition-ledger/contract.json`
 - Emitter: `.stegverse/transition-ledger/emit.py`
-- Default durable root: `$XDG_STATE_HOME/stegverse/repo-ledgers/Admissible-Existence/.github`
+- Designated location: subtree `repository-ledger/Admissible-Existence/.github` of `refs/stegverse/organization-ledger` in this repository (`contract.json` `repository_ledger_location`)
+- Machine-local fallback, when no root is supplied: `$XDG_STATE_HOME/stegverse/repo-ledgers/Admissible-Existence/.github`
 
 Receipts are append-only and hash-linked. Only evidence required to reconstruct organization-level state propagates upward to `Admissible-Existence/.github`; the org ledger never replaces this repo ledger.
 
-Recording creates no execution, standing, admission, credential, publication, or lifecycle authority. Internal inference without a durable repo-owned state transition is not recorded merely because it occurred.
+Authority and time are constraint variables. A disposition is transition evidence only. Internal inference without a durable repo-owned state transition is not recorded merely because it occurred.
