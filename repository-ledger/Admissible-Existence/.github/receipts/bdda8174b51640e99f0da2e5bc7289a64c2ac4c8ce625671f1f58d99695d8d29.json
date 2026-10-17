@@ -1,0 +1,42 @@
+{
+  "authority_effect": "NONE",
+  "evidence": {
+    "admission_authority_constraint": "CONSTRAINT_VARIABLE",
+    "authority_effect": "NONE_DIAGNOSTIC_ACK_ONLY",
+    "communication_id": "intr-selfclose-Admissible-Existence-20261017",
+    "disposition": "ALLOW",
+    "disposition_role": "TRANSITION_EVIDENCE_ONLY",
+    "execution_authority_constraint": "CONSTRAINT_VARIABLE",
+    "operation": "DIAGNOSTIC_CROSSING",
+    "owner_repository": "Admissible-Existence/.github",
+    "packet_id": "intr-destination-self-closure:intr-selfclose-Admissible-Existence-20261017",
+    "payload_schema": "stegverse.org-intr-destination-diagnostic/v1",
+    "payload_sha256": "sha256:5bbcbba39ef3600da028b5ce03ee8ed0bb948dff866bd0d5db5bc06c2cc024e3",
+    "profile_id": "intr-destination",
+    "profile_name": "InTr:Destination",
+    "purpose_specific_route": false,
+    "receiving_operation": "ORGANIZATION_INTR_DESTINATION_INGRESS",
+    "routing_authority_constraint": "CONSTRAINT_VARIABLE",
+    "selects_processing": false,
+    "self_closure": true,
+    "standing_rechecked_here": false,
+    "time_constraint": "CONSTRAINT_VARIABLE"
+  },
+  "hb_reference": {
+    "authority_effect": "NONE",
+    "epoch": 469411996,
+    "frequency_hz": 100,
+    "generation": 469411996,
+    "heartbeat_id": "HB:469411996",
+    "progression_dependency": "OSCILLATOR_ONLY"
+  },
+  "observed_at": "2026-10-17T02:55:19.645015+00:00",
+  "predecessor_state_sha256": "sha256:5bbcbba39ef3600da028b5ce03ee8ed0bb948dff866bd0d5db5bc06c2cc024e3",
+  "previous_receipt_sha256": null,
+  "receipt_sha256": "sha256:bdda8174b51640e99f0da2e5bc7289a64c2ac4c8ce625671f1f58d99695d8d29",
+  "repository": "Admissible-Existence/.github",
+  "schema": "stegverse.repo-transition-receipt/v1",
+  "successor_state_sha256": "sha256:32aa2c1a128675cf5ec91ceac9f90e56e0773c2369ff852a0a3b4ce16d9e56b0",
+  "transition_class": "ORGANIZATION_INTR_DESTINATION_INGRESS",
+  "transition_id": "ORGANIZATION_INTR_DESTINATION_INGRESS:intr-destination-self-closure:intr-selfclose-Admissible-Existence-20261017"
+}
