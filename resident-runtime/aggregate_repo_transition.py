@@ -61,7 +61,7 @@ def append(repo_receipt, org_transition_class, predecessor, successor, boundary_
     raise ValueError("ledger_receipt_collision")
    previous=head.get("receipt_sha256") if head else None
    hb={"epoch":int(hb_epoch),"authority_effect":"NONE"} if hb_epoch is not None else None
-   body={"schema":"stegverse.organization-transition-receipt/v1","organization":C["organization"],"source_repository":repo_receipt["repository"],"source_transition_sha256":rd,"repo_receipt_sha256":rd,"repo_transition_id":repo_receipt["transition_id"],"org_transition_class":org_transition_class,"predecessor_org_state_sha256":predecessor,"successor_org_state_sha256":successor,"boundary_evidence":evidence,"authority_effect":authority_effect,"hb_reference":hb,"observed_at":datetime.now(timezone.utc).isoformat(),"previous_receipt_sha256":previous}
+   body={"schema":"stegverse.organization-transition-receipt/v1","organization":C["organization"],"source_repository":repo_receipt["repository"],"source_transition_sha256":rd,"repo_receipt_sha256":rd,"repo_transition_id":repo_receipt["transition_id"],"org_transition_class":org_transition_class,"predecessor_org_state_sha256":predecessor,"successor_org_state_sha256":successor,"boundary_evidence":evidence,"authority_effect":authority_effect,"hb_reference":hb,"observed_at":("SUPPLIED_HB_EPOCH:%d"%hb["epoch"]) if hb is not None else "HB_EPOCH_NOT_SUPPLIED","previous_receipt_sha256":previous}
    digest=sha(body); record={**body,"receipt_sha256":digest}; key=ledger_store.receipt_key(digest)
    new_head={"organization":C["organization"],"receipt_sha256":digest,"receipt_path":store.locator(key)}
    compared=expected if isinstance(expected, dict) else None

@@ -29,6 +29,9 @@ def ledger_root():
     return (base/"stegverse/repo-ledgers"/CONTRACT["repository"]).resolve()
 def lr():
     return ledger_root()
+def observed_at_from_epoch(hb_epoch, hb):
+    """observed_at provenance from the heartbeat reference, never a wall-clock read: same supplied epoch, same receipt."""
+    return ("SUPPLIED_HB_EPOCH:%d" if hb_epoch is not None else "HB_EPOCH_DERIVED_FROM_CLOCK:%d")%hb["epoch"]
 def hb_reference(epoch=None):
     if epoch is None:
         now_ns=int(datetime.now(timezone.utc).timestamp()*1_000_000_000)
@@ -69,7 +72,7 @@ def append(transition_id, transition_class, predecessor, successor, evidence, au
                 if fields and all(observed.get(name)==evidence.get(name) for name in fields): return prior
                 raise ValueError("ledger_receipt_collision")
             previous=head.get("receipt_sha256") if head else None
-            body={"schema":"stegverse.repo-transition-receipt/v1","repository":CONTRACT["repository"],"transition_id":transition_id,"transition_class":transition_class,"predecessor_state_sha256":predecessor,"successor_state_sha256":successor,"evidence":evidence,"authority_effect":authority_effect,"hb_reference":hb_reference(hb_epoch),"observed_at":datetime.now(timezone.utc).isoformat(),"previous_receipt_sha256":previous}
+            body={"schema":"stegverse.repo-transition-receipt/v1","repository":CONTRACT["repository"],"transition_id":transition_id,"transition_class":transition_class,"predecessor_state_sha256":predecessor,"successor_state_sha256":successor,"evidence":evidence,"authority_effect":authority_effect,"hb_reference":hb_reference(hb_epoch),"observed_at":observed_at_from_epoch(hb_epoch, hb_reference(hb_epoch)),"previous_receipt_sha256":previous}
             digest=sha(body); record={**body,"receipt_sha256":digest}; key=ledger_store.receipt_key(digest)
             new_head={"repository":CONTRACT["repository"],"receipt_sha256":digest,"receipt_path":store.locator(key)}
             compared=expected if isinstance(expected, dict) else None
