@@ -47,6 +47,35 @@ def select_message(batch, organization):
 def make_receipts(message, config, hb):
     """The received/responded pair. `hb` is the supplied epoch's heartbeat
     reference; `observed_at` is its heartbeat id and no clock is read."""
+    received = make_received(message, config, hb)
+    return received, make_responded(received, config)
+
+
+COMMON_FIELDS = ("schema_version", "exchange_id", "node_org", "source_org", "destination_org",
+                 "hb_reference", "observed_at", "observed_message_sha256", "authority")
+
+
+def make_responded(received, config):
+    """The responded receipt, from its received receipt alone: the same epoch,
+    exchange and observed message. A torn pair is completed from it."""
+    common = {key: received[key] for key in COMMON_FIELDS}
+    return {
+        **common,
+        "message_id": received["message_id"][:-len("-received")] + "-responded",
+        "stage": "RESPONDED",
+        "detail_class": config.get("response_detail_class", "CAPABILITY"),
+        "classification": {
+            "primary": config.get("response_detail_class", "CAPABILITY"),
+            "supported_detail_classes": config["supported_detail_classes"],
+            "node_state": "RESPONSIVE",
+            "return_to": received["source_org"],
+            "action_admitted": False,
+        },
+        "parent_receipt_sha256": canonical_sha256(received),
+    }
+
+
+def make_received(message, config, hb):
     organization = config["organization"]
     digest = canonical_sha256(message)
     common = {
@@ -72,21 +101,7 @@ def make_receipts(message, config, hb):
             "awareness_updated": True,
         },
     }
-    responded = {
-        **common,
-        "message_id": f"{message['message_id']}-responded",
-        "stage": "RESPONDED",
-        "detail_class": config.get("response_detail_class", "CAPABILITY"),
-        "classification": {
-            "primary": config.get("response_detail_class", "CAPABILITY"),
-            "supported_detail_classes": config["supported_detail_classes"],
-            "node_state": "RESPONSIVE",
-            "return_to": message["source_org"],
-            "action_admitted": False,
-        },
-        "parent_receipt_sha256": canonical_sha256(received),
-    }
-    return received, responded
+    return received
 
 
 def validate_local(config):
@@ -129,11 +144,111 @@ def _write_once(path, document):
         raise NodeRefused(_refusal(
             "HB_RECEIPT_PAIR_PARTIAL_AT_ANOTHER_EPOCH", "ONE_EXCHANGE_BINDS_ONE_RECEIPT_PAIR",
             f"{path.name} is already written with different content",
-            "complete the pair with the same epoch and outbox message the written receipt was made from",
+            f"re-run with --hb-epoch {_bound_epoch(path)}",
             "the written receipt is not mutated; nothing was written for this attempt", terminal=False))
     temporary = path.with_name(path.name + ".tmp")
     temporary.write_text(rendered, encoding="utf-8")
     os.replace(temporary, path)
+
+
+def partial_pairs():
+    """Every exchange with one receipt of its pair written and not the other."""
+    if not RECEIPTS.exists():
+        return []
+    halves = {}
+    for stage in ("received", "responded"):
+        for path in RECEIPTS.glob(f"*.{stage}.json"):
+            halves.setdefault(path.name[:-len(f".{stage}.json")], {})[stage] = path
+    return sorted((prefix, paths) for prefix, paths in halves.items() if len(paths) == 1)
+
+
+def _bound_epoch(path):
+    try:
+        reference = load_json(path).get("hb_reference")
+        return reference.get("epoch") if isinstance(reference, dict) else None
+    except (OSError, ValueError, AttributeError):
+        return None
+
+
+def _partial_refusal(prefix, paths, detail, *, terminal=False, repair=None):
+    """The six-field refusal of a partial pair, naming the epoch it is bound to."""
+    written = next(iter(paths.values()))
+    epoch = _bound_epoch(written)
+    if repair is None:
+        repair = (f"run --apply (with any supplied epoch, or --hb-epoch {epoch}); "
+                  f"the pair completes at its recorded epoch {epoch}" if epoch is not None else
+                  f"complete or retire {written.name}; its epoch cannot be read")
+    return _refusal("HB_RECEIPT_PAIR_PARTIAL", "EVERY_EXCHANGE_HAS_A_COMPLETE_RECEIPT_PAIR",
+                    f"{prefix}: {detail}", repair,
+                    "the written receipt is not mutated; the pair completes at its own recorded epoch",
+                    terminal=terminal)
+
+
+def _restore_received(prefix, paths, message, config):
+    """Rebuild a missing received receipt from the outbox message at the epoch
+    its responded receipt recorded, only if it hashes to the responded
+    receipt's parent; otherwise refuse, naming the bound epoch."""
+    responded_path = paths["responded"]
+    epoch = _bound_epoch(responded_path)
+    current = message["exchange_id"].replace("/", "-") == prefix
+    try:
+        responded = load_json(responded_path)
+        reference = responded.get("hb_reference")
+        if not current:
+            raise ValueError("the outbox no longer carries this exchange's message")
+        failure = kernel.supplied_epoch_failure(
+            reference.get("epoch") if isinstance(reference, dict) else None, reference)
+        if failure is not None:
+            raise ValueError("the responded receipt's epoch is not a supplied one: " + failure[0])
+        received = make_received(message, config, reference)
+        if canonical_sha256(received) != responded.get("parent_receipt_sha256"):
+            raise ValueError("the outbox message does not rebuild the received receipt the responded receipt names")
+    except (ValueError, KeyError, TypeError, AttributeError) as exc:
+        raise NodeRefused(_partial_refusal(
+            prefix, paths, str(exc)[:400], terminal=True,
+            repair=f"restore {prefix}.received.json (sha256 {_parent_of(responded_path)}, epoch {epoch}); "
+                   "it cannot be rebuilt from the current outbox")) from None
+    _write_once(RECEIPTS / f"{prefix}.received.json", received)
+    return epoch
+
+
+def _parent_of(path):
+    try:
+        return load_json(path).get("parent_receipt_sha256")
+    except (OSError, ValueError, AttributeError):
+        return None
+
+
+def resume_partial_pairs(config, message):
+    """Roll forward every torn pair at the epoch its written receipt recorded.
+
+    That epoch was supplied and recorded, so completing the same transition at
+    it is resumption, not a new stamp; no clock is read and no other epoch is
+    used. A pair that cannot be completed here is refused, naming its epoch."""
+    resumed = []
+    for prefix, paths in partial_pairs():
+        received_path = paths.get("received")
+        if received_path is None:
+            epoch = _restore_received(prefix, paths, message, config)
+            resumed.append(prefix)
+            print(f"HB_NODE_RESUMED:{config['organization']}:{prefix}:HB:{epoch}")
+            continue
+        try:
+            received = load_json(received_path)
+            reference = received.get("hb_reference")
+            failure = kernel.supplied_epoch_failure(
+                reference.get("epoch") if isinstance(reference, dict) else None, reference)
+            if failure is not None:
+                raise ValueError("the received receipt's epoch is not a supplied one: " + failure[0])
+            if received.get("node_org") != config["organization"] or received.get("stage") != "RECEIVED":
+                raise ValueError("the received receipt is not this node's RECEIVED receipt")
+            responded = make_responded(received, config)
+        except (ValueError, KeyError, TypeError, AttributeError) as exc:
+            raise NodeRefused(_partial_refusal(prefix, paths, str(exc)[:400], terminal=True)) from None
+        _write_once(RECEIPTS / f"{prefix}.responded.json", responded)
+        resumed.append(prefix)
+        print(f"HB_NODE_RESUMED:{config['organization']}:{prefix}:HB:{reference['epoch']}")
+    return resumed
 
 
 def apply(config, hb_epoch=None):
@@ -162,6 +277,9 @@ def apply(config, hb_epoch=None):
             "the outbox is a JSON object with one SENT, authority-free message for this organization",
             "nothing was written; the outbox is corrected upstream", terminal=True),
             "consequence_committed": False}) from None
+    # A pair torn by an earlier run, this exchange's or an earlier one's, is
+    # completed at its own recorded epoch first; none is orphaned.
+    resume_partial_pairs(config, message)
     prefix = message["exchange_id"].replace("/", "-")
     received_path = RECEIPTS / f"{prefix}.received.json"
     responded_path = RECEIPTS / f"{prefix}.responded.json"
@@ -205,6 +323,13 @@ def main():
             sys.exit(1)
         validate_local(config)
     elif args.check:
+        partial = partial_pairs()
+        if partial:
+            # A torn pair is not a pass: FAIL_CLOSED, naming each bound epoch.
+            prefix, paths = partial[0]
+            print(json.dumps({**_partial_refusal(prefix, paths, "one receipt of the pair is written"),
+                              "partial_pairs": [name for name, _paths in partial]}, indent=2, sort_keys=True))
+            sys.exit(1)
         print(f"HB_NODE_CHECK_PASS:{config['organization']}")
     else:
         parser.error("choose --apply or --check")

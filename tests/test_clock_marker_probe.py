@@ -2148,18 +2148,97 @@ class WriterCliTornWriteTests(_Workspace):
                                      hashlib.sha256(json.dumps(received, sort_keys=True,
                                                                separators=(",", ":")).encode()).hexdigest())
 
-    def test_a_half_written_pair_is_not_overwritten_at_another_epoch(self):
-        argv = ["scripts/process_heartbeat_response.py", "--apply", "--hb-epoch", "4096"]
+    def heartbeat(self, epoch, *extra, fault_at=0, mode="before"):
+        argv = ["scripts/process_heartbeat_response.py", "--apply"]
+        if epoch is not None:
+            argv += ["--hb-epoch", str(epoch)]
+        return self.run_cli(argv + list(extra), {}, fault_at, mode)
+
+    def check(self):
+        return self.run_cli(["scripts/process_heartbeat_response.py", "--check"], {})
+
+    def pair(self, prefix):
+        receipts = self.repo / "data" / "heartbeat-response-receipts"
+        received = json.loads((receipts / (prefix + ".received.json")).read_text())
+        responded = json.loads((receipts / (prefix + ".responded.json")).read_text())
+        self.assertEqual(responded["parent_receipt_sha256"],
+                         hashlib.sha256(json.dumps(received, sort_keys=True,
+                                                   separators=(",", ":")).encode()).hexdigest())
+        self.assertEqual(received["hb_reference"], responded["hb_reference"])
+        return received, responded
+
+    def test_a_torn_pair_rolls_forward_at_its_recorded_epoch(self):
+        """B-P36q: a pair torn at 4096 is completed at 4096 by a run at a fresh epoch; --check flags it until then."""
         receipts = self.repo / "data" / "heartbeat-response-receipts"
         prefix = HeartbeatResponseEpochTests.MESSAGE["exchange_id"]
-        self.assert_six_field_exit(self.run_cli(argv, {}, 2, "before"), "torn: ")
-        written = (receipts / (prefix + ".received.json")).read_text()
-        other = self.run_cli(argv[:-1] + ["4097"], {})
-        self.assertEqual(other.returncode, 1)
-        self.assertNotIn("Traceback", other.stderr)
-        self.assertEqual(json.loads(other.stdout)["failure_code"], "HB_RECEIPT_PAIR_PARTIAL_AT_ANOTHER_EPOCH")
-        self.assertEqual((receipts / (prefix + ".received.json")).read_text(), written)
-        self.assertEqual(self.run_cli(argv, {}).returncode, 0)
+        written_with = receipts / (prefix + ".received.json")
+        self.assert_six_field_exit(self.heartbeat(4096, fault_at=2), "torn: ")
+        written = written_with.read_text()
+        flagged = self.check()
+        self.assertEqual(flagged.returncode, 1, flagged.stdout + flagged.stderr)
+        self.assertNotIn("Traceback", flagged.stderr)
+        refusal = json.loads(flagged.stdout)
+        self.assertEqual(refusal["failure_code"], "HB_RECEIPT_PAIR_PARTIAL")
+        self.assertIn("--hb-epoch 4096", refusal["required_evidence_or_repair"])
+        self.assertIn("recorded epoch 4096", refusal["required_evidence_or_repair"])
+        for name in EPOCH_FIELDS:
+            self.assertTrue(refusal[name], name)
+        fresh = self.heartbeat(5000)
+        self.assertEqual(fresh.returncode, 0, fresh.stdout + fresh.stderr)
+        self.assertIn("HB_NODE_RESUMED", fresh.stdout)
+        self.assertEqual(written_with.read_text(), written)
+        received, responded = self.pair(prefix)
+        self.assertEqual(responded["hb_reference"]["epoch"], 4096)
+        self.assertEqual(responded["observed_at"], received["observed_at"])
+        self.assertEqual(self.check().returncode, 0)
+
+    def test_an_outstanding_pair_is_not_orphaned_when_the_exchange_moves(self):
+        receipts = self.repo / "data" / "heartbeat-response-receipts"
+        old = HeartbeatResponseEpochTests.MESSAGE["exchange_id"]
+        self.assert_six_field_exit(self.heartbeat(4096, fault_at=2), "torn: ")
+        moved = {**HeartbeatResponseEpochTests.MESSAGE, "message_id": "msg-next", "exchange_id": "ex-next"}
+        self.outbox.write_text(json.dumps({"messages": [moved]}))
+        run = self.heartbeat(5000)
+        self.assertEqual(run.returncode, 0, run.stdout + run.stderr)
+        _received, responded = self.pair(old)
+        self.assertEqual(responded["hb_reference"]["epoch"], 4096)
+        _received, responded = self.pair("ex-next")
+        self.assertEqual(responded["hb_reference"]["epoch"], 5000)
+        self.assertEqual(self.check().returncode, 0)
+
+    def test_a_responded_half_alone_rolls_forward_or_names_its_bound_epoch(self):
+        receipts = self.repo / "data" / "heartbeat-response-receipts"
+        prefix = HeartbeatResponseEpochTests.MESSAGE["exchange_id"]
+        self.assertEqual(self.heartbeat(4096).returncode, 0)
+        received_path = receipts / (prefix + ".received.json")
+        original = received_path.read_text()
+        received_path.unlink()
+        # The outbox still carries the exchange: the received receipt is rebuilt at 4096.
+        resumed = self.heartbeat(5000)
+        self.assertEqual(resumed.returncode, 0, resumed.stdout + resumed.stderr)
+        self.assertEqual(json.loads(received_path.read_text()), json.loads(original))
+        self.pair(prefix)
+        # Once the outbox has moved on, it cannot be rebuilt: refused, naming the bound epoch.
+        received_path.unlink()
+        moved = {**HeartbeatResponseEpochTests.MESSAGE, "message_id": "msg-next", "exchange_id": "ex-next"}
+        self.outbox.write_text(json.dumps({"messages": [moved]}))
+        refused = self.heartbeat(5000)
+        self.assertEqual(refused.returncode, 1)
+        self.assertNotIn("Traceback", refused.stderr)
+        refusal = json.loads(refused.stdout)
+        self.assertEqual(refusal["failure_code"], "HB_RECEIPT_PAIR_PARTIAL")
+        self.assertIs(refusal["terminal"], True)
+        self.assertIn("epoch 4096", refusal["required_evidence_or_repair"])
+        for name in EPOCH_FIELDS:
+            self.assertTrue(refusal[name], name)
+        self.assertFalse(received_path.exists())
+        self.assertFalse((receipts / "ex-next.received.json").exists())
+
+    def test_a_pair_already_complete_needs_no_epoch(self):
+        self.assertEqual(self.heartbeat(4096).returncode, 0)
+        current = self.heartbeat(None)
+        self.assertEqual(current.returncode, 0, current.stdout + current.stderr)
+        self.assertIn("HB_NODE_CURRENT", current.stdout)
 
 
 class CliInputTraceTests(WriterCliTornWriteTests):
@@ -2289,7 +2368,10 @@ class CliInputTraceTests(WriterCliTornWriteTests):
     test_a_fault_after_the_head_replace_appends_once = None
     test_a_different_record_under_a_recorded_transition_is_a_six_field_collision = None
     test_the_heartbeat_node_cli = None
-    test_a_half_written_pair_is_not_overwritten_at_another_epoch = None
+    test_a_torn_pair_rolls_forward_at_its_recorded_epoch = None
+    test_an_outstanding_pair_is_not_orphaned_when_the_exchange_moves = None
+    test_a_responded_half_alone_rolls_forward_or_names_its_bound_epoch = None
+    test_a_pair_already_complete_needs_no_epoch = None
 
 
 class CarriedProvenanceArgumentTests(unittest.TestCase):
