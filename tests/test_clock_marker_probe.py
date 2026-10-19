@@ -811,6 +811,68 @@ class HeartbeatWorkflowBindingTests(unittest.TestCase):
                 self.assertIn("hb_epoch:", triggers)
 
 
+class ManifestDispatcherTests(unittest.TestCase):
+    """B-P36n (lead 08:43Z): every manifest entrypoint has an in-tree dispatcher and an epoch binding."""
+
+    def setUp(self):
+        self.manifest = json.loads((ROOT / "resident-runtime" / "activation-manifest.json").read_text())
+        self.dispatcher = self.manifest["dispatcher"]
+        self.workflow = (ROOT / self.dispatcher["workflow"]).read_text()
+        self.step = self.workflow.split("- name: Invoke the declared entrypoint", 1)[1]
+
+    def declared_entrypoints(self):
+        return {self.manifest[key] for key in ("entrypoint", "ecosystem_control", "federation_cycle",
+                                               "resident_cycle_entrypoint")}
+
+    def test_the_dispatcher_is_declared_with_no_authority(self):
+        self.assertEqual(self.dispatcher["trigger"], "workflow_dispatch")
+        self.assertEqual(self.dispatcher["authority_effect"], "NONE")
+        self.assertEqual(self.dispatcher["hb_epoch"], {"from": "dispatch_input", "input": "hb_epoch",
+                                                       "required": True, "absent": "HB_EPOCH_NOT_SUPPLIED"})
+        self.assertIs(self.manifest["github_actions_is_runtime_authority"], False)
+        triggers = self.workflow.split("\non:", 1)[1].split("\npermissions:", 1)[0]
+        self.assertIn("workflow_dispatch:", triggers)
+        self.assertNotIn("schedule:", triggers)
+        self.assertNotIn("push:", triggers)
+        hb_epoch = triggers.split("hb_epoch:", 1)[1].split("ingress:", 1)[0]
+        self.assertIn("required: true", hb_epoch)
+
+    def test_every_declared_entrypoint_is_bound_and_invoked(self):
+        bindings = self.dispatcher["entrypoints"]
+        self.assertEqual(set(bindings), self.declared_entrypoints())
+        gate = self.step.index("writer_epoch_refusal(")
+        for path, binding in bindings.items():
+            with self.subTest(entrypoint=path):
+                self.assertIn(binding, ("EPOCH_FREE", "EPOCH_REQUIRED"))
+                invocations = [line.strip() for line in self.step.splitlines()
+                               if line.strip().startswith("python " + path)]
+                self.assertTrue(invocations, path)
+                self.assertLess(gate, self.step.index("python " + path))
+                source = (ROOT / path).read_text()
+                if binding == "EPOCH_FREE":
+                    self.assertNotIn("hb-epoch", source)
+                    self.assertNotIn("hb_epoch", source)
+                    self.assertTrue(all("--hb-epoch" not in line for line in invocations))
+                else:
+                    self.assertTrue(all('--hb-epoch "$HB_EPOCH"' in line for line in invocations))
+
+    def test_the_gate_fails_closed_with_six_fields_before_anything_runs(self):
+        import os
+        import subprocess
+        import sys
+        line = next(line.strip() for line in self.step.splitlines() if "writer_epoch_refusal(" in line)
+        script = line.split("python -c '", 1)[1].rsplit("'", 1)[0]
+        for epoch, code in (("", "HB_EPOCH_NOT_SUPPLIED"), ("abc", "HB_EPOCH_INVALID"), ("31", "HB_EPOCH_INVALID")):
+            with self.subTest(epoch=epoch):
+                completed = subprocess.run([sys.executable, "-c", script], cwd=ROOT, capture_output=True, text=True,
+                                           env={**os.environ, "HB_EPOCH": epoch})
+                self.assertEqual(completed.returncode, 1)
+                assert_six_fields(self, json.loads(completed.stdout), code)
+        passed = subprocess.run([sys.executable, "-c", script], cwd=ROOT, capture_output=True, text=True,
+                                env={**os.environ, "HB_EPOCH": "4096"})
+        self.assertEqual((passed.returncode, passed.stdout), (0, ""))
+
+
 class GatewayCycleEpochTests(_Workspace):
     """The gateway cycle answers at the frame's validated epoch, or not at all, and reads no clock."""
 

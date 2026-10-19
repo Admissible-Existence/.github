@@ -26,5 +26,17 @@
   "local_spool_scope": "SAME_HOST_FALLBACK_ONLY",
   "resident_cycle_entrypoint": "resident-runtime/federation_cycle.py",
   "federation_poll_mode": "OUTBOUND_ONLY",
-  "federation_network_route": "SHARED_SERVICE_GATEWAY"
+  "federation_network_route": "SHARED_SERVICE_GATEWAY",
+  "dispatcher": {
+    "workflow": ".github/workflows/resident-runtime-dispatch.yml",
+    "trigger": "workflow_dispatch",
+    "hb_epoch": {"from": "dispatch_input", "input": "hb_epoch", "required": true, "absent": "HB_EPOCH_NOT_SUPPLIED"},
+    "authority_effect": "NONE",
+    "evidence_class": "CI_VALIDATED",
+    "entrypoints": {
+      "resident-runtime/run_once.py": "EPOCH_FREE",
+      "resident-runtime/ecosystem_control.py": "EPOCH_FREE",
+      "resident-runtime/federation_cycle.py": "EPOCH_FREE"
+    }
+  }
 }
