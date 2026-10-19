@@ -440,8 +440,8 @@ class CarriedFrameEpochTests(_Workspace):
             direct = self.K.ingest_frame(self.repo, frame, mesh_root=self.mesh)
             scanned = self.K.consume_addressed_frames(self.repo, mesh_root=self.mesh)
         self.assertEqual(clock.reads, 0)
-        assert_six_fields(self, direct, "CARRIED_PROVENANCE_UNVERIFIED")
-        assert_six_fields(self, scanned[0]["result"], "CARRIED_PROVENANCE_UNVERIFIED")
+        assert_six_fields(self, direct, "CARRIED_NOT_ACCEPTED_BY_DESTINATION")
+        assert_six_fields(self, scanned[0]["result"], "CARRIED_NOT_ACCEPTED_BY_DESTINATION")
         self.assertEqual(written(self.work, before), [])
         # The gateway cycle refuses and acknowledges BLOCKED, writing nothing.
         cycle = _load("probe_forged_cycle", self.repo / "resident-runtime" / "federation_cycle.py")
@@ -460,8 +460,8 @@ class CarriedFrameEpochTests(_Workspace):
         self.assertEqual(written(self.work, before), [])
         # consume_and_respond writes only the quarantine marker.
         item = self.consume()["forged"]
-        assert_six_fields(self, item["result"], "CARRIED_PROVENANCE_UNVERIFIED")
-        self.assert_quarantined(item, "CARRIED_PROVENANCE_UNVERIFIED")
+        assert_six_fields(self, item["result"], "CARRIED_NOT_ACCEPTED_BY_DESTINATION")
+        self.assert_quarantined(item, "CARRIED_NOT_ACCEPTED_BY_DESTINATION")
         self.assert_only_quarantine_markers_written(before)
         self.assertFalse((self.repo / "resident-runtime" / "control" / "inbox").exists())
         self.assertFalse((self.work / "repo-ledger").exists())
@@ -495,7 +495,7 @@ class CarriedFrameEpochTests(_Workspace):
     def test_a_forged_carried_frame_in_a_mixed_batch_is_quarantined_and_does_not_block_valid_frames(self):
         forged = {**self.K.hb_reference(epoch=4096), "source": "ORGANIZATION_LEDGER_HEAD",
                   "head_receipt_sha": "sha256:" + "f" * 64}
-        self.mixed_batch("admissible-existence.org-control", forged, "CARRIED_PROVENANCE_UNVERIFIED", tag="forged")
+        self.mixed_batch("admissible-existence.org-control", forged, "CARRIED_NOT_ACCEPTED_BY_DESTINATION", tag="forged")
 
     def test_a_clock_flagged_frame_is_consumed_lending_no_epoch(self):
         # NARROW S1: a clock-flagged or clock-sampled frame is consumed, lends
@@ -1315,6 +1315,58 @@ PosixLedgerStore.append_transaction = _probe_lossy_append
         self.assertTrue(self.K.is_own_state_fault(OSError(28, "full")))
         self.assertFalse(self.K.is_own_state_fault(ValueError("carrier_frame_hash_mismatch")))
         self.assertFalse(self.K.is_own_state_fault(AttributeError("x")))
+
+
+class CarriedCrossingsNotAcceptedTests(_Workspace):
+    """B-P36m (09:03Z), option (1): this destination declares it accepts no CARRIED crossings."""
+
+    def test_the_manifest_declares_no_carried_crossings(self):
+        manifest = json.loads((ROOT / "resident-runtime" / "activation-manifest.json").read_text())
+        self.assertIs(manifest["accepts_carried_crossings"], False)
+
+    def test_a_valid_carried_frame_is_not_accepted_and_a_forged_one_gets_its_content_code(self):
+        K = _load("probe_carried_kernel_m", self.repo / "org-kernel" / "kernel.py")
+        carried = {**K.hb_reference(epoch=4096), "source": "ORGANIZATION_LEDGER_HEAD",
+                   "head_receipt_sha": "sha256:" + "a" * 64}
+        cases = {
+            "valid-carried": (carried, "CARRIED_NOT_ACCEPTED_BY_DESTINATION"),
+            "forged-unflagged": ({key: value for key, value in carried.items() if key != "derived_from_clock"},
+                                 "HB_EPOCH_PROVENANCE_UNMARKED"),
+            "forged-generation": ({**carried, "generation": 77}, "HB_REFERENCE_INVALID"),
+            "forged-epoch": ({**carried, "epoch": "abc"}, "HB_EPOCH_INVALID"),
+        }
+        service = "admissible-existence.org-control"
+        for packet_id, (reference, _code) in cases.items():
+            frame = K.carrier_frame(self.packet(K, service, control("ecosystem.communication", packet_id), packet_id),
+                                    epoch=4096)
+            body = {key: value for key, value in frame.items() if key != "frame_sha256"}
+            body["heartbeat_reference"] = reference
+            K.publish_frame({**body, "frame_sha256": K.sha(body)}, root=self.mesh)
+        sampled = K.carrier_frame(self.packet(K, service, control("ecosystem.communication", "forged-sampled"),
+                                              "forged-sampled"), epoch=4096)
+        body = {key: value for key, value in sampled.items() if key != "frame_sha256"}
+        body["heartbeat_reference"] = {**carried, "sampled_unix_ns": INSTANT_NS}
+        K.publish_frame({**body, "frame_sha256": K.sha(body)}, root=self.mesh)
+        tampered = K.carrier_frame(self.packet(K, service, control("ecosystem.communication", "forged-hash"),
+                                               "forged-hash"), epoch=4096)
+        body = {key: value for key, value in tampered.items() if key != "frame_sha256"}
+        body["heartbeat_reference"] = carried
+        K.publish_frame({**body, "frame_sha256": "sha256:" + "0" * 64}, root=self.mesh)
+        with fixed_clock(K) as clock:
+            results = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        self.assertEqual(clock.reads, 0)
+        by_id = {item["result"].get("packet_id") or item["result"]["packet"]["packet_id"]: item["result"]
+                 for item in results}
+        # A sampled reference is clock-sampled: under NARROW S1 it is consumed but lends no epoch.
+        self.assertEqual(by_id["forged-sampled"]["status"], "CONSUMED")
+        for packet_id, (_reference, code) in {**cases, "forged-hash": (None, "FRAME_INTEGRITY_INVALID")}.items():
+            with self.subTest(frame=packet_id):
+                assert_six_fields(self, by_id[packet_id], code)
+                self.assertNotEqual(by_id[packet_id]["failure_code"], "CARRIED_PROVENANCE_UNVERIFIED")
+        valid = by_id["valid-carried"]
+        self.assertEqual(valid["required_evidence_or_repair"], "re-send with the SUPPLIED epoch")
+        self.assertTrue(valid["retry_entrypoint"].startswith("the sender's hop: " + PEER))
+        self.assertFalse((self.work / "repo-ledger").exists())
 
 
 class GatewayCycleEpochTests(_Workspace):

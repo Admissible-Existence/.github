@@ -9,6 +9,7 @@
   "boundary_processor": "org-boundary/runtime/process_boundary.py",
   "state": "UNIVERSAL_KERNEL_NETWORK_FEDERATION_SOURCE_INSTALLED_OBSERVATION_PENDING",
   "github_actions_is_runtime_authority": false,
+  "accepts_carried_crossings": false,
   "runtime_dispatcher_pending_substrate": {
     "failure_code": "RUNTIME_DISPATCHER_PENDING_SUBSTRATE",
     "failed_predicate": "RESIDENT_ENTRYPOINTS_ARE_DISPATCHED_ON_THE_RUNTIME_SUBSTRATE",

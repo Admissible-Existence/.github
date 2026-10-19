@@ -146,19 +146,21 @@ class BoundaryFailClosed(ValueError):
                       "retry_entrypoint":retry_entrypoint,"owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
                       "next_attempt":next_attempt,"derived_from_clock":False,"consequence_committed":False}
 
+CARRIED_NOT_ACCEPTED="CARRIED_NOT_ACCEPTED_BY_DESTINATION"
+
 def carried_frame_epoch(frame:dict[str,Any])->tuple[int|None,tuple[str,str]|None]:
     """The epoch a carrier frame carries as supplied, or (None, failure).
 
     The frame's heartbeat reference must pass the shared rule with itself as
-    the reference: a clock-sampled or unmarked reference carries no epoch. A
-    reference asserting a CARRIED `source` or `head_receipt_sha` is
-    CARRIED_PROVENANCE_UNVERIFIED: a frame cannot verify a ledger head, so only
-    a writer that has verified the head may record CARRIED.
+    the reference: a clock-sampled or unmarked reference carries no epoch, and
+    its generation and heartbeat_id must match its epoch. A reference that
+    passes those content checks and asserts a CARRIED `source` or
+    `head_receipt_sha` is CARRIED_NOT_ACCEPTED_BY_DESTINATION: this
+    organization declares `accepts_carried_crossings: false`
+    (resident-runtime/activation-manifest.json), so a sender forwards a
+    SUPPLIED epoch instead. That is not a finding of forgery.
     """
     reference=frame.get("heartbeat_reference") if isinstance(frame,dict) else None
-    if isinstance(reference,dict) and ("source" in reference or "head_receipt_sha" in reference):
-        return None,("CARRIED_PROVENANCE_UNVERIFIED",
-                     "the frame asserts a CARRIED source or head_receipt_sha that no ledger head here verifies")
     epoch=reference.get("epoch") if isinstance(reference,dict) else None
     failure=supplied_epoch_failure(epoch,reference if reference is not None else {})
     if failure is not None:
@@ -167,6 +169,10 @@ def carried_frame_epoch(frame:dict[str,Any])->tuple[int|None,tuple[str,str]|None
     if reference.get("generation")!=value or reference.get("heartbeat_id")!="HB:"+str(value):
         return None,("HB_REFERENCE_INVALID",
                      "the frame's heartbeat generation or heartbeat_id does not match its epoch "+str(value))
+    if "source" in reference or "head_receipt_sha" in reference:
+        return None,(CARRIED_NOT_ACCEPTED,
+                     "this destination declares accepts_carried_crossings false; the frame carries a CARRIED "
+                     "source or head_receipt_sha instead of a SUPPLIED epoch")
     return value,None
 
 def derive_channel(payload_hash:str)->dict[str,Any]:
@@ -326,7 +332,7 @@ def persist_outbox(root:Path, frame:dict[str,Any])->Path:
     path.write_text(json.dumps(frame,indent=2,sort_keys=True)+"\n")
     return path
 
-INGEST_REFUSED_FRAME_CODES=frozenset({"HB_EPOCH_PROVENANCE_UNMARKED","CARRIED_PROVENANCE_UNVERIFIED",
+INGEST_REFUSED_FRAME_CODES=frozenset({"HB_EPOCH_PROVENANCE_UNMARKED",CARRIED_NOT_ACCEPTED,
                                       "HB_REFERENCE_INVALID"})
 FRAME_INTEGRITY_ERRORS=frozenset({"carrier_frame_hash_mismatch","packet_hash_mismatch",
                                   "packet_id_mismatch","destination_org_mismatch"})
@@ -398,13 +404,24 @@ def _ingest_frame(root:Path, frame:dict[str,Any], *, mesh_root:Path|None=None)->
     epoch_failure=supplied_epoch_failure(reference.get("epoch") if isinstance(reference,dict) else None)
     if epoch_failure is not None:
         failure=epoch_failure
+    if failure is not None and failure[0]==CARRIED_NOT_ACCEPTED and epoch_failure is None:
+        # Not a finding of forgery: this destination does not accept CARRIED
+        # crossings, so the sender's hop re-sends with the SUPPLIED epoch.
+        return {"status":"FAIL_CLOSED","packet_id":packet["packet_id"],
+                "disposition":"FAIL_CLOSED","failure_code":CARRIED_NOT_ACCEPTED,
+                "failed_predicate":"DESTINATION_ACCEPTS_CARRIED_CROSSINGS","detail":failure[1],
+                "required_evidence_or_repair":"re-send with the SUPPLIED epoch",
+                "retry_entrypoint":"the sender's hop: "+str(packet.get("origin",{}).get("org"))+" egress, re-sent with a SUPPLIED epoch",
+                "owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
+                "next_attempt":"the sender re-sends the crossing with a SUPPLIED epoch; nothing was dispatched or written",
+                "derived_from_clock":False,"consequence_committed":False}
     if failure is not None and (failure[0] in INGEST_REFUSED_FRAME_CODES or epoch_failure is not None):
         code,detail=failure
         return {"status":"FAIL_CLOSED","packet_id":packet["packet_id"],
                 "disposition":"FAIL_CLOSED","failure_code":code,"failed_predicate":HB_EPOCH_PREDICATE,
                 "detail":"the frame carries no supplied epoch: "+detail,
                 "required_evidence_or_repair":("the frame's heartbeat_reference carries a supplied epoch: "
-                                               "derived_from_clock false, no sampled_unix_ns, no unverified CARRIED source"),
+                                               "derived_from_clock false, no sampled_unix_ns"),
                 "retry_entrypoint":"org-kernel/kernel.py::ingest_frame","owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
                 "next_attempt":"the sender republishes the frame with a supplied epoch; nothing was dispatched or written",
                 "derived_from_clock":False,"consequence_committed":False}
