@@ -39,8 +39,8 @@ def command(writer: str, hb_epoch: str | None, arguments: str = "") -> list[str]
         print(json.dumps(refusal, sort_keys=True))
         raise SystemExit(1)
     extra = shlex.split(arguments or "")
-    if any(item == "--hb-epoch" or item.startswith("--hb-epoch=") or
-           (item.startswith("--hb-ep") and "--hb-epoch".startswith(item.split("=", 1)[0])) for item in extra):
+    # Any --hb* option could reach the writer's epoch; only the hb_epoch input supplies it.
+    if any(item.startswith("--hb") for item in extra):
         print(json.dumps({
             "disposition": "FAIL_CLOSED", "failure_code": "HB_EPOCH_CONFLICT",
             "failed_predicate": kernel.HB_EPOCH_PREDICATE,

@@ -1240,7 +1240,7 @@ class ResidentEntrypointEpochTests(_Workspace):
 
     def test_the_ledger_dispatcher_refuses_an_epoch_in_arguments_with_six_fields(self):
         dispatch = _load("probe_dispatch_conflict", ROOT / "scripts" / "dispatch_ledger_writer.py")
-        for arguments in ("--hb-epoch 77", "--hb-epoch=77", "--hb-ep 77"):
+        for arguments in ("--hb-epoch 77", "--hb-epoch=77", "--hb-ep 77", "--hb-e 77", "--hb 77"):
             with self.subTest(arguments=arguments):
                 with contextlib.redirect_stdout(io.StringIO()) as out, self.assertRaises(SystemExit) as exited:
                     dispatch.command("repository-ledger-emit", "4096", arguments)
@@ -1369,6 +1369,62 @@ class CarriedCrossingsNotAcceptedTests(_Workspace):
         self.assertFalse((self.work / "repo-ledger").exists())
 
 
+class ResponseOnceTests(_Workspace):
+    """RESPONSE_REPUBLISHED_AFTER_POST_PUBLISH_FAULT: one response per request, whatever fault follows it."""
+
+    def setUp(self):
+        super().setUp()
+        self.K = _load("probe_response_once_kernel", self.repo / "org-kernel" / "kernel.py")
+
+    def request(self, packet_id):
+        payload = {**FrameIngestErrorTests.INTR, "communication_id": packet_id}
+        return self.K.carrier_frame(self.packet(self.K, "admissible-existence.intr-destination", payload, packet_id),
+                                    epoch=4096)
+
+    def responses_to(self, organization):
+        directory = self.mesh / "frames.d"
+        return [frame for frame in (json.loads(path.read_text()) for path in directory.glob("*.json"))
+                if frame.get("destination_org") == organization]
+
+    def test_a_seen_marker_fault_after_publication_does_not_republish(self):
+        self.K.publish_frame(self.request("marker-fault"), root=self.mesh)
+        real = self.K.mark_federation_frame_seen
+        with mock.patch.object(self.K, "mark_federation_frame_seen", side_effect=OSError(28, "full")):
+            first = self.K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        assert_six_fields(self, first[0]["result"], "FRAME_DISPATCH_IO_FAILED")
+        self.assertEqual(len(self.responses_to(PEER)), 1)
+        self.assertIs(self.K.mark_federation_frame_seen, real)
+        second = self.K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        self.assertEqual(second[0]["result"]["status"], "CONSUMED")
+        self.assertIs(second[0]["response_publication"]["already_published"], True)
+        self.assertEqual(len(self.responses_to(PEER)), 1)
+        self.assertEqual(self.K.consume_and_respond(self.repo, mesh_root=self.mesh), [])
+
+    def test_an_ack_fault_after_submission_does_not_resubmit(self):
+        cycle = _load("probe_response_once_cycle", self.repo / "resident-runtime" / "federation_cycle.py")
+        frame = self.request("ack-fault")
+        submitted, failures = [], {"ack": 1}
+
+        def gateway(method, path, *, body=None, headers=None):
+            if method == "GET":
+                return {"state": "FRAME_AVAILABLE", "frame": frame}
+            if path.endswith("/frames"):
+                submitted.append(body)
+                return {"state": "PENDING"}
+            if failures["ack"]:
+                failures["ack"] -= 1
+                raise OSError(104, "connection reset")
+            return {"state": "CONSUMED"}
+
+        with mock.patch.object(cycle.GW, "_json_request", gateway):
+            first = cycle.GW.resident_gateway_cycle(self.repo)
+            second = cycle.GW.resident_gateway_cycle(self.repo)
+        self.assertEqual(first["state"], "PENDING_IO")
+        self.assertEqual(second["state"], "CONSUMED")
+        self.assertEqual(len(submitted), 1)
+        self.assertEqual(second["responses_emitted"], 0)
+
+
 class GatewayCycleEpochTests(_Workspace):
     """The gateway cycle answers at the frame's validated epoch, or not at all, and reads no clock."""
 
@@ -1392,7 +1448,9 @@ class GatewayCycleEpochTests(_Workspace):
         with fixed_clock(K, GW) as clock, mock.patch.object(GW, "_json_request", gateway):
             result = GW.resident_gateway_cycle(self.repo)
         self.assertEqual(clock.reads, 0)
-        self.assertEqual(written(self.work, before), [])
+        # Only this boundary's own response-submitted record, nothing else.
+        self.assertEqual([path for path in written(self.work, before)
+                          if "responses-submitted.d" not in str(path)], [])
         frames = [body for path, body in sent if path.endswith("/frames")]
         acks = [body for path, body in sent if path.endswith("/acknowledgements")]
         self.assertEqual(len(acks), 1)

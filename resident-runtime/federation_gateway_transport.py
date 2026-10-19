@@ -2,6 +2,7 @@
 """Outbound-only Service Gateway transport for organization federation."""
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 import os
@@ -262,6 +263,32 @@ def _pending_io(organization: str, frame: Any, error: BaseException) -> dict[str
     }
 
 
+def _submit_response_once(repo_root: Path, response: dict[str, Any], epoch: int) -> tuple[dict[str, Any], bool]:
+    """Submit a response once per response packet id.
+
+    The frame is recorded before it is submitted and marked submitted after,
+    so a cycle retried after a later fault (an ack that failed) does not
+    submit it again; a retry before the mark resubmits the same recorded bytes.
+    Returns the frame and whether this call submitted it.
+    """
+    records = repo_root / "resident-runtime" / "federation" / "responses-submitted.d"
+    path = records / (hashlib.sha256(response["packet_id"].encode()).hexdigest() + ".json")
+    if path.is_file():
+        record = json.loads(path.read_text())
+        frame = record["frame"]
+        if record.get("submitted") is True:
+            return frame, False
+    else:
+        frame = K.carrier_frame(response, epoch=epoch)
+        records.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({"packet_id": response["packet_id"], "frame": frame, "submitted": False},
+                                   indent=2, sort_keys=True) + "\n")
+    submit_frame(frame)
+    path.write_text(json.dumps({"packet_id": response["packet_id"], "frame": frame, "submitted": True},
+                               indent=2, sort_keys=True) + "\n")
+    return frame, True
+
+
 def _gateway_frame_cycle(repo_root: Path, organization: str, frame: Any) -> dict[str, Any]:
     # Any error ingesting the frame, a non-object frame included, is a
     # six-field refusal, acknowledged BLOCKED. An I/O failure of this
@@ -300,9 +327,8 @@ def _gateway_frame_cycle(repo_root: Path, organization: str, frame: Any) -> dict
                 response_refusal = K.response_epoch_refusal(failure)
             else:
                 response = K.build_control_response(packet, execution)
-                response_frame = K.carrier_frame(response, epoch=epoch)
-                submit_frame(response_frame)
-                response_emitted = 1
+                response_frame, submitted = _submit_response_once(repo_root, response, epoch)
+                response_emitted = 1 if submitted else 0
                 response_ref = response_frame["frame_sha256"]
         elif message_class in {"ecosystem.monitor.response", "ecosystem.work.ack", "ecosystem.communication.ack"}:
             _persist_response(repo_root, packet, execution)

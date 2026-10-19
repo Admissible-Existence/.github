@@ -751,6 +751,29 @@ def build_control_response(request_packet:dict[str,Any], execution_result:dict[s
       packet_id=str(req_payload.get("communication_id"))+":response:"+organization_slug(local_org)
     )
 
+def published_frame_for(packet_id:str, *, root:Path|None=None)->dict[str,Any]|None:
+    """The frame already published on the mesh for this packet id, if any."""
+    frames=(root or federation_root()).resolve()/"frames.d"
+    if not frames.is_dir():
+        return None
+    for path in sorted(frames.glob("*.json")):
+        try:
+            frame=json.loads(path.read_text(encoding="utf-8"))
+        except (ValueError,OSError):
+            continue
+        if isinstance(frame,dict) and frame.get("packet_id")==packet_id:
+            return {"frame":frame,"path":str(path)}
+    return None
+
+def publish_response_once(response:dict[str,Any], *, root:Path|None=None, epoch:int|None=None)->dict[str,Any]:
+    """Publish a response once per response packet id. A frame retried after a
+    fault that followed publication reuses the published response instead of
+    publishing a second one built from a replayed result."""
+    existing=published_frame_for(response["packet_id"],root=root)
+    if existing is not None:
+        return {"packet":response,**existing,"already_published":True}
+    return publish_packet(response,root=root,epoch=epoch)
+
 RESPONSE_RETRY_ENTRYPOINT="org-kernel/kernel.py::consume_and_respond (a request frame carrying a supplied heartbeat epoch)"
 
 def response_epoch_refusal(failure:tuple[str,str])->dict[str,Any]:
@@ -792,7 +815,7 @@ def consume_and_respond(repo_root:Path, *, mesh_root:Path|None=None,
                     response_refusal=response_epoch_refusal(failure)
                 else:
                     response=build_control_response(packet,result["execution_result"])
-                    response_publication=publish_packet(response,root=mesh_root,epoch=epoch)
+                    response_publication=publish_response_once(response,root=mesh_root,epoch=epoch)
             # A refused frame writes no receipt. It is quarantined: a terminal
             # seen marker, so it is not re-refused every cycle ahead of valid
             # frames. A frame pending on this boundary's own I/O gets no marker.

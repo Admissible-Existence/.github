@@ -601,7 +601,7 @@ def close(destination_organization: str, packet_id: str, communication_id: str, 
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0], allow_abbrev=False)
     parser.add_argument("--destination-organization", required=True)
     parser.add_argument("--payload", type=Path)
     parser.add_argument("--standing", type=Path)

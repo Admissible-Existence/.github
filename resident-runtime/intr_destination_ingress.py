@@ -311,7 +311,7 @@ def self_close(communication_id: str, *, registry: Mapping[str, Any] | None = No
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0], allow_abbrev=False)
     parser.add_argument("--payload", type=Path)
     parser.add_argument("--registry", type=Path)
     parser.add_argument("--self-close", action="store_true",

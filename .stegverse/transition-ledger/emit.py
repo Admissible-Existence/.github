@@ -80,7 +80,7 @@ def append(transition_id, transition_class, predecessor, successor, evidence, au
             if store.append_transaction(key, record, compared, new_head): return record
     raise ledger_store.LedgerWriteFault("REPO_LEDGER_APPEND_CONTENTION_EXHAUSTED")
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument("--transition-id",required=True); ap.add_argument("--transition-class",required=True); ap.add_argument("--predecessor-state-sha256",required=True); ap.add_argument("--successor-state-sha256",required=True); ap.add_argument("--evidence-json",default="{}"); ap.add_argument("--authority-effect",default="NONE"); ap.add_argument("--hb-epoch",default=None); ap.add_argument("--hb-ref",default=None); a=ap.parse_args()
+    ap=argparse.ArgumentParser(allow_abbrev=False); ap.add_argument("--transition-id",required=True); ap.add_argument("--transition-class",required=True); ap.add_argument("--predecessor-state-sha256",required=True); ap.add_argument("--successor-state-sha256",required=True); ap.add_argument("--evidence-json",default="{}"); ap.add_argument("--authority-effect",default="NONE"); ap.add_argument("--hb-epoch",default=None); ap.add_argument("--hb-ref",default=None); a=ap.parse_args()
     epoch=a.hb_epoch if a.hb_epoch is not None else a.hb_ref
     refusal=epoch_refusal(epoch)
     if refusal is not None: print(json.dumps(refusal,sort_keys=True)); raise SystemExit(1)
