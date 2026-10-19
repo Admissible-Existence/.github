@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0.0",
-  "generated_at": "2026-10-05T15:18:52.388371+00:00",
+  "generated_at": "2026-10-19T14:00:08.487773+00:00",
   "goal_id": "AEX-PRINCIPLE-COMPLETENESS-001",
   "repository_count": 5,
   "dimension_count": 12,
@@ -1314,6 +1314,12 @@
           ]
         },
         {
+          "label": "Diagnostic self-closure on the organization ledger",
+          "sources": [
+            "docs/INTR_DESTINATION_CAPABILITY_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Discovery Frontier",
           "sources": [
             "docs/DISCOVERY_FRONTIER.md"
@@ -1526,6 +1532,12 @@
           "label": "FI completion evidence",
           "sources": [
             "docs/TRIFORM_MIGRATION_REFRESH_015_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Follow-up",
+          "sources": [
+            "docs/INTR_DESTINATION_CAPABILITY_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -1808,6 +1820,12 @@
           "label": "Internal Core implementation vs public-facing product map",
           "sources": [
             "docs/CANONICAL_FORMALISM_ORIENTATION.md"
+          ]
+        },
+        {
+          "label": "InTr Destination Capability Mirror Handoff",
+          "sources": [
+            "docs/INTR_DESTINATION_CAPABILITY_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -3159,9 +3177,21 @@
           ]
         },
         {
+          "label": "Verified",
+          "sources": [
+            "docs/INTR_DESTINATION_CAPABILITY_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Verified CHF evidence",
           "sources": [
             "docs/TRIFORM_MIGRATION_REFRESH_006_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "What a peer address is",
+          "sources": [
+            "docs/INTR_DESTINATION_CAPABILITY_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -3177,9 +3207,33 @@
           ]
         },
         {
+          "label": "What is declared here",
+          "sources": [
+            "docs/INTR_DESTINATION_CAPABILITY_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "What other organizations do next",
+          "sources": [
+            "docs/INTR_DESTINATION_CAPABILITY_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "What the crossing proves",
+          "sources": [
+            "docs/INTR_DESTINATION_CAPABILITY_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
           "label": "Why prior percentages are superseded",
           "sources": [
             "reports/principle-completeness-baseline-2026-08-06.md"
+          ]
+        },
+        {
+          "label": "Why this capability exists",
+          "sources": [
+            "docs/INTR_DESTINATION_CAPABILITY_MIRROR_HANDOFF.md"
           ]
         },
         {
@@ -3235,7 +3289,7 @@
         {
           "severity": "error",
           "code": "UNRESOLVED_PLACEHOLDERS",
-          "count": 164
+          "count": 166
         },
         {
           "severity": "error",
@@ -3270,12 +3324,12 @@
         }
       ],
       "metrics": {
-        "files": 244,
-        "markdown_files": 73,
-        "structured_files": 116,
-        "handoffs": 33,
-        "principle_candidates": 516,
-        "placeholder_markers": 164,
+        "files": 256,
+        "markdown_files": 74,
+        "structured_files": 119,
+        "handoffs": 34,
+        "principle_candidates": 525,
+        "placeholder_markers": 166,
         "broken_local_links": 2,
         "ambiguous_short_repository_identities": 11,
         "dimensions_met": 12,
@@ -5119,6 +5173,7 @@
         {
           "label": "Assumptions",
           "sources": [
+            "docs/MATHEMATICAL_NOTATION.md",
             "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
           ]
         },
@@ -5239,6 +5294,12 @@
           "label": "Canonical source bindings",
           "sources": [
             "STCM_MIRROR_HANDOFF.md"
+          ]
+        },
+        {
+          "label": "Citations",
+          "sources": [
+            "docs/MATHEMATICAL_NOTATION.md"
           ]
         },
         {
@@ -5521,6 +5582,12 @@
           "label": "Fixture scale",
           "sources": [
             "docs/STCM_V0_6_VALIDATION_RECORD.md"
+          ]
+        },
+        {
+          "label": "G7: continuity lemma (missing, forked, stale links) [NEW, discrete; generalizes STCM-L fixtures]",
+          "sources": [
+            "docs/MATHEMATICAL_NOTATION.md"
           ]
         },
         {
@@ -5910,6 +5977,12 @@
           "label": "Refuse",
           "sources": [
             "docs/STATE_TRANSITION_CONSERVATION_MODEL.md"
+          ]
+        },
+        {
+          "label": "Relation to the existing v0.4 prior-receipt linking fixtures",
+          "sources": [
+            "docs/MATHEMATICAL_NOTATION.md"
           ]
         },
         {
@@ -6328,7 +6401,7 @@
         "markdown_files": 22,
         "structured_files": 54,
         "handoffs": 3,
-        "principle_candidates": 241,
+        "principle_candidates": 244,
         "placeholder_markers": 9,
         "broken_local_links": 0,
         "ambiguous_short_repository_identities": 4,
