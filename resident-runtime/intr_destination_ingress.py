@@ -211,9 +211,10 @@ def _append(transition_class: str, packet_id: str, evidence: Mapping[str, Any],
         transition_id, transition_class, predecessor, successor, dict(evidence),
         "NONE", hb_epoch=hb_epoch,
         idempotent_on=("communication_id", "payload_sha256", "disposition"))
-    # The organization receipt takes the repository receipt's epoch, so a replay
-    # rebuilds the same organization receipt rather than one stamped later.
-    epoch = repository_receipt["hb_reference"]["epoch"]
+    # The organization receipt takes the epoch supplied to this call. One read
+    # back from the repository receipt is not supplied: a replay can return a
+    # receipt some clock path stamped. A replay of a recorded organization
+    # receipt is returned as recorded.
     boundary = {"operation": OPERATION_ID, "profile_id": PROFILE_ID,
                 "disposition": evidence["disposition"],
                 "communication_id": evidence.get("communication_id")}
@@ -221,7 +222,7 @@ def _append(transition_class: str, packet_id: str, evidence: Mapping[str, Any],
         boundary["self_closure"] = True
     organization_receipt = organization_ledger.append(
         repository_receipt, "REPO_STATE_PROPAGATION", predecessor, successor,
-        boundary, "NONE", hb_epoch=epoch, idempotent=True)
+        boundary, "NONE", hb_epoch=hb_epoch, idempotent=True)
     return ({"repository_receipt": repository_receipt,
              "organization_receipt": organization_receipt}, prior is not None)
 

@@ -330,7 +330,8 @@ def _record(transition_id: str, transition_class: str, predecessor: str, success
     """Append at both levels. The organization owner is ``append``.
 
     A supplied epoch makes a replay of the same emission return the recorded
-    pair. The organization receipt takes the repository receipt's epoch.
+    pair. The organization receipt takes the epoch supplied to this call, not
+    one read back from the repository receipt.
     """
     _require_ledger_roots()
     idempotent = hb_epoch is not None
@@ -338,13 +339,12 @@ def _record(transition_id: str, transition_class: str, predecessor: str, success
         transition_id, transition_class, predecessor, successor,
         dict(record), "NONE", hb_epoch=hb_epoch,
         idempotent_on=("frame_sha256", "payload_sha256") if idempotent else None)
-    epoch = repository_receipt["hb_reference"]["epoch"]
     organization_receipt = organization_ledger.append(
         repository_receipt, "REPO_STATE_PROPAGATION", predecessor, successor,
         {"operation": OPERATION_ID, "intended_action": record["intended_action"],
          "disposition": record["disposition"],
          "crossed_an_organization_boundary": record["crossed_an_organization_boundary"]},
-        "NONE", hb_epoch=epoch, idempotent=True)
+        "NONE", hb_epoch=hb_epoch, idempotent=True)
     return {"repository_receipt": repository_receipt,
             "organization_receipt": organization_receipt}
 
