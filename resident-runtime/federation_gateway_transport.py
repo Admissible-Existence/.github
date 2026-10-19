@@ -220,9 +220,62 @@ def resident_gateway_cycle(repo_root: Path) -> dict[str, Any]:
     if fetched.get("state") != "FRAME_AVAILABLE":
         return _fetch_refusal(organization, "unexpected gateway fetch state " + repr(fetched.get("state")))
     frame = fetched.get("frame")
+    try:
+        return _gateway_frame_cycle(repo_root, organization, frame)
+    except (OSError, FederationGatewayTransportError) as error:
+        # This boundary's own I/O or transport failed: the frame is not at
+        # fault and is not acknowledged, so the gateway offers it again.
+        return _pending_io(organization, frame, error)
+    except Exception as error:
+        refusal = K.frame_ingest_refusal(frame, error)
+        try:
+            ack = acknowledge_frame(organization, frame, "BLOCKED")
+        except (OSError, FederationGatewayTransportError) as ack_error:
+            return _pending_io(organization, frame, ack_error)
+        return {
+            "schema_version": "stegverse.org-federation-gateway-cycle.v1",
+            "organization": organization,
+            "state": "BLOCKED",
+            "packet_id": frame.get("packet_id") if isinstance(frame, dict) else None,
+            "frames_consumed": 0,
+            "responses_emitted": 0,
+            "ingest_refusal": refusal,
+            "ack_state": ack.get("state") if isinstance(ack, dict) else None,
+            "gateway_execution_authority": "NONE",
+        }
+
+
+def _pending_io(organization: str, frame: Any, error: BaseException) -> dict[str, Any]:
+    return {
+        "schema_version": "stegverse.org-federation-gateway-cycle.v1",
+        "organization": organization,
+        "state": "PENDING_IO",
+        "packet_id": frame.get("packet_id") if isinstance(frame, dict) else None,
+        "frames_consumed": 0,
+        "responses_emitted": 0,
+        "ingest_refusal": K.dispatch_io_refusal(frame, error),
+        "ack_state": None,
+        "gateway_execution_authority": "NONE",
+    }
+
+
+def _gateway_frame_cycle(repo_root: Path, organization: str, frame: Any) -> dict[str, Any]:
     # Any error ingesting the frame, a non-object frame included, is a
-    # six-field refusal, acknowledged BLOCKED.
+    # six-field refusal, acknowledged BLOCKED. An I/O failure of this
+    # boundary's own leaves it pending and unacknowledged.
     result = K.ingest_frame(repo_root, frame)
+    if result.get("failure_code") == K.FRAME_DISPATCH_IO_FAILED:
+        return {
+            "schema_version": "stegverse.org-federation-gateway-cycle.v1",
+            "organization": organization,
+            "state": "PENDING_IO",
+            "packet_id": result.get("packet_id"),
+            "frames_consumed": 0,
+            "responses_emitted": 0,
+            "ingest_refusal": result,
+            "ack_state": None,
+            "gateway_execution_authority": "NONE",
+        }
     packet = result.get("packet") or {}
     # The response carries the frame's validated epoch. The epoch is read only
     # from a frame ingest accepted, whose hashes recomputed, so a BLOCKED ack

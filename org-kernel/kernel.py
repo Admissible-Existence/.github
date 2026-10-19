@@ -347,11 +347,31 @@ def frame_ingest_refusal(frame:Any, error:BaseException)->dict[str,Any]:
             "next_attempt":"the frame is refused and not retried; nothing was dispatched or written",
             "derived_from_clock":False,"consequence_committed":False}
 
+FRAME_DISPATCH_IO_FAILED="FRAME_DISPATCH_IO_FAILED"
+
+def dispatch_io_refusal(frame:Any, error:BaseException)->dict[str,Any]:
+    """The six-field refusal of a frame this boundary could not finish for an
+    I/O failure of its own (its ledger, its state). The frame is not at fault:
+    no marker is written, so it stays pending and the next cycle consumes it."""
+    return {"status":"PENDING_IO","packet_id":frame.get("packet_id") if isinstance(frame,dict) else None,
+            "disposition":"FAIL_CLOSED","failure_code":FRAME_DISPATCH_IO_FAILED,
+            "failed_predicate":type(error).__name__,"detail":(type(error).__name__+": "+str(error))[:512],
+            "required_evidence_or_repair":"this boundary's own storage accepts the write",
+            "retry_entrypoint":"org-kernel/kernel.py::consume_and_respond (next cycle)",
+            "owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
+            "next_attempt":"the frame stays pending; the next cycle consumes it exactly once (ledger appends replay idempotently)",
+            "derived_from_clock":False,"consequence_committed":False}
+
 def ingest_frame(root:Path, frame:dict[str,Any], *, mesh_root:Path|None=None)->dict[str,Any]:
-    """Ingest one frame. Any error ingesting it is a six-field refusal, so one
-    bad frame never aborts a consume cycle or starves the frames after it."""
+    """Ingest one frame. The guard is total: any error is a six-field refusal,
+    so one frame never aborts a consume cycle or starves the frames after it.
+    An OSError is this boundary's own I/O and leaves the frame pending
+    (FRAME_DISPATCH_IO_FAILED); any other error is the frame's own defect
+    (FRAME_INTEGRITY_INVALID or FRAME_INGEST_FAILED) and is terminal."""
     try:
         return _ingest_frame(root,frame,mesh_root=mesh_root)
+    except OSError as error:
+        return dispatch_io_refusal(frame,error)
     except Exception as error:
         return frame_ingest_refusal(frame,error)
 
@@ -732,22 +752,36 @@ def consume_and_respond(repo_root:Path, *, mesh_root:Path|None=None,
     out=[]
     for item in scan_addressed_frames(organization,root=mesh_root,seen=effective_seen):
         result=ingest_scanned(repo_root,item)
-        packet=result.get("packet") or {}
-        message_class=(packet.get("payload") or {}).get("message_class")
-        response_publication=None; response_refusal=None
-        if result.get("status")=="CONSUMED" and message_class in {
-            "ecosystem.monitor.request","ecosystem.work.request","ecosystem.communication"}:
-            epoch,failure=carried_frame_epoch(item["frame"])
-            if epoch is None:
-                response_refusal=response_epoch_refusal(failure)
-            else:
-                response=build_control_response(packet,result["execution_result"])
-                response_publication=publish_packet(response,root=mesh_root,epoch=epoch)
-        # A refused frame writes no receipt. It is quarantined: a terminal
-        # seen marker, so it is not re-refused every cycle ahead of valid frames.
-        marker=(mark_federation_frame_seen(repo_root,item["path"],item["frame"],result)
-                if result.get("status")=="CONSUMED"
-                else mark_federation_frame_quarantined(repo_root,item["path"],item["frame"],result))
+        response_publication=None; response_refusal=None; marker=None
+        # The guard is total for this frame's remaining steps too: an OSError
+        # is this boundary's own I/O and leaves the frame pending (no marker);
+        # any other error is terminal for the frame. The loop always continues.
+        try:
+            packet=result.get("packet") or {}
+            message_class=(packet.get("payload") or {}).get("message_class")
+            if result.get("status")=="CONSUMED" and message_class in {
+                "ecosystem.monitor.request","ecosystem.work.request","ecosystem.communication"}:
+                epoch,failure=carried_frame_epoch(item["frame"])
+                if epoch is None:
+                    response_refusal=response_epoch_refusal(failure)
+                else:
+                    response=build_control_response(packet,result["execution_result"])
+                    response_publication=publish_packet(response,root=mesh_root,epoch=epoch)
+            # A refused frame writes no receipt. It is quarantined: a terminal
+            # seen marker, so it is not re-refused every cycle ahead of valid
+            # frames. A frame pending on this boundary's own I/O gets no marker.
+            if result.get("status")=="CONSUMED":
+                marker=mark_federation_frame_seen(repo_root,item["path"],item["frame"],result)
+            elif result.get("failure_code")!=FRAME_DISPATCH_IO_FAILED:
+                marker=mark_federation_frame_quarantined(repo_root,item["path"],item["frame"],result)
+        except OSError as error:
+            result=dispatch_io_refusal(item.get("frame"),error); marker=None
+        except Exception as error:
+            result=frame_ingest_refusal(item.get("frame"),error)
+            try:
+                marker=mark_federation_frame_quarantined(repo_root,item["path"],item.get("frame"),result)
+            except OSError:
+                marker=None
         out.append({"path":item["path"],"result":result,"response_publication":response_publication,
                     "response_refusal":response_refusal,"seen_marker":str(marker) if marker else None})
     return out

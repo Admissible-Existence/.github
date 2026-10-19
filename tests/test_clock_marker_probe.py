@@ -1028,6 +1028,134 @@ class GatewayFetchGuardTests(_Workspace):
         self.assertIsNone(acks[0]["observed_at"])
 
 
+class TotalGuardAndIoTests(_Workspace):
+    """F-TYPE and the IO row: the per-frame guard is total; this boundary's own I/O failure is not terminal."""
+
+    INTR = FrameIngestErrorTests.INTR
+
+    def setUp(self):
+        super().setUp()
+        self.K = _load("probe_total_guard_kernel", self.repo / "org-kernel" / "kernel.py")
+
+    def frame(self, packet_id):
+        payload = {**self.INTR, "communication_id": packet_id}
+        return self.K.carrier_frame(self.packet(self.K, "admissible-existence.intr-destination", payload, packet_id),
+                                    epoch=4096)
+
+    def wrong_typed(self, packet_id, field, value):
+        frame = self.frame(packet_id)
+        body = {key: item for key, item in frame.items() if key != "frame_sha256"}
+        body[field] = value
+        return {**body, "frame_sha256": self.K.sha(body)}
+
+    def org_receipts(self):
+        root = self.work / "org-ledger"
+        return [json.loads(path.read_text()) for path in root.rglob("*.json")
+                if json.loads(path.read_text()).get("schema") == "stegverse.organization-transition-receipt/v1"] \
+            if root.exists() else []
+
+    def repo_receipts(self):
+        root = self.work / "repo-ledger"
+        return [json.loads(path.read_text()) for path in root.rglob("*.json")
+                if json.loads(path.read_text()).get("schema") == "stegverse.repo-transition-receipt/v1"] \
+            if root.exists() else []
+
+    def test_wrong_typed_fields_before_and_after_a_valid_frame_are_quarantined(self):
+        bad = {"type-%d" % index: self.wrong_typed("type-%d" % index, field, value)
+               for index, (field, value) in enumerate((("packet_base64", 123), ("packet_base64", None),
+                                                       ("packet_base64", [1]), ("packet_base64", {"a": 1}),
+                                                       ("packet_sha256", 5), ("heartbeat_reference", [4096])))}
+        names = sorted(FrameIngestErrorTests.name(frame) for frame in bad.values())
+        for index in range(5000):
+            valid = self.frame("typed-valid-%d" % index)
+            if names[0] < FrameIngestErrorTests.name(valid) < names[-1]:
+                break
+        for frame in bad.values():
+            self.K.publish_frame(frame, root=self.mesh)
+        self.K.publish_frame(valid, root=self.mesh)
+        with fixed_clock(self.K) as clock:
+            first = self.K.consume_and_respond(self.repo, mesh_root=self.mesh)
+            again = self.K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        self.assertEqual(clock.reads, 0)
+        self.assertEqual(again, [])
+        by_id = {item["result"].get("packet_id") or item["result"]["packet"]["packet_id"]: item for item in first}
+        for packet_id in bad:
+            with self.subTest(frame=packet_id):
+                result = by_id[packet_id]["result"]
+                self.assertIn(result["failure_code"], ("FRAME_INGEST_FAILED", "FRAME_INTEGRITY_INVALID",
+                                                       "HB_EPOCH_INVALID", "HB_EPOCH_NOT_SUPPLIED"))
+                assert_six_fields(self, result, result["failure_code"])
+                self.assertIsNotNone(by_id[packet_id]["seen_marker"])
+        self.assertEqual(by_id[valid["packet_id"]]["result"]["status"], "CONSUMED")
+        self.assertEqual([receipt["repo_transition_id"] for receipt in self.org_receipts()],
+                         ["ORGANIZATION_INTR_DESTINATION_INGRESS:" + valid["packet_id"]])
+        attribute = by_id["type-0"]["result"]
+        self.assertEqual((attribute["failure_code"], attribute["failed_predicate"]),
+                         ("FRAME_INGEST_FAILED", "AttributeError"))
+
+    def test_the_gateway_blocks_a_wrong_typed_frame(self):
+        cycle = _load("probe_total_guard_cycle", self.repo / "resident-runtime" / "federation_cycle.py")
+        frame = self.wrong_typed("gateway-typed", "packet_base64", 123)
+        acks = []
+
+        def gateway(method, path, *, body=None, headers=None):
+            if method == "GET":
+                return {"state": "FRAME_AVAILABLE", "frame": frame}
+            acks.append(body)
+            return {"state": "BLOCKED"}
+
+        with fixed_clock(cycle.K, cycle.GW) as clock, mock.patch.object(cycle.GW, "_json_request", gateway):
+            result = cycle.GW.resident_gateway_cycle(self.repo)
+        self.assertEqual(clock.reads, 0)
+        self.assertEqual(result["state"], "BLOCKED")
+        assert_six_fields(self, result["ingest_refusal"], "FRAME_INGEST_FAILED")
+        self.assertEqual(len(acks), 1)
+
+    def test_an_io_failure_on_the_ledger_write_leaves_the_frame_pending_and_consumes_it_once(self):
+        import os as os_module
+        valid = self.frame("io-pending")
+        self.K.publish_frame(valid, root=self.mesh)
+        real_replace = os_module.replace
+        org_root = str(self.work / "org-ledger")
+
+        def failing_replace(source, destination, *args, **kwargs):
+            if str(destination).startswith(org_root):
+                raise OSError(28, "No space left on device")
+            return real_replace(source, destination, *args, **kwargs)
+
+        with mock.patch("os.replace", side_effect=failing_replace):
+            first = self.K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        item, = first
+        assert_six_fields(self, item["result"], "FRAME_DISPATCH_IO_FAILED")
+        self.assertEqual(item["result"]["failed_predicate"], "OSError")
+        self.assertIsNone(item["seen_marker"])
+        self.assertEqual(self.org_receipts(), [])
+        # Pending, not quarantined: the next cycle consumes it exactly once.
+        second = self.K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        self.assertEqual([entry["result"]["status"] for entry in second], ["CONSUMED"])
+        self.assertEqual(len(self.repo_receipts()), 1)
+        self.assertEqual(len(self.org_receipts()), 1)
+        self.assertEqual(self.K.consume_and_respond(self.repo, mesh_root=self.mesh), [])
+
+    def test_the_gateway_does_not_acknowledge_a_frame_pending_on_its_own_io(self):
+        cycle = _load("probe_io_cycle", self.repo / "resident-runtime" / "federation_cycle.py")
+        frame = self.frame("gateway-io")
+        acks = []
+
+        def gateway(method, path, *, body=None, headers=None):
+            if method == "GET":
+                return {"state": "FRAME_AVAILABLE", "frame": frame}
+            acks.append(body)
+            return {"state": "OK"}
+
+        with mock.patch.object(cycle.GW, "_json_request", gateway), \
+                mock.patch.object(cycle.GW.K, "dispatch", side_effect=OSError(5, "I/O error")):
+            result = cycle.GW.resident_gateway_cycle(self.repo)
+        self.assertEqual(result["state"], "PENDING_IO")
+        assert_six_fields(self, result["ingest_refusal"], "FRAME_DISPATCH_IO_FAILED")
+        self.assertEqual(acks, [])
+
+
 class GatewayCycleEpochTests(_Workspace):
     """The gateway cycle answers at the frame's validated epoch, or not at all, and reads no clock."""
 
