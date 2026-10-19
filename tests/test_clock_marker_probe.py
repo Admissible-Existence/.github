@@ -1490,6 +1490,56 @@ class ClockFormCarriedClaimTests(_Workspace):
                 self.assertEqual([ack["state"] for ack in acks], ["BLOCKED"])
 
 
+class TornWriteTests(_Workspace):
+    """A fault between a receipt write and the HEAD advance leaves the frame pending and the store recoverable."""
+
+    def test_a_head_write_fault_rolls_forward_to_exactly_one_receipt(self):
+        import os as os_module
+        K = _load("probe_torn_kernel", self.repo / "org-kernel" / "kernel.py")
+        for ledger in ("repo-ledger", "org-ledger"):
+            with self.subTest(torn=ledger):
+                packet_id = "torn-" + ledger
+                payload = {**FrameIngestErrorTests.INTR, "communication_id": packet_id}
+                K.publish_packet(self.packet(K, "admissible-existence.intr-destination", payload, packet_id),
+                                 root=self.mesh, epoch=4096)
+                real_replace = os_module.replace
+                head = str(self.work / ledger / "HEAD.json")
+                failures = {"left": 1}
+
+                def torn_replace(source, destination, *args, **kwargs):
+                    if str(destination) == head and failures["left"]:
+                        failures["left"] -= 1
+                        raise OSError(5, "I/O error writing HEAD")
+                    return real_replace(source, destination, *args, **kwargs)
+
+                head_before = json.loads(Path(head).read_text()) if Path(head).exists() else None
+                with mock.patch("os.replace", side_effect=torn_replace):
+                    first = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+                item, = [entry for entry in first if entry["result"].get("packet_id") == packet_id]
+                assert_six_fields(self, item["result"], "FRAME_DISPATCH_IO_FAILED")
+                self.assertIsNone(item["seen_marker"])
+                # HEAD did not advance past the orphaned receipt.
+                head_after = json.loads(Path(head).read_text()) if Path(head).exists() else None
+                self.assertEqual(head_after, head_before)
+                second = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+                self.assertEqual([entry["result"]["status"] for entry in second], ["CONSUMED"])
+                self.assertEqual(K.consume_and_respond(self.repo, mesh_root=self.mesh), [])
+        for ledger, schema in (("repo-ledger", "stegverse.repo-transition-receipt/v1"),
+                               ("org-ledger", "stegverse.organization-transition-receipt/v1")):
+            with self.subTest(ledger=ledger):
+                root = self.work / ledger
+                receipts = [json.loads(path.read_text()) for path in (root / "receipts").rglob("*.json")]
+                self.assertTrue(all(receipt["schema"] == schema for receipt in receipts))
+                self.assertEqual(len(receipts), 2)
+                # HEAD names the newest receipt, and the chain covers every receipt exactly once.
+                cursor, chain = json.loads((root / "HEAD.json").read_text())["receipt_sha256"], []
+                by_digest = {receipt["receipt_sha256"]: receipt for receipt in receipts}
+                while cursor:
+                    chain.append(cursor)
+                    cursor = by_digest[cursor]["previous_receipt_sha256"]
+                self.assertEqual(sorted(chain), sorted(by_digest))
+
+
 class GatewayCycleEpochTests(_Workspace):
     """The gateway cycle answers at the frame's validated epoch, or not at all, and reads no clock."""
 
