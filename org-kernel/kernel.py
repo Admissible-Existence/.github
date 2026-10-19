@@ -365,7 +365,13 @@ def _ingest_frame(root:Path, frame:dict[str,Any], *, mesh_root:Path|None=None)->
     # failure (a clock-flagged or clock-sampled reference) is consumed but
     # lends no epoch, so a route that needs one refuses HB_EPOCH_NOT_SUPPLIED.
     epoch,failure=carried_frame_epoch(frame)
-    if failure is not None and failure[0] in INGEST_REFUSED_FRAME_CODES:
+    # Every carrier epoch passes the shared digit and anchor check, whatever
+    # the frame's clock flag: a malformed or absent epoch is refused too.
+    reference=frame.get("heartbeat_reference")
+    epoch_failure=supplied_epoch_failure(reference.get("epoch") if isinstance(reference,dict) else None)
+    if epoch_failure is not None:
+        failure=epoch_failure
+    if failure is not None and (failure[0] in INGEST_REFUSED_FRAME_CODES or epoch_failure is not None):
         code,detail=failure
         return {"status":"FAIL_CLOSED","packet_id":packet["packet_id"],
                 "disposition":"FAIL_CLOSED","failure_code":code,"failed_predicate":HB_EPOCH_PREDICATE,

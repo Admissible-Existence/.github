@@ -693,6 +693,59 @@ class FrameIngestErrorTests(_Workspace):
                 self.assertEqual(written(self.work, before), [])
 
 
+class CarrierEpochUniformityTests(_Workspace):
+    """Uniformity (08:27Z): every carrier epoch passes the digit/anchor check, whatever its clock flag."""
+
+    def test_a_clock_frame_with_a_malformed_or_absent_epoch_is_refused_and_quarantined(self):
+        K = _load("probe_uniform_kernel", self.repo / "org-kernel" / "kernel.py")
+        flagged = {**K.hb_reference(epoch=4096), "derived_from_clock": True}
+        sampled = K.hb_reference(now_ns=INSTANT_NS)
+        cases = {
+            "flagged-abc": ({**flagged, "epoch": "abc"}, "HB_EPOCH_INVALID"),
+            "flagged-5": ({**flagged, "epoch": 5}, "HB_EPOCH_INVALID"),
+            "flagged-none": ({key: value for key, value in flagged.items() if key != "epoch"}, "HB_EPOCH_NOT_SUPPLIED"),
+            "sampled-abc": ({**sampled, "epoch": "abc"}, "HB_EPOCH_INVALID"),
+            "sampled-5": ({**sampled, "epoch": 5}, "HB_EPOCH_INVALID"),
+        }
+        service = "admissible-existence.org-control"
+        frames = {}
+        for packet_id, (reference, _code) in cases.items():
+            frame = K.carrier_frame(self.packet(K, service, control("ecosystem.communication", packet_id), packet_id),
+                                    epoch=4096)
+            body = {key: value for key, value in frame.items() if key != "frame_sha256"}
+            body["heartbeat_reference"] = reference
+            frames[packet_id] = {**body, "frame_sha256": K.sha(body)}
+            K.publish_frame(frames[packet_id], root=self.mesh)
+        K.publish_packet(self.packet(K, service, control("ecosystem.communication", "valid"), "valid"),
+                         root=self.mesh, epoch=4096)
+        with fixed_clock(K) as clock:
+            first = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+            again = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        self.assertEqual(clock.reads, 0)
+        self.assertEqual(again, [])
+        by_id = {item["result"].get("packet_id") or item["result"]["packet"]["packet_id"]: item for item in first}
+        self.assertEqual(by_id["valid"]["result"]["status"], "CONSUMED")
+        for packet_id, (_reference, code) in cases.items():
+            with self.subTest(frame=packet_id):
+                assert_six_fields(self, by_id[packet_id]["result"], code)
+                marker = json.loads(Path(by_id[packet_id]["seen_marker"]).read_text())
+                self.assertEqual(marker["refused_failure_code"], code)
+        # The gateway route refuses the same frames, BLOCKED.
+        cycle = _load("probe_uniform_cycle", self.repo / "resident-runtime" / "federation_cycle.py")
+        for packet_id, (_reference, code) in cases.items():
+            with self.subTest(gateway=packet_id):
+                frame = frames[packet_id]
+
+                def gateway(method, path, *, body=None, headers=None):
+                    return {"state": "FRAME_AVAILABLE", "frame": frame} if method == "GET" else {"state": "BLOCKED"}
+
+                with fixed_clock(cycle.K, cycle.GW) as clock, mock.patch.object(cycle.GW, "_json_request", gateway):
+                    result = cycle.GW.resident_gateway_cycle(self.repo)
+                self.assertEqual(clock.reads, 0)
+                self.assertEqual(result["state"], "BLOCKED")
+                assert_six_fields(self, result["ingest_refusal"], code)
+
+
 class GatewayCycleEpochTests(_Workspace):
     """The gateway cycle answers at the frame's validated epoch, or not at all, and reads no clock."""
 
