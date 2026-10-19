@@ -274,9 +274,24 @@ class SharedRuleProvenanceTests(unittest.TestCase):
 
     def test_marked_references(self):
         self.assertIsNone(kernel.supplied_epoch_failure(4096, kernel.hb_reference(epoch=4096)))
-        self.assertIsNone(kernel.supplied_epoch_failure(4096, {"epoch": 4096, "provenance": "CARRIED:X"}))
+        # CARRIED also marks derived_from_clock false; a provenance alone is not a marker.
+        self.assertEqual(kernel.supplied_epoch_failure(4096, {"epoch": 4096, "provenance": "CARRIED:X"})[0],
+                         "HB_EPOCH_PROVENANCE_UNMARKED")
         self.assertEqual(kernel.supplied_epoch_failure(4096, {"epoch": 4096, "derived_from_clock": True})[0],
                          "HB_EPOCH_INVALID")
+
+    def test_a_supplied_epoch_is_marked_supplied_and_reads_no_clock(self):
+        # SUPPLIED: derived_from_clock false and no sampled_unix_ns.
+        packet = kernel.build_packet(origin_org=PEER, origin_service="p", destination_org=THIS,
+                                     destination_service="s", payload={}, standing=STANDING)
+        with fixed_clock(kernel) as clock:
+            references = (kernel.hb_reference(epoch=4096),
+                          kernel.carrier_frame(packet, epoch=4096)["heartbeat_reference"])
+        self.assertEqual(clock.reads, 0)
+        for reference in references:
+            self.assertEqual(reference["epoch"], 4096)
+            self.assertIs(reference["derived_from_clock"], False)
+            self.assertNotIn("sampled_unix_ns", reference)
 
     def test_a_clock_frame_carries_no_epoch(self):
         packet = kernel.build_packet(origin_org=PEER, origin_service="p", destination_org=THIS,

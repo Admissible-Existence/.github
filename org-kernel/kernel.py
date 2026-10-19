@@ -62,8 +62,9 @@ def supplied_epoch_failure(hb_epoch: Any, reference: Any = None) -> tuple[str, s
     integer value >= 32 (the HB32 anchor). `reference`, the carrier frame's
     heartbeat reference when there is one, must be an object, and a
     `derived_from_clock` it carries must be exactly false. A reference with no
-    `derived_from_clock` and no CARRIED provenance is
-    HB_EPOCH_PROVENANCE_UNMARKED. Any other failure is HB_EPOCH_INVALID.
+    `derived_from_clock` is HB_EPOCH_PROVENANCE_UNMARKED: a bare
+    `sampled_unix_ns` is legacy CLOCK, and a CARRIED reference also carries
+    false. Any other failure is HB_EPOCH_INVALID.
     Returns (failure_code, detail), or None when the epoch is supplied. No
     clock is read.
     """
@@ -83,9 +84,8 @@ def supplied_epoch_failure(hb_epoch: Any, reference: Any = None) -> tuple[str, s
         return "HB_EPOCH_INVALID", "hb_epoch " + repr(hb_epoch) + " is not ASCII [0-9]+"
     if int(text) < 32:
         return "HB_EPOCH_INVALID", "hb_epoch " + text + " is below the HB32 anchor (32)"
-    if reference is not None and "derived_from_clock" not in reference \
-            and not str(reference.get("provenance", "")).startswith("CARRIED:"):
-        return "HB_EPOCH_PROVENANCE_UNMARKED", "the carrier's heartbeat reference marks neither derived_from_clock nor a CARRIED provenance"
+    if reference is not None and "derived_from_clock" not in reference:
+        return "HB_EPOCH_PROVENANCE_UNMARKED", "the carrier's heartbeat reference does not mark derived_from_clock"
     if reference is not None and "derived_from_clock" in reference \
             and reference["derived_from_clock"] is not False:
         return "HB_EPOCH_INVALID", ("the carrier's derived_from_clock is not exactly false; "
