@@ -772,11 +772,43 @@ class HeartbeatWorkflowBindingTests(unittest.TestCase):
 
     def test_apply_runs_only_with_the_dispatch_epoch(self):
         workflow = (ROOT / ".github" / "workflows" / "heartbeat-response-node.yml").read_text()
+        triggers = workflow.split("\non:", 1)[1].split("\npermissions:", 1)[0]
+        # Only a dispatch that supplies hb_epoch reaches the epoch-requiring entrypoint.
+        self.assertIn("workflow_dispatch:", triggers)
+        self.assertIn("hb_epoch:", triggers)
+        self.assertNotIn("schedule:", triggers)
+        self.assertNotIn("push:", triggers)
         step = workflow.split("- name: Receive and classify canonical heartbeat", 1)[1].split("- name:", 1)[0]
         self.assertIn("HB_EPOCH: ${{ inputs.hb_epoch }}", step)
         applies = [line.strip() for line in step.splitlines() if "--apply" in line]
         self.assertEqual(applies, ['python scripts/process_heartbeat_response.py --apply --hb-epoch "$HB_EPOCH"'])
-        self.assertIn('if [ -n "${HB_EPOCH:-}" ]; then', step)
+        # An absent epoch fails closed with six fields before anything is invoked.
+        self.assertLess(step.index("writer_epoch_refusal(None"), step.index("--apply"))
+
+    def test_the_fail_closed_step_prints_the_six_fields(self):
+        workflow = (ROOT / ".github" / "workflows" / "heartbeat-response-node.yml").read_text()
+        line = next(line.strip() for line in workflow.splitlines() if "writer_epoch_refusal(None" in line)
+        script = line.split("python -c '", 1)[1].rsplit("'", 1)[0]
+        import subprocess
+        import sys
+        completed = subprocess.run([sys.executable, "-c", script], cwd=ROOT, capture_output=True, text=True,
+                                   check=True)
+        assert_six_fields(self, json.loads(completed.stdout), "HB_EPOCH_NOT_SUPPLIED")
+
+    def test_no_schedule_or_push_workflow_reaches_an_epoch_requiring_entrypoint(self):
+        entrypoints = ("process_heartbeat_response.py --apply", "intr_destination_ingress.py",
+                       "organization_egress_boundary.py", "aggregate_repo_transition.py", "transition-ledger/emit.py")
+        for path in sorted((ROOT / ".github" / "workflows").glob("*.yml")):
+            text = path.read_text()
+            runs = [line for line in text.splitlines()
+                    if line.strip().startswith("python ") and "py_compile" not in line]
+            if not any(entry in line for line in runs for entry in entrypoints):
+                continue
+            with self.subTest(workflow=path.name):
+                triggers = text.split("\non:", 1)[1].split("\npermissions:", 1)[0]
+                self.assertNotIn("schedule:", triggers)
+                self.assertNotIn("push:", triggers)
+                self.assertIn("hb_epoch:", triggers)
 
 
 class GatewayCycleEpochTests(_Workspace):
