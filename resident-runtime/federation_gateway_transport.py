@@ -2,7 +2,6 @@
 """Outbound-only Service Gateway transport for organization federation."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
 import importlib.util
 import json
 import os
@@ -83,16 +82,18 @@ def fetch_frame(organization: str) -> dict[str, Any]:
     )
 
 
-def acknowledge_frame(organization: str, frame: dict[str, Any], state: str) -> dict[str, Any]:
+def acknowledge_frame(organization: str, frame: dict[str, Any], state: str,
+                      epoch: int | None = None) -> dict[str, Any]:
+    """Acknowledge a frame. No clock is read: `observed_at` is the frame's
+    validated epoch's heartbeat id, or null when the frame lends none."""
     ack = {
         "schema": "stegverse.org-federation-rendezvous.ack/v1",
         "organization": organization,
         "packet_id": frame["packet_id"],
         "frame_sha256": frame["frame_sha256"],
         "state": state,
-        "observed_at": datetime.now(timezone.utc).isoformat(),
-        # The stamp above is a wall-clock observation, marked as such.
-        "derived_from_clock": True,
+        "observed_at": "HB:" + str(epoch) if epoch is not None else None,
+        "derived_from_clock": False,
         "gateway_execution_authority": "NONE",
         "authority_effect": "NONE_OBSERVATION_ONLY",
     }
@@ -192,23 +193,31 @@ def resident_gateway_cycle(repo_root: Path) -> dict[str, Any]:
     frame = fetched["frame"]
     packet = K.recover_packet(frame)
     result = K.ingest_frame(repo_root, frame)
+    # The response carries the frame's validated epoch. A frame that lends
+    # none (a clock-flagged or clock-sampled one) gets no response, and no
+    # clock is read on this route.
+    epoch, failure = K.carried_frame_epoch(frame)
     response_emitted = 0
     response_ref = None
+    response_refusal = None
     if result.get("status") == "CONSUMED":
         execution = result["execution_result"]
         message_class = (packet.get("payload") or {}).get("message_class")
         if message_class in {"ecosystem.monitor.request", "ecosystem.work.request", "ecosystem.communication"}:
-            response = K.build_control_response(packet, execution)
-            response_frame = K.carrier_frame(response)
-            submit_frame(response_frame)
-            response_emitted = 1
-            response_ref = response_frame["frame_sha256"]
+            if epoch is None:
+                response_refusal = K.response_epoch_refusal(failure)
+            else:
+                response = K.build_control_response(packet, execution)
+                response_frame = K.carrier_frame(response, epoch=epoch)
+                submit_frame(response_frame)
+                response_emitted = 1
+                response_ref = response_frame["frame_sha256"]
         elif message_class in {"ecosystem.monitor.response", "ecosystem.work.ack", "ecosystem.communication.ack"}:
             _persist_response(repo_root, packet, execution)
         ack_state = "CONSUMED"
     else:
         ack_state = "BLOCKED"
-    ack = acknowledge_frame(organization, frame, ack_state)
+    ack = acknowledge_frame(organization, frame, ack_state, epoch=epoch)
     return {
         "schema_version": "stegverse.org-federation-gateway-cycle.v1",
         "organization": organization,
@@ -218,6 +227,8 @@ def resident_gateway_cycle(repo_root: Path) -> dict[str, Any]:
         "frames_consumed": 1 if ack_state == "CONSUMED" else 0,
         "responses_emitted": response_emitted,
         "response_frame_sha256": response_ref,
+        "response_refusal": response_refusal,
+        "ingest_refusal": None if result.get("status") == "CONSUMED" else result,
         "ack_state": ack.get("state"),
         "gateway_execution_authority": "NONE",
     }

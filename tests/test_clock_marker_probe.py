@@ -237,7 +237,10 @@ class ClockMarkerProbeTests(_Workspace):
         self.assertEqual(len(cycles), 1)
         self.assertEqual(cycles[0]["heartbeat_reference"]["sampled_unix_ns"], INSTANT_NS)
         self.assertEqual(len(acks), 1)
-        self.assertIs(acks[0]["derived_from_clock"], True)
+        # The request frame is a clock sample, so it lends no epoch: the ack
+        # carries no clock value, and no response is published.
+        self.assertIs(acks[0]["derived_from_clock"], False)
+        self.assertIsNone(acks[0]["observed_at"])
         self.assertIs(crossing["carrier"]["derived_from_clock"], True)
 
     def test_an_ingest_route_that_writes_nothing_reads_no_clock(self):
@@ -599,6 +602,66 @@ class CarriedFrameEpochTests(_Workspace):
                    for path in (self.repo / "resident-runtime" / "control" / "inbox").glob("*.json")]
         self.assertEqual(record["hb_reference"]["epoch"], 4096)
         self.assertIs(record["hb_reference"]["derived_from_clock"], False)
+
+
+class GatewayCycleEpochTests(_Workspace):
+    """The gateway cycle answers at the frame's validated epoch, or not at all, and reads no clock."""
+
+    def cycle(self, reference, packet_id):
+        cycle = _load("probe_gateway_" + packet_id, self.repo / "resident-runtime" / "federation_cycle.py")
+        K, GW = cycle.K, cycle.GW
+        frame = K.carrier_frame(self.packet(K, "admissible-existence.org-control",
+                                            control("ecosystem.communication", packet_id), packet_id), epoch=4096)
+        body = {key: value for key, value in frame.items() if key != "frame_sha256"}
+        body["heartbeat_reference"] = reference
+        frame = {**body, "frame_sha256": K.sha(body)}
+        sent = []
+
+        def gateway(method, path, *, body=None, headers=None):
+            if method == "GET":
+                return {"state": "FRAME_AVAILABLE", "frame": frame}
+            sent.append((path, body))
+            return {"state": "PENDING" if path.endswith("/frames") else "OK"}
+
+        before = snapshot(self.work)
+        with fixed_clock(K, GW) as clock, mock.patch.object(GW, "_json_request", gateway):
+            result = GW.resident_gateway_cycle(self.repo)
+        self.assertEqual(clock.reads, 0)
+        self.assertEqual(written(self.work, before), [])
+        frames = [body for path, body in sent if path.endswith("/frames")]
+        acks = [body for path, body in sent if path.endswith("/acknowledgements")]
+        self.assertEqual(len(acks), 1)
+        self.assertIs(acks[0]["derived_from_clock"], False)
+        return K, result, frames, acks[0]
+
+    def test_a_supplied_frame_is_answered_at_its_epoch(self):
+        K, result, frames, ack = self.cycle(kernel.hb_reference(epoch=4096), "gateway-supplied")
+        self.assertEqual(result["responses_emitted"], 1)
+        response, = frames
+        reference = response["heartbeat_reference"]
+        self.assertEqual(reference["epoch"], 4096)
+        self.assertIs(reference["derived_from_clock"], False)
+        self.assertNotIn("sampled_unix_ns", reference)
+        self.assertEqual(ack["observed_at"], "HB:4096")
+
+    def test_a_clock_frame_gets_no_response(self):
+        references = (("flagged", {**kernel.hb_reference(epoch=4096), "derived_from_clock": True}),
+                      ("sampled", kernel.hb_reference(now_ns=INSTANT_NS)))
+        for name, reference in references:
+            with self.subTest(frame=name):
+                _K, result, frames, ack = self.cycle(reference, "gateway-" + name)
+                self.assertEqual(frames, [])
+                self.assertEqual(result["responses_emitted"], 0)
+                assert_six_fields(self, result["response_refusal"], "HB_EPOCH_INVALID")
+                self.assertIsNone(ack["observed_at"])
+
+    def test_an_unmarked_frame_is_refused_and_blocked(self):
+        unflagged = {key: value for key, value in kernel.hb_reference(epoch=4096).items()
+                     if key != "derived_from_clock"}
+        _K, result, frames, ack = self.cycle(unflagged, "gateway-unmarked")
+        self.assertEqual(result["state"], "BLOCKED")
+        self.assertEqual(frames, [])
+        assert_six_fields(self, result["ingest_refusal"], "HB_EPOCH_PROVENANCE_UNMARKED")
 
 
 class EgressCollisionTests(_Workspace):

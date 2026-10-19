@@ -649,6 +649,16 @@ def build_control_response(request_packet:dict[str,Any], execution_result:dict[s
 
 RESPONSE_RETRY_ENTRYPOINT="org-kernel/kernel.py::consume_and_respond (a request frame carrying a supplied heartbeat epoch)"
 
+def response_epoch_refusal(failure:tuple[str,str])->dict[str,Any]:
+    """The six-field refusal to answer a request frame that lends no epoch. No response is published."""
+    code,detail=failure
+    return {"disposition":"FAIL_CLOSED","failure_code":code,"failed_predicate":HB_EPOCH_PREDICATE,
+            "detail":"the request frame carries no supplied epoch: "+detail,
+            "required_evidence_or_repair":"the request frame's heartbeat_reference carries a supplied epoch (derived_from_clock false)",
+            "retry_entrypoint":RESPONSE_RETRY_ENTRYPOINT,"owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
+            "next_attempt":"the requester resends with a supplied epoch; no response frame was published",
+            "derived_from_clock":False,"consequence_committed":False}
+
 def consume_and_respond(repo_root:Path, *, mesh_root:Path|None=None,
                         seen:set[str]|None=None)->list[dict[str,Any]]:
     """Consume addressed frames and answer the requests among them.
@@ -672,13 +682,7 @@ def consume_and_respond(repo_root:Path, *, mesh_root:Path|None=None,
             "ecosystem.monitor.request","ecosystem.work.request","ecosystem.communication"}:
             epoch,failure=carried_frame_epoch(item["frame"])
             if epoch is None:
-                code,detail=failure
-                response_refusal={"disposition":"FAIL_CLOSED","failure_code":code,"failed_predicate":HB_EPOCH_PREDICATE,
-                    "detail":"the request frame carries no supplied epoch: "+detail,
-                    "required_evidence_or_repair":"the request frame's heartbeat_reference carries a supplied epoch (derived_from_clock false)",
-                    "retry_entrypoint":RESPONSE_RETRY_ENTRYPOINT,"owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
-                    "next_attempt":"the requester resends with a supplied epoch; no response frame was published",
-                    "derived_from_clock":False,"consequence_committed":False}
+                response_refusal=response_epoch_refusal(failure)
             else:
                 response=build_control_response(packet,result["execution_result"])
                 response_publication=publish_packet(response,root=mesh_root,epoch=epoch)
