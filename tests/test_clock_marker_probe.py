@@ -1357,9 +1357,9 @@ class CarriedCrossingsNotAcceptedTests(_Workspace):
         self.assertEqual(clock.reads, 0)
         by_id = {item["result"].get("packet_id") or item["result"]["packet"]["packet_id"]: item["result"]
                  for item in results}
-        # A sampled reference is clock-sampled: under NARROW S1 it is consumed but lends no epoch.
-        self.assertEqual(by_id["forged-sampled"]["status"], "CONSUMED")
-        for packet_id, (_reference, code) in {**cases, "forged-hash": (None, "FRAME_INTEGRITY_INVALID")}.items():
+        # A CARRIED claim on a clock-form reference is refused, never consumed as a clock frame.
+        for packet_id, (_reference, code) in {**cases, "forged-hash": (None, "FRAME_INTEGRITY_INVALID"),
+                                               "forged-sampled": (None, "CARRIED_NOT_ACCEPTED_BY_DESTINATION")}.items():
             with self.subTest(frame=packet_id):
                 assert_six_fields(self, by_id[packet_id], code)
                 self.assertNotEqual(by_id[packet_id]["failure_code"], "CARRIED_PROVENANCE_UNVERIFIED")
@@ -1423,6 +1423,71 @@ class ResponseOnceTests(_Workspace):
         self.assertEqual(second["state"], "CONSUMED")
         self.assertEqual(len(submitted), 1)
         self.assertEqual(second["responses_emitted"], 0)
+
+
+class ClockFormCarriedClaimTests(_Workspace):
+    """CLOCK_FRAME_CARRIED_CLAIM_CONSUMED: a CARRIED claim on a clock-form frame is refused, never consumed."""
+
+    def reframe(self, K, packet_id, reference):
+        frame = K.carrier_frame(self.packet(K, "admissible-existence.org-control",
+                                            control("ecosystem.communication", packet_id), packet_id), epoch=4096)
+        body = {key: value for key, value in frame.items() if key != "frame_sha256"}
+        body["heartbeat_reference"] = reference
+        return {**body, "frame_sha256": K.sha(body)}
+
+    def kinds(self, K):
+        claim = {"source": "ORGANIZATION_LEDGER_HEAD", "head_receipt_sha": "sha256:" + "f" * 64}
+        supplied = K.hb_reference(epoch=4096)
+        sampled = K.hb_reference(now_ns=INSTANT_NS)
+        unflagged = {key: value for key, value in supplied.items() if key != "derived_from_clock"}
+        return {
+            "c-flag-carried": ({**supplied, "derived_from_clock": True, "sampled_unix_ns": INSTANT_NS, **claim},
+                               "CARRIED_NOT_ACCEPTED_BY_DESTINATION"),
+            "c-bare-carried": ({**sampled, **claim}, "CARRIED_NOT_ACCEPTED_BY_DESTINATION"),
+            "c-flagonly-carried": ({**supplied, "derived_from_clock": True, **claim},
+                                   "CARRIED_NOT_ACCEPTED_BY_DESTINATION"),
+            "forged-ii": ({**unflagged, "sampled_unix_ns": INSTANT_NS, **claim},
+                          "CARRIED_NOT_ACCEPTED_BY_DESTINATION"),
+            "c-flag-carried-bad-epoch": ({**supplied, "derived_from_clock": True, "epoch": "abc", **claim},
+                                         "HB_EPOCH_INVALID"),
+        }
+
+    def test_each_kind_is_refused_and_quarantined(self):
+        K = _load("probe_clock_carried_kernel", self.repo / "org-kernel" / "kernel.py")
+        kinds = self.kinds(K)
+        for packet_id, (reference, _code) in kinds.items():
+            K.publish_frame(self.reframe(K, packet_id, reference), root=self.mesh)
+        with fixed_clock(K) as clock:
+            results = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+            again = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        self.assertEqual(clock.reads, 0)
+        self.assertEqual(again, [])
+        by_id = {item["result"].get("packet_id"): item for item in results}
+        for packet_id, (_reference, code) in kinds.items():
+            with self.subTest(kind=packet_id):
+                assert_six_fields(self, by_id[packet_id]["result"], code)
+                marker = json.loads(Path(by_id[packet_id]["seen_marker"]).read_text())
+                self.assertEqual(marker["refused_failure_code"], code)
+                self.assertIsNone(by_id[packet_id]["response_publication"])
+
+    def test_the_gateway_blocks_each_kind(self):
+        cycle = _load("probe_clock_carried_cycle", self.repo / "resident-runtime" / "federation_cycle.py")
+        for packet_id, (reference, code) in self.kinds(cycle.GW.K).items():
+            with self.subTest(kind=packet_id):
+                frame = self.reframe(cycle.GW.K, packet_id, reference)
+                acks = []
+
+                def gateway(method, path, *, body=None, headers=None):
+                    if method == "GET":
+                        return {"state": "FRAME_AVAILABLE", "frame": frame}
+                    acks.append(body)
+                    return {"state": "BLOCKED"}
+
+                with mock.patch.object(cycle.GW, "_json_request", gateway):
+                    result = cycle.GW.resident_gateway_cycle(self.repo)
+                self.assertEqual(result["state"], "BLOCKED")
+                assert_six_fields(self, result["ingest_refusal"], code)
+                self.assertEqual([ack["state"] for ack in acks], ["BLOCKED"])
 
 
 class GatewayCycleEpochTests(_Workspace):

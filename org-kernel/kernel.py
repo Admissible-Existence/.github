@@ -162,8 +162,17 @@ def carried_frame_epoch(frame:dict[str,Any])->tuple[int|None,tuple[str,str]|None
     """
     reference=frame.get("heartbeat_reference") if isinstance(frame,dict) else None
     epoch=reference.get("epoch") if isinstance(reference,dict) else None
+    carried=isinstance(reference,dict) and ("source" in reference or "head_receipt_sha" in reference)
     failure=supplied_epoch_failure(epoch,reference if reference is not None else {})
     if failure is not None:
+        # A CARRIED claim on a clock-form reference (flagged or sampled) whose
+        # epoch is otherwise well formed is still a CARRIED crossing: it is
+        # refused as not accepted, never consumed as a clock frame. A
+        # malformed epoch keeps its own content code.
+        if carried and failure[0]=="HB_EPOCH_INVALID" and supplied_epoch_failure(epoch) is None:
+            return None,(CARRIED_NOT_ACCEPTED,
+                         "this destination declares accepts_carried_crossings false; the frame carries a CARRIED "
+                         "source or head_receipt_sha on a clock-form reference instead of a SUPPLIED epoch")
         return None,failure
     value=int(str(epoch))
     if reference.get("generation")!=value or reference.get("heartbeat_id")!="HB:"+str(value):
