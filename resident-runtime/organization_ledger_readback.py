@@ -232,10 +232,13 @@ def main() -> int:
                         help="a self-closure result whose receipts and communication_id must be in the chains")
     parser.add_argument("--out", type=Path, default=None)
     args = parser.parse_args()
-    closure = json.loads(args.closure_result.read_text(encoding="utf-8")) if args.closure_result else None
     try:
+        # The closure result and the ledger read back are untrusted input; a
+        # deeply nested one (RecursionError) is refused like any other.
+        closure = json.loads(args.closure_result.read_text(encoding="utf-8")) if args.closure_result else None
         result, code = readback(args.location, closure, args.repository_namespace), 0
-    except (ReadbackRefused, ValueError, RuntimeError, FileNotFoundError, OSError) as exc:
+    except (ReadbackRefused, ValueError, RuntimeError, FileNotFoundError, OSError,
+            RecursionError, MemoryError) as exc:
         result, code = _refusal(args.location, exc), 1
     text = json.dumps(result, indent=2, sort_keys=True) + "\n"
     if args.out:

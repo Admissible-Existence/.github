@@ -2600,6 +2600,26 @@ class DeepJsonTests(ProcessBoundaryExitSplitTests):
         self.assert_exit(run, 65, "PROCESS_BOUNDARY_INPUT_FAULT", True, "deep adapter result: ")
         self.assertIn("RecursionError", json.loads(run.stdout)["detail"])
 
+    def test_deep_readback_and_custody_inputs(self):
+        deep = self.work / "deep-input.json"
+        deep.write_text(DEEP_JSON)
+        readback = self.run_cli(["resident-runtime/organization_ledger_readback.py", "--location",
+                                 str(self.work / "no-ledger"), "--closure-result", str(deep)], {})
+        self.assertEqual(readback.returncode, 1, readback.stdout + readback.stderr)
+        self.assertNotIn("Traceback", readback.stderr)
+        refusal = json.loads(readback.stdout)
+        self.assertEqual(refusal["failure_code"], "ORGANIZATION_LEDGER_READBACK_FAILED")
+        for name in EPOCH_FIELDS:
+            self.assertTrue(refusal[name], name)
+        root = self.work / "deep-custody"
+        custody = self.run_cli(["resident-runtime/submit_org_transition_to_master_records.py", "--org-receipt", str(deep),
+                                "--predecessor-ecosystem-state-sha256", "sha256:" + "0" * 64,
+                                "--successor-ecosystem-state-sha256", "sha256:" + "1" * 64,
+                                "--standing", self.good("custody-standing", STANDING)],
+                               {"STEGVERSE_ORG_FEDERATION_ROOT": str(root / "mesh")})
+        self.assert_exit(custody, 1, "CLI_INPUT_INVALID", True, "custody --org-receipt: ")
+        self.assertFalse(root.exists())
+
     def test_a_deep_outbox(self):
         self.outbox.write_text(DEEP_JSON)
         run = self.run_cli(["scripts/process_heartbeat_response.py", "--apply", "--hb-epoch", "4096"], {})
