@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import argparse
 import hashlib
+import importlib.util
 import json
-from datetime import datetime, timezone
+import sys
 from pathlib import Path
 from urllib.request import urlopen
 
@@ -10,6 +11,11 @@ ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "data" / "heartbeat-response-node.json"
 RECEIPTS = ROOT / "data" / "heartbeat-response-receipts"
 AUTH_KEYS = ("execution", "activation", "publication", "custody", "release")
+EPOCH_RETRY_ENTRYPOINT = "scripts/process_heartbeat_response.py --apply --hb-epoch"
+
+_spec = importlib.util.spec_from_file_location("org_kernel", ROOT / "org-kernel" / "kernel.py")
+kernel = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(kernel)
 
 
 def canonical_sha256(value):
@@ -37,7 +43,9 @@ def select_message(batch, organization):
     return message
 
 
-def make_receipts(message, config, observed_at):
+def make_receipts(message, config, hb):
+    """The received/responded pair. `hb` is the supplied epoch's heartbeat
+    reference; `observed_at` is its heartbeat id and no clock is read."""
     organization = config["organization"]
     digest = canonical_sha256(message)
     common = {
@@ -46,7 +54,8 @@ def make_receipts(message, config, observed_at):
         "node_org": organization,
         "source_org": message["source_org"],
         "destination_org": organization,
-        "observed_at": observed_at,
+        "hb_reference": hb,
+        "observed_at": hb["heartbeat_id"],
         "observed_message_sha256": digest,
         "authority": {key: False for key in AUTH_KEYS},
     }
@@ -95,19 +104,22 @@ def validate_local(config):
                 raise ValueError(f"receipt attempts to grant authority in {path}")
 
 
-def apply(config):
+def apply(config, hb_epoch=None):
     with urlopen(config["outbox_url"], timeout=20) as response:
         batch = json.load(response)
     message = select_message(batch, config["organization"])
-    RECEIPTS.mkdir(parents=True, exist_ok=True)
     prefix = message["exchange_id"].replace("/", "-")
     received_path = RECEIPTS / f"{prefix}.received.json"
     responded_path = RECEIPTS / f"{prefix}.responded.json"
     if received_path.exists() and responded_path.exists():
         print(f"HB_NODE_CURRENT:{config['organization']}:{message['exchange_id']}")
         return
-    observed_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-    received, responded = make_receipts(message, config, observed_at)
+    # Receipts are about to be written: they reference the supplied epoch, and
+    # an absent or invalid one is refused (SuppliedEpochRefused) before the
+    # receipt directory is created. A run with nothing to write needs none.
+    hb = kernel.supplied_hb_reference(hb_epoch, retry_entrypoint=EPOCH_RETRY_ENTRYPOINT)
+    RECEIPTS.mkdir(parents=True, exist_ok=True)
+    received, responded = make_receipts(message, config, hb)
     received_path.write_text(json.dumps(received, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     responded_path.write_text(json.dumps(responded, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(f"HB_NODE_RESPONDED:{config['organization']}:{message['exchange_id']}")
@@ -117,11 +129,17 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--apply", action="store_true")
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--hb-epoch", default=None,
+                        help="supplied heartbeat epoch (ASCII digits >= 32); never derived from a clock")
     args = parser.parse_args()
     config = load_json(CONFIG)
     validate_local(config)
     if args.apply:
-        apply(config)
+        try:
+            apply(config, args.hb_epoch)
+        except kernel.SuppliedEpochRefused as refused:
+            print(json.dumps(refused.refusal, indent=2, sort_keys=True))
+            sys.exit(1)
         validate_local(config)
     elif args.check:
         print(f"HB_NODE_CHECK_PASS:{config['organization']}")

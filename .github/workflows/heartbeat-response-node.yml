@@ -2,6 +2,11 @@ name: Heartbeat Response Node
 
 on:
   workflow_dispatch:
+    inputs:
+      hb_epoch:
+        description: "supplied heartbeat epoch (ASCII digits >= 32); new receipts are refused without one"
+        required: false
+        type: string
   push:
     branches: [main]
     paths:
@@ -31,8 +36,14 @@ jobs:
       - name: Test node semantics
         run: python -m unittest tests.test_heartbeat_response -v
       - name: Receive and classify canonical heartbeat
+        env:
+          HB_EPOCH: ${{ inputs.hb_epoch }}
+        shell: bash
         run: |
-          python scripts/process_heartbeat_response.py --apply
+          set -euo pipefail
+          args=(--apply)
+          if [ -n "${HB_EPOCH:-}" ]; then args+=(--hb-epoch "$HB_EPOCH"); fi
+          python scripts/process_heartbeat_response.py "${args[@]}"
           python scripts/process_heartbeat_response.py --check
       - name: Persist new response receipts
         shell: bash
