@@ -419,6 +419,9 @@ def publish_frame(frame:dict[str,Any], *, root:Path|None=None)->Path:
     path.write_text(json.dumps(frame,indent=2,sort_keys=True)+"\n")
     return path
 
+#: The largest frames.d file a scan reads. A larger one is refused by name unread.
+FRAME_FILE_MAX_BYTES=4*1024*1024
+
 def scan_addressed_frames(organization:str, *, root:Path|None=None, seen:set[str]|None=None)->list[dict[str,Any]]:
     mesh=(root or federation_root()).resolve()
     frames=mesh/"frames.d"
@@ -429,11 +432,14 @@ def scan_addressed_frames(organization:str, *, root:Path|None=None, seen:set[str
     for path in sorted(frames.glob("*.json")):
         if path.name in consumed:
             continue
-        # A file that is not a JSON object cannot be addressed or ingested. It
-        # is offered with its error, so a consumer refuses it by name instead
-        # of the whole scan raising every cycle.
+        # A file that cannot be read, is not UTF-8, exceeds the cap or is not
+        # a JSON object cannot be addressed or ingested. It is offered with its
+        # error, so a consumer refuses it by name instead of the whole scan
+        # raising every cycle.
         try:
-            frame=json.loads(path.read_text())
+            if path.stat().st_size>FRAME_FILE_MAX_BYTES:
+                raise ValueError("frame_file_exceeds_"+str(FRAME_FILE_MAX_BYTES)+"_bytes")
+            frame=json.loads(path.read_text(encoding="utf-8"))
             if not isinstance(frame,dict):
                 raise ValueError("frame_not_a_json_object")
         except (ValueError,UnicodeDecodeError,OSError) as error:

@@ -882,9 +882,13 @@ class UnreadableFrameFileTests(_Workspace):
         frames.mkdir(parents=True)
         (frames / "0000-not-json.json").write_text("{not json")
         (frames / "0001-a-list.json").write_text("[1,2,3]")
+        (frames / "0002-not-utf8.json").write_bytes(b'{"destination_org": "\xff\xfe"}')
+        (frames / "0003-oversized.json").write_text(json.dumps({"pad": "x" * 60_000}))
+        (frames / "0004-a-directory.json").mkdir()
         K.publish_packet(self.packet(K, "admissible-existence.org-control",
                                      control("ecosystem.communication", "after-bad-files"), "after-bad-files"),
                          root=self.mesh, epoch=4096)
+        K.FRAME_FILE_MAX_BYTES = 50_000  # well above a frame, below the oversized file
         with fixed_clock(K) as clock:
             first = K.consume_and_respond(self.repo, mesh_root=self.mesh)
             again = K.consume_and_respond(self.repo, mesh_root=self.mesh)
@@ -892,7 +896,9 @@ class UnreadableFrameFileTests(_Workspace):
         self.assertEqual(clock.reads, 0)
         self.assertEqual(again, [])
         by_name = {Path(item["path"]).name: item for item in first}
-        for name in ("0000-not-json.json", "0001-a-list.json"):
+        bad = ("0000-not-json.json", "0001-a-list.json", "0002-not-utf8.json", "0003-oversized.json",
+               "0004-a-directory.json")
+        for name in bad:
             with self.subTest(file=name):
                 assert_six_fields(self, by_name[name]["result"], "FRAME_INGEST_FAILED")
                 marker = json.loads(Path(by_name[name]["seen_marker"]).read_text())
@@ -900,7 +906,10 @@ class UnreadableFrameFileTests(_Workspace):
                 self.assertEqual(marker["refused_failure_code"], "FRAME_INGEST_FAILED")
         consumed = [item for item in first if item["result"].get("status") == "CONSUMED"]
         self.assertEqual([item["result"]["packet"]["packet_id"] for item in consumed], ["after-bad-files"])
-        self.assertEqual(len(collected["refused_frames"]), 2)
+        self.assertEqual(len(collected["refused_frames"]), len(bad))
+        self.assertIn("UnicodeDecodeError", by_name["0002-not-utf8.json"]["result"]["detail"])
+        self.assertIn("frame_file_exceeds_50000_bytes", by_name["0003-oversized.json"]["result"]["detail"])
+        self.assertEqual(by_name["0004-a-directory.json"]["result"]["failed_predicate"], "IsADirectoryError")
 
 
 class LedgerWriterDispatcherTests(unittest.TestCase):
