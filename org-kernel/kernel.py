@@ -800,7 +800,7 @@ def mark_federation_frame_quarantined(repo_root:Path, frame_path:str, frame:dict
       "failure_code":"FRAME_REFUSED_QUARANTINED",
       "failed_predicate":result.get("failed_predicate"),
       "detail":"refused at ingest: "+str(result.get("failure_code"))+": "+str(result.get("detail")),
-      "refusal_failure_code":result.get("failure_code"),
+      "refused_failure_code":result.get("failure_code"),
       "required_evidence_or_repair":result.get("required_evidence_or_repair"),
       "retry_entrypoint":result.get("retry_entrypoint"),
       "owning_existing_goal":result.get("owning_existing_goal"),

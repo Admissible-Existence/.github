@@ -468,7 +468,7 @@ class CarriedFrameEpochTests(_Workspace):
         self.assertEqual(marker["status"], "REFUSED")
         self.assertIs(marker["terminal"], True)
         assert_six_fields(self, marker, "FRAME_REFUSED_QUARANTINED")
-        self.assertEqual(marker["refusal_failure_code"], code)
+        self.assertEqual(marker["refused_failure_code"], code)
         found, _unmarked = [], []
         scan(marker, "marker", found, _unmarked)
         self.assertEqual(found, [])
@@ -537,6 +537,8 @@ class CarriedFrameEpochTests(_Workspace):
         item = self.consume()["no-adapter"]
         assert_six_fields(self, item["result"], "ENDPOINT_ADAPTER_NOT_INSTALLED")
         self.assertIsNone(item["response_publication"])
+        self.assert_quarantined(item, "ENDPOINT_ADAPTER_NOT_INSTALLED")
+        self.assertNotIn("no-adapter", self.consume())
 
     def test_monitor_and_work_handlers_read_no_clock_and_write_nothing_without_an_epoch(self):
         registry = self.K.load_registry(self.repo)
