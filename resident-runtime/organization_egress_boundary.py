@@ -378,7 +378,11 @@ def emit(destination_organization: Any, payload: Mapping[str, Any], *,
          transition_reference: str = "ecosystem.transition.interorg.v1",
          root: Path | None = None, mesh_root: Path | None = None,
          hb_epoch: int | None = None) -> dict[str, Any]:
-    """Emit one closable crossing to a derived capability address, and record it."""
+    """Emit one closable crossing to a derived capability address, and record it.
+
+    An unsupplied epoch raises before a frame is published or a store opened.
+    """
+    repository_ledger.require_supplied_epoch(hb_epoch)
     origin = this_organization(root)
     try:
         if credential_authority is not None:
