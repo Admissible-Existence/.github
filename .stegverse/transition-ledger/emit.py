@@ -82,6 +82,8 @@ def append(transition_id, transition_class, predecessor, successor, evidence, au
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument("--transition-id",required=True); ap.add_argument("--transition-class",required=True); ap.add_argument("--predecessor-state-sha256",required=True); ap.add_argument("--successor-state-sha256",required=True); ap.add_argument("--evidence-json",default="{}"); ap.add_argument("--authority-effect",default="NONE"); ap.add_argument("--hb-epoch",default=None); ap.add_argument("--hb-ref",default=None); a=ap.parse_args()
     epoch=a.hb_epoch if a.hb_epoch is not None else a.hb_ref
+    refusal=epoch_refusal(epoch)
+    if refusal is not None: print(json.dumps(refusal,sort_keys=True)); raise SystemExit(1)
     try: record=append(a.transition_id,a.transition_class,a.predecessor_state_sha256,a.successor_state_sha256,json.loads(a.evidence_json),a.authority_effect,hb_epoch=epoch)
     except RepoLedgerEpochRefused as exc: print(json.dumps(exc.refusal,sort_keys=True)); raise SystemExit(1)
     print(json.dumps(record,sort_keys=True))

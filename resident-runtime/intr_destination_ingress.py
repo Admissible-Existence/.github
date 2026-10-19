@@ -319,6 +319,11 @@ def main() -> int:
     parser.add_argument("--hb-epoch", default=None)
     parser.add_argument("--out", type=Path, default=None)
     args = parser.parse_args()
+    refusal = repository_ledger.epoch_refusal(args.hb_epoch)
+    if refusal is not None:
+        # The epoch is checked as text by the shared rule; nothing is written.
+        print(json.dumps(refusal, sort_keys=True))
+        return 1
     if args.self_close:
         if not args.communication_id:
             raise SystemExit("self-close requires --communication-id")

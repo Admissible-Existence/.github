@@ -87,6 +87,8 @@ def append(repo_receipt, org_transition_class, predecessor, successor, boundary_
  raise RuntimeError("ORG_LEDGER_APPEND_CONTENTION_EXHAUSTED")
 def main():
  p=argparse.ArgumentParser();p.add_argument("--repo-receipt",required=True);p.add_argument("--org-transition-class",default="REPO_STATE_PROPAGATION");p.add_argument("--predecessor-org-state-sha256",required=True);p.add_argument("--successor-org-state-sha256",required=True);p.add_argument("--boundary-evidence-json",default="{}");p.add_argument("--authority-effect",default="NONE");p.add_argument("--hb-epoch",default=None);a=p.parse_args()
+ refusal=epoch_refusal(a.hb_epoch)
+ if refusal is not None:print(json.dumps(refusal,sort_keys=True));raise SystemExit(1)
  try:rec=append(load(a.repo_receipt),a.org_transition_class,a.predecessor_org_state_sha256,a.successor_org_state_sha256,json.loads(a.boundary_evidence_json),a.authority_effect,hb_epoch=a.hb_epoch)
  except OrgLedgerEpochRefused as exc:print(json.dumps(exc.refusal,sort_keys=True));raise SystemExit(1)
  print(json.dumps(rec,sort_keys=True))

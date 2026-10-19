@@ -576,6 +576,11 @@ def main() -> int:
     parser.add_argument("--mesh-root", type=Path)
     parser.add_argument("--out", type=Path)
     args = parser.parse_args()
+    refusal = repository_ledger.epoch_refusal(args.hb_epoch)
+    if refusal is not None:
+        # The epoch is checked as text by the shared rule; nothing is built, published or written.
+        print(json.dumps(refusal, sort_keys=True))
+        return 1
     if args.close:
         if not args.packet_id or not args.communication_id:
             raise SystemExit("--close requires --packet-id and --communication-id")
