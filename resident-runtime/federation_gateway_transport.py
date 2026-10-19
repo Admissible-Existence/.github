@@ -86,6 +86,7 @@ def acknowledge_frame(organization: str, frame: dict[str, Any], state: str,
                       epoch: int | None = None) -> dict[str, Any]:
     """Acknowledge a frame. No clock is read: `observed_at` is the frame's
     validated epoch's heartbeat id, or null when the frame lends none."""
+    frame = frame if isinstance(frame, dict) else {}
     ack = {
         "schema": "stegverse.org-federation-rendezvous.ack/v1",
         "organization": organization,
@@ -175,10 +176,38 @@ def _persist_response(repo_root: Path, packet: dict[str, Any], execution_result:
     return path
 
 
+def _fetch_refusal(organization: str, detail: str) -> dict[str, Any]:
+    return {
+        "schema_version": "stegverse.org-federation-gateway-cycle.v1",
+        "organization": organization,
+        "state": "FAIL_CLOSED",
+        "frames_consumed": 0,
+        "responses_emitted": 0,
+        "gateway_execution_authority": "NONE",
+        "disposition": "FAIL_CLOSED",
+        "failure_code": "GATEWAY_FETCH_INVALID",
+        "failed_predicate": "GATEWAY_FETCH_IS_A_JSON_OBJECT_WITH_A_KNOWN_STATE",
+        "detail": detail[:512],
+        "required_evidence_or_repair": "the gateway answers the fetch with a JSON object: state NO_FRAME, or FRAME_AVAILABLE with an object frame",
+        "retry_entrypoint": "resident-runtime/federation_gateway_transport.py::resident_gateway_cycle",
+        "owning_existing_goal": K.HB_EPOCH_OWNING_EXISTING_GOAL,
+        "next_attempt": "the next cycle fetches again; nothing was ingested, written or acknowledged",
+        "derived_from_clock": False,
+        "consequence_committed": False,
+    }
+
+
 def resident_gateway_cycle(repo_root: Path) -> dict[str, Any]:
     registry = K.load_registry(repo_root)
     organization = registry["organization"]
-    fetched = fetch_frame(organization)
+    # A fetch that is not a JSON object with a known state is a six-field
+    # refusal; nothing escapes the cycle as an exception.
+    try:
+        fetched = fetch_frame(organization)
+    except FederationGatewayTransportError as error:
+        return _fetch_refusal(organization, str(error))
+    if not isinstance(fetched, dict):
+        return _fetch_refusal(organization, "gateway fetch is not a JSON object")
     if fetched.get("state") == "NO_FRAME":
         return {
             "schema_version": "stegverse.org-federation-gateway-cycle.v1",
@@ -189,15 +218,21 @@ def resident_gateway_cycle(repo_root: Path) -> dict[str, Any]:
             "gateway_execution_authority": "NONE",
         }
     if fetched.get("state") != "FRAME_AVAILABLE":
-        raise FederationGatewayTransportError("unexpected gateway fetch state")
-    frame = fetched["frame"]
-    # Any error ingesting the frame is a six-field refusal, acknowledged BLOCKED.
+        return _fetch_refusal(organization, "unexpected gateway fetch state " + repr(fetched.get("state")))
+    frame = fetched.get("frame")
+    # Any error ingesting the frame, a non-object frame included, is a
+    # six-field refusal, acknowledged BLOCKED.
     result = K.ingest_frame(repo_root, frame)
     packet = result.get("packet") or {}
-    # The response carries the frame's validated epoch. A frame that lends
-    # none (a clock-flagged or clock-sampled one) gets no response, and no
-    # clock is read on this route.
-    epoch, failure = K.carried_frame_epoch(frame)
+    # The response carries the frame's validated epoch. The epoch is read only
+    # from a frame ingest accepted, whose hashes recomputed, so a BLOCKED ack
+    # never echoes an epoch from a tampered frame. A frame that lends none (a
+    # clock-flagged or clock-sampled one) gets no response, and no clock is
+    # read on this route.
+    if result.get("status") == "CONSUMED":
+        epoch, failure = K.carried_frame_epoch(frame)
+    else:
+        epoch, failure = None, None
     response_emitted = 0
     response_ref = None
     response_refusal = None
@@ -223,8 +258,8 @@ def resident_gateway_cycle(repo_root: Path) -> dict[str, Any]:
         "schema_version": "stegverse.org-federation-gateway-cycle.v1",
         "organization": organization,
         "state": ack_state,
-        "packet_id": frame.get("packet_id"),
-        "frame_sha256": frame.get("frame_sha256"),
+        "packet_id": frame.get("packet_id") if isinstance(frame, dict) else None,
+        "frame_sha256": frame.get("frame_sha256") if isinstance(frame, dict) else None,
         "frames_consumed": 1 if ack_state == "CONSUMED" else 0,
         "responses_emitted": response_emitted,
         "response_frame_sha256": response_ref,

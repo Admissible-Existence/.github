@@ -903,6 +903,122 @@ class UnreadableFrameFileTests(_Workspace):
         self.assertEqual(len(collected["refused_frames"]), 2)
 
 
+class LedgerWriterDispatcherTests(unittest.TestCase):
+    """B-P36n: every epoch-requiring writer has an in-tree, gate-first, manifest-bound dispatcher."""
+
+    def setUp(self):
+        self.manifest = json.loads((ROOT / "resident-runtime" / "activation-manifest.json").read_text())
+        self.binding = self.manifest["dispatcher"]["ledger_writers"]
+        self.dispatch = _load("probe_dispatch_ledger_writer", ROOT / self.binding["dispatch_script"])
+
+    def test_the_manifest_binds_every_writer_with_no_authority(self):
+        self.assertEqual(self.binding["authority_effect"], "NONE")
+        self.assertEqual(self.binding["hb_epoch"]["required"], True)
+        self.assertEqual(set(self.binding["entrypoints"]), set(self.dispatch.WRITERS.values()))
+        self.assertEqual(set(self.binding["entrypoints"].values()), {"EPOCH_REQUIRED"})
+        workflow = (ROOT / self.binding["workflow"]).read_text()
+        triggers = workflow.split("\non:", 1)[1].split("\npermissions:", 1)[0]
+        self.assertNotIn("schedule:", triggers)
+        self.assertNotIn("push:", triggers)
+        self.assertIn("required: true", triggers.split("hb_epoch:", 1)[1].split("arguments:", 1)[0])
+        for name in self.dispatch.WRITERS:
+            self.assertIn("- " + name, triggers)
+        self.assertIn("python " + self.binding["dispatch_script"], workflow)
+        pending = self.manifest["runtime_dispatcher_pending_substrate"]
+        for name in ("failure_code", "failed_predicate", "required_evidence_or_repair",
+                     "retry_entrypoint", "owning_existing_goal", "next_attempt"):
+            self.assertTrue(pending[name], name)
+        self.assertEqual(pending["failure_code"], "RUNTIME_DISPATCHER_PENDING_SUBSTRATE")
+
+    def test_the_gate_refuses_before_any_writer_runs(self):
+        for epoch, code in ((None, "HB_EPOCH_NOT_SUPPLIED"), ("", "HB_EPOCH_NOT_SUPPLIED"),
+                            ("abc", "HB_EPOCH_INVALID"), ("31", "HB_EPOCH_INVALID")):
+            with self.subTest(epoch=epoch):
+                with contextlib.redirect_stdout(io.StringIO()) as out, \
+                        mock.patch.object(self.dispatch.subprocess, "run",
+                                          side_effect=AssertionError("a writer ran")), \
+                        self.assertRaises(SystemExit) as exited:
+                    self.dispatch.command("repository-ledger-emit", epoch, "--transition-id t")
+                self.assertEqual(exited.exception.code, 1)
+                assert_six_fields(self, json.loads(out.getvalue()), code)
+
+    def test_a_supplied_epoch_reaches_the_writer(self):
+        argv = self.dispatch.command("repository-ledger-emit", "4096", "--transition-id 'a b' --transition-class C")
+        self.assertEqual(argv[1:], [".stegverse/transition-ledger/emit.py", "--transition-id", "a b",
+                                    "--transition-class", "C", "--hb-epoch", "4096"])
+        with self.assertRaises(SystemExit):
+            self.dispatch.command("repository-ledger-emit", "4096", "--hb-epoch 5")
+
+    def test_the_dispatched_emit_writes_a_receipt_at_the_supplied_epoch(self):
+        import os
+        import subprocess
+        import sys
+        with tempfile.TemporaryDirectory() as work:
+            env = {**os.environ, "STEGVERSE_REPO_LEDGER_ROOT": str(Path(work) / "repo-ledger")}
+            completed = subprocess.run(
+                [sys.executable, str(ROOT / self.binding["dispatch_script"]), "--writer", "repository-ledger-emit",
+                 "--hb-epoch", "4096", "--arguments",
+                 "--transition-id dispatch-probe --transition-class PROBE "
+                 "--predecessor-state-sha256 sha256:" + "0" * 64 + " --successor-state-sha256 sha256:" + "1" * 64],
+                cwd=ROOT, capture_output=True, text=True, env=env)
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            receipt = json.loads(completed.stdout)
+            self.assertEqual(receipt["hb_reference"]["epoch"], 4096)
+            self.assertIs(receipt["hb_reference"]["derived_from_clock"], False)
+
+
+class GatewayFetchGuardTests(_Workspace):
+    """The gateway refuses a malformed fetch or frame with six fields; nothing escapes."""
+
+    def run_cycle(self, fetched):
+        cycle = _load("probe_fetch_guard_cycle", self.repo / "resident-runtime" / "federation_cycle.py")
+        GW = cycle.GW
+        acks = []
+
+        def gateway(method, path, *, body=None, headers=None):
+            if method == "GET":
+                if fetched == "RAISE_NOT_JSON":
+                    raise GW.FederationGatewayTransportError("gateway response is not JSON")
+                return fetched
+            acks.append(body)
+            return {"state": "BLOCKED"}
+
+        with fixed_clock(cycle.K, GW) as clock, mock.patch.object(GW, "_json_request", gateway):
+            result = GW.resident_gateway_cycle(self.repo)
+        self.assertEqual(clock.reads, 0)
+        return GW, result, acks
+
+    def test_a_malformed_fetch_is_refused(self):
+        for fetched in ([1, 2], "text", {"state": "SOMETHING_ELSE"}):
+            with self.subTest(fetched=fetched):
+                _GW, result, acks = self.run_cycle(fetched)
+                assert_six_fields(self, result, "GATEWAY_FETCH_INVALID")
+                self.assertEqual(acks, [])
+
+    def test_a_fetch_that_is_not_json_is_refused(self):
+        _GW, result, acks = self.run_cycle("RAISE_NOT_JSON")
+        assert_six_fields(self, result, "GATEWAY_FETCH_INVALID")
+        self.assertEqual(acks, [])
+
+    def test_a_non_object_frame_is_blocked_with_six_fields(self):
+        for frame in ([1, 2, 3], "frame", None):
+            with self.subTest(frame=frame):
+                _GW, result, acks = self.run_cycle({"state": "FRAME_AVAILABLE", "frame": frame})
+                self.assertEqual(result["state"], "BLOCKED")
+                assert_six_fields(self, result["ingest_refusal"], "FRAME_INGEST_FAILED")
+                self.assertEqual(len(acks), 1)
+                self.assertIsNone(acks[0]["observed_at"])
+
+    def test_a_tampered_frame_ack_echoes_no_epoch(self):
+        K = _load("probe_tamper_ack_kernel", self.repo / "org-kernel" / "kernel.py")
+        frame = K.carrier_frame(self.packet(K, "admissible-existence.org-control",
+                                            control("ecosystem.communication", "tampered"), "tampered"), epoch=4096)
+        _GW, result, acks = self.run_cycle({"state": "FRAME_AVAILABLE",
+                                            "frame": {**frame, "frame_sha256": "sha256:" + "0" * 64}})
+        assert_six_fields(self, result["ingest_refusal"], "FRAME_INTEGRITY_INVALID")
+        self.assertIsNone(acks[0]["observed_at"])
+
+
 class GatewayCycleEpochTests(_Workspace):
     """The gateway cycle answers at the frame's validated epoch, or not at all, and reads no clock."""
 
