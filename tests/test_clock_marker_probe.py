@@ -19,6 +19,8 @@ import io
 import json
 import os
 import shutil
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -1914,6 +1916,172 @@ class CommunicationIdSquatTests(_Workspace):
                 if frame["packet_id"] == "shared-comm:response:admissible-existence" and frame["origin_org"] == THIS]
         self.assertEqual(len(ours), 1)
         self.assertEqual(K.answered_request(ours[0]), "req-A")
+
+
+TORN_WRITE_SITECUSTOMIZE = """
+import json, os, sys
+FAULT_AT = int(os.environ.get("PROBE_FAULT_AT", "0"))
+MODE = os.environ.get("PROBE_FAULT_MODE", "before")
+COUNT = os.environ.get("PROBE_FAULT_COUNT")
+if COUNT or FAULT_AT:
+    _replace, _state = os.replace, {"n": 0}
+    def replace(source, destination, *args, **kwargs):
+        _state["n"] += 1
+        if _state["n"] == FAULT_AT and MODE == "before":
+            raise OSError(5, "injected fault before put " + str(FAULT_AT))
+        result = _replace(source, destination, *args, **kwargs)
+        if COUNT:
+            with open(COUNT, "w") as stream:
+                stream.write(str(_state["n"]))
+        if _state["n"] == FAULT_AT and MODE == "after":
+            raise OSError(5, "injected fault after put " + str(FAULT_AT))
+        return result
+    os.replace = replace
+OUTBOX = os.environ.get("PROBE_OUTBOX")
+if OUTBOX:
+    import contextlib, io, urllib.request
+    urllib.request.urlopen = lambda *a, **k: contextlib.nullcontext(io.BytesIO(open(OUTBOX, "rb").read()))
+"""
+
+
+class WriterCliTornWriteTests(_Workspace):
+    """F-WRITER-TRACE: every writer CLI, run as a real subprocess and torn before
+    and after each put, prints six fields and exits 1 with no traceback; the next
+    run completes once, including a tear after HEAD."""
+
+    def setUp(self):
+        super().setUp()
+        self.site = self.work / "site"
+        self.site.mkdir()
+        (self.site / "sitecustomize.py").write_text(TORN_WRITE_SITECUSTOMIZE)
+        self.outbox = self.work / "outbox.json"
+        self.outbox.write_text(json.dumps({"messages": [HeartbeatResponseEpochTests.MESSAGE]}))
+
+    def run_cli(self, argv, env, fault_at=0, mode="before", count=None):
+        values = {**os.environ, **env, "PYTHONPATH": str(self.site), "PROBE_FAULT_AT": str(fault_at),
+                  "PROBE_FAULT_MODE": mode, "PROBE_OUTBOX": str(self.outbox)}
+        values.pop("PROBE_FAULT_COUNT", None)
+        if count is not None:
+            values["PROBE_FAULT_COUNT"] = str(count)
+        return subprocess.run([sys.executable, *argv], cwd=self.repo, env=values,
+                              capture_output=True, text=True, timeout=120)
+
+    def ledgers(self, root):
+        return {"STEGVERSE_REPO_LEDGER_ROOT": str(root / "repo-ledger"),
+                "STEGVERSE_ORG_LEDGER_ROOT": str(root / "org-ledger")}
+
+    @staticmethod
+    def receipts(root, ledger):
+        directory = root / ledger / "receipts"
+        return sorted(directory.rglob("*.json")) if directory.exists() else []
+
+    def emit_args(self):
+        return [".stegverse/transition-ledger/emit.py", "--transition-id", "probe:torn",
+                "--transition-class", "PROBE", "--predecessor-state-sha256", "sha256:" + "0" * 64,
+                "--successor-state-sha256", "sha256:" + "1" * 64, "--evidence-json", '{"probe": "torn"}',
+                "--hb-epoch", "4096"]
+
+    def repo_receipt_file(self, root):
+        made = self.run_cli(self.emit_args(), {**self.ledgers(root),
+                                               "STEGVERSE_REPO_LEDGER_ROOT": str(root / "source-ledger")})
+        self.assertEqual(made.returncode, 0, made.stderr)
+        path = root / "repo-receipt.json"
+        path.write_text(made.stdout)
+        return path
+
+    def cases(self):
+        return {
+            "emit": (lambda root: self.emit_args(), [("repo-ledger", 1)]),
+            "aggregate": (lambda root: ["resident-runtime/aggregate_repo_transition.py", "--repo-receipt",
+                                        str(self.repo_receipt_file(root)), "--predecessor-org-state-sha256",
+                                        "sha256:" + "2" * 64, "--successor-org-state-sha256", "sha256:" + "3" * 64,
+                                        "--hb-epoch", "4096"], [("org-ledger", 1)]),
+            "self-close": (lambda root: ["resident-runtime/intr_destination_ingress.py", "--self-close",
+                                         "--communication-id", "torn-self-close", "--hb-epoch", "4096"],
+                           [("repo-ledger", 1), ("org-ledger", 1)]),
+            "dispatch-emit": (lambda root: ["scripts/dispatch_ledger_writer.py", "--writer", "repository-ledger-emit",
+                                            "--hb-epoch", "4096", "--arguments",
+                                            " ".join(self.emit_args()[1:-2]).replace('{"probe": "torn"}', "'{\"probe\": \"torn\"}'")],
+                              [("repo-ledger", 1)]),
+        }
+
+    def assert_six_field_exit(self, run, label):
+        self.assertEqual(run.returncode, 1, label + run.stdout + run.stderr)
+        self.assertNotIn("Traceback", run.stderr, label)
+        refusal = json.loads(run.stdout)
+        self.assertEqual(refusal["disposition"], "FAIL_CLOSED", label)
+        for name in EPOCH_FIELDS:
+            self.assertTrue(refusal[name], label + name)
+        self.assertIs(refusal["terminal"], False, label)
+
+    def test_every_ledger_writer_cli(self):
+        for name, (argv_for, expected) in self.cases().items():
+            clean = self.work / ("clean-" + name)
+            count = self.work / ("count-" + name)
+            first = self.run_cli(argv_for(clean), self.ledgers(clean), count=count)
+            self.assertEqual(first.returncode, 0, name + first.stderr)
+            puts = int(count.read_text())
+            self.assertGreaterEqual(puts, 2, name)
+            for mode in ("before", "after"):
+                for fault_at in range(1, puts + 1):
+                    label = "%s %s put %d: " % (name, mode, fault_at)
+                    with self.subTest(writer=name, mode=mode, put=fault_at):
+                        root = self.work / ("%s-%s-%d" % (name, mode, fault_at))
+                        argv = argv_for(root)
+                        torn = self.run_cli(argv, self.ledgers(root), fault_at, mode)
+                        self.assert_six_field_exit(torn, label)
+                        again = self.run_cli(argv, self.ledgers(root))
+                        self.assertEqual(again.returncode, 0, label + again.stdout + again.stderr)
+                        once = self.run_cli(argv, self.ledgers(root))
+                        self.assertEqual(once.returncode, 0, label + once.stdout + once.stderr)
+                        for ledger, receipts in expected:
+                            self.assertEqual(len(self.receipts(root, ledger)), receipts, label + ledger)
+
+    def test_a_different_record_under_a_recorded_transition_is_a_six_field_collision(self):
+        root = self.work / "collide"
+        self.assertEqual(self.run_cli(self.emit_args(), self.ledgers(root)).returncode, 0)
+        argv = [item if item != '{"probe": "torn"}' else '{"probe": "other"}' for item in self.emit_args()]
+        run = self.run_cli(argv, self.ledgers(root))
+        self.assertEqual(run.returncode, 1)
+        self.assertNotIn("Traceback", run.stderr)
+        refusal = json.loads(run.stdout)
+        self.assertEqual(refusal["failure_code"], "LEDGER_RECEIPT_COLLISION")
+        self.assertIs(refusal["terminal"], True)
+
+    def test_the_heartbeat_node_cli(self):
+        argv = ["scripts/process_heartbeat_response.py", "--apply", "--hb-epoch", "4096"]
+        receipts = self.repo / "data" / "heartbeat-response-receipts"
+        prefix = HeartbeatResponseEpochTests.MESSAGE["exchange_id"]
+        for mode in ("before", "after"):
+            for fault_at in (1, 2):
+                label = "heartbeat %s put %d: " % (mode, fault_at)
+                with self.subTest(mode=mode, put=fault_at):
+                    for path in receipts.glob(prefix + ".*"):
+                        path.unlink()
+                    torn = self.run_cli(argv, {}, fault_at, mode)
+                    self.assert_six_field_exit(torn, label)
+                    again = self.run_cli(argv, {})
+                    self.assertEqual(again.returncode, 0, label + again.stdout + again.stderr)
+                    pair = sorted(path.name for path in receipts.glob(prefix + ".*"))
+                    self.assertEqual(pair, [prefix + ".received.json", prefix + ".responded.json"], label)
+                    received = json.loads((receipts / (prefix + ".received.json")).read_text())
+                    responded = json.loads((receipts / (prefix + ".responded.json")).read_text())
+                    self.assertEqual(responded["parent_receipt_sha256"],
+                                     hashlib.sha256(json.dumps(received, sort_keys=True,
+                                                               separators=(",", ":")).encode()).hexdigest())
+
+    def test_a_half_written_pair_is_not_overwritten_at_another_epoch(self):
+        argv = ["scripts/process_heartbeat_response.py", "--apply", "--hb-epoch", "4096"]
+        receipts = self.repo / "data" / "heartbeat-response-receipts"
+        prefix = HeartbeatResponseEpochTests.MESSAGE["exchange_id"]
+        self.assert_six_field_exit(self.run_cli(argv, {}, 2, "before"), "torn: ")
+        written = (receipts / (prefix + ".received.json")).read_text()
+        other = self.run_cli(argv[:-1] + ["4097"], {})
+        self.assertEqual(other.returncode, 1)
+        self.assertNotIn("Traceback", other.stderr)
+        self.assertEqual(json.loads(other.stdout)["failure_code"], "HB_RECEIPT_PAIR_PARTIAL_AT_ANOTHER_EPOCH")
+        self.assertEqual((receipts / (prefix + ".received.json")).read_text(), written)
+        self.assertEqual(self.run_cli(argv, {}).returncode, 0)
 
 
 class CarriedProvenanceArgumentTests(unittest.TestCase):

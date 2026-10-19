@@ -684,8 +684,15 @@ def main() -> int:
         return 1
     rendered = json.dumps(result, indent=2, sort_keys=True) + "\n"
     if args.out:
-        args.out.parent.mkdir(parents=True, exist_ok=True)
-        args.out.write_text(rendered, encoding="utf-8")
+        try:
+            args.out.parent.mkdir(parents=True, exist_ok=True)
+            args.out.write_text(rendered, encoding="utf-8")
+        except OSError as exc:
+            # The emission is recorded; only the result copy failed. Six fields, exit 1.
+            refusal = _write_fault_result("EGRESS_RESULT_WRITE_FAILED",
+                                          "resident-runtime/organization_egress_boundary.py --out", exc)
+            print(json.dumps({**refusal, "emitted": bool(result.get("emitted"))}, sort_keys=True))
+            return 1
     print(json.dumps(result, sort_keys=True))
     return 0 if result.get("disposition") in {ALLOW, PENDING} else 1
 

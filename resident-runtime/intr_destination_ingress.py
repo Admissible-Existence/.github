@@ -326,6 +326,25 @@ def main() -> int:
         # The epoch is checked as text by the shared rule; nothing is written.
         print(json.dumps(refusal, sort_keys=True))
         return 1
+    try:
+        result = _run(args)
+        if args.out:
+            args.out.parent.mkdir(parents=True, exist_ok=True)
+            args.out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    except Exception as exc:
+        # A torn write is six fields and exit 1, never a traceback.
+        refusal = repository_ledger.kernel.writer_cli_refusal(
+            exc, failure_code="INTR_DESTINATION_WRITE_FAILED",
+            retry_entrypoint="resident-runtime/intr_destination_ingress.py (same arguments)")
+        if refusal is None:
+            raise
+        print(json.dumps(refusal, sort_keys=True))
+        return 1
+    print(json.dumps(result, sort_keys=True))
+    return 0 if result.get("disposition") == ALLOW else 1
+
+
+def _run(args: argparse.Namespace) -> dict[str, Any]:
     if args.self_close:
         if not args.communication_id:
             raise SystemExit("self-close requires --communication-id")
@@ -342,12 +361,7 @@ def main() -> int:
             registry=json.loads(args.registry.read_text(encoding="utf-8")),
             packet_id=args.packet_id or "organization-intr-destination",
             hb_epoch=args.hb_epoch)
-    rendered = json.dumps(result, indent=2, sort_keys=True) + "\n"
-    if args.out:
-        args.out.parent.mkdir(parents=True, exist_ok=True)
-        args.out.write_text(rendered, encoding="utf-8")
-    print(json.dumps(result, sort_keys=True))
-    return 0 if result.get("disposition") == ALLOW else 1
+    return result
 
 
 if __name__ == "__main__":

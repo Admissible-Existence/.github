@@ -146,6 +146,32 @@ class BoundaryFailClosed(ValueError):
                       "retry_entrypoint":retry_entrypoint,"owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
                       "next_attempt":next_attempt,"derived_from_clock":False,"consequence_committed":False}
 
+def writer_cli_refusal(error:BaseException, *, failure_code:str, retry_entrypoint:str)->dict[str,Any]|None:
+    """The six-field result a ledger writer's CLI prints for `error`, or None to re-raise.
+
+    A fault in the writer's own storage (`is_own_state_fault`) is `failure_code`,
+    terminal:false: written steps replay idempotently, so the same call
+    completes once. A different record already bound to the transition is
+    LEDGER_RECEIPT_COLLISION, terminal: the recorded transition stands.
+    """
+    if is_own_state_fault(error):
+        return {"disposition":"FAIL_CLOSED","failure_code":failure_code,
+                "failed_predicate":"OWN_STORAGE_ACCEPTS_THE_WRITE",
+                "detail":(type(error).__name__+": "+str(error))[:512],
+                "required_evidence_or_repair":"this writer's own storage accepts the write",
+                "retry_entrypoint":retry_entrypoint,"owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
+                "next_attempt":"run again with the same epoch and input; written steps replay idempotently",
+                "terminal":False,"derived_from_clock":False}
+    if isinstance(error,ValueError) and str(error)=="ledger_receipt_collision":
+        return {"disposition":"FAIL_CLOSED","failure_code":"LEDGER_RECEIPT_COLLISION",
+                "failed_predicate":"ONE_TRANSITION_ID_BINDS_ONE_RECORD",
+                "detail":"the transition is already recorded with different content",
+                "required_evidence_or_repair":"the recorded transition stands; a different record needs its own transition id",
+                "retry_entrypoint":retry_entrypoint,"owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
+                "next_attempt":"nothing was written for this attempt",
+                "terminal":True,"derived_from_clock":False,"consequence_committed":False}
+    return None
+
 CARRIED_NOT_ACCEPTED="CARRIED_NOT_ACCEPTED_BY_DESTINATION"
 
 def carried_frame_epoch(frame:dict[str,Any])->tuple[int|None,tuple[str,str]|None]:

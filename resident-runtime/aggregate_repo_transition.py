@@ -107,6 +107,9 @@ def append(repo_receipt, org_transition_class, predecessor, successor, boundary_
    prior=_recorded_for_repo(store, head, rd, org_transition_class)
    if prior is not None:
     if idempotent and prior.get("boundary_evidence")==evidence: return prior
+    # A retry of an append that already completed returns the recorded
+    # receipt; only different content under the transition collides.
+    if (prior.get("predecessor_org_state_sha256"),prior.get("successor_org_state_sha256"),prior.get("boundary_evidence"),prior.get("authority_effect"))==(predecessor,successor,evidence,authority_effect): return prior
     raise ValueError("ledger_receipt_collision")
    previous=head.get("receipt_sha256") if head else None
    body={"schema":"stegverse.organization-transition-receipt/v1","organization":C["organization"],"source_repository":repo_receipt["repository"],"source_transition_sha256":rd,"repo_receipt_sha256":rd,"repo_transition_id":repo_receipt["transition_id"],"org_transition_class":org_transition_class,"predecessor_org_state_sha256":predecessor,"successor_org_state_sha256":successor,"boundary_evidence":evidence,"authority_effect":authority_effect,"hb_reference":hb,"observed_at":hb["heartbeat_id"],"previous_receipt_sha256":previous}
@@ -121,5 +124,10 @@ def main():
  if refusal is not None:print(json.dumps(refusal,sort_keys=True));raise SystemExit(1)
  try:rec=append(load(a.repo_receipt),a.org_transition_class,a.predecessor_org_state_sha256,a.successor_org_state_sha256,json.loads(a.boundary_evidence_json),a.authority_effect,hb_epoch=a.hb_epoch)
  except OrgLedgerEpochRefused as exc:print(json.dumps(exc.refusal,sort_keys=True));raise SystemExit(1)
+ except Exception as exc:
+  # A torn write or a collision is six fields and exit 1, never a traceback.
+  refusal=kernel.writer_cli_refusal(exc,failure_code="ORG_LEDGER_WRITE_FAILED",retry_entrypoint=EPOCH_RETRY_ENTRYPOINT)
+  if refusal is None:raise
+  print(json.dumps(refusal,sort_keys=True));raise SystemExit(1)
  print(json.dumps(rec,sort_keys=True))
 if __name__=="__main__":main()

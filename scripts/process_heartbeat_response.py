@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import os
 import sys
 from pathlib import Path
 from urllib.request import urlopen
@@ -104,9 +105,45 @@ def validate_local(config):
                 raise ValueError(f"receipt attempts to grant authority in {path}")
 
 
+class NodeRefused(RuntimeError):
+    """A six-field FAIL_CLOSED of the node, printed by the CLI."""
+
+    def __init__(self, refusal):
+        super().__init__(refusal["failure_code"])
+        self.refusal = refusal
+
+
+def _refusal(failure_code, failed_predicate, detail, repair, next_attempt, *, terminal):
+    return {"disposition": "FAIL_CLOSED", "failure_code": failure_code, "failed_predicate": failed_predicate,
+            "detail": detail, "required_evidence_or_repair": repair, "retry_entrypoint": EPOCH_RETRY_ENTRYPOINT,
+            "owning_existing_goal": kernel.HB_EPOCH_OWNING_EXISTING_GOAL, "next_attempt": next_attempt,
+            "terminal": terminal, "derived_from_clock": False}
+
+
+def _write_once(path, document):
+    """Write a receipt atomically, or keep an identical one. A different one is never overwritten."""
+    rendered = json.dumps(document, indent=2, sort_keys=True) + "\n"
+    if path.exists():
+        if load_json(path) == document:
+            return
+        raise NodeRefused(_refusal(
+            "HB_RECEIPT_PAIR_PARTIAL_AT_ANOTHER_EPOCH", "ONE_EXCHANGE_BINDS_ONE_RECEIPT_PAIR",
+            f"{path.name} is already written with different content",
+            "complete the pair with the same epoch and outbox message the written receipt was made from",
+            "the written receipt is not mutated; nothing was written for this attempt", terminal=False))
+    temporary = path.with_name(path.name + ".tmp")
+    temporary.write_text(rendered, encoding="utf-8")
+    os.replace(temporary, path)
+
+
 def apply(config, hb_epoch=None):
-    with urlopen(config["outbox_url"], timeout=20) as response:
-        batch = json.load(response)
+    try:
+        with urlopen(config["outbox_url"], timeout=20) as response:
+            batch = json.load(response)
+    except OSError as exc:
+        raise NodeRefused(_refusal(
+            "HB_OUTBOX_FETCH_FAILED", "OUTBOX_IS_READABLE", (type(exc).__name__ + ": " + str(exc))[:512],
+            "the outbox URL answers", "run again; nothing was written", terminal=False)) from None
     message = select_message(batch, config["organization"])
     prefix = message["exchange_id"].replace("/", "-")
     received_path = RECEIPTS / f"{prefix}.received.json"
@@ -120,13 +157,14 @@ def apply(config, hb_epoch=None):
     hb = kernel.supplied_hb_reference(hb_epoch, retry_entrypoint=EPOCH_RETRY_ENTRYPOINT)
     RECEIPTS.mkdir(parents=True, exist_ok=True)
     received, responded = make_receipts(message, config, hb)
-    received_path.write_text(json.dumps(received, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    responded_path.write_text(json.dumps(responded, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    # A run torn between the two writes completes the pair at the same epoch.
+    for path, document in ((received_path, received), (responded_path, responded)):
+        _write_once(path, document)
     print(f"HB_NODE_RESPONDED:{config['organization']}:{message['exchange_id']}")
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--apply", action="store_true")
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--hb-epoch", default=None,
@@ -137,8 +175,16 @@ def main():
     if args.apply:
         try:
             apply(config, args.hb_epoch)
-        except kernel.SuppliedEpochRefused as refused:
+        except (kernel.SuppliedEpochRefused, NodeRefused) as refused:
             print(json.dumps(refused.refusal, indent=2, sort_keys=True))
+            sys.exit(1)
+        except Exception as exc:
+            # A torn write is six fields and exit 1, never a traceback.
+            refusal = kernel.writer_cli_refusal(exc, failure_code="HB_RESPONSE_WRITE_FAILED",
+                                                retry_entrypoint=EPOCH_RETRY_ENTRYPOINT)
+            if refusal is None:
+                raise
+            print(json.dumps(refusal, indent=2, sort_keys=True))
             sys.exit(1)
         validate_local(config)
     elif args.check:

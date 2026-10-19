@@ -71,6 +71,9 @@ def append(transition_id, transition_class, predecessor, successor, evidence, au
                 observed=prior.get("evidence") or {}
                 fields=tuple(idempotent_on or ())
                 if fields and all(observed.get(name)==evidence.get(name) for name in fields): return prior
+                # A retry of an append that already completed returns the recorded
+                # receipt; only different content under the transition collides.
+                if (prior.get("predecessor_state_sha256"),prior.get("successor_state_sha256"),prior.get("evidence"),prior.get("authority_effect"))==(predecessor,successor,evidence,authority_effect): return prior
                 raise ValueError("ledger_receipt_collision")
             previous=head.get("receipt_sha256") if head else None
             body={"schema":"stegverse.repo-transition-receipt/v1","repository":CONTRACT["repository"],"transition_id":transition_id,"transition_class":transition_class,"predecessor_state_sha256":predecessor,"successor_state_sha256":successor,"evidence":evidence,"authority_effect":authority_effect,"hb_reference":hb,"observed_at":hb["heartbeat_id"],"previous_receipt_sha256":previous}
@@ -86,5 +89,10 @@ def main():
     if refusal is not None: print(json.dumps(refusal,sort_keys=True)); raise SystemExit(1)
     try: record=append(a.transition_id,a.transition_class,a.predecessor_state_sha256,a.successor_state_sha256,json.loads(a.evidence_json),a.authority_effect,hb_epoch=epoch)
     except RepoLedgerEpochRefused as exc: print(json.dumps(exc.refusal,sort_keys=True)); raise SystemExit(1)
+    except Exception as exc:
+        # A torn write or a collision is six fields and exit 1, never a traceback.
+        refusal=kernel.writer_cli_refusal(exc,failure_code="REPO_LEDGER_WRITE_FAILED",retry_entrypoint=EPOCH_RETRY_ENTRYPOINT)
+        if refusal is None: raise
+        print(json.dumps(refusal,sort_keys=True)); raise SystemExit(1)
     print(json.dumps(record,sort_keys=True))
 if __name__=="__main__": main()
