@@ -2532,6 +2532,88 @@ class ProcessBoundaryExitSplitTests(CliInputTraceTests):
     del _inherited
 
 
+DEEP_JSON = '{"a":' + "[" * 200000
+
+
+class DeepJsonTests(ProcessBoundaryExitSplitTests):
+    """FRAME_SCAN_RECURSION_ABORTS_CYCLE: a deeply nested document, far under the size
+    cap, raises RecursionError (not a ValueError) when decoded. Every untrusted parse
+    treats it as the input's fault: the scan quarantines it and the cycle continues."""
+
+    def test_a_deep_frame_file_is_quarantined_and_the_cycle_continues(self):
+        K = _load("probe_deep_scan_kernel", self.repo / "org-kernel" / "kernel.py")
+        frames = self.mesh / "frames.d"
+        frames.mkdir(parents=True)
+        deep = frames / "0000-deep.json"
+        deep.write_text(DEEP_JSON)
+        self.assertLess(deep.stat().st_size, K.FRAME_FILE_MAX_BYTES)
+        # A request whose response check scans frames.d (published_frame_for) as well.
+        request = CommunicationIdCollisionTests.request(self, K, "deep-neighbour", "diagnostic-crossing")
+        K.publish_frame(request, root=self.mesh)
+        results = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        by_path = {Path(item["path"]).name: item["result"] for item in results}
+        self.assertEqual(by_path["0000-deep.json"]["failure_code"], "FRAME_INGEST_FAILED")
+        self.assertIn("RecursionError", by_path["0000-deep.json"]["detail"])
+        consumed = [result for name, result in by_path.items() if name != "0000-deep.json"]
+        self.assertEqual([result["status"] for result in consumed], ["CONSUMED"])
+        self.assertEqual(K.consume_and_respond(self.repo, mesh_root=self.mesh), [])
+        statuses = sorted(marker["status"] for marker in self.markers())
+        self.assertEqual(statuses, ["CONSUMED", "REFUSED"])
+
+    def test_a_deep_frame_at_a_response_path_is_a_collision_not_an_abort(self):
+        K = _load("probe_deep_publish_kernel", self.repo / "org-kernel" / "kernel.py")
+        frame = self.aid_frame(K, "deep-squat")
+        frame_id = hashlib.sha256((frame["packet_id"] + "|" + frame["frame_sha256"]).encode()).hexdigest()
+        (self.mesh / "frames.d").mkdir(parents=True)
+        (self.mesh / "frames.d" / (frame_id + ".json")).write_text(DEEP_JSON)
+        with self.assertRaises(ValueError) as raised:
+            K.publish_frame(frame, root=self.mesh)
+        self.assertEqual(str(raised.exception), "federation_frame_write_once_collision")
+
+    def test_deep_cli_inputs(self):
+        deep = self.work / "deep.json"
+        deep.write_text(DEEP_JSON)
+        runs = [
+            ("run_once --ingress", ["resident-runtime/run_once.py", "--ingress", str(deep), "--egress",
+                                    str(self.work / "deep-egress.json"), "--hb-epoch", "4096"], "CLI_INPUT_INVALID", 1),
+            # An inline argument is capped by the OS (128 KiB), so it nests less deeply; still a RecursionError.
+            ("emit --evidence-json", self.emit_args()[:-4] + ["--evidence-json", '{"a":' + "[" * 50000, "--hb-epoch", "4096"],
+             "CLI_INPUT_INVALID", 1),
+            ("process_boundary --envelope", ["org-boundary/runtime/process_boundary.py", "--envelope", str(deep),
+                                             "--out", str(self.work / "deep-pb" / "execution.json")],
+             "PROCESS_BOUNDARY_INPUT_FAULT", 65),
+        ]
+        for label, argv, code, rc in runs:
+            with self.subTest(cli=label):
+                root = self.work / ("deep-" + label.split()[0])
+                run = self.run_cli(argv, self.ledgers(root))
+                self.assert_exit(run, rc, code, True, label + ": ")
+                self.assertFalse(root.exists(), label)
+
+    def test_a_deep_adapter_result_is_an_input_fault(self):
+        (self.repo / "resident-runtime" / "deep_adapter.py").write_text(
+            "import pathlib, sys\nout = pathlib.Path(sys.argv[sys.argv.index('--out') + 1])\n"
+            "out.parent.mkdir(parents=True, exist_ok=True)\nout.write_text(" + repr(DEEP_JSON) + ")\n")
+        self.set_adapter("resident-runtime/deep_adapter.py")
+        run = self.run_cli(["org-boundary/runtime/process_boundary.py", "--envelope", self.envelope(),
+                            "--out", str(self.work / "deep-adapter" / "execution.json")], {})
+        self.assert_exit(run, 65, "PROCESS_BOUNDARY_INPUT_FAULT", True, "deep adapter result: ")
+        self.assertIn("RecursionError", json.loads(run.stdout)["detail"])
+
+    def test_a_deep_outbox(self):
+        self.outbox.write_text(DEEP_JSON)
+        run = self.run_cli(["scripts/process_heartbeat_response.py", "--apply", "--hb-epoch", "4096"], {})
+        self.assertEqual(run.returncode, 1, run.stdout + run.stderr)
+        self.assertNotIn("Traceback", run.stderr)
+        refusal = json.loads(run.stdout)
+        self.assertEqual(refusal["failure_code"], "HB_OUTBOX_INVALID")
+        self.assertIs(refusal["terminal"], True)
+
+    for _inherited in [name for name in dir(ProcessBoundaryExitSplitTests) if name.startswith("test_")]:
+        locals()[_inherited] = None
+    del _inherited
+
+
 class CarriedProvenanceArgumentTests(unittest.TestCase):
     """No writer accepts a caller-supplied provenance or CARRIED source."""
 

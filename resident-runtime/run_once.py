@@ -9,7 +9,7 @@ def process_boundary_record(completed):
  try:
   record=json.loads(completed.stdout.strip().splitlines()[-1])
   if isinstance(record,dict) and record.get("failure_code"): return json.dumps(record,sort_keys=True)
- except (ValueError,IndexError): pass
+ except (*K.JSON_DECODE_ERRORS,IndexError): pass
  return json.dumps({"disposition":"FAIL_CLOSED","failure_code":"PROCESS_BOUNDARY_FAILED","failed_predicate":"PROCESS_BOUNDARY_EXITS_0_65_OR_75",
                     "detail":("exit "+str(completed.returncode)+": "+completed.stderr[-400:]),"required_evidence_or_repair":"org-boundary/runtime/process_boundary.py runs to a recorded outcome",
                     "retry_entrypoint":"resident-runtime/run_once.py (same arguments)","owning_existing_goal":K.HB_EPOCH_OWNING_EXISTING_GOAL,

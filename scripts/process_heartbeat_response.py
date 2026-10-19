@@ -259,7 +259,8 @@ def apply(config, hb_epoch=None):
         raise NodeRefused(_refusal(
             "HB_OUTBOX_FETCH_FAILED", "OUTBOX_IS_READABLE", (type(exc).__name__ + ": " + str(exc))[:512],
             "the outbox URL answers", "run again; nothing was written", terminal=False)) from None
-    except ValueError as exc:
+    except (ValueError, RecursionError, MemoryError) as exc:
+        # A malformed outbox, a deeply nested one included, is this node's input.
         batch = exc
     try:
         if isinstance(batch, Exception) or not isinstance(batch, dict):

@@ -146,6 +146,11 @@ class BoundaryFailClosed(ValueError):
                       "retry_entrypoint":retry_entrypoint,"owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
                       "next_attempt":next_attempt,"derived_from_clock":False,"consequence_committed":False}
 
+#: Every way decoding untrusted JSON can fail. RecursionError (a deeply nested
+#: document well under any size cap) and MemoryError are not ValueErrors, so a
+#: guard that names only ValueError lets one peer-written file abort a cycle.
+JSON_DECODE_ERRORS=(ValueError,TypeError,UnicodeDecodeError,RecursionError,MemoryError)
+
 class CliInputRefused(ValueError):
     """A CLI input the caller supplied cannot be read as the JSON it must be.
 
@@ -172,7 +177,7 @@ def parse_json_argument(text:Any, *, argument:str, retry_entrypoint:str, expect:
     """Parse a CLI JSON argument, or raise CliInputRefused (terminal, six fields)."""
     try:
         value=json.loads(text)
-    except (TypeError,ValueError) as error:
+    except JSON_DECODE_ERRORS as error:
         raise CliInputRefused(cli_input_refusal(argument,type(error).__name__+": "+str(error),
                                                 expect=expect,retry_entrypoint=retry_entrypoint)) from None
     if expect is not None and not isinstance(value,expect):
@@ -572,7 +577,12 @@ def publish_frame(frame:dict[str,Any], *, root:Path|None=None)->Path:
     frame_id=hashlib.sha256((frame["packet_id"]+"|"+frame["frame_sha256"]).encode()).hexdigest()
     path=frames/(frame_id+".json")
     if path.exists():
-        existing=json.loads(path.read_text())
+        try:
+            existing=json.loads(path.read_text())
+        except JSON_DECODE_ERRORS:
+            # A file another writer left at this frame's path that does not
+            # even decode is a collision, never a cycle-aborting error.
+            existing=None
         if existing!=frame:
             raise ValueError("federation_frame_write_once_collision")
         return path
@@ -604,7 +614,7 @@ def scan_addressed_frames(organization:str, *, root:Path|None=None, seen:set[str
                 raise ValueError("frame_not_a_json_object")
             if not isinstance(frame.get("destination_org"),str):
                 raise TypeError("frame_destination_org_not_a_string")
-        except (ValueError,TypeError,UnicodeDecodeError,OSError) as error:
+        except (*JSON_DECODE_ERRORS,OSError) as error:
             out.append({"path":str(path),"frame":None,"error":error})
             continue
         if frame.get("destination_org")==organization:
@@ -898,7 +908,7 @@ def published_frame_for(packet_id:str, *, root:Path|None=None, answering:str|Non
     for path in sorted(frames.glob("*.json")):
         try:
             frame=json.loads(path.read_text(encoding="utf-8"))
-        except (ValueError,OSError):
+        except (*JSON_DECODE_ERRORS,OSError):
             continue
         if isinstance(frame,dict) and frame.get("packet_id")==packet_id:
             if origin_org is not None and _recovered_origin(frame)!=origin_org:

@@ -49,7 +49,7 @@ def main():
         print(json.dumps(fault_record(fault),sort_keys=True)); return EXIT_WRITE_FAULT
     except InputFault as fault:
         print(json.dumps(fault_record(fault),sort_keys=True)); return EXIT_INPUT_FAULT
-    except (OSError,UnicodeDecodeError,ValueError,KeyError,TypeError,AttributeError,StopIteration) as error:
+    except (OSError,UnicodeDecodeError,ValueError,KeyError,TypeError,AttributeError,StopIteration,RecursionError,MemoryError) as error:
         # Anything reading or interpreting the envelope, the registry or the
         # adapter's result is the input's fault, never this boundary's storage.
         print(json.dumps(fault_record(InputFault(type(error).__name__+": "+str(error))),sort_keys=True)); return EXIT_INPUT_FAULT
