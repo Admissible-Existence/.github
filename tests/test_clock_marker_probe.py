@@ -1618,6 +1618,135 @@ class CommunicationIdCollisionTests(_Workspace):
         self.assertIs(retried[0]["response_publication"]["already_published"], True)
 
 
+class MultiStepWriteFaultGridTests(_Workspace):
+    """B-P36q: an OSError at every durable write step leaves the run resumable, and the next run completes once.
+
+    Steps are counted in a clean run: each ledger document and HEAD replace
+    (repository receipt and HEAD, organization source copy, receipt and HEAD),
+    the response frame and the seen marker, and on the gateway the response
+    record, the submission, the submitted mark and the ack.
+    """
+
+    INTR = FrameIngestErrorTests.INTR
+
+    def workspace(self, name):
+        root = self.work / name
+        repo = root / "repo"
+        shutil.copytree(self.repo, repo)
+        os.environ["STEGVERSE_REPO_LEDGER_ROOT"] = str(root / "repo-ledger")
+        os.environ["STEGVERSE_ORG_LEDGER_ROOT"] = str(root / "org-ledger")
+        return root, repo
+
+    @staticmethod
+    def receipts(root, ledger):
+        directory = root / ledger / "receipts"
+        return list(directory.rglob("*.json")) if directory.exists() else []
+
+    def request_frame(self, K, packet_id):
+        payload = {**self.INTR, "communication_id": packet_id}
+        return K.carrier_frame(self.packet(K, "admissible-existence.intr-destination", payload, packet_id),
+                               epoch=4096)
+
+    def faulting(self, fail_at):
+        """Patch os.replace and Path.write_text to count durable writes and fail the fail_at-th one."""
+        import os as os_module
+        state = {"count": 0}
+        real_replace, real_write = os_module.replace, Path.write_text
+
+        def step():
+            state["count"] += 1
+            if state["count"] == fail_at:
+                raise OSError(5, "injected fault at write step " + str(fail_at))
+
+        def replace(source, destination, *args, **kwargs):
+            step()
+            return real_replace(source, destination, *args, **kwargs)
+
+        def write_text(path, *args, **kwargs):
+            step()
+            return real_write(path, *args, **kwargs)
+
+        return state, [mock.patch("os.replace", side_effect=replace),
+                       mock.patch.object(Path, "write_text", write_text)]
+
+    def run_local(self, name, fail_at):
+        root, repo = self.workspace(name)
+        K = _load("probe_grid_kernel_" + name, repo / "org-kernel" / "kernel.py")
+        mesh = root / "mesh"
+        K.publish_frame(self.request_frame(K, "grid"), root=mesh)
+        state, patches = self.faulting(fail_at)
+        for patch in patches:
+            patch.start()
+        try:
+            K.consume_and_respond(repo, mesh_root=mesh)
+        finally:
+            for patch in reversed(patches):
+                patch.stop()
+        return root, repo, mesh, K, state["count"]
+
+    def test_every_local_write_step(self):
+        _root, _repo, _mesh, _K, steps = self.run_local("clean", fail_at=0)
+        self.assertGreaterEqual(steps, 7)
+        for fail_at in range(1, steps + 1):
+            with self.subTest(step=fail_at):
+                root, repo, mesh, K, _count = self.run_local("step-%d" % fail_at, fail_at)
+                for _cycle in range(2):
+                    K.consume_and_respond(repo, mesh_root=mesh)
+                self.assertEqual(K.consume_and_respond(repo, mesh_root=mesh), [])
+                self.assertEqual(len(self.receipts(root, "repo-ledger")), 1)
+                self.assertEqual(len(self.receipts(root, "org-ledger")), 1)
+                responses = [frame for frame in (json.loads(path.read_text())
+                                                 for path in (mesh / "frames.d").glob("*.json"))
+                             if frame.get("destination_org") == PEER]
+                self.assertEqual(len(responses), 1)
+                markers = list((repo / "resident-runtime" / "federation" / "seen.d").glob("*.json"))
+                self.assertEqual(len(markers), 1)
+                self.assertEqual(json.loads(markers[0].read_text())["status"], "CONSUMED")
+
+    def test_every_gateway_step(self):
+        # Steps: the response record, the submission, the submitted mark, the ack.
+        for fail_at in range(1, 5):
+            with self.subTest(step=fail_at):
+                root, repo = self.workspace("gateway-%d" % fail_at)
+                cycle = _load("probe_grid_cycle_%d" % fail_at, repo / "resident-runtime" / "federation_cycle.py")
+                frame = self.request_frame(cycle.GW.K, "gateway-grid")
+                submitted, acks, state = [], [], {"count": 0}
+                records = repo / "resident-runtime" / "federation" / "responses-submitted.d"
+                real_write = Path.write_text
+
+                def step():
+                    state["count"] += 1
+                    if state["count"] == fail_at:
+                        raise OSError(5, "injected fault at gateway step " + str(fail_at))
+
+                def write_text(path, *args, **kwargs):
+                    if str(path).startswith(str(records)):
+                        step()
+                    return real_write(path, *args, **kwargs)
+
+                def gateway(method, path, *, body=None, headers=None):
+                    if method == "GET":
+                        return {"state": "FRAME_AVAILABLE", "frame": frame}
+                    step()
+                    if path.endswith("/frames"):
+                        submitted.append(body)
+                        return {"state": "PENDING"}
+                    acks.append(body)
+                    return {"state": body["state"]}
+
+                with mock.patch.object(cycle.GW, "_json_request", gateway), \
+                        mock.patch.object(Path, "write_text", write_text):
+                    results = [cycle.GW.resident_gateway_cycle(repo) for _cycle in range(3)]
+                self.assertEqual([result["state"] for result in results].count("PENDING_IO"), 1)
+                # One response: every submission is the same bytes, and the ack is CONSUMED once
+                # the cycle completes (a retried cycle re-acknowledges, never re-dispatches).
+                self.assertEqual(len({body["frame_sha256"] for body in submitted}), 1)
+                self.assertLessEqual(len(submitted), 2)
+                self.assertTrue(acks and acks[-1]["state"] == "CONSUMED")
+                self.assertEqual(len(self.receipts(root, "repo-ledger")), 1)
+                self.assertEqual(len(self.receipts(root, "org-ledger")), 1)
+
+
 class GatewayCycleEpochTests(_Workspace):
     """The gateway cycle answers at the frame's validated epoch, or not at all, and reads no clock."""
 
