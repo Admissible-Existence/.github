@@ -566,7 +566,7 @@ def main() -> int:
     parser.add_argument("--payload", type=Path)
     parser.add_argument("--standing", type=Path)
     parser.add_argument("--transition-reference", default="ecosystem.transition.interorg.v1")
-    parser.add_argument("--hb-epoch", type=int, default=None)
+    parser.add_argument("--hb-epoch", default=None)
     parser.add_argument("--close", action="store_true")
     parser.add_argument("--packet-id")
     parser.add_argument("--communication-id")

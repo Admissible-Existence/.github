@@ -115,15 +115,25 @@ class no_clock:
         ingress.repository_ledger.datetime, egress.repository_ledger.datetime = self.saved
 
 
-def assert_epoch_not_supplied(test, record):
+def assert_epoch_refused(test, record, failure_code):
     test.assertEqual(record["disposition"], "FAIL_CLOSED")
-    test.assertEqual(record["failure_code"], "HB_EPOCH_NOT_SUPPLIED_PATH_LIVE")
-    test.assertEqual(record["failed_predicate"], "RECEIPT_HB_EPOCH_IS_SUPPLIED_BY_THE_CALLER")
+    test.assertEqual(record["failure_code"], failure_code)
+    test.assertEqual(record["failed_predicate"], "SUBMISSION_CARRIES_THE_SUPPLIED_HB_EPOCH")
+    test.assertEqual(record["owning_existing_goal"], "INTERLOCK-INTR-RUNTIME-INDEPENDENT-PROTOCOL-001")
     for name in EPOCH_FIELDS:
         test.assertTrue(record[name], name)
+    test.assertIs(record["derived_from_clock"], False)
+    test.assertIs(record["consequence_committed"], False)
     test.assertIs(record["received"], False)
     test.assertIs(record["repository_receipt_observed"], False)
     test.assertIs(record["organization_receipt_observed"], False)
+
+
+def assert_epoch_not_supplied(test, record):
+    assert_epoch_refused(test, record, "HB_EPOCH_NOT_SUPPLIED")
+
+
+INVALID_EPOCHS = ("33.0", True, 31, "+33")
 
 
 class DeclarationTests(unittest.TestCase):
@@ -349,33 +359,77 @@ class SuppliedEpochTests(RedirectedLedgers):
 
     def test_the_repository_writer_fails_closed_before_the_store_opens(self):
         writer = ingress.repository_ledger
-        with no_clock(self), self.assertRaises(writer.EpochNotSupplied) as refused:
+        with no_clock(self), self.assertRaises(writer.RepoLedgerEpochRefused) as refused:
             writer.append("probe:no-epoch", "PROBE", "sha256:" + "0" * 64,
                           "sha256:" + "1" * 64, {}, "NONE")
-        self.assertEqual(tuple(refused.exception.fields), EPOCH_FIELDS)
-        self.assertEqual(refused.exception.fields["failure_code"], "HB_EPOCH_NOT_SUPPLIED_PATH_LIVE")
+        self.assertEqual(refused.exception.refusal, writer.epoch_refusal(None))
+        self.assertEqual(refused.exception.refusal["failure_code"], "HB_EPOCH_NOT_SUPPLIED")
+        self.assertEqual(refused.exception.refusal["failed_predicate"],
+                         "SUBMISSION_CARRIES_THE_SUPPLIED_HB_EPOCH")
         self.roots_untouched()
+
+    def test_the_repository_writer_refuses_an_invalid_epoch_before_the_store_opens(self):
+        writer = ingress.repository_ledger
+        for epoch in INVALID_EPOCHS:
+            with self.subTest(epoch=epoch):
+                with no_clock(self), self.assertRaises(writer.RepoLedgerEpochRefused) as refused:
+                    writer.append("probe:invalid-epoch", "PROBE", "sha256:" + "0" * 64,
+                                  "sha256:" + "1" * 64, {}, "NONE", hb_epoch=epoch)
+                refusal = refused.exception.refusal
+                self.assertEqual(refusal, writer.epoch_refusal(epoch))
+                self.assertEqual(refusal["failure_code"], "HB_EPOCH_INVALID")
+                for name in EPOCH_FIELDS:
+                    self.assertTrue(refusal[name], name)
+                self.roots_untouched()
 
     def test_the_heartbeat_reference_is_not_derived_from_a_clock(self):
         writer = ingress.repository_ledger
         with no_clock(self):
-            with self.assertRaises(writer.EpochNotSupplied):
+            with self.assertRaises(writer.RepoLedgerEpochRefused):
                 writer.hb_reference(None)
             self.assertEqual(writer.hb_reference(32)["epoch"], 32)
+            self.assertIs(writer.hb_reference("33")["derived_from_clock"], False)
 
     def test_a_diagnostic_without_an_epoch_records_nothing(self):
         with no_clock(self):
             result = ingress.receive(diagnostic(), registry=REGISTRY, packet_id="no-epoch")
         assert_epoch_not_supplied(self, result)
+        self.assertEqual({name: result[name] for name in ingress.repository_ledger.epoch_refusal(None)},
+                         ingress.repository_ledger.epoch_refusal(None))
         assert_constraints(self, result)
         self.roots_untouched()
 
+    def test_a_diagnostic_with_an_invalid_epoch_records_nothing(self):
+        for epoch in INVALID_EPOCHS:
+            with self.subTest(epoch=epoch):
+                with no_clock(self):
+                    result = ingress.receive(diagnostic(), registry=REGISTRY,
+                                             packet_id="invalid-epoch", hb_epoch=epoch)
+                assert_epoch_refused(self, result, "HB_EPOCH_INVALID")
+                self.assertIs(result["received"], False)
+                self.assertIs(result["repository_receipt_observed"], False)
+                self.assertIs(result["organization_receipt_observed"], False)
+                assert_constraints(self, result)
+                self.roots_untouched()
+
     def test_an_emission_without_an_epoch_publishes_and_records_nothing(self):
-        with no_clock(self), self.assertRaises(egress.repository_ledger.EpochNotSupplied):
+        with no_clock(self), self.assertRaises(egress.repository_ledger.RepoLedgerEpochRefused) as refused:
             egress.emit(PEER, diagnostic("no-epoch-emission"), standing=STANDING,
                         capability=PROFILE_ID, mesh_root=self.mesh)
+        self.assertEqual(refused.exception.refusal["failure_code"], "HB_EPOCH_NOT_SUPPLIED")
         self.assertFalse(self.mesh.exists())
         self.roots_untouched()
+
+    def test_an_emission_with_an_invalid_epoch_publishes_and_records_nothing(self):
+        for epoch in INVALID_EPOCHS:
+            with self.subTest(epoch=epoch):
+                with no_clock(self), \
+                        self.assertRaises(egress.repository_ledger.RepoLedgerEpochRefused) as refused:
+                    egress.emit(PEER, diagnostic("invalid-epoch-emission"), standing=STANDING,
+                                capability=PROFILE_ID, mesh_root=self.mesh, hb_epoch=epoch)
+                self.assertEqual(refused.exception.refusal["failure_code"], "HB_EPOCH_INVALID")
+                self.assertFalse(self.mesh.exists())
+                self.roots_untouched()
 
 
 class AddressedAndClosedTests(RedirectedLedgers):

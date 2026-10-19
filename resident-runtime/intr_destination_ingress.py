@@ -196,7 +196,7 @@ def _append(transition_class: str, packet_id: str, evidence: Mapping[str, Any],
             hb_epoch: int | None) -> tuple[dict[str, Any], bool]:
     """Append at both levels. A replay of the same packet returns the recorded pair.
 
-    An unsupplied epoch raises before either store is opened.
+    An absent or invalid epoch raises before either store is opened.
     """
     repository_ledger.require_supplied_epoch(hb_epoch)
     predecessor = evidence["payload_sha256"]
@@ -233,12 +233,12 @@ def _recorded(disposition: str, payload: Any, packet_id: str, hb_epoch: int | No
     transition_class = OPERATION_ID if disposition == ALLOW else REFUSED_CLASS
     try:
         appended, replayed = _append(transition_class, packet_id, evidence, hb_epoch)
-    except repository_ledger.EpochNotSupplied as exc:
-        # No epoch was supplied, so nothing is recorded and no clock is read.
+    except repository_ledger.RepoLedgerEpochRefused as exc:
+        # The epoch is absent or invalid, so nothing is recorded and no clock is read.
         refused = _evidence(payload, packet_id, FAIL_CLOSED,
-                            failed_predicate=exc.fields["failed_predicate"],
-                            detail=exc.fields["required_evidence_or_repair"])
-        return {**_result(refused, None, replayed=False, received=False), **exc.fields}
+                            failed_predicate=exc.refusal["failed_predicate"],
+                            detail=exc.refusal["detail"])
+        return {**_result(refused, None, replayed=False, received=False), **exc.refusal}
     except ValueError as exc:
         if str(exc) != "ledger_receipt_collision":
             raise
@@ -316,7 +316,7 @@ def main() -> int:
                         help="record a diagnostic self-closure on the supplied ledger roots")
     parser.add_argument("--communication-id")
     parser.add_argument("--packet-id", default=None)
-    parser.add_argument("--hb-epoch", type=int, default=None)
+    parser.add_argument("--hb-epoch", default=None)
     parser.add_argument("--out", type=Path, default=None)
     args = parser.parse_args()
     if args.self_close:
