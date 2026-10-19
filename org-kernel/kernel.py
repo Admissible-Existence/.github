@@ -777,14 +777,13 @@ def mark_federation_frame_seen(repo_root:Path, frame_path:str, frame:dict[str,An
         marker_path.write_text(json.dumps(marker,indent=2,sort_keys=True)+"\n")
     return marker_path
 
-QUARANTINE_FIELDS=("failure_code","failed_predicate","detail","required_evidence_or_repair",
-                   "retry_entrypoint","owning_existing_goal")
 
 def mark_federation_frame_quarantined(repo_root:Path, frame_path:str, frame:dict[str,Any], result:dict[str,Any])->Path:
     """Record a refused frame as seen, terminally. Not a receipt; no clock is read.
 
-    The marker carries the refusal's six fields, so a later cycle skips the
-    frame instead of refusing it again.
+    The marker is six-field FRAME_REFUSED_QUARANTINED and keeps the
+    refusal's own code, so a later cycle skips the frame instead of refusing
+    it again.
     """
     seen_dir=repo_root/"resident-runtime/federation/seen.d"
     seen_dir.mkdir(parents=True,exist_ok=True)
@@ -795,9 +794,16 @@ def mark_federation_frame_quarantined(repo_root:Path, frame_path:str, frame:dict
       "frame_sha256":frame.get("frame_sha256"),
       "packet_id":frame.get("packet_id"),
       "destination_org":frame.get("destination_org"),
-      "status":"FRAME_REFUSED_QUARANTINED",
+      "status":"REFUSED",
       "terminal":True,
-      **{name:result.get(name) for name in QUARANTINE_FIELDS},
+      "disposition":"FAIL_CLOSED",
+      "failure_code":"FRAME_REFUSED_QUARANTINED",
+      "failed_predicate":result.get("failed_predicate"),
+      "detail":"refused at ingest: "+str(result.get("failure_code"))+": "+str(result.get("detail")),
+      "refusal_failure_code":result.get("failure_code"),
+      "required_evidence_or_repair":result.get("required_evidence_or_repair"),
+      "retry_entrypoint":result.get("retry_entrypoint"),
+      "owning_existing_goal":result.get("owning_existing_goal"),
       "next_attempt":"quarantined and not retried; the sender publishes a new frame with a supplied epoch",
       "derived_from_clock":False,
       "consequence_committed":False,

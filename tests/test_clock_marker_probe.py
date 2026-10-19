@@ -429,19 +429,49 @@ class CarriedFrameEpochTests(_Workspace):
             "message_class": "ecosystem.communication", "communication_id": "forged", "subject": "probe",
             "body": {"schema": "stegverse.org-intr-destination-diagnostic/v1", "probe": "diagnostic-crossing"}},
             "forged", forged)
+        frame = json.loads(next((self.mesh / "frames.d").glob("*.json")).read_text())
         before = snapshot(self.work)
+        # The kernel's own ingest and the addressed-frame scan write nothing.
+        with fixed_clock(self.K) as clock:
+            direct = self.K.ingest_frame(self.repo, frame, mesh_root=self.mesh)
+            scanned = self.K.consume_addressed_frames(self.repo, mesh_root=self.mesh)
+        self.assertEqual(clock.reads, 0)
+        assert_six_fields(self, direct, "CARRIED_PROVENANCE_UNVERIFIED")
+        assert_six_fields(self, scanned[0]["result"], "CARRIED_PROVENANCE_UNVERIFIED")
+        self.assertEqual(written(self.work, before), [])
+        # The gateway cycle refuses and acknowledges BLOCKED, writing nothing.
+        cycle = _load("probe_forged_cycle", self.repo / "resident-runtime" / "federation_cycle.py")
+        acks = []
+
+        def gateway(method, path, *, body=None, headers=None):
+            if method == "GET":
+                return {"state": "FRAME_AVAILABLE", "frame": frame}
+            acks.append(body)
+            return {"state": "BLOCKED"}
+
+        with mock.patch.object(cycle.GW, "_json_request", gateway):
+            gateway_result = cycle.GW.resident_gateway_cycle(self.repo)
+        self.assertEqual(gateway_result["state"], "BLOCKED")
+        self.assertEqual(gateway_result["responses_emitted"], 0)
+        self.assertEqual(written(self.work, before), [])
+        # consume_and_respond writes only the quarantine marker.
         item = self.consume()["forged"]
         assert_six_fields(self, item["result"], "CARRIED_PROVENANCE_UNVERIFIED")
         self.assert_quarantined(item, "CARRIED_PROVENANCE_UNVERIFIED")
         self.assert_only_quarantine_markers_written(before)
+        self.assertFalse((self.repo / "resident-runtime" / "control" / "inbox").exists())
+        self.assertFalse((self.work / "repo-ledger").exists())
+        self.assertFalse((self.work / "org-ledger").exists())
 
     def assert_quarantined(self, item, code):
         marker = json.loads(Path(item["seen_marker"]).read_text())
-        self.assertEqual(marker["status"], "FRAME_REFUSED_QUARANTINED")
+        self.assertEqual(marker["status"], "REFUSED")
         self.assertIs(marker["terminal"], True)
-        self.assertEqual(marker["failure_code"], code)
-        for name in EPOCH_FIELDS:
-            self.assertTrue(marker[name], name)
+        assert_six_fields(self, marker, "FRAME_REFUSED_QUARANTINED")
+        self.assertEqual(marker["refusal_failure_code"], code)
+        found, _unmarked = [], []
+        scan(marker, "marker", found, _unmarked)
+        self.assertEqual(found, [])
 
     def assert_only_quarantine_markers_written(self, before):
         for path in written(self.work, before):
@@ -456,15 +486,23 @@ class CarriedFrameEpochTests(_Workspace):
         service = "admissible-existence.org-control"
         unflagged = {key: value for key, value in self.K.hb_reference(epoch=4096).items()
                      if key != "derived_from_clock"}
+        self.mixed_batch(service, unflagged, "HB_EPOCH_PROVENANCE_UNMARKED")
+
+    def test_a_clock_frame_in_a_mixed_batch_is_quarantined_and_does_not_block_valid_frames(self):
+        self.mixed_batch("admissible-existence.org-control", self.K.hb_reference(now_ns=INSTANT_NS),
+                         "HB_EPOCH_INVALID", tag="clock")
+
+    def mixed_batch(self, service, reference, code, tag="unflagged"):
         for refused_first in (True, False):
             with self.subTest(refused_first=refused_first):
                 # Pick packet ids whose frame files sort in the order under test.
                 for index in range(1000):
-                    valid_id, refused_id = "valid-%d-%s" % (index, refused_first), "refused-%d-%s" % (index, refused_first)
+                    valid_id = "valid-%s-%d-%s" % (tag, index, refused_first)
+                    refused_id = "refused-%s-%d-%s" % (tag, index, refused_first)
                     valid = self.K.carrier_frame(self.packet(
                         self.K, service, control("ecosystem.communication", valid_id), valid_id), epoch=4096)
                     refused = self.reframed(service, control("ecosystem.communication", refused_id),
-                                            refused_id, unflagged)
+                                            refused_id, reference)
                     if (self.frame_name(refused) < self.frame_name(valid)) == refused_first:
                         break
                 self.K.publish_frame(valid, root=self.mesh)
@@ -475,8 +513,8 @@ class CarriedFrameEpochTests(_Workspace):
                 first = self.consume()
                 self.assertEqual(first[valid_id]["result"]["status"], "CONSUMED")
                 self.assertIsNotNone(first[valid_id]["response_publication"])
-                assert_six_fields(self, first[refused_id]["result"], "HB_EPOCH_PROVENANCE_UNMARKED")
-                self.assert_quarantined(first[refused_id], "HB_EPOCH_PROVENANCE_UNMARKED")
+                assert_six_fields(self, first[refused_id]["result"], code)
+                self.assert_quarantined(first[refused_id], code)
                 # The next cycle neither re-refuses nor re-consumes either frame.
                 again = self.consume()
                 self.assertNotIn(valid_id, again)
