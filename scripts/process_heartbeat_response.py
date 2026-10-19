@@ -278,8 +278,12 @@ def apply(config, hb_epoch=None):
             "nothing was written; the outbox is corrected upstream", terminal=True),
             "consequence_committed": False}) from None
     # A pair torn by an earlier run, this exchange's or an earlier one's, is
-    # completed at its own recorded epoch first; none is orphaned.
-    resume_partial_pairs(config, message)
+    # completed at its own recorded epoch first; none is orphaned. Resuming is
+    # a write, so the run's own supplied epoch is checked before it: an absent
+    # or invalid one is the six-field refusal and nothing is written.
+    if partial_pairs():
+        kernel.supplied_hb_reference(hb_epoch, retry_entrypoint=EPOCH_RETRY_ENTRYPOINT)
+        resume_partial_pairs(config, message)
     prefix = message["exchange_id"].replace("/", "-")
     received_path = RECEIPTS / f"{prefix}.received.json"
     responded_path = RECEIPTS / f"{prefix}.responded.json"

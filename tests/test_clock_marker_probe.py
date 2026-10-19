@@ -2234,6 +2234,28 @@ class WriterCliTornWriteTests(_Workspace):
         self.assertFalse(received_path.exists())
         self.assertFalse((receipts / "ex-next.received.json").exists())
 
+    def test_a_torn_pair_is_not_resumed_without_a_supplied_epoch(self):
+        """HB_RESUME_WRITES_WITHOUT_SUPPLIED_EPOCH: the run's own epoch is checked before any roll-forward write."""
+        receipts = self.repo / "data" / "heartbeat-response-receipts"
+        prefix = HeartbeatResponseEpochTests.MESSAGE["exchange_id"]
+        self.assert_six_field_exit(self.heartbeat(4096, fault_at=2), "torn: ")
+        before = {path.name: path.read_bytes() for path in receipts.glob("*")}
+        for epoch, code in ((None, "HB_EPOCH_NOT_SUPPLIED"), ("", "HB_EPOCH_INVALID"),
+                            ("abc", "HB_EPOCH_INVALID"), ("31", "HB_EPOCH_INVALID")):
+            with self.subTest(epoch=epoch):
+                run = self.heartbeat(epoch)
+                self.assertEqual(run.returncode, 1, run.stdout + run.stderr)
+                self.assertNotIn("Traceback", run.stderr)
+                refusal = json.loads(run.stdout)
+                self.assertEqual(refusal["failure_code"], code)
+                for name in EPOCH_FIELDS:
+                    self.assertTrue(refusal[name], name)
+                self.assertEqual({path.name: path.read_bytes() for path in receipts.glob("*")}, before)
+        self.assertFalse((receipts / (prefix + ".responded.json")).exists())
+        self.assertEqual(self.heartbeat(5000).returncode, 0)
+        _received, responded = self.pair(prefix)
+        self.assertEqual(responded["hb_reference"]["epoch"], 4096)
+
     def test_a_pair_already_complete_needs_no_epoch(self):
         self.assertEqual(self.heartbeat(4096).returncode, 0)
         current = self.heartbeat(None)
@@ -2372,6 +2394,7 @@ class CliInputTraceTests(WriterCliTornWriteTests):
     test_an_outstanding_pair_is_not_orphaned_when_the_exchange_moves = None
     test_a_responded_half_alone_rolls_forward_or_names_its_bound_epoch = None
     test_a_pair_already_complete_needs_no_epoch = None
+    test_a_torn_pair_is_not_resumed_without_a_supplied_epoch = None
 
 
 class CarriedProvenanceArgumentTests(unittest.TestCase):
