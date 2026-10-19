@@ -335,10 +335,15 @@ def _record(transition_id: str, transition_class: str, predecessor: str, success
     """
     _require_ledger_roots()
     idempotent = hb_epoch is not None
-    repository_receipt = repository_ledger.append(
-        transition_id, transition_class, predecessor, successor,
-        dict(record), "NONE", hb_epoch=hb_epoch,
-        idempotent_on=("frame_sha256", "payload_sha256") if idempotent else None)
+    try:
+        repository_receipt = repository_ledger.append(
+            transition_id, transition_class, predecessor, successor,
+            dict(record), "NONE", hb_epoch=hb_epoch,
+            idempotent_on=("frame_sha256", "payload_sha256") if idempotent else None)
+    except ValueError as exc:
+        if str(exc) != "ledger_receipt_collision":
+            raise
+        raise _collision(transition_id) from None
     organization_receipt = organization_ledger.append(
         repository_receipt, "REPO_STATE_PROPAGATION", predecessor, successor,
         {"operation": OPERATION_ID, "intended_action": record["intended_action"],
@@ -347,6 +352,36 @@ def _record(transition_id: str, transition_class: str, predecessor: str, success
         "NONE", hb_epoch=hb_epoch, idempotent=True)
     return {"repository_receipt": repository_receipt,
             "organization_receipt": organization_receipt}
+
+
+def _collision(transition_id: str) -> Exception:
+    return kernel.BoundaryFailClosed(
+        "LEDGER_RECEIPT_COLLISION", "ONE_TRANSITION_ID_BINDS_ONE_RECORD",
+        transition_id + " is already recorded with a different frame or payload",
+        required_evidence_or_repair="the recorded transition stands; a different crossing needs its own transition id",
+        retry_entrypoint="resident-runtime/organization_egress_boundary.py::emit",
+        next_attempt="nothing was published or written for this attempt")
+
+
+def _preflight(transition_id: str, transition_class: str, record: Mapping[str, Any]) -> None:
+    """Refuse, before a frame is published, an emission the ledgers would refuse.
+
+    A recorded receipt for this transition with a different frame or payload is
+    a collision; one whose epoch is not a supplied one cannot be the source of
+    an organization receipt. Either raises a six-field refusal.
+    """
+    _require_ledger_roots()
+    store = ledger_store.open_store(repository_ledger.lr())
+    prior = repository_ledger.recorded(store, store.get(ledger_store.HEAD_KEY),
+                                       transition_id, transition_class)
+    if prior is None:
+        return
+    observed = prior.get("evidence") or {}
+    if any(observed.get(name) != record.get(name) for name in ("frame_sha256", "payload_sha256")):
+        raise _collision(transition_id)
+    refusal = organization_ledger.source_refusal(prior)
+    if refusal is not None:
+        raise organization_ledger.OrgLedgerEpochRefused(refusal)
 
 
 def _require_ledger_roots() -> None:
@@ -404,7 +439,7 @@ def emit(destination_organization: Any, payload: Mapping[str, Any], *,
             destination_service=resolved["destination_service"],
             payload=dict(payload), standing=dict(standing),
             transition_reference=transition_reference, authority_effect="NONE")
-        published = kernel.publish_packet(packet, root=mesh_root, epoch=hb["epoch"])
+        frame = kernel.carrier_frame(packet, epoch=hb["epoch"])
     except EgressRefused as exc:
         record = emit_refusal_record(exc.failed_predicate, exc.reason,
                                      destination_organization, origin, payload)
@@ -418,7 +453,10 @@ def emit(destination_organization: Any, payload: Mapping[str, Any], *,
                            record["payload_sha256"], sha(record), record, hb_epoch)
         return _refusal_result(record, appended)
 
-    record = emission_record(resolved, origin, packet, published["frame"], payload)
+    record = emission_record(resolved, origin, packet, frame, payload)
+    # A collision or a non-supplied source epoch is refused before the frame is published.
+    _preflight(EMITTED_CLASS + ":" + packet["packet_id"], EMITTED_CLASS, record)
+    kernel.publish_frame(frame, root=mesh_root)
     appended = _record(EMITTED_CLASS + ":" + packet["packet_id"], EMITTED_CLASS,
                        record["payload_sha256"], sha(record), record, hb_epoch)
     return {
@@ -581,19 +619,27 @@ def main() -> int:
         # The epoch is checked as text by the shared rule; nothing is built, published or written.
         print(json.dumps(refusal, sort_keys=True))
         return 1
-    if args.close:
-        if not args.packet_id or not args.communication_id:
-            raise SystemExit("--close requires --packet-id and --communication-id")
-        result = close(args.destination_organization, args.packet_id, args.communication_id,
-                       mesh_root=args.mesh_root, hb_epoch=args.hb_epoch)
-    else:
-        if args.payload is None or args.standing is None:
-            raise SystemExit("emit requires --payload and --standing")
-        standing = json.loads(args.standing.read_text(encoding="utf-8"))
-        payload = json.loads(args.payload.read_text(encoding="utf-8"))
-        result = emit(args.destination_organization, payload, standing=standing,
-                      capability=args.capability, transition_reference=args.transition_reference,
-                      mesh_root=args.mesh_root, hb_epoch=args.hb_epoch)
+    try:
+        if args.close:
+            if not args.packet_id or not args.communication_id:
+                raise SystemExit("--close requires --packet-id and --communication-id")
+            result = close(args.destination_organization, args.packet_id, args.communication_id,
+                           mesh_root=args.mesh_root, hb_epoch=args.hb_epoch)
+        else:
+            if args.payload is None or args.standing is None:
+                raise SystemExit("emit requires --payload and --standing")
+            standing = json.loads(args.standing.read_text(encoding="utf-8"))
+            payload = json.loads(args.payload.read_text(encoding="utf-8"))
+            result = emit(args.destination_organization, payload, standing=standing,
+                          capability=args.capability, transition_reference=args.transition_reference,
+                          mesh_root=args.mesh_root, hb_epoch=args.hb_epoch)
+    except ValueError as exc:
+        # A six-field refusal (collision, or a source receipt whose epoch is
+        # not a supplied one) is printed as such; nothing was written.
+        if not isinstance(getattr(exc, "refusal", None), dict):
+            raise
+        print(json.dumps(exc.refusal, sort_keys=True))
+        return 1
     rendered = json.dumps(result, indent=2, sort_keys=True) + "\n"
     if args.out:
         args.out.parent.mkdir(parents=True, exist_ok=True)

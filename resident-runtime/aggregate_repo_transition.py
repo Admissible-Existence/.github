@@ -34,6 +34,32 @@ def epoch_refusal(hb_epoch):
 def require_supplied_epoch(hb_epoch):
  """The heartbeat reference of the supplied epoch, or OrgLedgerEpochRefused. No clock is read."""
  return kernel.supplied_hb_reference(hb_epoch,retry_entrypoint=EPOCH_RETRY_ENTRYPOINT)
+SOURCE_PREDICATE="SOURCE_RECEIPT_CARRIES_A_SUPPLIED_HB_EPOCH"
+CLOCK_SOURCE_REPAIR=("a WU-B13 migration transition that rebinds the legacy repo receipt under a supplied epoch "
+                     "with provenance CARRIED:LEGACY_CLOCK_RECEIPT + source sha; existing receipts are never mutated")
+def source_refusal(repo_receipt):
+ """The six-field refusal of a source repository receipt whose epoch is not a supplied one, or None.
+
+ A clock reference (derived_from_clock true, or no marker with sampled_unix_ns)
+ is SOURCE_RECEIPT_IS_CLOCK_PROVENANCE. Any other reference must pass the
+ shared rule against itself; one that marks nothing is HB_EPOCH_PROVENANCE_UNMARKED.
+ """
+ ref=repo_receipt.get("hb_reference") if isinstance(repo_receipt,dict) else None
+ if isinstance(ref,dict) and (ref.get("derived_from_clock") is True
+                              or ("derived_from_clock" not in ref and "sampled_unix_ns" in ref)):
+  code,detail,repair="SOURCE_RECEIPT_IS_CLOCK_PROVENANCE","the source repository receipt's epoch was read from a clock",CLOCK_SOURCE_REPAIR
+ else:
+  failure=(kernel.supplied_epoch_failure(ref.get("epoch"),ref) if isinstance(ref,dict)
+           else ("HB_EPOCH_PROVENANCE_UNMARKED","the source repository receipt carries no heartbeat reference"))
+  if failure is None:return None
+  code,detail=failure
+  repair="the source repository receipt carries a supplied hb_reference (derived_from_clock false) that passes the shared rule"
+ return {"disposition":"FAIL_CLOSED","failure_code":code,"failed_predicate":SOURCE_PREDICATE,
+         "detail":"source "+str(repo_receipt.get("receipt_sha256") if isinstance(repo_receipt,dict) else None)+": "+detail,
+         "required_evidence_or_repair":repair,"retry_entrypoint":EPOCH_RETRY_ENTRYPOINT,
+         "owning_existing_goal":kernel.HB_EPOCH_OWNING_EXISTING_GOAL,
+         "next_attempt":"nothing was written: no organization receipt, no source copy, no HEAD change",
+         "derived_from_clock":False,"consequence_committed":False}
 def ledger_root():
  """The organization ledger location supplied to this execution.
 
@@ -63,11 +89,15 @@ def append(repo_receipt, org_transition_class, predecessor, successor, boundary_
  """Append one organization receipt that preserves the repository receipt digest.
 
  An absent or invalid epoch raises `OrgLedgerEpochRefused` before the store
- opens or any directory is created. `observed_at` is the supplied epoch's
+ opens or any directory is created. So does a source receipt whose epoch is
+ not a supplied one (`source_refusal`). `observed_at` is the supplied epoch's
  heartbeat id; no clock is read.
  """
  hb=require_supplied_epoch(hb_epoch)
- rd=verify_repo(repo_receipt); evidence=dict(boundary_evidence); root=ledger_root(); store=ledger_store.open_store(root); store.initialize()
+ rd=verify_repo(repo_receipt)
+ refusal=source_refusal(repo_receipt)
+ if refusal is not None:raise OrgLedgerEpochRefused(refusal)
+ evidence=dict(boundary_evidence); root=ledger_root(); store=ledger_store.open_store(root); store.initialize()
  retained={ledger_store.source_key(rd): repo_receipt}
  for _attempt in range(128):
   guard=store.exclusive() if hasattr(store, "exclusive") else nullcontext()

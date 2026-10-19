@@ -61,9 +61,11 @@ def supplied_epoch_failure(hb_epoch: Any, reference: Any = None) -> tuple[str, s
     float or anything coerced ('+33', ' 33', '3_3', '33.0') is refused -- with
     integer value >= 32 (the HB32 anchor). `reference`, the carrier frame's
     heartbeat reference when there is one, must be an object, and a
-    `derived_from_clock` it carries must be exactly false. Any failure is
-    HB_EPOCH_INVALID. Returns (failure_code, detail), or None when the epoch is
-    supplied. No clock is read.
+    `derived_from_clock` it carries must be exactly false. A reference with no
+    `derived_from_clock` and no CARRIED provenance is
+    HB_EPOCH_PROVENANCE_UNMARKED. Any other failure is HB_EPOCH_INVALID.
+    Returns (failure_code, detail), or None when the epoch is supplied. No
+    clock is read.
     """
     if reference is not None and not isinstance(reference, dict):
         return "HB_EPOCH_INVALID", "the carrier's heartbeat reference is not an object"
@@ -81,6 +83,9 @@ def supplied_epoch_failure(hb_epoch: Any, reference: Any = None) -> tuple[str, s
         return "HB_EPOCH_INVALID", "hb_epoch " + repr(hb_epoch) + " is not ASCII [0-9]+"
     if int(text) < 32:
         return "HB_EPOCH_INVALID", "hb_epoch " + text + " is below the HB32 anchor (32)"
+    if reference is not None and "derived_from_clock" not in reference \
+            and not str(reference.get("provenance", "")).startswith("CARRIED:"):
+        return "HB_EPOCH_PROVENANCE_UNMARKED", "the carrier's heartbeat reference marks neither derived_from_clock nor a CARRIED provenance"
     if reference is not None and "derived_from_clock" in reference \
             and reference["derived_from_clock"] is not False:
         return "HB_EPOCH_INVALID", ("the carrier's derived_from_clock is not exactly false; "
@@ -126,6 +131,31 @@ def supplied_hb_reference(hb_epoch:Any, *, retry_entrypoint:str)->dict[str,Any]:
     if refusal is not None:
         raise SuppliedEpochRefused(refusal)
     return hb_reference(epoch=int(str(hb_epoch)))
+
+class BoundaryFailClosed(ValueError):
+    """A six-field FAIL_CLOSED refusal raised before anything is written or published."""
+    def __init__(self, failure_code:str, failed_predicate:str, detail:str, *,
+                 required_evidence_or_repair:str, retry_entrypoint:str, next_attempt:str)->None:
+        super().__init__(failure_code+": "+detail)
+        self.disposition="FAIL_CLOSED"
+        self.failed_predicate=failed_predicate
+        self.refusal={"disposition":"FAIL_CLOSED","failure_code":failure_code,"failed_predicate":failed_predicate,
+                      "detail":detail,"required_evidence_or_repair":required_evidence_or_repair,
+                      "retry_entrypoint":retry_entrypoint,"owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
+                      "next_attempt":next_attempt,"derived_from_clock":False,"consequence_committed":False}
+
+def carried_frame_epoch(frame:dict[str,Any])->tuple[int|None,tuple[str,str]|None]:
+    """The epoch a carrier frame carries as supplied, or (None, failure).
+
+    The frame's heartbeat reference must pass the shared rule with itself as
+    the reference: a clock-sampled or unmarked reference carries no epoch.
+    """
+    reference=frame.get("heartbeat_reference") if isinstance(frame,dict) else None
+    epoch=reference.get("epoch") if isinstance(reference,dict) else None
+    failure=supplied_epoch_failure(epoch,reference if reference is not None else {})
+    if failure is not None:
+        return None,failure
+    return int(str(epoch)),None
 
 def derive_channel(payload_hash:str)->dict[str,Any]:
     if not isinstance(payload_hash,str) or not payload_hash.startswith("sha256:") or len(payload_hash)!=71:
@@ -209,7 +239,9 @@ def carried_standing(request_packet:dict[str,Any])->dict[str,Any]:
     if not isinstance(declared,dict): raise ValueError("response_requires_request_standing")
     return {**declared,"standing_carried_forward_from_request":True}
 
-def dispatch(root:Path, packet:dict[str,Any], *, mesh_root:Path|None=None)->dict[str,Any]:
+def dispatch(root:Path, packet:dict[str,Any], *, mesh_root:Path|None=None,
+             hb_epoch:int|None=None)->dict[str,Any]:
+    """Dispatch one packet. `hb_epoch` is the epoch its frame carried, checked by the shared rule."""
     registry=load_registry(root)
     if packet["destination"]["org"]!=registry["organization"]: raise ValueError("wrong_destination_org")
     service=next((s for s in registry["services"] if s["service_id"]==packet["destination"]["service"]),None)
@@ -239,7 +271,12 @@ def dispatch(root:Path, packet:dict[str,Any], *, mesh_root:Path|None=None)->dict
             if not isinstance(result,dict): raise ValueError("endpoint_adapter_result_invalid")
             return {**result,**standing}
     if role not in {"BOUNDARY_LOCAL_DIAGNOSTIC","BOUNDARY_LOCAL_CONTROL",CAPABILITY_INGRESS_ROLE}:
-        raise ValueError("endpoint_adapter_not_installed")
+        raise BoundaryFailClosed(
+            "ENDPOINT_ADAPTER_NOT_INSTALLED","ADDRESSED_SERVICE_HAS_AN_INSTALLED_ENDPOINT_ADAPTER",
+            str(service["service_id"])+" ("+str(role)+") has no installed endpoint adapter",
+            required_evidence_or_repair="install the service's endpoint_adapter in org-boundary/registry/services.json",
+            retry_entrypoint="org-kernel/kernel.py::ingest_frame",
+            next_attempt="resend the frame once the adapter is installed; nothing was dispatched or written")
     prev=None; receipts=[]
     for kind in ("INGRESS_ACCEPTED","DISPATCHED","CONSUMED","RESULT_BOUND","EGRESS_EMITTED"):
         r=receipt(kind,packet["packet_id"],service["service_id"],prev,{"payload_hash":sha(packet["payload"])})
@@ -252,11 +289,11 @@ def dispatch(root:Path, packet:dict[str,Any], *, mesh_root:Path|None=None)->dict
         # ledger receipt for the same frame.
         try:
             application_result=capability_ingress(root).receive(
-                root,service,packet,registry=registry,mesh_root=mesh_root)
+                root,service,packet,registry=registry,mesh_root=mesh_root,hb_epoch=hb_epoch)
         except SystemExit as refused:
             raise ValueError("capability_ingress_refused:"+str(refused)) from None
     elif role=="BOUNDARY_LOCAL_CONTROL":
-        application_result=handle_control_message(root,packet,registry)
+        application_result=handle_control_message(root,packet,registry,hb_epoch=hb_epoch)
     else:
         application_result={"echo":packet["payload"]}
     result={"schema_version":SCHEMA,"organization":registry["organization"],"packet_id":packet["packet_id"],
@@ -282,13 +319,20 @@ def ingest_frame(root:Path, frame:dict[str,Any], *, mesh_root:Path|None=None)->d
     registry=load_registry(root)
     if frame["destination_org"]!=registry["organization"]:
         return {"status":"IGNORED_NOT_ADDRESSED","packet_id":frame["packet_id"]}
-    result=dispatch(root,packet,mesh_root=mesh_root)
+    # The frame's epoch is forwarded only when it is a supplied one; a clock
+    # or unmarked reference forwards none, and the receiving writer refuses.
+    epoch,_failure=carried_frame_epoch(frame)
+    try:
+        result=dispatch(root,packet,mesh_root=mesh_root,hb_epoch=epoch)
+    except BoundaryFailClosed as refused:
+        return {"status":"FAIL_CLOSED","packet_id":packet["packet_id"],**refused.refusal}
     return {"status":"CONSUMED","packet":packet,"execution_result":result}
 
 __all__=["hb_reference","derive_channel","carrier_frame","recover_packet","dispatch","persist_outbox","ingest_frame",
         "capability_ingress","CAPABILITY_INGRESS_ROLE","RESPONDED_REQUEST_CLASSES",
         "HB_EPOCH_NOT_SUPPLIED","HB_EPOCH_INVALID","supplied_epoch_failure",
-        "SuppliedEpochRefused","writer_epoch_refusal","supplied_hb_reference"]
+        "SuppliedEpochRefused","writer_epoch_refusal","supplied_hb_reference",
+        "BoundaryFailClosed","carried_frame_epoch"]
 
 
 # --- Federation mesh v1.1 additions ---
@@ -463,7 +507,9 @@ def load_federation_directory(root:Path)->dict[str,Any]:
         raise ValueError("federation_directory_denominator_mismatch")
     return value
 
-def resident_status(root:Path, registry:dict[str,Any]|None=None)->dict[str,Any]:
+def resident_status(root:Path, registry:dict[str,Any]|None=None, *, hb_epoch:Any=None)->dict[str,Any]:
+    """This organization's status. No clock is read: the heartbeat reference is
+    the supplied epoch's, or null when none is supplied."""
     reg=registry or load_registry(root)
     activation_path=root/"resident-runtime/activation-manifest.json"
     activation=json.loads(activation_path.read_text()) if activation_path.exists() else {}
@@ -475,11 +521,18 @@ def resident_status(root:Path, registry:dict[str,Any]|None=None)->dict[str,Any]:
       "registered_service_count":len(reg.get("services") or []),
       "registered_services":[s.get("service_id") for s in reg.get("services") or []],
       "org_control_service":organization_slug(reg["organization"])+".org-control",
-      "heartbeat_reference":hb_reference(),
+      "heartbeat_reference":(hb_reference(epoch=int(str(hb_epoch)))
+                             if supplied_epoch_failure(hb_epoch) is None else None),
       "runtime_observation_claimed":False
     }
 
-def persist_work_request(root:Path, packet:dict[str,Any])->dict[str,Any]:
+WORK_INTAKE_RETRY_ENTRYPOINT="org-kernel/kernel.py::persist_work_request (the request frame's supplied heartbeat epoch)"
+
+def persist_work_request(root:Path, packet:dict[str,Any], *, hb_epoch:Any=None)->dict[str,Any]:
+    """Queue a work request. Without a supplied epoch it is refused and nothing is written."""
+    refusal=writer_epoch_refusal(hb_epoch,retry_entrypoint=WORK_INTAKE_RETRY_ENTRYPOINT)
+    if refusal is not None:
+        return {**refusal,"state":"FAIL_CLOSED","intake_ref":None,"execution_authority_inferred":False}
     payload=packet.get("payload") or {}
     communication_id=payload.get("communication_id")
     inbox=root/"resident-runtime/control/inbox"
@@ -498,7 +551,8 @@ def persist_work_request(root:Path, packet:dict[str,Any])->dict[str,Any]:
       "state":"QUEUED_FOR_LOCAL_ADMISSION_EVALUATION",
       "execution_authority_inferred":False,
       "execution_authority_constraint":"CONSTRAINT_VARIABLE",
-      "time_constraint":"CONSTRAINT_VARIABLE"
+      "time_constraint":"CONSTRAINT_VARIABLE",
+      "hb_reference":hb_reference(epoch=int(str(hb_epoch)))
     }
     if path.exists():
         if json.loads(path.read_text())!=record:
@@ -507,7 +561,8 @@ def persist_work_request(root:Path, packet:dict[str,Any])->dict[str,Any]:
         path.write_text(json.dumps(record,indent=2,sort_keys=True)+"\n")
     return {"state":record["state"],"intake_ref":str(path),"execution_authority_inferred":False}
 
-def handle_control_message(root:Path, packet:dict[str,Any], registry:dict[str,Any])->dict[str,Any]:
+def handle_control_message(root:Path, packet:dict[str,Any], registry:dict[str,Any], *,
+                           hb_epoch:Any=None)->dict[str,Any]:
     payload=packet.get("payload") or {}
     message_class=payload.get("message_class")
     result={
@@ -519,9 +574,9 @@ def handle_control_message(root:Path, packet:dict[str,Any], registry:dict[str,An
       "execution_authority_effect":packet["transition"]["authority_effect"]
     }
     if message_class=="ecosystem.monitor.request":
-        result["monitor_status"]=resident_status(root,registry)
+        result["monitor_status"]=resident_status(root,registry,hb_epoch=hb_epoch)
     elif message_class=="ecosystem.work.request":
-        result["work_intake"]=persist_work_request(root,packet)
+        result["work_intake"]=persist_work_request(root,packet,hb_epoch=hb_epoch)
     elif message_class=="ecosystem.communication":
         result["communication_acknowledged"]=True
     elif message_class in {"ecosystem.monitor.response","ecosystem.work.ack","ecosystem.communication.ack"}:
@@ -570,8 +625,16 @@ def build_control_response(request_packet:dict[str,Any], execution_result:dict[s
       packet_id=str(req_payload.get("communication_id"))+":response:"+organization_slug(local_org)
     )
 
-def consume_and_respond(repo_root:Path, *, mesh_root:Path|None=None, seen:set[str]|None=None,
-                        now_ns:int|None=None)->list[dict[str,Any]]:
+RESPONSE_RETRY_ENTRYPOINT="org-kernel/kernel.py::consume_and_respond (a request frame carrying a supplied heartbeat epoch)"
+
+def consume_and_respond(repo_root:Path, *, mesh_root:Path|None=None,
+                        seen:set[str]|None=None)->list[dict[str,Any]]:
+    """Consume addressed frames and answer the requests among them.
+
+    A response frame carries the epoch its request frame carried as supplied.
+    A request whose frame carries none gets no response: its refusal is
+    returned in `response_refusal`, nothing is published, and no clock is read.
+    """
     registry=load_registry(repo_root)
     organization=registry["organization"]
     durable_seen=federation_seen_frame_names(repo_root)
@@ -582,13 +645,24 @@ def consume_and_respond(repo_root:Path, *, mesh_root:Path|None=None, seen:set[st
         payload=packet.get("payload") or {}
         message_class=payload.get("message_class")
         result=ingest_frame(repo_root,item["frame"])
-        response_publication=None
+        response_publication=None; response_refusal=None
         if result.get("status")=="CONSUMED" and message_class in {
             "ecosystem.monitor.request","ecosystem.work.request","ecosystem.communication"}:
-            response=build_control_response(packet,result["execution_result"])
-            response_publication=publish_packet(response,root=mesh_root,now_ns=now_ns)
+            epoch,failure=carried_frame_epoch(item["frame"])
+            if epoch is None:
+                code,detail=failure
+                response_refusal={"disposition":"FAIL_CLOSED","failure_code":code,"failed_predicate":HB_EPOCH_PREDICATE,
+                    "detail":"the request frame carries no supplied epoch: "+detail,
+                    "required_evidence_or_repair":"the request frame's heartbeat_reference carries a supplied epoch (derived_from_clock false)",
+                    "retry_entrypoint":RESPONSE_RETRY_ENTRYPOINT,"owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
+                    "next_attempt":"the requester resends with a supplied epoch; no response frame was published",
+                    "derived_from_clock":False,"consequence_committed":False}
+            else:
+                response=build_control_response(packet,result["execution_result"])
+                response_publication=publish_packet(response,root=mesh_root,epoch=epoch)
         marker=mark_federation_frame_seen(repo_root,item["path"],item["frame"],result)
-        out.append({"path":item["path"],"result":result,"response_publication":response_publication,"seen_marker":str(marker)})
+        out.append({"path":item["path"],"result":result,"response_publication":response_publication,
+                    "response_refusal":response_refusal,"seen_marker":str(marker)})
     return out
 
 def collect_ecosystem_responses(origin_org:str, communication_id:str, *, mesh_root:Path|None=None)->dict[str,Any]:

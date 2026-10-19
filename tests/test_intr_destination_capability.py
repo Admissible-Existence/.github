@@ -784,7 +784,11 @@ class EpochProvenanceTests(RedirectedLedgers):
         self.assertEqual(operation["failure_code"], "HB_EPOCH_NOT_SUPPLIED")
         self.assertEqual(self.all_receipts(), [])
 
-    def test_a_replayed_clock_receipt_does_not_lend_its_epoch_to_the_organization_receipt(self):
+    def org_ledger_files(self):
+        root = Path(os.environ["STEGVERSE_ORG_LEDGER_ROOT"])
+        return sorted(path for path in root.rglob("*") if path.is_file()) if root.exists() else []
+
+    def test_a_replayed_clock_receipt_is_refused_as_a_source_and_writes_nothing(self):
         writer = ingress.repository_ledger
         with fixed_clock() as clock:
             clock_epoch = writer.kernel.hb_reference()["epoch"]
@@ -798,17 +802,23 @@ class EpochProvenanceTests(RedirectedLedgers):
                                     "stegverse.repo-transition-receipt/v1")
         self.assertEqual(repository["hb_reference"]["epoch"], clock_epoch)
         self.assertNotEqual(clock_epoch, 4096)
+        before = self.org_ledger_files()
         with no_clock(self):
             result = ingress.receive(diagnostic("replayed-clock"), registry=REGISTRY,
                                      packet_id="replayed-clock", hb_epoch="4096")
-        self.assertIs(result["transition_replayed"], True)
-        organization, = self.receipts("STEGVERSE_ORG_LEDGER_ROOT",
-                                      "stegverse.organization-transition-receipt/v1")
-        self.assertEqual(organization["hb_reference"]["epoch"], 4096)
-        self.assertIs(organization["hb_reference"]["derived_from_clock"], False)
+        # F2: the replayed repository receipt's epoch was read from a clock, so
+        # it cannot be the source of an organization receipt.
+        self.assertEqual(result["disposition"], "FAIL_CLOSED")
+        self.assertEqual(result["failure_code"], "SOURCE_RECEIPT_IS_CLOCK_PROVENANCE")
+        self.assertIn("CARRIED:LEGACY_CLOCK_RECEIPT", result["required_evidence_or_repair"])
+        for name in EPOCH_FIELDS:
+            self.assertTrue(result[name], name)
+        self.assertEqual(self.org_ledger_files(), before)
+        self.assertEqual(self.receipts("STEGVERSE_ORG_LEDGER_ROOT",
+                                       "stegverse.organization-transition-receipt/v1"), [])
         self.assert_no_laundered_epoch({4096})
 
-    def test_a_replayed_clock_emission_does_not_lend_its_epoch_to_the_organization_receipt(self):
+    def test_a_replayed_clock_emission_is_refused_as_a_source_and_writes_nothing(self):
         writer = egress.repository_ledger
         record = {"intended_action": "EMIT", "disposition": "ALLOW",
                   "crossed_an_organization_boundary": True,
@@ -822,11 +832,16 @@ class EpochProvenanceTests(RedirectedLedgers):
                                       side_effect=RuntimeError("stopped after the repository write")):
                 with self.assertRaises(RuntimeError):
                     egress._record(*args, "4096")
-        with no_clock(self):
-            appended = egress._record(*args, "4096")
-        self.assertEqual(appended["repository_receipt"]["hb_reference"]["epoch"], clock_epoch)
-        self.assertEqual(appended["organization_receipt"]["hb_reference"]["epoch"], 4096)
-        self.assertIs(appended["organization_receipt"]["hb_reference"]["derived_from_clock"], False)
+        repository, = self.receipts("STEGVERSE_REPO_LEDGER_ROOT",
+                                    "stegverse.repo-transition-receipt/v1")
+        self.assertEqual(repository["hb_reference"]["epoch"], clock_epoch)
+        before = self.org_ledger_files()
+        with no_clock(self), self.assertRaises(egress.organization_ledger.OrgLedgerEpochRefused) as refused:
+            egress._record(*args, "4096")
+        self.assertEqual(refused.exception.refusal["failure_code"], "SOURCE_RECEIPT_IS_CLOCK_PROVENANCE")
+        for name in EPOCH_FIELDS:
+            self.assertTrue(refused.exception.refusal[name], name)
+        self.assertEqual(self.org_ledger_files(), before)
         self.assert_no_laundered_epoch({4096})
 
     def test_the_supplied_4096_reaches_both_receipts_on_every_path(self):

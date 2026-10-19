@@ -255,6 +255,195 @@ class ClockMarkerProbeTests(_Workspace):
                 self.assertEqual(written(self.work, before), [])
 
 
+def assert_six_fields(test, refusal, failure_code):
+    test.assertEqual(refusal["disposition"], "FAIL_CLOSED")
+    test.assertEqual(refusal["failure_code"], failure_code)
+    for name in EPOCH_FIELDS:
+        test.assertTrue(refusal[name], name)
+    test.assertIs(refusal["derived_from_clock"], False)
+
+
+class SharedRuleProvenanceTests(unittest.TestCase):
+    """F1. A reference that marks no provenance is refused by the shared rule."""
+
+    def test_a_reference_with_no_derived_from_clock_key_is_refused(self):
+        for reference in ({"epoch": 4096}, kernel.hb_reference(now_ns=INSTANT_NS)):
+            with self.subTest(reference=reference):
+                code, _detail = kernel.supplied_epoch_failure(reference["epoch"], reference)
+                self.assertEqual(code, "HB_EPOCH_PROVENANCE_UNMARKED")
+
+    def test_marked_references(self):
+        self.assertIsNone(kernel.supplied_epoch_failure(4096, kernel.hb_reference(epoch=4096)))
+        self.assertIsNone(kernel.supplied_epoch_failure(4096, {"epoch": 4096, "provenance": "CARRIED:X"}))
+        self.assertEqual(kernel.supplied_epoch_failure(4096, {"epoch": 4096, "derived_from_clock": True})[0],
+                         "HB_EPOCH_INVALID")
+
+    def test_a_clock_frame_carries_no_epoch(self):
+        packet = kernel.build_packet(origin_org=PEER, origin_service="p", destination_org=THIS,
+                                     destination_service="s", payload={}, standing=STANDING)
+        self.assertEqual(kernel.carried_frame_epoch(kernel.carrier_frame(packet, epoch=4096)), (4096, None))
+        epoch, failure = kernel.carried_frame_epoch(kernel.carrier_frame(packet, now_ns=INSTANT_NS))
+        self.assertIsNone(epoch)
+        self.assertEqual(failure[0], "HB_EPOCH_PROVENANCE_UNMARKED")
+
+
+class SourceReceiptProvenanceTests(_Workspace):
+    """F2. The organization writer refuses a source receipt whose epoch is not a supplied one."""
+
+    def setUp(self):
+        super().setUp()
+        self.aggregate = _load("probe_aggregate", ROOT / "resident-runtime" / "aggregate_repo_transition.py")
+
+    def source(self, reference):
+        body = {"schema": "stegverse.repo-transition-receipt/v1", "repository": THIS + "/.github",
+                "transition_id": "probe:source", "transition_class": "PROBE",
+                "predecessor_state_sha256": "sha256:" + "0" * 64, "successor_state_sha256": "sha256:" + "1" * 64,
+                "evidence": {}, "authority_effect": "NONE", "hb_reference": reference,
+                "observed_at": "probe", "previous_receipt_sha256": None}
+        return {**body, "receipt_sha256": self.aggregate.sha(body)}
+
+    def append(self, reference):
+        return self.aggregate.append(self.source(reference), "REPO_STATE_PROPAGATION", "sha256:" + "0" * 64,
+                                     "sha256:" + "1" * 64, {}, hb_epoch="4096")
+
+    def test_a_clock_or_unmarked_source_is_refused_and_nothing_is_written(self):
+        clock = kernel.hb_reference(now_ns=INSTANT_NS)
+        cases = ((clock, "SOURCE_RECEIPT_IS_CLOCK_PROVENANCE"),
+                 ({**kernel.hb_reference(epoch=4096), "derived_from_clock": True}, "SOURCE_RECEIPT_IS_CLOCK_PROVENANCE"),
+                 ({"epoch": 4096}, "HB_EPOCH_PROVENANCE_UNMARKED"),
+                 (None, "HB_EPOCH_PROVENANCE_UNMARKED"))
+        for reference, code in cases:
+            with self.subTest(reference=reference):
+                with self.assertRaises(self.aggregate.OrgLedgerEpochRefused) as refused:
+                    self.append(reference)
+                assert_six_fields(self, refused.exception.refusal, code)
+                self.assertFalse((self.work / "org-ledger").exists())
+        self.assertEqual(refused.exception.refusal["failed_predicate"], self.aggregate.SOURCE_PREDICATE)
+
+    def test_the_clock_refusal_names_the_migration(self):
+        with self.assertRaises(self.aggregate.OrgLedgerEpochRefused) as refused:
+            self.append(kernel.hb_reference(now_ns=INSTANT_NS))
+        self.assertEqual(refused.exception.refusal["required_evidence_or_repair"], self.aggregate.CLOCK_SOURCE_REPAIR)
+
+    def test_a_supplied_source_is_aggregated(self):
+        record = self.append(kernel.hb_reference(epoch=4096))
+        self.assertEqual(record["hb_reference"]["epoch"], 4096)
+
+
+class CarriedFrameEpochTests(_Workspace):
+    """F3, F4, F6, F7. A frame's supplied epoch is carried; without one nothing reads a clock or writes."""
+
+    def setUp(self):
+        super().setUp()
+        self.K = _load("probe_carried_kernel", self.repo / "org-kernel" / "kernel.py")
+
+    def publish(self, service, payload, packet_id, *, epoch=None):
+        packet = self.packet(self.K, service, payload, packet_id)
+        if epoch is None:
+            self.K.publish_packet(packet, root=self.mesh, now_ns=INSTANT_NS)
+        else:
+            self.K.publish_packet(packet, root=self.mesh, epoch=epoch)
+
+    def frames_to(self, organization):
+        return [json.loads(path.read_text()) for path in sorted((self.mesh / "frames.d").glob("*.json"))
+                if json.loads(path.read_text())["destination_org"] == organization]
+
+    def consume(self):
+        with fixed_clock(self.K) as clock:
+            results = self.K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        self.assertEqual(clock.reads, 0)
+        return {item["result"].get("packet_id") or item["result"]["packet"]["packet_id"]: item for item in results}
+
+    def test_the_response_carries_the_request_frames_supplied_epoch(self):
+        self.publish("admissible-existence.org-control", control("ecosystem.communication", "carry"), "carry",
+                     epoch=4096)
+        item = self.consume()["carry"]
+        self.assertIsNone(item["response_refusal"])
+        response, = self.frames_to(PEER)
+        self.assertEqual(response["heartbeat_reference"]["epoch"], 4096)
+        self.assertIs(response["heartbeat_reference"]["derived_from_clock"], False)
+
+    def test_a_clock_request_gets_a_six_field_refusal_and_no_response(self):
+        self.publish("admissible-existence.org-control", control("ecosystem.communication", "clock"), "clock")
+        item = self.consume()["clock"]
+        self.assertIsNone(item["response_publication"])
+        assert_six_fields(self, item["response_refusal"], "HB_EPOCH_PROVENANCE_UNMARKED")
+        self.assertEqual(self.frames_to(PEER), [])
+
+    def test_the_capability_ingress_receives_the_frames_supplied_epoch(self):
+        self.publish("admissible-existence.intr-destination", {
+            "message_class": "ecosystem.communication", "communication_id": "carried-intr", "subject": "probe",
+            "body": {"schema": "stegverse.org-intr-destination-diagnostic/v1", "probe": "diagnostic-crossing"}},
+            "carried-intr", epoch=4096)
+        item = self.consume()["carried-intr"]
+        operation = item["result"]["execution_result"]["application_result"]["receiving_operation_result"]
+        self.assertEqual(operation["disposition"], "ALLOW", operation.get("detail"))
+        receipts = [json.loads(path.read_text()) for path in (self.work / "org-ledger").rglob("*.json")
+                    if json.loads(path.read_text()).get("schema") == "stegverse.organization-transition-receipt/v1"]
+        self.assertEqual([receipt["hb_reference"]["epoch"] for receipt in receipts], [4096])
+
+    def test_an_uninstalled_adapter_is_a_six_field_refusal(self):
+        self.publish("admissible-existence.stcm", {"probe": 1}, "no-adapter", epoch=4096)
+        item = self.consume()["no-adapter"]
+        assert_six_fields(self, item["result"], "ENDPOINT_ADAPTER_NOT_INSTALLED")
+        self.assertIsNone(item["response_publication"])
+
+    def test_monitor_and_work_requests_read_no_clock_and_write_nothing_without_an_epoch(self):
+        self.publish("admissible-existence.org-control", control("ecosystem.monitor.request", "monitor"), "monitor")
+        self.publish("admissible-existence.org-control", control("ecosystem.work.request", "work"), "work")
+        results = self.consume()
+        application = results["monitor"]["result"]["execution_result"]["application_result"]
+        self.assertIsNone(application["monitor_status"]["heartbeat_reference"])
+        intake = results["work"]["result"]["execution_result"]["application_result"]["work_intake"]
+        assert_six_fields(self, intake, "HB_EPOCH_NOT_SUPPLIED")
+        self.assertFalse((self.repo / "resident-runtime" / "control" / "inbox").exists())
+
+    def test_monitor_and_work_requests_carry_a_supplied_epoch(self):
+        self.publish("admissible-existence.org-control", control("ecosystem.monitor.request", "monitor"), "monitor",
+                     epoch=4096)
+        self.publish("admissible-existence.org-control", control("ecosystem.work.request", "work"), "work",
+                     epoch=4096)
+        results = self.consume()
+        status = results["monitor"]["result"]["execution_result"]["application_result"]["monitor_status"]
+        self.assertEqual(status["heartbeat_reference"]["epoch"], 4096)
+        record, = [json.loads(path.read_text())
+                   for path in (self.repo / "resident-runtime" / "control" / "inbox").glob("*.json")]
+        self.assertEqual(record["hb_reference"]["epoch"], 4096)
+        self.assertIs(record["hb_reference"]["derived_from_clock"], False)
+
+
+class EgressCollisionTests(_Workspace):
+    """F5. A collision is refused with six fields before the frame is published."""
+
+    def test_a_second_emission_at_another_epoch_publishes_nothing(self):
+        egress = _load("probe_egress", ROOT / "resident-runtime" / "organization_egress_boundary.py")
+        payload = {"message_class": "ecosystem.communication", "communication_id": "collide", "subject": "probe",
+                   "body": {"schema": "stegverse.org-intr-destination-diagnostic/v1", "probe": "diagnostic-crossing"}}
+        first = egress.emit(PEER, payload, standing=STANDING, capability="intr-destination",
+                            mesh_root=self.mesh, hb_epoch="4096")
+        self.assertIs(first["emitted"], True)
+        frames = sorted((self.mesh / "frames.d").glob("*.json"))
+        before = snapshot(self.work)
+        with self.assertRaises(egress.kernel.BoundaryFailClosed) as refused:
+            egress.emit(PEER, payload, standing=STANDING, capability="intr-destination",
+                        mesh_root=self.mesh, hb_epoch="4097")
+        assert_six_fields(self, refused.exception.refusal, "LEDGER_RECEIPT_COLLISION")
+        self.assertEqual(sorted((self.mesh / "frames.d").glob("*.json")), frames)
+        self.assertEqual(written(self.work, before), [])
+
+
+class CarriedProvenanceArgumentTests(unittest.TestCase):
+    """No writer accepts a caller-supplied provenance or CARRIED source."""
+
+    def test_no_writer_takes_a_provenance_argument(self):
+        import inspect
+        writers = (_load("probe_emit", ROOT / ".stegverse" / "transition-ledger" / "emit.py").append,
+                   _load("probe_aggregate_args", ROOT / "resident-runtime" / "aggregate_repo_transition.py").append)
+        for writer in writers:
+            names = [name.lower() for name in inspect.signature(writer).parameters]
+            self.assertFalse([name for name in names if "provenance" in name or "carried" in name], names)
+
+
 class HeartbeatResponseEpochTests(unittest.TestCase):
     MESSAGE = {"message_id": "msg-probe", "exchange_id": "ex-probe", "source_org": "StegVerse-Labs",
                "destination_org": THIS, "stage": "SENT", "detail_class": "AWARENESS",
