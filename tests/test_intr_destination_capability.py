@@ -580,18 +580,19 @@ class AddressedAndClosedTests(RedirectedLedgers):
         return frames
 
     def test_a_peer_frame_at_the_address_fails_closed_without_a_supplied_epoch(self):
-        # The frame's reference is a clock sample, so it carries no supplied
-        # epoch: ingest refuses before dispatch and nothing is recorded.
+        # The frame's reference is a clock sample. Under NARROW S1 it is
+        # consumed but lends no epoch, so the receiving writer refuses and
+        # nothing is recorded.
         self.publish(diagnostic("addressed-diagnostic"), ADDRESS, "addressed-diagnostic")
         with no_clock(self):
             results = self.consume()
         self.assertEqual(len(results), 1)
-        refused = results[0]["result"]
-        self.assertEqual(refused["status"], "FAIL_CLOSED")
-        self.assertEqual(refused["failure_code"], "HB_EPOCH_INVALID")
-        for name in EPOCH_FIELDS:
-            self.assertTrue(refused[name], name)
-        self.assertNotIn("execution_result", refused)
+        execution = results[0]["result"]["execution_result"]
+        self.assertEqual(results[0]["result"]["status"], "CONSUMED")
+        self.assertEqual(execution["service_id"], ADDRESS)
+        operation = execution["application_result"]["receiving_operation_result"]
+        assert_epoch_not_supplied(self, operation)
+        self.assertIs(operation["communication_acknowledged"], False)
         self.assertEqual(self.receipts("STEGVERSE_REPO_LEDGER_ROOT",
                                        "stegverse.repo-transition-receipt/v1"), [])
         self.assertEqual(self.receipts("STEGVERSE_ORG_LEDGER_ROOT",
@@ -778,8 +779,9 @@ class EpochProvenanceTests(RedirectedLedgers):
         kernel.publish_packet(packet, root=self.mesh, now_ns=kernel.HB_ANCHOR_UNIX_NS)
         with fixed_clock():
             results = kernel.consume_addressed_frames(ROOT, mesh_root=self.mesh)
-        self.assertEqual(results[0]["result"]["status"], "FAIL_CLOSED")
-        self.assertEqual(results[0]["result"]["failure_code"], "HB_EPOCH_INVALID")
+        operation = results[0]["result"]["execution_result"]["application_result"][
+            "receiving_operation_result"]
+        self.assertEqual(operation["failure_code"], "HB_EPOCH_NOT_SUPPLIED")
         self.assertEqual(self.all_receipts(), [])
 
     def org_ledger_files(self):

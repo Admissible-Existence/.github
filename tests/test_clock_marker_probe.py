@@ -397,12 +397,10 @@ class CarriedFrameEpochTests(_Workspace):
     def reframe(self, service, payload, packet_id, reference):
         self.K.publish_frame(self.reframed(service, payload, packet_id, reference), root=self.mesh)
 
-    def test_a_frame_without_a_supplied_epoch_is_refused_before_any_write_for_every_role(self):
+    def test_an_unmarked_frame_is_refused_before_any_write_for_every_role(self):
         unflagged = {key: value for key, value in self.K.hb_reference(epoch=4096).items()
                      if key != "derived_from_clock"}
-        references = (("clock", self.K.hb_reference(now_ns=INSTANT_NS), "HB_EPOCH_INVALID"),
-                      ("unflagged", unflagged, "HB_EPOCH_PROVENANCE_UNMARKED"),
-                      ("unflagged-sampled", {**unflagged, "sampled_unix_ns": INSTANT_NS}, "HB_EPOCH_INVALID"))
+        references = (("unflagged", unflagged, "HB_EPOCH_PROVENANCE_UNMARKED"),)
         services = (("admissible-existence.org-control", control("ecosystem.communication", "x")),
                     ("admissible-existence.boundary-diagnostic", {"probe": 1}),
                     ("admissible-existence.aid", {"probe": 1}),
@@ -488,9 +486,44 @@ class CarriedFrameEpochTests(_Workspace):
                      if key != "derived_from_clock"}
         self.mixed_batch(service, unflagged, "HB_EPOCH_PROVENANCE_UNMARKED")
 
-    def test_a_clock_frame_in_a_mixed_batch_is_quarantined_and_does_not_block_valid_frames(self):
-        self.mixed_batch("admissible-existence.org-control", self.K.hb_reference(now_ns=INSTANT_NS),
-                         "HB_EPOCH_INVALID", tag="clock")
+    def test_a_forged_carried_frame_in_a_mixed_batch_is_quarantined_and_does_not_block_valid_frames(self):
+        forged = {**self.K.hb_reference(epoch=4096), "source": "ORGANIZATION_LEDGER_HEAD",
+                  "head_receipt_sha": "sha256:" + "f" * 64}
+        self.mixed_batch("admissible-existence.org-control", forged, "CARRIED_PROVENANCE_UNVERIFIED", tag="forged")
+
+    def test_a_clock_flagged_frame_is_consumed_lending_no_epoch(self):
+        # NARROW S1: a clock-flagged or clock-sampled frame is consumed, lends
+        # no epoch, and every route that needs one refuses NOT_SUPPLIED.
+        unflagged = {key: value for key, value in self.K.hb_reference(epoch=4096).items()
+                     if key != "derived_from_clock"}
+        references = (("flagged", {**self.K.hb_reference(epoch=4096), "derived_from_clock": True}),
+                      ("sampled", self.K.hb_reference(now_ns=INSTANT_NS)),
+                      ("false-sampled", {**self.K.hb_reference(epoch=4096), "sampled_unix_ns": INSTANT_NS}),
+                      ("unflagged-sampled", {**unflagged, "sampled_unix_ns": INSTANT_NS}))
+        intr = {"message_class": "ecosystem.communication", "communication_id": "x", "subject": "probe",
+                "body": {"schema": "stegverse.org-intr-destination-diagnostic/v1", "probe": "diagnostic-crossing"}}
+        for name, reference in references:
+            self.reframe("admissible-existence.org-control", control("ecosystem.work.request", name),
+                         "work-" + name, reference)
+            self.reframe("admissible-existence.intr-destination", {**intr, "communication_id": "intr-" + name},
+                         "intr-" + name, reference)
+        results = self.consume()
+        for name, _reference in references:
+            with self.subTest(frame=name):
+                work = results["work-" + name]
+                self.assertEqual(work["result"]["status"], "CONSUMED")
+                application = work["result"]["execution_result"]["application_result"]
+                assert_six_fields(self, application["work_intake"], "HB_EPOCH_NOT_SUPPLIED")
+                assert_six_fields(self, work["response_refusal"], "HB_EPOCH_INVALID")
+                self.assertIsNone(work["response_publication"])
+                operation = results["intr-" + name]["result"]["execution_result"]["application_result"][
+                    "receiving_operation_result"]
+                assert_six_fields(self, operation, "HB_EPOCH_NOT_SUPPLIED")
+        self.assertFalse((self.repo / "resident-runtime" / "control" / "inbox").exists())
+        self.assertFalse((self.work / "repo-ledger").exists())
+        self.assertFalse((self.work / "org-ledger").exists())
+        self.assertEqual(self.frames_to(PEER), [])
+        self.assertEqual(self.consume(), {})
 
     def mixed_batch(self, service, reference, code, tag="unflagged"):
         for refused_first in (True, False):

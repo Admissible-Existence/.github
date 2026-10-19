@@ -322,15 +322,19 @@ def persist_outbox(root:Path, frame:dict[str,Any])->Path:
     path.write_text(json.dumps(frame,indent=2,sort_keys=True)+"\n")
     return path
 
+INGEST_REFUSED_FRAME_CODES=frozenset({"HB_EPOCH_PROVENANCE_UNMARKED","CARRIED_PROVENANCE_UNVERIFIED"})
+
 def ingest_frame(root:Path, frame:dict[str,Any], *, mesh_root:Path|None=None)->dict[str,Any]:
     packet=recover_packet(frame)
     registry=load_registry(root)
     if frame["destination_org"]!=registry["organization"]:
         return {"status":"IGNORED_NOT_ADDRESSED","packet_id":frame["packet_id"]}
-    # A frame whose reference does not carry a supplied epoch is refused,
-    # for every role, before anything is dispatched or written.
+    # NARROW S1: an UNMARKED reference, or a CARRIED claim this ingest cannot
+    # verify, is refused before anything is dispatched or written. Any other
+    # failure (a clock-flagged or clock-sampled reference) is consumed but
+    # lends no epoch, so a route that needs one refuses HB_EPOCH_NOT_SUPPLIED.
     epoch,failure=carried_frame_epoch(frame)
-    if failure is not None:
+    if failure is not None and failure[0] in INGEST_REFUSED_FRAME_CODES:
         code,detail=failure
         return {"status":"FAIL_CLOSED","packet_id":packet["packet_id"],
                 "disposition":"FAIL_CLOSED","failure_code":code,"failed_predicate":HB_EPOCH_PREDICATE,
