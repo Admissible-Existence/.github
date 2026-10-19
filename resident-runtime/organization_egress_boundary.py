@@ -22,6 +22,7 @@ offered credential authority is refused rather than dropped.
 from __future__ import annotations
 
 import argparse
+import functools
 import hashlib
 import importlib.util
 import json
@@ -407,6 +408,46 @@ def _refusal_result(record: Mapping[str, Any], appended: Mapping[str, Any]) -> d
     }
 
 
+def _write_fault_result(failure_code: str, entrypoint: str, error: BaseException) -> dict[str, Any]:
+    """The six-field result of a fault in this boundary's own storage mid-write.
+
+    The fault is not terminal: steps already written replay idempotently, so
+    the same call with the same epoch and payload completes the write once.
+    """
+    return {
+        "schema": RESULT_SCHEMA,
+        "operation": OPERATION_ID,
+        "disposition": "FAIL_CLOSED",
+        "failure_code": failure_code,
+        "failed_predicate": "OWN_STORAGE_ACCEPTS_THE_WRITE",
+        "detail": (type(error).__name__ + ": " + str(error))[:512],
+        "required_evidence_or_repair": "this boundary's own storage accepts the write",
+        "retry_entrypoint": entrypoint,
+        "owning_existing_goal": kernel.HB_EPOCH_OWNING_EXISTING_GOAL,
+        "next_attempt": "call again with the same epoch and input; written steps replay idempotently",
+        "terminal": False,
+        "emitted": False,
+        "derived_from_clock": False,
+        "authority_effect": "NONE_REFUSAL_ONLY",
+    }
+
+
+def _guard_own_state_faults(failure_code: str, entrypoint: str):
+    """Return a write fault (OSError or a ledger LedgerWriteFault) as six fields, never a traceback."""
+    def wrap(function):
+        @functools.wraps(function)
+        def guarded(*args, **kwargs):
+            try:
+                return function(*args, **kwargs)
+            except Exception as error:
+                if not kernel.is_own_state_fault(error):
+                    raise
+                return _write_fault_result(failure_code, entrypoint, error)
+        return guarded
+    return wrap
+
+
+@_guard_own_state_faults("EMIT_WRITE_FAILED", "resident-runtime/organization_egress_boundary.py::emit")
 def emit(destination_organization: Any, payload: Mapping[str, Any], *,
          standing: Mapping[str, Any], capability: str | None = None,
          credential_authority: Mapping[str, Any] | None = None,
@@ -543,6 +584,7 @@ def verify_closure(resolved: Mapping[str, Any], packet_id: str,
     return findings
 
 
+@_guard_own_state_faults("CLOSE_WRITE_FAILED", "resident-runtime/organization_egress_boundary.py --close")
 def close(destination_organization: str, packet_id: str, communication_id: str, *,
           root: Path | None = None, mesh_root: Path | None = None,
           hb_epoch: int | None = None) -> dict[str, Any]:

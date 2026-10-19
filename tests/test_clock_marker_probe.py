@@ -1829,6 +1829,93 @@ class EgressCollisionTests(_Workspace):
         self.assertEqual(written(self.work, before), [])
 
 
+class EgressWriteFaultTests(_Workspace):
+    """F-MT-TRACE: a write fault during egress emit is six-field EMIT_WRITE_FAILED, never a traceback."""
+
+    PAYLOAD = {"message_class": "ecosystem.communication", "communication_id": "egress-fault", "subject": "probe",
+               "body": {"schema": "stegverse.org-intr-destination-diagnostic/v1", "probe": "diagnostic-crossing"}}
+
+    def setUp(self):
+        super().setUp()
+        self.egress = _load("probe_egress_fault", ROOT / "resident-runtime" / "organization_egress_boundary.py")
+
+    def emit(self, mesh):
+        return self.egress.emit(PEER, self.PAYLOAD, standing=STANDING, capability="intr-destination",
+                                mesh_root=mesh, hb_epoch="4096")
+
+    def run_with_fault(self, name, fail_at):
+        root = self.work / name
+        os.environ["STEGVERSE_REPO_LEDGER_ROOT"] = str(root / "repo-ledger")
+        os.environ["STEGVERSE_ORG_LEDGER_ROOT"] = str(root / "org-ledger")
+        state, patches = MultiStepWriteFaultGridTests.faulting(self, fail_at)
+        for patch in patches:
+            patch.start()
+        try:
+            result = self.emit(root / "mesh")
+        finally:
+            for patch in reversed(patches):
+                patch.stop()
+        return root, result, state["count"]
+
+    def test_every_emit_write_step(self):
+        _root, clean, steps = self.run_with_fault("clean", fail_at=0)
+        self.assertIs(clean["emitted"], True)
+        self.assertGreaterEqual(steps, 5)
+        for fail_at in range(1, steps + 1):
+            with self.subTest(step=fail_at):
+                root, result, _count = self.run_with_fault("step-" + str(fail_at), fail_at)
+                assert_six_fields(self, result, "EMIT_WRITE_FAILED")
+                self.assertIs(result["terminal"], False)
+                self.assertIs(result["emitted"], False)
+                retried = self.emit(root / "mesh")
+                self.assertIs(retried["emitted"], True)
+                self.assertEqual(retried["packet_id"], clean["packet_id"])
+                self.assertEqual(len(list((root / "mesh" / "frames.d").glob("*.json"))), 1)
+
+    def test_the_cli_prints_six_fields_and_exits_non_zero(self):
+        payload, standing = self.work / "payload.json", self.work / "standing.json"
+        payload.write_text(json.dumps(self.PAYLOAD))
+        standing.write_text(json.dumps(STANDING))
+        argv = ["organization_egress_boundary.py", "--destination-organization", PEER,
+                "--payload", str(payload), "--standing", str(standing), "--capability", "intr-destination",
+                "--mesh-root", str(self.mesh), "--hb-epoch", "4096"]
+        state, patches = MultiStepWriteFaultGridTests.faulting(self, 1)
+        with mock.patch("sys.argv", argv), contextlib.redirect_stdout(io.StringIO()) as out:
+            for patch in patches:
+                patch.start()
+            try:
+                code = self.egress.main()
+            finally:
+                for patch in reversed(patches):
+                    patch.stop()
+        self.assertEqual(code, 1)
+        assert_six_fields(self, json.loads(out.getvalue()), "EMIT_WRITE_FAILED")
+
+
+class CommunicationIdSquatTests(_Workspace):
+    """A frame from another origin under this organization's response id is not a collision."""
+
+    def test_a_squatting_frame_does_not_refuse_the_request(self):
+        K = _load("probe_squat_kernel", self.repo / "org-kernel" / "kernel.py")
+        squat = K.build_packet(origin_org="StegVerse-Labs", origin_service="stegverse-labs.org-control",
+                               destination_org=PEER, destination_service="stegverse-org.org-control",
+                               payload={"message_class": "ecosystem.communication.response",
+                                        "communication_id": "shared-comm",
+                                        "body": {"request_packet_id": "req-other"}},
+                               standing=STANDING, transition_reference="probe:squat", authority_effect="NONE",
+                               packet_id="shared-comm:response:admissible-existence")
+        K.publish_frame(K.carrier_frame(squat, epoch=4096), root=self.mesh)
+        request = CommunicationIdCollisionTests.request(self, K, "req-A", "diagnostic-crossing")
+        self.assertIsNone(K.request_collision(request, root=self.mesh))
+        K.publish_frame(request, root=self.mesh)
+        results = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        self.assertEqual([item["result"].get("status") for item in results], ["CONSUMED"])
+        ours = [frame for frame in (json.loads(path.read_text()) for path in (self.mesh / "frames.d").glob("*.json"))
+                if frame["packet_id"] == "shared-comm:response:admissible-existence" and frame["origin_org"] == THIS]
+        self.assertEqual(len(ours), 1)
+        self.assertEqual(K.answered_request(ours[0]), "req-A")
+
+
 class CarriedProvenanceArgumentTests(unittest.TestCase):
     """No writer accepts a caller-supplied provenance or CARRIED source."""
 

@@ -775,12 +775,15 @@ def answered_request(frame:dict[str,Any])->str|None:
         return None
     return body.get("request_packet_id")
 
-def published_frame_for(packet_id:str, *, root:Path|None=None, answering:str|None=None)->dict[str,Any]|None:
+def published_frame_for(packet_id:str, *, root:Path|None=None, answering:str|None=None,
+                        origin_org:str|None=None)->dict[str,Any]|None:
     """The frame already published on the mesh for this packet id, if any.
 
     With `answering`, only a response that answers that request id matches;
     a response under the same id that answers another request is returned
-    with `answers_another_request` set.
+    with `answers_another_request` set. With `origin_org`, only a frame whose
+    recovered packet originates there counts: a frame from another origin
+    squatting the id is skipped.
     """
     frames=(root or federation_root()).resolve()/"frames.d"
     if not frames.is_dir():
@@ -791,11 +794,19 @@ def published_frame_for(packet_id:str, *, root:Path|None=None, answering:str|Non
         except (ValueError,OSError):
             continue
         if isinstance(frame,dict) and frame.get("packet_id")==packet_id:
+            if origin_org is not None and _recovered_origin(frame)!=origin_org:
+                continue
             found={"frame":frame,"path":str(path)}
             if answering is not None:
                 found["answers_another_request"]=answered_request(frame)!=answering
             return found
     return None
+
+def _recovered_origin(frame:dict[str,Any])->str|None:
+    try:
+        return recover_packet(frame)["origin"]["org"]
+    except Exception:
+        return None
 
 def communication_collision_refusal(request_packet:dict[str,Any], answered:str|None)->dict[str,Any]:
     """The six-field refusal of a second, different request under a communication id already answered."""
@@ -818,7 +829,8 @@ def request_collision(frame:Any, *, root:Path|None=None)->dict[str,Any]|None:
         return None
     if (packet.get("payload") or {}).get("message_class") not in RESPONDED_REQUEST_CLASSES:
         return None
-    existing=published_frame_for(response_packet_id(packet),root=root,answering=packet["packet_id"])
+    existing=published_frame_for(response_packet_id(packet),root=root,answering=packet["packet_id"],
+                                 origin_org=packet["destination"]["org"])
     if existing is None or not existing["answers_another_request"]:
         return None
     return communication_collision_refusal(packet,answered_request(existing["frame"]))
@@ -829,7 +841,8 @@ def publish_response_once(response:dict[str,Any], *, root:Path|None=None, epoch:
     request; a response under the same id for another request is a collision
     (refused before dispatch by `request_collision`) and is never reused."""
     request_id=(response.get("payload") or {}).get("body",{}).get("request_packet_id")
-    existing=published_frame_for(response["packet_id"],root=root,answering=request_id)
+    existing=published_frame_for(response["packet_id"],root=root,answering=request_id,
+                                 origin_org=response["origin"]["org"])
     if existing is not None:
         if existing["answers_another_request"]:
             raise ValueError("communication_id_collision")
