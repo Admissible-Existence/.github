@@ -89,8 +89,8 @@ def acknowledge_frame(organization: str, frame: dict[str, Any], state: str,
     ack = {
         "schema": "stegverse.org-federation-rendezvous.ack/v1",
         "organization": organization,
-        "packet_id": frame["packet_id"],
-        "frame_sha256": frame["frame_sha256"],
+        "packet_id": frame.get("packet_id"),
+        "frame_sha256": frame.get("frame_sha256"),
         "state": state,
         "observed_at": "HB:" + str(epoch) if epoch is not None else None,
         "derived_from_clock": False,
@@ -191,8 +191,9 @@ def resident_gateway_cycle(repo_root: Path) -> dict[str, Any]:
     if fetched.get("state") != "FRAME_AVAILABLE":
         raise FederationGatewayTransportError("unexpected gateway fetch state")
     frame = fetched["frame"]
-    packet = K.recover_packet(frame)
+    # Any error ingesting the frame is a six-field refusal, acknowledged BLOCKED.
     result = K.ingest_frame(repo_root, frame)
+    packet = result.get("packet") or {}
     # The response carries the frame's validated epoch. A frame that lends
     # none (a clock-flagged or clock-sampled one) gets no response, and no
     # clock is read on this route.
@@ -222,8 +223,8 @@ def resident_gateway_cycle(repo_root: Path) -> dict[str, Any]:
         "schema_version": "stegverse.org-federation-gateway-cycle.v1",
         "organization": organization,
         "state": ack_state,
-        "packet_id": frame["packet_id"],
-        "frame_sha256": frame["frame_sha256"],
+        "packet_id": frame.get("packet_id"),
+        "frame_sha256": frame.get("frame_sha256"),
         "frames_consumed": 1 if ack_state == "CONSUMED" else 0,
         "responses_emitted": response_emitted,
         "response_frame_sha256": response_ref,

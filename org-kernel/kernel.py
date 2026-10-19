@@ -163,7 +163,11 @@ def carried_frame_epoch(frame:dict[str,Any])->tuple[int|None,tuple[str,str]|None
     failure=supplied_epoch_failure(epoch,reference if reference is not None else {})
     if failure is not None:
         return None,failure
-    return int(str(epoch)),None
+    value=int(str(epoch))
+    if reference.get("generation")!=value or reference.get("heartbeat_id")!="HB:"+str(value):
+        return None,("HB_REFERENCE_INVALID",
+                     "the frame's heartbeat generation or heartbeat_id does not match its epoch "+str(value))
+    return value,None
 
 def derive_channel(payload_hash:str)->dict[str,Any]:
     if not isinstance(payload_hash,str) or not payload_hash.startswith("sha256:") or len(payload_hash)!=71:
@@ -322,9 +326,36 @@ def persist_outbox(root:Path, frame:dict[str,Any])->Path:
     path.write_text(json.dumps(frame,indent=2,sort_keys=True)+"\n")
     return path
 
-INGEST_REFUSED_FRAME_CODES=frozenset({"HB_EPOCH_PROVENANCE_UNMARKED","CARRIED_PROVENANCE_UNVERIFIED"})
+INGEST_REFUSED_FRAME_CODES=frozenset({"HB_EPOCH_PROVENANCE_UNMARKED","CARRIED_PROVENANCE_UNVERIFIED",
+                                      "HB_REFERENCE_INVALID"})
+FRAME_INTEGRITY_ERRORS=frozenset({"carrier_frame_hash_mismatch","packet_hash_mismatch",
+                                  "packet_id_mismatch","destination_org_mismatch"})
+
+def frame_ingest_refusal(frame:Any, error:BaseException)->dict[str,Any]:
+    """The six-field refusal of a frame whose ingest raised. Nothing was dispatched or written."""
+    if isinstance(error,ValueError) and str(error) in FRAME_INTEGRITY_ERRORS:
+        code,predicate="FRAME_INTEGRITY_INVALID","FRAME_AND_PACKET_HASHES_RECOMPUTE"
+        repair="the sender republishes an intact frame whose frame_sha256 and packet_sha256 recompute"
+    else:
+        code,predicate="FRAME_INGEST_FAILED",type(error).__name__
+        repair="a frame this boundary can ingest without error"
+    return {"status":"FAIL_CLOSED","packet_id":frame.get("packet_id") if isinstance(frame,dict) else None,
+            "disposition":"FAIL_CLOSED","failure_code":code,"failed_predicate":predicate,
+            "detail":(type(error).__name__+": "+str(error))[:512],
+            "required_evidence_or_repair":repair,
+            "retry_entrypoint":"org-kernel/kernel.py::ingest_frame","owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
+            "next_attempt":"the frame is refused and not retried; nothing was dispatched or written",
+            "derived_from_clock":False,"consequence_committed":False}
 
 def ingest_frame(root:Path, frame:dict[str,Any], *, mesh_root:Path|None=None)->dict[str,Any]:
+    """Ingest one frame. Any error ingesting it is a six-field refusal, so one
+    bad frame never aborts a consume cycle or starves the frames after it."""
+    try:
+        return _ingest_frame(root,frame,mesh_root=mesh_root)
+    except Exception as error:
+        return frame_ingest_refusal(frame,error)
+
+def _ingest_frame(root:Path, frame:dict[str,Any], *, mesh_root:Path|None=None)->dict[str,Any]:
     packet=recover_packet(frame)
     registry=load_registry(root)
     if frame["destination_org"]!=registry["organization"]:
@@ -673,10 +704,9 @@ def consume_and_respond(repo_root:Path, *, mesh_root:Path|None=None,
     effective_seen=set(seen or set())|durable_seen
     out=[]
     for item in scan_addressed_frames(organization,root=mesh_root,seen=effective_seen):
-        packet=recover_packet(item["frame"])
-        payload=packet.get("payload") or {}
-        message_class=payload.get("message_class")
         result=ingest_frame(repo_root,item["frame"])
+        packet=result.get("packet") or {}
+        message_class=(packet.get("payload") or {}).get("message_class")
         response_publication=None; response_refusal=None
         if result.get("status")=="CONSUMED" and message_class in {
             "ecosystem.monitor.request","ecosystem.work.request","ecosystem.communication"}:
@@ -796,6 +826,7 @@ def mark_federation_frame_quarantined(repo_root:Path, frame_path:str, frame:dict
     seen_dir=repo_root/"resident-runtime/federation/seen.d"
     seen_dir.mkdir(parents=True,exist_ok=True)
     frame_name=Path(frame_path).name
+    frame=frame if isinstance(frame,dict) else {}
     marker={
       "schema_version":"stegverse.federation-frame-quarantine.v1",
       "frame_name":frame_name,

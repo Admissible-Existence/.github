@@ -604,6 +604,95 @@ class CarriedFrameEpochTests(_Workspace):
         self.assertIs(record["hb_reference"]["derived_from_clock"], False)
 
 
+class FrameIngestErrorTests(_Workspace):
+    """B-P36o. An error ingesting one frame is a six-field refusal; the cycle continues."""
+
+    INTR = {"message_class": "ecosystem.communication", "subject": "probe",
+            "body": {"schema": "stegverse.org-intr-destination-diagnostic/v1", "probe": "diagnostic-crossing"}}
+
+    def setUp(self):
+        super().setUp()
+        self.K = _load("probe_ingest_error_kernel", self.repo / "org-kernel" / "kernel.py")
+
+    def frame(self, packet_id, service="admissible-existence.intr-destination", payload=None):
+        payload = payload if payload is not None else {**self.INTR, "communication_id": packet_id}
+        return self.K.carrier_frame(self.packet(self.K, service, payload, packet_id), epoch=4096)
+
+    def rehash(self, frame, **changes):
+        body = {key: value for key, value in frame.items() if key != "frame_sha256"}
+        body.update(changes)
+        return {**body, "frame_sha256": self.K.sha(body)}
+
+    def bad_frames(self):
+        reference = self.K.hb_reference(epoch=4096)
+        tampered = self.frame("bad-frame-sha")
+        return {
+            "bad-generation": ("HB_REFERENCE_INVALID", self.rehash(
+                self.frame("bad-generation"), heartbeat_reference={**reference, "generation": 4097})),
+            "bad-heartbeat-id": ("HB_REFERENCE_INVALID", self.rehash(
+                self.frame("bad-heartbeat-id"), heartbeat_reference={**reference, "heartbeat_id": "HB:4097"})),
+            "bad-frame-sha": ("FRAME_INTEGRITY_INVALID", {**tampered, "frame_sha256": "sha256:" + "0" * 64}),
+            "bad-packet-sha": ("FRAME_INTEGRITY_INVALID", self.rehash(
+                self.frame("bad-packet-sha"), packet_sha256="sha256:" + "0" * 64)),
+            "bad-adapter": ("FRAME_INGEST_FAILED", self.frame("bad-adapter", payload={"manifest": {"probe": True}})),
+        }
+
+    @staticmethod
+    def name(frame):
+        return hashlib.sha256((frame["packet_id"] + "|" + frame["frame_sha256"]).encode()).hexdigest()
+
+    def test_bad_frames_before_a_valid_frame_are_refused_and_the_valid_frame_is_ledgered(self):
+        bad = self.bad_frames()
+        last = max(self.name(frame) for _code, frame in bad.values())
+        for index in range(1000):
+            valid = self.frame("valid-after-bad-%d" % index)
+            if self.name(valid) > last:
+                break
+        for _code, frame in bad.values():
+            self.K.publish_frame(frame, root=self.mesh)
+        self.K.publish_frame(valid, root=self.mesh)
+        with fixed_clock(self.K) as clock:
+            first = self.K.consume_and_respond(self.repo, mesh_root=self.mesh)
+            again = self.K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        self.assertEqual(clock.reads, 0)
+        self.assertEqual(again, [])
+        by_id = {item["result"].get("packet_id") or item["result"]["packet"]["packet_id"]: item for item in first}
+        self.assertEqual(len(by_id), len(bad) + 1)
+        for packet_id, (code, _frame) in bad.items():
+            with self.subTest(frame=packet_id):
+                item = by_id[packet_id]
+                assert_six_fields(self, item["result"], code)
+                marker = json.loads(Path(item["seen_marker"]).read_text())
+                self.assertEqual(marker["failure_code"], "FRAME_REFUSED_QUARANTINED")
+                self.assertEqual(marker["refused_failure_code"], code)
+        self.assertEqual(by_id[valid["packet_id"]]["result"]["status"], "CONSUMED")
+        receipts = [json.loads(path.read_text()) for path in (self.work / "org-ledger").rglob("*.json")
+                    if json.loads(path.read_text()).get("schema") == "stegverse.organization-transition-receipt/v1"]
+        self.assertEqual([receipt["repo_transition_id"] for receipt in receipts],
+                         ["ORGANIZATION_INTR_DESTINATION_INGRESS:" + valid["packet_id"]])
+
+    def test_the_gateway_cycle_blocks_a_bad_frame_without_aborting(self):
+        cycle = _load("probe_ingest_error_cycle", self.repo / "resident-runtime" / "federation_cycle.py")
+        for packet_id, (code, frame) in self.bad_frames().items():
+            with self.subTest(frame=packet_id):
+                acks = []
+
+                def gateway(method, path, *, body=None, headers=None):
+                    if method == "GET":
+                        return {"state": "FRAME_AVAILABLE", "frame": frame}
+                    acks.append(body)
+                    return {"state": "BLOCKED"}
+
+                before = snapshot(self.work)
+                with fixed_clock(cycle.K, cycle.GW) as clock, mock.patch.object(cycle.GW, "_json_request", gateway):
+                    result = cycle.GW.resident_gateway_cycle(self.repo)
+                self.assertEqual(clock.reads, 0)
+                self.assertEqual(result["state"], "BLOCKED")
+                assert_six_fields(self, result["ingest_refusal"], code)
+                self.assertEqual(len(acks), 1)
+                self.assertEqual(written(self.work, before), [])
+
+
 class GatewayCycleEpochTests(_Workspace):
     """The gateway cycle answers at the frame's validated epoch, or not at all, and reads no clock."""
 

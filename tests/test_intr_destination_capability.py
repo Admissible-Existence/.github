@@ -600,9 +600,13 @@ class AddressedAndClosedTests(RedirectedLedgers):
 
     def test_a_manifest_addressed_to_this_capability_is_not_a_diagnostic(self):
         self.publish({"manifest": {"probe": True}}, ADDRESS, "not-a-diagnostic", epoch=4096)
-        with self.assertRaises(ValueError) as refused:
-            self.consume()
-        self.assertIn("SUBMISSION_DECLARES_A_RESPONDED_REQUEST_CLASS", str(refused.exception))
+        # B-P36o: the refusal is six fields for this one frame, not an
+        # exception that aborts the consume cycle.
+        refused = self.consume()[0]["result"]
+        self.assertEqual(refused["status"], "FAIL_CLOSED")
+        self.assertEqual(refused["failure_code"], "FRAME_INGEST_FAILED")
+        self.assertEqual(refused["failed_predicate"], "ValueError")
+        self.assertIn("SUBMISSION_DECLARES_A_RESPONDED_REQUEST_CLASS", refused["detail"])
         self.assertEqual(self.receipts(
             "STEGVERSE_REPO_LEDGER_ROOT", "stegverse.repo-transition-receipt/v1", OPERATION_ID), [])
 
