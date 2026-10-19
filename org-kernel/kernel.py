@@ -678,9 +678,11 @@ def consume_and_respond(repo_root:Path, *, mesh_root:Path|None=None,
             else:
                 response=build_control_response(packet,result["execution_result"])
                 response_publication=publish_packet(response,root=mesh_root,epoch=epoch)
-        # A refused frame writes nothing, not even a seen marker.
+        # A refused frame writes no receipt. It is quarantined: a terminal
+        # seen marker, so it is not re-refused every cycle ahead of valid frames.
         marker=(mark_federation_frame_seen(repo_root,item["path"],item["frame"],result)
-                if result.get("status")=="CONSUMED" else None)
+                if result.get("status")=="CONSUMED"
+                else mark_federation_frame_quarantined(repo_root,item["path"],item["frame"],result))
         out.append({"path":item["path"],"result":result,"response_publication":response_publication,
                     "response_refusal":response_refusal,"seen_marker":str(marker) if marker else None})
     return out
@@ -765,6 +767,40 @@ def mark_federation_frame_seen(repo_root:Path, frame_path:str, frame:dict[str,An
       "packet_id":frame.get("packet_id"),
       "destination_org":frame.get("destination_org"),
       "status":result.get("status"),
+      "authority_effect":"NONE_CARRIER_ONLY"
+    }
+    marker_path=seen_dir/(hashlib.sha256(frame_name.encode()).hexdigest()+".json")
+    if marker_path.exists():
+        if json.loads(marker_path.read_text())!=marker:
+            raise ValueError("federation_seen_marker_collision")
+    else:
+        marker_path.write_text(json.dumps(marker,indent=2,sort_keys=True)+"\n")
+    return marker_path
+
+QUARANTINE_FIELDS=("failure_code","failed_predicate","detail","required_evidence_or_repair",
+                   "retry_entrypoint","owning_existing_goal")
+
+def mark_federation_frame_quarantined(repo_root:Path, frame_path:str, frame:dict[str,Any], result:dict[str,Any])->Path:
+    """Record a refused frame as seen, terminally. Not a receipt; no clock is read.
+
+    The marker carries the refusal's six fields, so a later cycle skips the
+    frame instead of refusing it again.
+    """
+    seen_dir=repo_root/"resident-runtime/federation/seen.d"
+    seen_dir.mkdir(parents=True,exist_ok=True)
+    frame_name=Path(frame_path).name
+    marker={
+      "schema_version":"stegverse.federation-frame-quarantine.v1",
+      "frame_name":frame_name,
+      "frame_sha256":frame.get("frame_sha256"),
+      "packet_id":frame.get("packet_id"),
+      "destination_org":frame.get("destination_org"),
+      "status":"FRAME_REFUSED_QUARANTINED",
+      "terminal":True,
+      **{name:result.get(name) for name in QUARANTINE_FIELDS},
+      "next_attempt":"quarantined and not retried; the sender publishes a new frame with a supplied epoch",
+      "derived_from_clock":False,
+      "consequence_committed":False,
       "authority_effect":"NONE_CARRIER_ONLY"
     }
     marker_path=seen_dir/(hashlib.sha256(frame_name.encode()).hexdigest()+".json")

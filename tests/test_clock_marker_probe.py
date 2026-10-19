@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import base64
 import contextlib
+import hashlib
 import datetime as datetime_module
 import importlib.util
 import io
@@ -386,12 +387,15 @@ class CarriedFrameEpochTests(_Workspace):
         self.assertEqual(response["heartbeat_reference"]["epoch"], 4096)
         self.assertIs(response["heartbeat_reference"]["derived_from_clock"], False)
 
-    def reframe(self, service, payload, packet_id, reference):
-        """Publish a frame whose heartbeat reference is replaced, re-hashed so it recovers."""
+    def reframed(self, service, payload, packet_id, reference):
+        """A frame whose heartbeat reference is replaced, re-hashed so it recovers."""
         frame = self.K.carrier_frame(self.packet(self.K, service, payload, packet_id), epoch=4096)
         body = {key: value for key, value in frame.items() if key != "frame_sha256"}
         body["heartbeat_reference"] = reference
-        self.K.publish_frame({**body, "frame_sha256": self.K.sha(body)}, root=self.mesh)
+        return {**body, "frame_sha256": self.K.sha(body)}
+
+    def reframe(self, service, payload, packet_id, reference):
+        self.K.publish_frame(self.reframed(service, payload, packet_id, reference), root=self.mesh)
 
     def test_a_frame_without_a_supplied_epoch_is_refused_before_any_write_for_every_role(self):
         unflagged = {key: value for key, value in self.K.hb_reference(epoch=4096).items()
@@ -414,9 +418,9 @@ class CarriedFrameEpochTests(_Workspace):
                 with self.subTest(frame=name, service=service):
                     item = results[name + ":" + service]
                     assert_six_fields(self, item["result"], code)
-                    self.assertIsNone(item["seen_marker"])
+                    self.assert_quarantined(item, code)
                     self.assertIsNone(item["response_publication"])
-        self.assertEqual(written(self.work, before), [])
+        self.assert_only_quarantine_markers_written(before)
 
     def test_a_fabricated_carried_head_is_refused(self):
         forged = {**self.K.hb_reference(epoch=4096), "source": "ORGANIZATION_LEDGER_HEAD",
@@ -428,8 +432,55 @@ class CarriedFrameEpochTests(_Workspace):
         before = snapshot(self.work)
         item = self.consume()["forged"]
         assert_six_fields(self, item["result"], "CARRIED_PROVENANCE_UNVERIFIED")
-        self.assertIsNone(item["seen_marker"])
-        self.assertEqual(written(self.work, before), [])
+        self.assert_quarantined(item, "CARRIED_PROVENANCE_UNVERIFIED")
+        self.assert_only_quarantine_markers_written(before)
+
+    def assert_quarantined(self, item, code):
+        marker = json.loads(Path(item["seen_marker"]).read_text())
+        self.assertEqual(marker["status"], "FRAME_REFUSED_QUARANTINED")
+        self.assertIs(marker["terminal"], True)
+        self.assertEqual(marker["failure_code"], code)
+        for name in EPOCH_FIELDS:
+            self.assertTrue(marker[name], name)
+
+    def assert_only_quarantine_markers_written(self, before):
+        for path in written(self.work, before):
+            self.assertEqual(json.loads(path.read_text())["schema_version"],
+                             "stegverse.federation-frame-quarantine.v1", path)
+
+    @staticmethod
+    def frame_name(frame):
+        return hashlib.sha256((frame["packet_id"] + "|" + frame["frame_sha256"]).encode()).hexdigest()
+
+    def test_a_refused_frame_in_a_mixed_batch_is_quarantined_and_does_not_block_valid_frames(self):
+        service = "admissible-existence.org-control"
+        unflagged = {key: value for key, value in self.K.hb_reference(epoch=4096).items()
+                     if key != "derived_from_clock"}
+        for refused_first in (True, False):
+            with self.subTest(refused_first=refused_first):
+                # Pick packet ids whose frame files sort in the order under test.
+                for index in range(1000):
+                    valid_id, refused_id = "valid-%d-%s" % (index, refused_first), "refused-%d-%s" % (index, refused_first)
+                    valid = self.K.carrier_frame(self.packet(
+                        self.K, service, control("ecosystem.communication", valid_id), valid_id), epoch=4096)
+                    refused = self.reframed(service, control("ecosystem.communication", refused_id),
+                                            refused_id, unflagged)
+                    if (self.frame_name(refused) < self.frame_name(valid)) == refused_first:
+                        break
+                self.K.publish_frame(valid, root=self.mesh)
+                self.K.publish_frame(refused, root=self.mesh)
+                names = sorted(path.stem for path in (self.mesh / "frames.d").glob("*.json"))
+                self.assertEqual(names.index(self.frame_name(refused)) < names.index(self.frame_name(valid)),
+                                 refused_first)
+                first = self.consume()
+                self.assertEqual(first[valid_id]["result"]["status"], "CONSUMED")
+                self.assertIsNotNone(first[valid_id]["response_publication"])
+                assert_six_fields(self, first[refused_id]["result"], "HB_EPOCH_PROVENANCE_UNMARKED")
+                self.assert_quarantined(first[refused_id], "HB_EPOCH_PROVENANCE_UNMARKED")
+                # The next cycle neither re-refuses nor re-consumes either frame.
+                again = self.consume()
+                self.assertNotIn(valid_id, again)
+                self.assertNotIn(refused_id, again)
 
     def test_the_capability_ingress_receives_the_frames_supplied_epoch(self):
         self.publish("admissible-existence.intr-destination", {
