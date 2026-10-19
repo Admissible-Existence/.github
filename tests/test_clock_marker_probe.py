@@ -873,6 +873,36 @@ class ManifestDispatcherTests(unittest.TestCase):
         self.assertEqual((passed.returncode, passed.stdout), (0, ""))
 
 
+class UnreadableFrameFileTests(_Workspace):
+    """F-SCAN: a frames.d file that is not a JSON object is refused by name; the cycle continues."""
+
+    def test_malformed_frame_files_are_quarantined_and_valid_frames_proceed(self):
+        K = _load("probe_scan_kernel", self.repo / "org-kernel" / "kernel.py")
+        frames = self.mesh / "frames.d"
+        frames.mkdir(parents=True)
+        (frames / "0000-not-json.json").write_text("{not json")
+        (frames / "0001-a-list.json").write_text("[1,2,3]")
+        K.publish_packet(self.packet(K, "admissible-existence.org-control",
+                                     control("ecosystem.communication", "after-bad-files"), "after-bad-files"),
+                         root=self.mesh, epoch=4096)
+        with fixed_clock(K) as clock:
+            first = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+            again = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+            collected = K.collect_ecosystem_responses(THIS, "after-bad-files", mesh_root=self.mesh)
+        self.assertEqual(clock.reads, 0)
+        self.assertEqual(again, [])
+        by_name = {Path(item["path"]).name: item for item in first}
+        for name in ("0000-not-json.json", "0001-a-list.json"):
+            with self.subTest(file=name):
+                assert_six_fields(self, by_name[name]["result"], "FRAME_INGEST_FAILED")
+                marker = json.loads(Path(by_name[name]["seen_marker"]).read_text())
+                self.assertEqual(marker["frame_name"], name)
+                self.assertEqual(marker["refused_failure_code"], "FRAME_INGEST_FAILED")
+        consumed = [item for item in first if item["result"].get("status") == "CONSUMED"]
+        self.assertEqual([item["result"]["packet"]["packet_id"] for item in consumed], ["after-bad-files"])
+        self.assertEqual(len(collected["refused_frames"]), 2)
+
+
 class GatewayCycleEpochTests(_Workspace):
     """The gateway cycle answers at the frame's validated epoch, or not at all, and reads no clock."""
 

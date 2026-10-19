@@ -429,10 +429,25 @@ def scan_addressed_frames(organization:str, *, root:Path|None=None, seen:set[str
     for path in sorted(frames.glob("*.json")):
         if path.name in consumed:
             continue
-        frame=json.loads(path.read_text())
+        # A file that is not a JSON object cannot be addressed or ingested. It
+        # is offered with its error, so a consumer refuses it by name instead
+        # of the whole scan raising every cycle.
+        try:
+            frame=json.loads(path.read_text())
+            if not isinstance(frame,dict):
+                raise ValueError("frame_not_a_json_object")
+        except (ValueError,UnicodeDecodeError,OSError) as error:
+            out.append({"path":str(path),"frame":None,"error":error})
+            continue
         if frame.get("destination_org")==organization:
             out.append({"path":str(path),"frame":frame})
     return out
+
+def ingest_scanned(repo_root:Path, item:dict[str,Any], *, mesh_root:Path|None=None)->dict[str,Any]:
+    """Ingest one scanned item; an unreadable file is a six-field FRAME_INGEST_FAILED."""
+    if item.get("error") is not None:
+        return frame_ingest_refusal(item.get("frame"),item["error"])
+    return ingest_frame(repo_root,item["frame"],mesh_root=mesh_root)
 
 def build_packet(*, origin_org:str, origin_service:str, destination_org:str, destination_service:str,
                  payload:dict[str,Any], standing:dict[str,Any], transition_reference:str="federation.v1",
@@ -473,7 +488,7 @@ def consume_addressed_frames(repo_root:Path, *, mesh_root:Path|None=None, seen:s
     organization=registry["organization"]
     results=[]
     for item in scan_addressed_frames(organization,root=mesh_root,seen=seen):
-        result=ingest_frame(repo_root,item["frame"],mesh_root=mesh_root)
+        result=ingest_scanned(repo_root,item,mesh_root=mesh_root)
         results.append({"path":item["path"],"result":result})
     return results
 
@@ -710,7 +725,7 @@ def consume_and_respond(repo_root:Path, *, mesh_root:Path|None=None,
     effective_seen=set(seen or set())|durable_seen
     out=[]
     for item in scan_addressed_frames(organization,root=mesh_root,seen=effective_seen):
-        result=ingest_frame(repo_root,item["frame"])
+        result=ingest_scanned(repo_root,item)
         packet=result.get("packet") or {}
         message_class=(packet.get("payload") or {}).get("message_class")
         response_publication=None; response_refusal=None
@@ -737,6 +752,8 @@ def collect_ecosystem_responses(origin_org:str, communication_id:str, *, mesh_ro
         # A frame that does not recover is refused with six fields and skipped;
         # it never aborts the collection of the frames after it.
         try:
+            if item.get("error") is not None:
+                raise item["error"]
             packet=recover_packet(item["frame"])
         except Exception as error:
             refused.append({"path":item["path"],**frame_ingest_refusal(item["frame"],error)})
