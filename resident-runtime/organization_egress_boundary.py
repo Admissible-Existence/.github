@@ -380,9 +380,11 @@ def emit(destination_organization: Any, payload: Mapping[str, Any], *,
          hb_epoch: int | None = None) -> dict[str, Any]:
     """Emit one closable crossing to a derived capability address, and record it.
 
-    An unsupplied epoch raises before a frame is published or a store opened.
+    An absent or invalid epoch raises before a packet is built, a frame is
+    published or a store opened. The frame carries the supplied epoch, and no
+    clock is read.
     """
-    repository_ledger.require_supplied_epoch(hb_epoch)
+    hb = repository_ledger.require_supplied_epoch(hb_epoch)
     origin = this_organization(root)
     try:
         if credential_authority is not None:
@@ -402,7 +404,7 @@ def emit(destination_organization: Any, payload: Mapping[str, Any], *,
             destination_service=resolved["destination_service"],
             payload=dict(payload), standing=dict(standing),
             transition_reference=transition_reference, authority_effect="NONE")
-        published = kernel.publish_packet(packet, root=mesh_root)
+        published = kernel.publish_packet(packet, root=mesh_root, epoch=hb["epoch"])
     except EgressRefused as exc:
         record = emit_refusal_record(exc.failed_predicate, exc.reason,
                                      destination_organization, origin, payload)

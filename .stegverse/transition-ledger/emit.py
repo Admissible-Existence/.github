@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import argparse, hashlib, importlib.util, json, os
 from contextlib import nullcontext
-from datetime import datetime, timezone
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 CONTRACT=json.loads((ROOT/".stegverse/transition-ledger/contract.json").read_text())
@@ -53,6 +52,7 @@ def append(transition_id, transition_class, predecessor, successor, evidence, au
     """Append one repository receipt. A matching idempotent replay returns the recorded receipt.
 
     An absent or invalid epoch raises `RepoLedgerEpochRefused` before the store opens.
+    `observed_at` is the supplied epoch's heartbeat id; no clock is read.
     The receipt, and HEAD, are one store transaction. A lost compare-and-swap
     writes nothing and the attempt reads the chain again. Authority and time
     stay constraint variables. The disposition inside `evidence` is transition
@@ -73,7 +73,7 @@ def append(transition_id, transition_class, predecessor, successor, evidence, au
                 if fields and all(observed.get(name)==evidence.get(name) for name in fields): return prior
                 raise ValueError("ledger_receipt_collision")
             previous=head.get("receipt_sha256") if head else None
-            body={"schema":"stegverse.repo-transition-receipt/v1","repository":CONTRACT["repository"],"transition_id":transition_id,"transition_class":transition_class,"predecessor_state_sha256":predecessor,"successor_state_sha256":successor,"evidence":evidence,"authority_effect":authority_effect,"hb_reference":hb,"observed_at":datetime.now(timezone.utc).isoformat(),"previous_receipt_sha256":previous}
+            body={"schema":"stegverse.repo-transition-receipt/v1","repository":CONTRACT["repository"],"transition_id":transition_id,"transition_class":transition_class,"predecessor_state_sha256":predecessor,"successor_state_sha256":successor,"evidence":evidence,"authority_effect":authority_effect,"hb_reference":hb,"observed_at":hb["heartbeat_id"],"previous_receipt_sha256":previous}
             digest=sha(body); record={**body,"receipt_sha256":digest}; key=ledger_store.receipt_key(digest)
             new_head={"repository":CONTRACT["repository"],"receipt_sha256":digest,"receipt_path":store.locator(key)}
             compared=expected if isinstance(expected, dict) else None
