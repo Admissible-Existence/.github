@@ -228,6 +228,8 @@ def resident_gateway_cycle(repo_root: Path) -> dict[str, Any]:
         # fault and is not acknowledged, so the gateway offers it again.
         return _pending_io(organization, frame, error)
     except Exception as error:
+        if K.is_own_state_fault(error):
+            return _pending_io(organization, frame, error)
         refusal = K.frame_ingest_refusal(frame, error)
         try:
             ack = acknowledge_frame(organization, frame, "BLOCKED")

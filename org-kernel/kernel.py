@@ -349,6 +349,11 @@ def frame_ingest_refusal(frame:Any, error:BaseException)->dict[str,Any]:
 
 FRAME_DISPATCH_IO_FAILED="FRAME_DISPATCH_IO_FAILED"
 
+def is_own_state_fault(error:BaseException)->bool:
+    """An OSError, or a ledger store's LedgerWriteFault (marked `own_state_write_fault`):
+    a fault in this boundary's own state, never the frame's defect."""
+    return isinstance(error,OSError) or getattr(error,"own_state_write_fault",False) is True
+
 def dispatch_io_refusal(frame:Any, error:BaseException)->dict[str,Any]:
     """The six-field refusal of a frame this boundary could not finish for an
     I/O failure of its own (its ledger, its state). The frame is not at fault:
@@ -360,7 +365,7 @@ def dispatch_io_refusal(frame:Any, error:BaseException)->dict[str,Any]:
             "retry_entrypoint":"org-kernel/kernel.py::consume_and_respond (next cycle)",
             "owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
             "next_attempt":"the frame stays pending; the next cycle consumes it exactly once (ledger appends replay idempotently)",
-            "derived_from_clock":False,"consequence_committed":False}
+            "terminal":False,"derived_from_clock":False,"consequence_committed":False}
 
 def ingest_frame(root:Path, frame:dict[str,Any], *, mesh_root:Path|None=None)->dict[str,Any]:
     """Ingest one frame. The guard is total: any error is a six-field refusal,
@@ -370,9 +375,11 @@ def ingest_frame(root:Path, frame:dict[str,Any], *, mesh_root:Path|None=None)->d
     (FRAME_INTEGRITY_INVALID or FRAME_INGEST_FAILED) and is terminal."""
     try:
         return _ingest_frame(root,frame,mesh_root=mesh_root)
-    except OSError as error:
-        return dispatch_io_refusal(frame,error)
     except Exception as error:
+        # A fault in this boundary's own state is caught before the content
+        # guard: the frame stays pending. Anything else is the frame's defect.
+        if is_own_state_fault(error):
+            return dispatch_io_refusal(frame,error)
         return frame_ingest_refusal(frame,error)
 
 def _ingest_frame(root:Path, frame:dict[str,Any], *, mesh_root:Path|None=None)->dict[str,Any]:
@@ -776,9 +783,12 @@ def consume_and_respond(repo_root:Path, *, mesh_root:Path|None=None,
                 marker=mark_federation_frame_seen(repo_root,item["path"],item["frame"],result)
             elif result.get("failure_code")!=FRAME_DISPATCH_IO_FAILED:
                 marker=mark_federation_frame_quarantined(repo_root,item["path"],item["frame"],result)
-        except OSError as error:
-            result=dispatch_io_refusal(item.get("frame"),error); marker=None
         except Exception as error:
+            if is_own_state_fault(error):
+                result=dispatch_io_refusal(item.get("frame"),error)
+                out.append({"path":item["path"],"result":result,"response_publication":response_publication,
+                            "response_refusal":response_refusal,"seen_marker":None})
+                continue
             result=frame_ingest_refusal(item.get("frame"),error)
             try:
                 marker=mark_federation_frame_quarantined(repo_root,item["path"],item.get("frame"),result)

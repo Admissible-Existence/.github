@@ -81,7 +81,7 @@ def _recorded_for_repo(store, head, repo_digest, org_class):
  cursor=head.get("receipt_sha256") if isinstance(head, dict) else None
  while isinstance(cursor, str) and cursor:
   receipt=store.get(ledger_store.receipt_key(cursor))
-  if not isinstance(receipt, dict): raise ValueError("ORG_LEDGER_CHAIN_BREAK")
+  if not isinstance(receipt, dict): raise ledger_store.LedgerWriteFault("ORG_LEDGER_CHAIN_BREAK")
   if receipt.get("repo_receipt_sha256")==repo_digest and receipt.get("org_transition_class")==org_class: return receipt
   cursor=receipt.get("previous_receipt_sha256")
  return None
@@ -114,7 +114,7 @@ def append(repo_receipt, org_transition_class, predecessor, successor, boundary_
    new_head={"organization":C["organization"],"receipt_sha256":digest,"receipt_path":store.locator(key)}
    compared=expected if isinstance(expected, dict) else None
    if store.append_transaction(key, record, compared, new_head, immutable=retained): return record
- raise RuntimeError("ORG_LEDGER_APPEND_CONTENTION_EXHAUSTED")
+ raise ledger_store.LedgerWriteFault("ORG_LEDGER_APPEND_CONTENTION_EXHAUSTED")
 def main():
  p=argparse.ArgumentParser();p.add_argument("--repo-receipt",required=True);p.add_argument("--org-transition-class",default="REPO_STATE_PROPAGATION");p.add_argument("--predecessor-org-state-sha256",required=True);p.add_argument("--successor-org-state-sha256",required=True);p.add_argument("--boundary-evidence-json",default="{}");p.add_argument("--authority-effect",default="NONE");p.add_argument("--hb-epoch",default=None);a=p.parse_args()
  refusal=epoch_refusal(a.hb_epoch)

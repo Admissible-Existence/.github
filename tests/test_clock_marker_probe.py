@@ -1248,6 +1248,75 @@ class ResidentEntrypointEpochTests(_Workspace):
                 assert_six_fields(self, json.loads(out.getvalue()), "HB_EPOCH_CONFLICT")
 
 
+class OwnStateWriteFaultTests(_Workspace):
+    """F-TRANSIENT-RT: a fault writing this boundary's own ledger leaves the frame pending, then consumed once."""
+
+    LOSSY = """
+
+import os as _probe_os
+_probe_append = PosixLedgerStore.append_transaction
+def _probe_lossy_append(self, *args, **kwargs):
+    lost = _probe_os.environ.get("PROBE_LOSE_CAS")
+    if lost and str(self.root).startswith(lost):
+        return False
+    return _probe_append(self, *args, **kwargs)
+PosixLedgerStore.append_transaction = _probe_lossy_append
+"""
+
+    def setUp(self):
+        super().setUp()
+        store = self.repo / "resident-runtime" / "ledger_store.py"
+        store.write_text(store.read_text() + self.LOSSY)
+        self.K = _load("probe_own_state_kernel", self.repo / "org-kernel" / "kernel.py")
+
+    def receipts(self, ledger, schema):
+        root = self.work / ledger
+        return [json.loads(path.read_text()) for path in root.rglob("*.json")
+                if json.loads(path.read_text()).get("schema") == schema] if root.exists() else []
+
+    def publish(self, packet_id):
+        payload = {**FrameIngestErrorTests.INTR, "communication_id": packet_id}
+        self.K.publish_packet(self.packet(self.K, "admissible-existence.intr-destination", payload, packet_id),
+                              root=self.mesh, epoch=4096)
+
+    def test_a_lost_comparison_on_each_append_leaves_the_frame_pending_then_consumes_it_once(self):
+        for ledger in ("repo-ledger", "org-ledger"):
+            with self.subTest(lost=ledger):
+                packet_id = "lost-" + ledger
+                self.publish(packet_id)
+                os.environ["PROBE_LOSE_CAS"] = str(self.work / ledger)
+                try:
+                    with fixed_clock(self.K) as clock:
+                        first = self.K.consume_and_respond(self.repo, mesh_root=self.mesh)
+                finally:
+                    del os.environ["PROBE_LOSE_CAS"]
+                self.assertEqual(clock.reads, 0)
+                item, = [entry for entry in first if entry["result"].get("packet_id") == packet_id]
+                assert_six_fields(self, item["result"], "FRAME_DISPATCH_IO_FAILED")
+                self.assertIs(item["result"]["terminal"], False)
+                self.assertEqual(item["result"]["failed_predicate"], "LedgerWriteFault")
+                self.assertIsNone(item["seen_marker"])
+                second = self.K.consume_and_respond(self.repo, mesh_root=self.mesh)
+                self.assertEqual([entry["result"]["status"] for entry in second], ["CONSUMED"])
+                self.assertEqual(self.K.consume_and_respond(self.repo, mesh_root=self.mesh), [])
+        # Exactly once: one receipt per frame at each level, no duplicate or orphan.
+        repository = self.receipts("repo-ledger", "stegverse.repo-transition-receipt/v1")
+        organization = self.receipts("org-ledger", "stegverse.organization-transition-receipt/v1")
+        self.assertEqual(sorted(receipt["transition_id"] for receipt in repository),
+                         ["ORGANIZATION_INTR_DESTINATION_INGRESS:lost-org-ledger",
+                          "ORGANIZATION_INTR_DESTINATION_INGRESS:lost-repo-ledger"])
+        self.assertEqual(len(organization), 2)
+        self.assertEqual({receipt["repo_receipt_sha256"] for receipt in organization},
+                         {receipt["receipt_sha256"] for receipt in repository})
+
+    def test_own_state_faults_are_classified_before_the_content_guard(self):
+        store = _load("probe_fault_store", self.repo / "resident-runtime" / "ledger_store.py")
+        self.assertTrue(self.K.is_own_state_fault(store.LedgerWriteFault("ledger_store_collision")))
+        self.assertTrue(self.K.is_own_state_fault(OSError(28, "full")))
+        self.assertFalse(self.K.is_own_state_fault(ValueError("carrier_frame_hash_mismatch")))
+        self.assertFalse(self.K.is_own_state_fault(AttributeError("x")))
+
+
 class GatewayCycleEpochTests(_Workspace):
     """The gateway cycle answers at the frame's validated epoch, or not at all, and reads no clock."""
 

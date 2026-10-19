@@ -44,7 +44,7 @@ def recorded(store, head, transition_id, transition_class):
     while isinstance(cursor, str) and cursor:
         receipt=store.get(ledger_store.receipt_key(cursor))
         if not isinstance(receipt, dict):
-            raise ValueError("REPO_LEDGER_CHAIN_BREAK")
+            raise ledger_store.LedgerWriteFault("REPO_LEDGER_CHAIN_BREAK")
         if receipt.get("transition_id")==transition_id and receipt.get("transition_class")==transition_class: return receipt
         cursor=receipt.get("previous_receipt_sha256")
     return None
@@ -78,7 +78,7 @@ def append(transition_id, transition_class, predecessor, successor, evidence, au
             new_head={"repository":CONTRACT["repository"],"receipt_sha256":digest,"receipt_path":store.locator(key)}
             compared=expected if isinstance(expected, dict) else None
             if store.append_transaction(key, record, compared, new_head): return record
-    raise RuntimeError("REPO_LEDGER_APPEND_CONTENTION_EXHAUSTED")
+    raise ledger_store.LedgerWriteFault("REPO_LEDGER_APPEND_CONTENTION_EXHAUSTED")
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument("--transition-id",required=True); ap.add_argument("--transition-class",required=True); ap.add_argument("--predecessor-state-sha256",required=True); ap.add_argument("--successor-state-sha256",required=True); ap.add_argument("--evidence-json",default="{}"); ap.add_argument("--authority-effect",default="NONE"); ap.add_argument("--hb-epoch",default=None); ap.add_argument("--hb-ref",default=None); a=ap.parse_args()
     epoch=a.hb_epoch if a.hb_epoch is not None else a.hb_ref
