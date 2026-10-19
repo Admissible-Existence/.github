@@ -1540,6 +1540,84 @@ class TornWriteTests(_Workspace):
                 self.assertEqual(sorted(chain), sorted(by_digest))
 
 
+class CommunicationIdCollisionTests(_Workspace):
+    """RESPONSE_ID_COLLISION_SILENTLY_SUPPRESSED: a second, different request under one communication id is refused."""
+
+    def setUp(self):
+        super().setUp()
+        self.K = _load("probe_collision_kernel", self.repo / "org-kernel" / "kernel.py")
+
+    def request(self, K, packet_id, probe):
+        payload = {**FrameIngestErrorTests.INTR, "communication_id": "shared-comm",
+                   "body": {"schema": "stegverse.org-intr-destination-diagnostic/v1", "probe": probe}}
+        return K.carrier_frame(self.packet(K, "admissible-existence.intr-destination", payload, packet_id),
+                               epoch=4096)
+
+    def org_receipts(self):
+        root = self.work / "org-ledger"
+        return [json.loads(path.read_text()) for path in root.rglob("*.json")
+                if json.loads(path.read_text()).get("schema") == "stegverse.organization-transition-receipt/v1"] \
+            if root.exists() else []
+
+    def test_the_second_request_is_refused_before_dispatch(self):
+        for packet_id, probe in (("req-A", "diagnostic-crossing"), ("req-B", "diagnostic-crossing-b")):
+            self.K.publish_frame(self.request(self.K, packet_id, probe), root=self.mesh)
+        with fixed_clock(self.K) as clock:
+            results = self.K.consume_and_respond(self.repo, mesh_root=self.mesh)
+            again = self.K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        self.assertEqual(clock.reads, 0)
+        self.assertEqual(again, [])
+        consumed = [item for item in results if item["result"].get("status") == "CONSUMED"]
+        refused = [item for item in results if item["result"].get("status") != "CONSUMED"]
+        self.assertEqual(len(consumed), 1)
+        self.assertEqual(len(refused), 1)
+        assert_six_fields(self, refused[0]["result"], "COMMUNICATION_ID_COLLISION")
+        self.assertIsNotNone(refused[0]["seen_marker"])
+        answered = consumed[0]["result"]["packet"]["packet_id"]
+        responses = [frame for frame in (json.loads(path.read_text())
+                                         for path in (self.mesh / "frames.d").glob("*.json"))
+                     if frame.get("destination_org") == PEER]
+        self.assertEqual(len(responses), 1)
+        self.assertEqual(self.K.answered_request(responses[0]), answered)
+        # The refused request was never dispatched: one organization receipt, for the answered one.
+        self.assertEqual([receipt["repo_transition_id"] for receipt in self.org_receipts()],
+                         ["ORGANIZATION_INTR_DESTINATION_INGRESS:" + answered])
+
+    def test_the_gateway_refuses_the_second_request_and_submits_once(self):
+        cycle = _load("probe_collision_cycle", self.repo / "resident-runtime" / "federation_cycle.py")
+        frames = [self.request(cycle.GW.K, "req-A", "diagnostic-crossing"),
+                  self.request(cycle.GW.K, "req-B", "diagnostic-crossing-b")]
+        submitted, acks, offered = [], [], list(frames)
+
+        def gateway(method, path, *, body=None, headers=None):
+            if method == "GET":
+                return {"state": "FRAME_AVAILABLE", "frame": offered[0]}
+            if path.endswith("/frames"):
+                submitted.append(body)
+                return {"state": "PENDING"}
+            acks.append(body)
+            return {"state": body["state"]}
+
+        with mock.patch.object(cycle.GW, "_json_request", gateway):
+            first = cycle.GW.resident_gateway_cycle(self.repo)
+            offered.pop(0)
+            second = cycle.GW.resident_gateway_cycle(self.repo)
+        self.assertEqual(first["state"], "CONSUMED")
+        self.assertEqual(second["state"], "BLOCKED")
+        assert_six_fields(self, second["ingest_refusal"], "COMMUNICATION_ID_COLLISION")
+        self.assertEqual(len(submitted), 1)
+        self.assertEqual([ack["state"] for ack in acks], ["CONSUMED", "BLOCKED"])
+
+    def test_the_same_request_retried_reuses_its_response(self):
+        frame = self.request(self.K, "req-retry", "diagnostic-crossing")
+        self.K.publish_frame(frame, root=self.mesh)
+        with mock.patch.object(self.K, "mark_federation_frame_seen", side_effect=OSError(28, "full")):
+            self.K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        retried = self.K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        self.assertEqual(retried[0]["result"]["status"], "CONSUMED")
+        self.assertIs(retried[0]["response_publication"]["already_published"], True)
+
+
 class GatewayCycleEpochTests(_Workspace):
     """The gateway cycle answers at the frame's validated epoch, or not at all, and reads no clock."""
 

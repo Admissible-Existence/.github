@@ -760,8 +760,28 @@ def build_control_response(request_packet:dict[str,Any], execution_result:dict[s
       packet_id=str(req_payload.get("communication_id"))+":response:"+organization_slug(local_org)
     )
 
-def published_frame_for(packet_id:str, *, root:Path|None=None)->dict[str,Any]|None:
-    """The frame already published on the mesh for this packet id, if any."""
+COMMUNICATION_ID_COLLISION="COMMUNICATION_ID_COLLISION"
+
+def response_packet_id(request_packet:dict[str,Any])->str:
+    """The id of the response build_control_response makes for this request."""
+    payload=request_packet.get("payload") or {}
+    return str(payload.get("communication_id"))+":response:"+organization_slug(request_packet["destination"]["org"])
+
+def answered_request(frame:dict[str,Any])->str|None:
+    """The request packet id a published response frame answers, or None."""
+    try:
+        body=(recover_packet(frame).get("payload") or {}).get("body") or {}
+    except Exception:
+        return None
+    return body.get("request_packet_id")
+
+def published_frame_for(packet_id:str, *, root:Path|None=None, answering:str|None=None)->dict[str,Any]|None:
+    """The frame already published on the mesh for this packet id, if any.
+
+    With `answering`, only a response that answers that request id matches;
+    a response under the same id that answers another request is returned
+    with `answers_another_request` set.
+    """
     frames=(root or federation_root()).resolve()/"frames.d"
     if not frames.is_dir():
         return None
@@ -771,15 +791,48 @@ def published_frame_for(packet_id:str, *, root:Path|None=None)->dict[str,Any]|No
         except (ValueError,OSError):
             continue
         if isinstance(frame,dict) and frame.get("packet_id")==packet_id:
-            return {"frame":frame,"path":str(path)}
+            found={"frame":frame,"path":str(path)}
+            if answering is not None:
+                found["answers_another_request"]=answered_request(frame)!=answering
+            return found
     return None
 
+def communication_collision_refusal(request_packet:dict[str,Any], answered:str|None)->dict[str,Any]:
+    """The six-field refusal of a second, different request under a communication id already answered."""
+    return {"status":"FAIL_CLOSED","packet_id":request_packet.get("packet_id"),
+            "disposition":"FAIL_CLOSED","failure_code":COMMUNICATION_ID_COLLISION,
+            "failed_predicate":"ONE_COMMUNICATION_ID_BINDS_ONE_REQUEST",
+            "detail":("communication_id "+str((request_packet.get("payload") or {}).get("communication_id"))+
+                      " is already answered for request "+str(answered)),
+            "required_evidence_or_repair":"the sender uses a new communication_id for a different request",
+            "retry_entrypoint":"the sender's hop: "+str((request_packet.get("origin") or {}).get("org"))+" egress",
+            "owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
+            "next_attempt":"the request is refused; nothing was dispatched, published or written",
+            "derived_from_clock":False,"consequence_committed":False}
+
+def request_collision(frame:Any, *, root:Path|None=None)->dict[str,Any]|None:
+    """The collision refusal for a request whose response id already answers another request, or None."""
+    try:
+        packet=recover_packet(frame)
+    except Exception:
+        return None
+    if (packet.get("payload") or {}).get("message_class") not in RESPONDED_REQUEST_CLASSES:
+        return None
+    existing=published_frame_for(response_packet_id(packet),root=root,answering=packet["packet_id"])
+    if existing is None or not existing["answers_another_request"]:
+        return None
+    return communication_collision_refusal(packet,answered_request(existing["frame"]))
+
 def publish_response_once(response:dict[str,Any], *, root:Path|None=None, epoch:int|None=None)->dict[str,Any]:
-    """Publish a response once per response packet id. A frame retried after a
-    fault that followed publication reuses the published response instead of
-    publishing a second one built from a replayed result."""
-    existing=published_frame_for(response["packet_id"],root=root)
+    """Publish a response once per request. A frame retried after a fault that
+    followed publication reuses the response already published for that same
+    request; a response under the same id for another request is a collision
+    (refused before dispatch by `request_collision`) and is never reused."""
+    request_id=(response.get("payload") or {}).get("body",{}).get("request_packet_id")
+    existing=published_frame_for(response["packet_id"],root=root,answering=request_id)
     if existing is not None:
+        if existing["answers_another_request"]:
+            raise ValueError("communication_id_collision")
         return {"packet":response,**existing,"already_published":True}
     return publish_packet(response,root=root,epoch=epoch)
 
@@ -809,7 +862,10 @@ def consume_and_respond(repo_root:Path, *, mesh_root:Path|None=None,
     effective_seen=set(seen or set())|durable_seen
     out=[]
     for item in scan_addressed_frames(organization,root=mesh_root,seen=effective_seen):
-        result=ingest_scanned(repo_root,item)
+        # A second, different request under a communication id already
+        # answered is refused before it is dispatched.
+        collision=request_collision(item.get("frame"),root=mesh_root) if item.get("error") is None else None
+        result=collision if collision is not None else ingest_scanned(repo_root,item)
         response_publication=None; response_refusal=None; marker=None
         # The guard is total for this frame's remaining steps too: an OSError
         # is this boundary's own I/O and leaves the frame pending (no marker);

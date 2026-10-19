@@ -271,29 +271,55 @@ def _submit_response_once(repo_root: Path, response: dict[str, Any], epoch: int)
     submit it again; a retry before the mark resubmits the same recorded bytes.
     Returns the frame and whether this call submitted it.
     """
-    records = repo_root / "resident-runtime" / "federation" / "responses-submitted.d"
-    path = records / (hashlib.sha256(response["packet_id"].encode()).hexdigest() + ".json")
+    path = _response_record_path(repo_root, response["packet_id"])
+    request_id = ((response.get("payload") or {}).get("body") or {}).get("request_packet_id")
     if path.is_file():
         record = json.loads(path.read_text())
+        if record.get("request_packet_id") != request_id:
+            raise ValueError("communication_id_collision")
         frame = record["frame"]
         if record.get("submitted") is True:
             return frame, False
     else:
         frame = K.carrier_frame(response, epoch=epoch)
-        records.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps({"packet_id": response["packet_id"], "frame": frame, "submitted": False},
-                                   indent=2, sort_keys=True) + "\n")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({"packet_id": response["packet_id"], "request_packet_id": request_id,
+                                    "frame": frame, "submitted": False}, indent=2, sort_keys=True) + "\n")
     submit_frame(frame)
-    path.write_text(json.dumps({"packet_id": response["packet_id"], "frame": frame, "submitted": True},
-                               indent=2, sort_keys=True) + "\n")
+    path.write_text(json.dumps({"packet_id": response["packet_id"], "request_packet_id": request_id,
+                                "frame": frame, "submitted": True}, indent=2, sort_keys=True) + "\n")
     return frame, True
+
+
+def _response_record_path(repo_root: Path, response_packet_id: str) -> Path:
+    return (repo_root / "resident-runtime" / "federation" / "responses-submitted.d"
+            / (hashlib.sha256(response_packet_id.encode()).hexdigest() + ".json"))
+
+
+def _gateway_collision(repo_root: Path, frame: Any) -> dict[str, Any] | None:
+    """The collision refusal for a request whose response id already answers another request, or None."""
+    try:
+        packet = K.recover_packet(frame)
+    except Exception:
+        return None
+    if (packet.get("payload") or {}).get("message_class") not in K.RESPONDED_REQUEST_CLASSES:
+        return None
+    path = _response_record_path(repo_root, K.response_packet_id(packet))
+    if not path.is_file():
+        return None
+    answered = json.loads(path.read_text()).get("request_packet_id")
+    if answered == packet["packet_id"]:
+        return None
+    return K.communication_collision_refusal(packet, answered)
 
 
 def _gateway_frame_cycle(repo_root: Path, organization: str, frame: Any) -> dict[str, Any]:
     # Any error ingesting the frame, a non-object frame included, is a
     # six-field refusal, acknowledged BLOCKED. An I/O failure of this
-    # boundary's own leaves it pending and unacknowledged.
-    result = K.ingest_frame(repo_root, frame)
+    # boundary's own leaves it pending and unacknowledged. A second, different
+    # request under a communication id already answered is refused before it
+    # is dispatched.
+    result = _gateway_collision(repo_root, frame) or K.ingest_frame(repo_root, frame)
     if result.get("failure_code") == K.FRAME_DISPATCH_IO_FAILED:
         return {
             "schema_version": "stegverse.org-federation-gateway-cycle.v1",
