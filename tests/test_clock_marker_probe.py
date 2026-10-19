@@ -1985,6 +1985,15 @@ if DIRSYNC_FAIL_AT or DIRSYNC_COUNT:
                 raise OSError(5, "injected directory fsync fault after replace " + str(DIRSYNC_FAIL_AT))
         return _fsync(fd)
     os.fsync = fsync
+WRITE_TEXT_FAIL_NAME = os.environ.get("PROBE_WRITE_TEXT_FAIL_NAME")
+if WRITE_TEXT_FAIL_NAME:
+    import pathlib
+    _write_text = pathlib.Path.write_text
+    def write_text(self, *args, **kwargs):
+        if self.name == WRITE_TEXT_FAIL_NAME:
+            raise OSError(28, "injected write fault on " + self.name)
+        return _write_text(self, *args, **kwargs)
+    pathlib.Path.write_text = write_text
 OUTBOX = os.environ.get("PROBE_OUTBOX")
 if OUTBOX:
     import contextlib, io, urllib.request
@@ -2395,6 +2404,132 @@ class CliInputTraceTests(WriterCliTornWriteTests):
     test_a_responded_half_alone_rolls_forward_or_names_its_bound_epoch = None
     test_a_pair_already_complete_needs_no_epoch = None
     test_a_torn_pair_is_not_resumed_without_a_supplied_epoch = None
+
+
+class ProcessBoundaryExitSplitTests(CliInputTraceTests):
+    """DC#10's exit-code split, kept by every caller: process_boundary exit 75 (its own
+    write faulted) is non-terminal with no marker and the frame is consumed exactly once
+    on the next cycle; exit 65 (bad input) is terminal FRAME_INGEST_FAILED, quarantined."""
+
+    def aid_frame(self, K, packet_id):
+        packet = K.build_packet(origin_org=PEER, origin_service=K.organization_slug(PEER) + ".org-control",
+                                destination_org=THIS, destination_service="admissible-existence.aid",
+                                payload={"message_class": "ecosystem.work.request", "communication_id": packet_id,
+                                         "request": {"operation": "DESCRIBE_AID"}},
+                                standing=STANDING, transition_reference="probe:" + packet_id,
+                                authority_effect="NONE", packet_id=packet_id)
+        return K.carrier_frame(packet, epoch=4096)
+
+    def markers(self):
+        seen = self.repo / "resident-runtime" / "federation" / "seen.d"
+        return [json.loads(path.read_text()) for path in seen.glob("*.json")] if seen.exists() else []
+
+    def set_adapter(self, adapter):
+        path = self.repo / "org-boundary" / "registry" / "services.json"
+        registry = json.loads(path.read_text())
+        for service in registry["services"]:
+            if service["service_id"] == "admissible-existence.aid":
+                service["endpoint_adapter"] = adapter
+        path.write_text(json.dumps(registry, indent=2))
+
+    def test_kernel_write_fault_is_pending_and_consumed_once(self):
+        K = _load("probe_split_kernel_75", self.repo / "org-kernel" / "kernel.py")
+        K.publish_frame(self.aid_frame(K, "split-75"), root=self.mesh)
+        fault = {"PYTHONPATH": str(self.site), "PROBE_WRITE_TEXT_FAIL_NAME": "execution.json"}
+        with mock.patch.dict(os.environ, fault):
+            torn = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        refusal = torn[0]["result"]
+        assert_six_fields(self, refusal, K.FRAME_DISPATCH_IO_FAILED)
+        self.assertIs(refusal["terminal"], False)
+        self.assertIn("PROCESS_BOUNDARY_WRITE_FAULT", refusal["detail"])
+        self.assertIsNone(torn[0]["seen_marker"])
+        self.assertEqual(self.markers(), [])
+        consumed = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        self.assertEqual([item["result"]["status"] for item in consumed], ["CONSUMED"])
+        self.assertEqual(K.consume_and_respond(self.repo, mesh_root=self.mesh), [])
+        self.assertEqual([marker["status"] for marker in self.markers()], ["CONSUMED"])
+
+    def test_kernel_missing_adapter_result_is_a_write_fault(self):
+        (self.repo / "resident-runtime" / "silent_adapter.py").write_text("raise SystemExit(1)\n")
+        self.set_adapter("resident-runtime/silent_adapter.py")
+        K = _load("probe_split_kernel_silent", self.repo / "org-kernel" / "kernel.py")
+        K.publish_frame(self.aid_frame(K, "split-silent"), root=self.mesh)
+        torn = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        self.assertEqual(torn[0]["result"]["failure_code"], K.FRAME_DISPATCH_IO_FAILED)
+        self.assertIs(torn[0]["result"]["terminal"], False)
+        self.assertEqual(self.markers(), [])
+
+    def test_kernel_input_fault_is_terminal_and_quarantined(self):
+        self.set_adapter("resident-runtime/absent_adapter.py")
+        K = _load("probe_split_kernel_65", self.repo / "org-kernel" / "kernel.py")
+        K.publish_frame(self.aid_frame(K, "split-65"), root=self.mesh)
+        refused = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        result = refused[0]["result"]
+        assert_six_fields(self, result, "FRAME_INGEST_FAILED")
+        self.assertIn("exit 65", result["detail"])
+        self.assertIn("PROCESS_BOUNDARY_INPUT_FAULT", result["detail"])
+        markers = self.markers()
+        self.assertEqual([marker["status"] for marker in markers], ["REFUSED"])
+        self.assertEqual(markers[0]["refused_failure_code"], "FRAME_INGEST_FAILED")
+        self.assertEqual(K.consume_and_respond(self.repo, mesh_root=self.mesh), [])
+
+    def envelope(self, service="admissible-existence.aid"):
+        K = _load("probe_split_envelope_kernel", self.repo / "org-kernel" / "kernel.py")
+        packet = K.build_packet(origin_org=PEER, origin_service=K.organization_slug(PEER) + ".org-control",
+                                destination_org=THIS, destination_service=service,
+                                payload={"message_class": "ecosystem.work.request", "communication_id": "split-cli",
+                                         "request": {"operation": "DESCRIBE_AID"}},
+                                standing=STANDING, transition_reference="probe:split-cli",
+                                authority_effect="NONE", packet_id="split-cli")
+        return self.good("envelope-" + service, packet)
+
+    def assert_exit(self, run, code, failure_code, terminal, label):
+        self.assertEqual(run.returncode, code, label + run.stdout + run.stderr)
+        self.assertNotIn("Traceback", run.stderr, label)
+        record = json.loads(run.stdout.strip().splitlines()[-1])
+        self.assertEqual(record["failure_code"], failure_code, label)
+        for name in EPOCH_FIELDS:
+            self.assertTrue(record[name], label + name)
+        self.assertIs(record["terminal"], terminal, label)
+
+    def test_process_boundary_exit_codes(self):
+        processor = "org-boundary/runtime/process_boundary.py"
+        out = str(self.work / "pb" / "execution.json")
+        for kind, path in self.bad_files().items():
+            with self.subTest(envelope=kind):
+                run = self.run_cli([processor, "--envelope", path, "--out", out], {})
+                self.assert_exit(run, 65, "PROCESS_BOUNDARY_INPUT_FAULT", True, kind + ": ")
+        unknown = self.envelope("admissible-existence.no-such-service")
+        self.assert_exit(self.run_cli([processor, "--envelope", unknown, "--out", out], {}),
+                         65, "PROCESS_BOUNDARY_INPUT_FAULT", True, "unknown service: ")
+        blocker = self.work / "a-file"
+        blocker.write_text("")
+        self.assert_exit(self.run_cli([processor, "--envelope", self.envelope(), "--out", str(blocker / "x.json")], {}),
+                         75, "PROCESS_BOUNDARY_WRITE_FAULT", False, "unwritable --out: ")
+        self.assertFalse((self.work / "pb").exists())
+        clean = self.run_cli([processor, "--envelope", self.envelope(), "--out", out], {})
+        self.assertEqual(clean.returncode, 0, clean.stdout + clean.stderr)
+        self.assertEqual(json.loads(clean.stdout)["status"], "PASS")
+
+    def test_run_once_keeps_the_split(self):
+        ingress = self.envelope()
+        argv = ["resident-runtime/run_once.py", "--ingress", ingress, "--egress", str(self.work / "egress.json"),
+                "--hb-epoch", "4096"]
+        self.assert_exit(self.run_cli(argv, {"PROBE_WRITE_TEXT_FAIL_NAME": "execution.json"}),
+                         75, "PROCESS_BOUNDARY_WRITE_FAULT", False, "process_boundary write fault: ")
+        unknown = ["resident-runtime/run_once.py", "--ingress", self.envelope("admissible-existence.no-such-service"),
+                   "--egress", str(self.work / "egress.json"), "--hb-epoch", "4096"]
+        self.assert_exit(self.run_cli(unknown, {}), 65, "PROCESS_BOUNDARY_INPUT_FAULT", True, "bad input: ")
+        self.assert_exit(self.run_cli(argv, {"PROBE_WRITE_TEXT_FAIL_NAME": "egress.json"}),
+                         75, "RUN_ONCE_WRITE_FAILED", False, "egress write fault: ")
+        self.assertFalse((self.work / "egress.json").exists())
+        done = self.run_cli(argv, {})
+        self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
+        self.assertTrue((self.work / "egress.json").exists())
+
+    for _inherited in [name for name in dir(CliInputTraceTests) if name.startswith("test_")]:
+        locals()[_inherited] = None
+    del _inherited
 
 
 class CarriedProvenanceArgumentTests(unittest.TestCase):

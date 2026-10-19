@@ -193,6 +193,25 @@ def read_json_input(path:Any, *, argument:str, retry_entrypoint:str, expect:type
                                                 expect=expect,retry_entrypoint=retry_entrypoint)) from None
     return parse_json_argument(text,argument=argument,retry_entrypoint=retry_entrypoint,expect=expect)
 
+#: Data-Continuation/.github#10's exit-code split for process_boundary.py.
+PROCESS_BOUNDARY_EXIT_WRITE_FAULT=75
+PROCESS_BOUNDARY_EXIT_INPUT_FAULT=65
+
+def _process_boundary_outcome(completed:Any)->str:
+    """`failure_code: detail` from process_boundary's six-field record, else its stderr tail."""
+    try:
+        record=json.loads(completed.stdout.strip().splitlines()[-1])
+        if isinstance(record,dict) and record.get("failure_code"):
+            return str(record["failure_code"])+": "+str(record.get("detail"))[:400]
+    except (ValueError,IndexError):
+        pass
+    return completed.stderr[-400:]
+
+class ProcessBoundaryWriteFault(RuntimeError):
+    """process_boundary exited 75: this organization's own write faulted. An
+    own-state fault (`is_own_state_fault`), never the frame's defect."""
+    own_state_write_fault=True
+
 #: What a fault in a writer's own storage leaves behind. A fault may follow
 #: HEAD's replace (a failed directory fsync), so a fault record never claims
 #: that nothing was committed: the retry returns what was recorded.
@@ -372,8 +391,15 @@ def dispatch(root:Path, packet:dict[str,Any], *, mesh_root:Path|None=None,
             td=Path(td); envelope=td/"packet.json"; out=td/"execution.json"
             envelope.write_text(json.dumps(packet,indent=2,sort_keys=True)+"\n")
             completed=subprocess.run(["python3",str(processor),"--envelope",str(envelope),"--out",str(out)],cwd=root,capture_output=True,text=True,check=False)
+            if completed.returncode==PROCESS_BOUNDARY_EXIT_WRITE_FAULT:
+                # This organization's own write faulted: the frame is not at
+                # fault, so it stays pending with no marker (FRAME_DISPATCH_IO_FAILED).
+                raise ProcessBoundaryWriteFault(_process_boundary_outcome(completed))
             if completed.returncode!=0 or not out.is_file():
-                raise ValueError("endpoint_adapter_execution_failed:"+completed.stderr[-512:])
+                # Exit 65 (PROCESS_BOUNDARY_INPUT_FAULT), or any other failure,
+                # is the frame's: terminal FRAME_INGEST_FAILED, quarantined.
+                raise ValueError("endpoint_adapter_execution_failed:exit "+str(completed.returncode)+":"
+                                 +_process_boundary_outcome(completed))
             result=json.loads(out.read_text())
             if not isinstance(result,dict): raise ValueError("endpoint_adapter_result_invalid")
             return {**result,**standing}
