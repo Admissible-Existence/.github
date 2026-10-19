@@ -144,7 +144,24 @@ def apply(config, hb_epoch=None):
         raise NodeRefused(_refusal(
             "HB_OUTBOX_FETCH_FAILED", "OUTBOX_IS_READABLE", (type(exc).__name__ + ": " + str(exc))[:512],
             "the outbox URL answers", "run again; nothing was written", terminal=False)) from None
-    message = select_message(batch, config["organization"])
+    except ValueError as exc:
+        batch = exc
+    try:
+        if isinstance(batch, Exception) or not isinstance(batch, dict):
+            raise ValueError("outbox is not a JSON object" if not isinstance(batch, Exception)
+                             else type(batch).__name__ + ": " + str(batch))
+        message = select_message(batch, config["organization"])
+        missing = [key for key in ("exchange_id", "message_id", "source_org", "detail_class")
+                   if not isinstance(message.get(key), str)]
+        if missing:
+            raise ValueError("message lacks string " + ", ".join(missing))
+    except (ValueError, KeyError, TypeError, AttributeError) as exc:
+        # The outbox is this node's input: a malformed one is terminal and nothing is written.
+        raise NodeRefused({**_refusal(
+            "HB_OUTBOX_INVALID", "OUTBOX_CARRIES_ONE_SENT_MESSAGE_FOR_THIS_NODE", str(exc)[:512],
+            "the outbox is a JSON object with one SENT, authority-free message for this organization",
+            "nothing was written; the outbox is corrected upstream", terminal=True),
+            "consequence_committed": False}) from None
     prefix = message["exchange_id"].replace("/", "-")
     received_path = RECEIPTS / f"{prefix}.received.json"
     responded_path = RECEIPTS / f"{prefix}.responded.json"

@@ -43,7 +43,12 @@ def main():
             result=K.collect_ecosystem_responses(org,args.communication_id)
         print(json.dumps(result,indent=2,sort_keys=True))
         return
-    body=json.loads(args.body_json)
+    # Bad input is the caller's: terminal six fields, read before anything is published.
+    try:
+        body=K.parse_json_argument(args.body_json,argument="--body-json",retry_entrypoint="resident-runtime/ecosystem_control.py "+args.cmd)
+    except K.CliInputRefused as exc:
+        print(json.dumps(exc.refusal,sort_keys=True))
+        raise SystemExit(1)
     if os.getenv("STEGVERSE_ORG_FEDERATION_GATEWAY_URL","").strip():
         out=GW.publish_ecosystem_via_gateway(
             repo_root=ROOT,

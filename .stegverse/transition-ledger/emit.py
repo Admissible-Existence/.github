@@ -87,7 +87,10 @@ def main():
     epoch=a.hb_epoch if a.hb_epoch is not None else a.hb_ref
     refusal=epoch_refusal(epoch)
     if refusal is not None: print(json.dumps(refusal,sort_keys=True)); raise SystemExit(1)
-    try: record=append(a.transition_id,a.transition_class,a.predecessor_state_sha256,a.successor_state_sha256,json.loads(a.evidence_json),a.authority_effect,hb_epoch=epoch)
+    # Bad input is the caller's: terminal six fields, read before anything is written.
+    try: evidence=kernel.parse_json_argument(a.evidence_json,argument="--evidence-json",retry_entrypoint=EPOCH_RETRY_ENTRYPOINT)
+    except kernel.CliInputRefused as exc: print(json.dumps(exc.refusal,sort_keys=True)); raise SystemExit(1)
+    try: record=append(a.transition_id,a.transition_class,a.predecessor_state_sha256,a.successor_state_sha256,evidence,a.authority_effect,hb_epoch=epoch)
     except RepoLedgerEpochRefused as exc: print(json.dumps(exc.refusal,sort_keys=True)); raise SystemExit(1)
     except Exception as exc:
         # A torn write or a collision is six fields and exit 1, never a traceback.

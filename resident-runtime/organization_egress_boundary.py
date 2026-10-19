@@ -426,7 +426,10 @@ def _write_fault_result(failure_code: str, entrypoint: str, error: BaseException
         "owning_existing_goal": kernel.HB_EPOCH_OWNING_EXISTING_GOAL,
         "next_attempt": "call again with the same epoch and input; written steps replay idempotently",
         "terminal": False,
-        "emitted": False,
+        "partial_write_possible": True,
+        "committed_state": kernel.POST_FAULT_COMMITTED_STATE,
+        # The frame may already be on the mesh; this call did not complete the emission.
+        "emission_completed": False,
         "derived_from_clock": False,
         "authority_effect": "NONE_REFUSAL_ONLY",
     }
@@ -661,6 +664,15 @@ def main() -> int:
         # The epoch is checked as text by the shared rule; nothing is built, published or written.
         print(json.dumps(refusal, sort_keys=True))
         return 1
+    entrypoint = "resident-runtime/organization_egress_boundary.py (same arguments)"
+    try:
+        # Bad input is the caller's: terminal six fields, read before anything is written.
+        inputs = {name: kernel.read_json_input(path, argument="--" + name, retry_entrypoint=entrypoint)
+                  for name, path in (("payload", args.payload), ("standing", args.standing))
+                  if path is not None and not args.close}
+    except kernel.CliInputRefused as exc:
+        print(json.dumps(exc.refusal, sort_keys=True))
+        return 1
     try:
         if args.close:
             if not args.packet_id or not args.communication_id:
@@ -670,9 +682,7 @@ def main() -> int:
         else:
             if args.payload is None or args.standing is None:
                 raise SystemExit("emit requires --payload and --standing")
-            standing = json.loads(args.standing.read_text(encoding="utf-8"))
-            payload = json.loads(args.payload.read_text(encoding="utf-8"))
-            result = emit(args.destination_organization, payload, standing=standing,
+            result = emit(args.destination_organization, inputs["payload"], standing=inputs["standing"],
                           capability=args.capability, transition_reference=args.transition_reference,
                           mesh_root=args.mesh_root, hb_epoch=args.hb_epoch)
     except ValueError as exc:
@@ -691,7 +701,7 @@ def main() -> int:
             # The emission is recorded; only the result copy failed. Six fields, exit 1.
             refusal = _write_fault_result("EGRESS_RESULT_WRITE_FAILED",
                                           "resident-runtime/organization_egress_boundary.py --out", exc)
-            print(json.dumps({**refusal, "emitted": bool(result.get("emitted"))}, sort_keys=True))
+            print(json.dumps({**refusal, "emission_completed": bool(result.get("emitted"))}, sort_keys=True))
             return 1
     print(json.dumps(result, sort_keys=True))
     return 0 if result.get("disposition") in {ALLOW, PENDING} else 1

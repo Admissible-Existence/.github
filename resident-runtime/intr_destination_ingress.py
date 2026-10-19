@@ -326,16 +326,30 @@ def main() -> int:
         # The epoch is checked as text by the shared rule; nothing is written.
         print(json.dumps(refusal, sort_keys=True))
         return 1
+    kernel = repository_ledger.kernel
+    entrypoint = "resident-runtime/intr_destination_ingress.py (same arguments)"
     try:
-        result = _run(args)
+        # Bad input is the caller's: terminal six fields, read before anything is written.
+        inputs = {name: kernel.read_json_input(path, argument="--" + name, retry_entrypoint=entrypoint)
+                  for name, path in (("payload", args.payload), ("registry", args.registry)) if path is not None}
+        if args.self_close and args.communication_id is not None:
+            try:
+                require_communication_id(args.communication_id)
+            except ValueError as exc:
+                raise kernel.CliInputRefused(kernel.cli_input_refusal(
+                    "--communication-id", str(exc), expect=None, retry_entrypoint=entrypoint)) from None
+    except kernel.CliInputRefused as exc:
+        print(json.dumps(exc.refusal, sort_keys=True))
+        return 1
+    try:
+        result = _run(args, inputs)
         if args.out:
             args.out.parent.mkdir(parents=True, exist_ok=True)
             args.out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     except Exception as exc:
         # A torn write is six fields and exit 1, never a traceback.
-        refusal = repository_ledger.kernel.writer_cli_refusal(
-            exc, failure_code="INTR_DESTINATION_WRITE_FAILED",
-            retry_entrypoint="resident-runtime/intr_destination_ingress.py (same arguments)")
+        refusal = kernel.writer_cli_refusal(exc, failure_code="INTR_DESTINATION_WRITE_FAILED",
+                                            retry_entrypoint=entrypoint)
         if refusal is None:
             raise
         print(json.dumps(refusal, sort_keys=True))
@@ -344,21 +358,18 @@ def main() -> int:
     return 0 if result.get("disposition") == ALLOW else 1
 
 
-def _run(args: argparse.Namespace) -> dict[str, Any]:
+def _run(args: argparse.Namespace, inputs: Mapping[str, Any]) -> dict[str, Any]:
     if args.self_close:
         if not args.communication_id:
             raise SystemExit("self-close requires --communication-id")
-        registry = None
-        if args.registry is not None:
-            registry = json.loads(args.registry.read_text(encoding="utf-8"))
-        result = self_close(args.communication_id, registry=registry,
+        result = self_close(args.communication_id, registry=inputs.get("registry"),
                             packet_id=args.packet_id, hb_epoch=args.hb_epoch)
     else:
         if args.payload is None or args.registry is None:
             raise SystemExit("receive requires --payload and --registry")
         result = receive(
-            json.loads(args.payload.read_text(encoding="utf-8")),
-            registry=json.loads(args.registry.read_text(encoding="utf-8")),
+            inputs["payload"],
+            registry=inputs["registry"],
             packet_id=args.packet_id or "organization-intr-destination",
             hb_epoch=args.hb_epoch)
     return result

@@ -146,6 +146,59 @@ class BoundaryFailClosed(ValueError):
                       "retry_entrypoint":retry_entrypoint,"owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
                       "next_attempt":next_attempt,"derived_from_clock":False,"consequence_committed":False}
 
+class CliInputRefused(ValueError):
+    """A CLI input the caller supplied cannot be read as the JSON it must be.
+
+    It is the caller's fault, not this boundary's storage: the refusal is
+    terminal, raised before anything is opened for writing, and never passes
+    through the own-state fault classifier."""
+    def __init__(self, refusal:dict[str,Any])->None:
+        super().__init__(refusal["failure_code"]+": "+refusal["detail"])
+        self.refusal=refusal
+
+_JSON_TYPES={dict:"object",list:"array",str:"string"}
+
+def cli_input_refusal(argument:str, detail:str, *, expect:type|None, retry_entrypoint:str)->dict[str,Any]:
+    shape="JSON "+_JSON_TYPES.get(expect,"value") if expect is not None else "JSON value"
+    return {"disposition":"FAIL_CLOSED","failure_code":"CLI_INPUT_INVALID",
+            "failed_predicate":"CLI_INPUT_IS_A_READABLE_"+shape.upper().replace(" ","_"),
+            "detail":(argument+": "+detail)[:512],
+            "required_evidence_or_repair":"supply "+argument+" as a readable UTF-8 "+shape,
+            "retry_entrypoint":retry_entrypoint,"owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
+            "next_attempt":"nothing was written; correct "+argument+" and run again",
+            "terminal":True,"derived_from_clock":False,"consequence_committed":False}
+
+def parse_json_argument(text:Any, *, argument:str, retry_entrypoint:str, expect:type|None=dict)->Any:
+    """Parse a CLI JSON argument, or raise CliInputRefused (terminal, six fields)."""
+    try:
+        value=json.loads(text)
+    except (TypeError,ValueError) as error:
+        raise CliInputRefused(cli_input_refusal(argument,type(error).__name__+": "+str(error),
+                                                expect=expect,retry_entrypoint=retry_entrypoint)) from None
+    if expect is not None and not isinstance(value,expect):
+        raise CliInputRefused(cli_input_refusal(argument,"top-level "+type(value).__name__+" is not a JSON "+_JSON_TYPES.get(expect,"value"),
+                                                expect=expect,retry_entrypoint=retry_entrypoint))
+    return value
+
+def read_json_input(path:Any, *, argument:str, retry_entrypoint:str, expect:type|None=dict)->Any:
+    """Read a CLI JSON input file, or raise CliInputRefused (terminal, six fields).
+
+    A missing path, a directory, unreadable bytes, non-UTF-8 text, invalid
+    JSON or the wrong top-level type are all the caller's input, so this read
+    happens before, and outside, the own-state fault classifier."""
+    try:
+        text=Path(path).read_bytes().decode("utf-8")
+    except (OSError,UnicodeDecodeError,TypeError) as error:
+        raise CliInputRefused(cli_input_refusal(argument,type(error).__name__+": "+str(error),
+                                                expect=expect,retry_entrypoint=retry_entrypoint)) from None
+    return parse_json_argument(text,argument=argument,retry_entrypoint=retry_entrypoint,expect=expect)
+
+#: What a fault in a writer's own storage leaves behind. A fault may follow
+#: HEAD's replace (a failed directory fsync), so a fault record never claims
+#: that nothing was committed: the retry returns what was recorded.
+POST_FAULT_COMMITTED_STATE=("steps before the fault, HEAD included, may be committed; "
+                            "a durability step may have failed; the retry is idempotent and returns the recorded receipt")
+
 def writer_cli_refusal(error:BaseException, *, failure_code:str, retry_entrypoint:str)->dict[str,Any]|None:
     """The six-field result a ledger writer's CLI prints for `error`, or None to re-raise.
 
@@ -161,7 +214,8 @@ def writer_cli_refusal(error:BaseException, *, failure_code:str, retry_entrypoin
                 "required_evidence_or_repair":"this writer's own storage accepts the write",
                 "retry_entrypoint":retry_entrypoint,"owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
                 "next_attempt":"run again with the same epoch and input; written steps replay idempotently",
-                "terminal":False,"derived_from_clock":False}
+                "terminal":False,"derived_from_clock":False,"partial_write_possible":True,
+                "committed_state":POST_FAULT_COMMITTED_STATE}
     if isinstance(error,ValueError) and str(error)=="ledger_receipt_collision":
         return {"disposition":"FAIL_CLOSED","failure_code":"LEDGER_RECEIPT_COLLISION",
                 "failed_predicate":"ONE_TRANSITION_ID_BINDS_ONE_RECORD",
@@ -406,7 +460,8 @@ def dispatch_io_refusal(frame:Any, error:BaseException)->dict[str,Any]:
             "retry_entrypoint":"org-kernel/kernel.py::consume_and_respond (next cycle)",
             "owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
             "next_attempt":"the frame stays pending; the next cycle consumes it exactly once (ledger appends replay idempotently)",
-            "terminal":False,"derived_from_clock":False,"consequence_committed":False}
+            "terminal":False,"derived_from_clock":False,"partial_write_possible":True,
+            "committed_state":POST_FAULT_COMMITTED_STATE}
 
 def ingest_frame(root:Path, frame:dict[str,Any], *, mesh_root:Path|None=None)->dict[str,Any]:
     """Ingest one frame. The guard is total: any error is a six-field refusal,

@@ -1705,6 +1705,38 @@ class MultiStepWriteFaultGridTests(_Workspace):
                 self.assertEqual(len(markers), 1)
                 self.assertEqual(json.loads(markers[0].read_text())["status"], "CONSUMED")
 
+    def test_a_fault_after_each_head_replace(self):
+        """F-POST-HEAD: a directory fsync fault after each HEAD replace; the next cycle appends nothing twice."""
+        import stat
+        for ledger in ("repo-ledger", "org-ledger"):
+            with self.subTest(ledger=ledger):
+                root, repo = self.workspace("post-head-" + ledger)
+                K = _load("probe_post_head_kernel_" + ledger.replace("-", "_"), repo / "org-kernel" / "kernel.py")
+                mesh = root / "mesh"
+                K.publish_frame(self.request_frame(K, "post-head"), root=mesh)
+                head = (root / ledger / "HEAD.json").resolve()
+                real_fsync = os.fsync
+
+                def fsync(fd):
+                    if stat.S_ISDIR(os.fstat(fd).st_mode) and head.exists() and \
+                            os.path.samestat(os.fstat(fd), os.stat(head.parent)):
+                        raise OSError(5, "injected directory fsync fault after the HEAD replace")
+                    return real_fsync(fd)
+
+                with mock.patch("os.fsync", side_effect=fsync):
+                    torn = K.consume_and_respond(repo, mesh_root=mesh)
+                refusal = torn[0]["result"]
+                assert_six_fields(self, refusal, K.FRAME_DISPATCH_IO_FAILED)
+                self.assertIs(refusal["terminal"], False)
+                self.assertIs(refusal["partial_write_possible"], True)
+                self.assertNotIn("consequence_committed", refusal)
+                recorded = json.loads(head.read_text())
+                K.consume_and_respond(repo, mesh_root=mesh)
+                self.assertEqual(K.consume_and_respond(repo, mesh_root=mesh), [])
+                self.assertEqual(json.loads(head.read_text()), recorded)
+                self.assertEqual(len(self.receipts(root, "repo-ledger")), 1)
+                self.assertEqual(len(self.receipts(root, "org-ledger")), 1)
+
     def test_every_gateway_step(self):
         # Steps: the response record, the submission, the submitted mark, the ack.
         for fail_at in range(1, 5):
@@ -1868,7 +1900,8 @@ class EgressWriteFaultTests(_Workspace):
                 root, result, _count = self.run_with_fault("step-" + str(fail_at), fail_at)
                 assert_six_fields(self, result, "EMIT_WRITE_FAILED")
                 self.assertIs(result["terminal"], False)
-                self.assertIs(result["emitted"], False)
+                self.assertIs(result["emission_completed"], False)
+                self.assertIs(result["partial_write_possible"], True)
                 retried = self.emit(root / "mesh")
                 self.assertIs(retried["emitted"], True)
                 self.assertEqual(retried["packet_id"], clean["packet_id"])
@@ -1937,6 +1970,21 @@ if COUNT or FAULT_AT:
             raise OSError(5, "injected fault after put " + str(FAULT_AT))
         return result
     os.replace = replace
+DIRSYNC_FAIL_AT = int(os.environ.get("PROBE_DIRSYNC_FAIL_AT", "0"))
+DIRSYNC_COUNT = os.environ.get("PROBE_DIRSYNC_COUNT")
+if DIRSYNC_FAIL_AT or DIRSYNC_COUNT:
+    import stat
+    _fsync, _syncs = os.fsync, {"n": 0}
+    def fsync(fd):
+        if stat.S_ISDIR(os.fstat(fd).st_mode):
+            _syncs["n"] += 1
+            if DIRSYNC_COUNT:
+                with open(DIRSYNC_COUNT, "w") as stream:
+                    stream.write(str(_syncs["n"]))
+            if _syncs["n"] == DIRSYNC_FAIL_AT:
+                raise OSError(5, "injected directory fsync fault after replace " + str(DIRSYNC_FAIL_AT))
+        return _fsync(fd)
+    os.fsync = fsync
 OUTBOX = os.environ.get("PROBE_OUTBOX")
 if OUTBOX:
     import contextlib, io, urllib.request
@@ -2037,6 +2085,36 @@ class WriterCliTornWriteTests(_Workspace):
                         for ledger, receipts in expected:
                             self.assertEqual(len(self.receipts(root, ledger)), receipts, label + ledger)
 
+    def test_a_fault_after_the_head_replace_appends_once(self):
+        """F-POST-HEAD: a directory fsync fails after HEAD's os.replace; the retry returns the recorded receipt."""
+        for name, (argv_for, expected) in self.cases().items():
+            if name == "dispatch-emit":
+                continue
+            with self.subTest(writer=name):
+                clean = self.work / ("dirsync-clean-" + name)
+                count = self.work / ("dirsync-count-" + name)
+                values = {**self.ledgers(clean), "PROBE_DIRSYNC_COUNT": str(count)}
+                self.assertEqual(self.run_cli(argv_for(clean), values).returncode, 0, name)
+                last = int(count.read_text())
+                root = self.work / ("dirsync-" + name)
+                argv = argv_for(root)
+                torn = self.run_cli(argv, {**self.ledgers(root), "PROBE_DIRSYNC_FAIL_AT": str(last)})
+                self.assert_six_field_exit(torn, name + ": ")
+                refusal = json.loads(torn.stdout)
+                self.assertIs(refusal["partial_write_possible"], True)
+                self.assertIn("HEAD included, may be committed", refusal["committed_state"])
+                self.assertNotIn("consequence_committed", refusal)
+                self.assertNotIn("nothing", refusal["next_attempt"])
+                ledger = expected[-1][0]
+                head = json.loads((root / ledger / "HEAD.json").read_text())
+                again = self.run_cli(argv, self.ledgers(root))
+                self.assertEqual(again.returncode, 0, name + again.stdout + again.stderr)
+                for directory, receipts in expected:
+                    self.assertEqual(len(self.receipts(root, directory)), receipts, name + directory)
+                self.assertEqual(json.loads((root / ledger / "HEAD.json").read_text()), head)
+                if name != "self-close":
+                    self.assertEqual(json.loads(again.stdout)["receipt_sha256"], head["receipt_sha256"])
+
     def test_a_different_record_under_a_recorded_transition_is_a_six_field_collision(self):
         root = self.work / "collide"
         self.assertEqual(self.run_cli(self.emit_args(), self.ledgers(root)).returncode, 0)
@@ -2082,6 +2160,136 @@ class WriterCliTornWriteTests(_Workspace):
         self.assertEqual(json.loads(other.stdout)["failure_code"], "HB_RECEIPT_PAIR_PARTIAL_AT_ANOTHER_EPOCH")
         self.assertEqual((receipts / (prefix + ".received.json")).read_text(), written)
         self.assertEqual(self.run_cli(argv, {}).returncode, 0)
+
+
+class CliInputTraceTests(WriterCliTornWriteTests):
+    """F-INPUT-TRACE: a missing or unparsable input on any writer CLI argument is a
+    terminal six-field CLI_INPUT_INVALID, exit 1, nothing written, no traceback."""
+
+    DIAGNOSTIC = {"message_class": "ecosystem.communication", "communication_id": "input-probe",
+                  "subject": "probe",
+                  "body": {"schema": "stegverse.org-intr-destination-diagnostic/v1", "probe": "diagnostic-crossing"}}
+
+    def bad_files(self):
+        bad = self.work / "bad"
+        bad.mkdir(exist_ok=True)
+        (bad / "not-json.json").write_text("{not json")
+        (bad / "not-utf8.json").write_bytes(b"\xff\xfe\x00{")
+        (bad / "list.json").write_text("[1, 2]")
+        (bad / "a-directory").mkdir(exist_ok=True)
+        return {"missing": str(bad / "absent.json"), "directory": str(bad / "a-directory"),
+                "not-json": str(bad / "not-json.json"), "not-utf8": str(bad / "not-utf8.json"),
+                "wrong-type": str(bad / "list.json")}
+
+    def good(self, name, value):
+        path = self.work / (name + ".json")
+        path.write_text(json.dumps(value))
+        return str(path)
+
+    def assert_input_refused(self, run, label, root):
+        self.assertEqual(run.returncode, 1, label + run.stdout + run.stderr)
+        self.assertNotIn("Traceback", run.stderr, label)
+        refusal = json.loads(run.stdout)
+        self.assertEqual(refusal["failure_code"], "CLI_INPUT_INVALID", label)
+        for name in EPOCH_FIELDS:
+            self.assertTrue(refusal[name], label + name)
+        self.assertIs(refusal["terminal"], True, label)
+        self.assertIs(refusal["consequence_committed"], False, label)
+        self.assertEqual(sorted(path.name for path in root.iterdir()) if root.exists() else [], [], label)
+
+    def file_arguments(self):
+        payload = self.good("payload", self.DIAGNOSTIC)
+        standing = self.good("standing", STANDING)
+        registry = str(self.repo / "org-boundary" / "registry" / "services.json")
+        ingress = ["resident-runtime/intr_destination_ingress.py", "--hb-epoch", "4096"]
+        egress = ["resident-runtime/organization_egress_boundary.py", "--destination-organization", PEER,
+                  "--capability", "intr-destination", "--hb-epoch", "4096"]
+        return [
+            ("aggregate --repo-receipt", ["resident-runtime/aggregate_repo_transition.py",
+                                          "--predecessor-org-state-sha256", "sha256:" + "2" * 64,
+                                          "--successor-org-state-sha256", "sha256:" + "3" * 64,
+                                          "--hb-epoch", "4096"], "--repo-receipt", {}),
+            ("ingress --payload", ingress + ["--registry", registry], "--payload", {}),
+            ("ingress --registry", ingress + ["--payload", payload], "--registry", {}),
+            ("self-close --registry", ingress + ["--self-close", "--communication-id", "input-probe"],
+             "--registry", {}),
+            ("egress --payload", egress + ["--standing", standing], "--payload", {}),
+            ("egress --standing", egress + ["--payload", payload], "--standing", {}),
+            ("run_once --ingress", ["resident-runtime/run_once.py", "--egress", "OUT", "--hb-epoch", "4096"],
+             "--ingress", {}),
+        ]
+
+    def test_every_file_argument(self):
+        for label, argv, argument, extra in self.file_arguments():
+            for kind, path in self.bad_files().items():
+                with self.subTest(argument=label, input=kind):
+                    root = self.work / ("input-" + label.replace(" ", "_") + "-" + kind)
+                    values = {**self.ledgers(root), "STEGVERSE_ORG_FEDERATION_ROOT": str(root / "mesh")}
+                    full = [item if item != "OUT" else str(root / "egress.json") for item in argv]
+                    run = self.run_cli(full + [argument, path], values)
+                    self.assert_input_refused(run, label + " " + kind + ": ", root)
+
+    def test_every_inline_json_argument(self):
+        cases = [
+            ("emit --evidence-json", self.emit_args(), "--evidence-json"),
+            ("aggregate --boundary-evidence-json",
+             ["resident-runtime/aggregate_repo_transition.py", "--predecessor-org-state-sha256", "sha256:" + "2" * 64,
+              "--successor-org-state-sha256", "sha256:" + "3" * 64, "--hb-epoch", "4096"],
+             "--boundary-evidence-json"),
+            ("ecosystem_control --body-json",
+             ["resident-runtime/ecosystem_control.py", "--hb-epoch", "4096", "send-message", "--subject", "probe"],
+             "--body-json"),
+        ]
+        for label, argv, argument in cases:
+            for kind, text in (("not-json", "{not json"), ("wrong-type", "[1, 2]")):
+                with self.subTest(argument=label, input=kind):
+                    root = self.work / ("inline-" + label.split()[0] + "-" + kind)
+                    values = {**self.ledgers(root), "STEGVERSE_ORG_FEDERATION_ROOT": str(root / "mesh")}
+                    full = list(argv)
+                    if argument in full:
+                        full[full.index(argument) + 1] = text
+                    else:
+                        full += [argument, text]
+                    if label.startswith("aggregate"):
+                        full += ["--repo-receipt", str(self.repo_receipt_file(self.work / ("source-" + kind)))]
+                    run = self.run_cli(full, values)
+                    self.assert_input_refused(run, label + " " + kind + ": ", root)
+
+    def test_a_malformed_communication_id_and_arguments(self):
+        root = self.work / "malformed-id"
+        run = self.run_cli(["resident-runtime/intr_destination_ingress.py", "--self-close",
+                            "--communication-id", "../escape", "--hb-epoch", "4096"], self.ledgers(root))
+        self.assert_input_refused(run, "communication id: ", root)
+        root = self.work / "malformed-arguments"
+        run = self.run_cli(["scripts/dispatch_ledger_writer.py", "--writer", "repository-ledger-emit",
+                            "--hb-epoch", "4096", "--arguments", "--transition-id 'unclosed"], self.ledgers(root))
+        self.assert_input_refused(run, "dispatcher arguments: ", root)
+
+    def test_a_malformed_outbox(self):
+        receipts = self.repo / "data" / "heartbeat-response-receipts"
+        before = sorted(path.name for path in receipts.glob("*"))
+        for kind, body in (("not-json", "{not json"), ("wrong-type", "[1]"), ("no-message", '{"messages": []}'),
+                           ("message-lacks-fields", json.dumps({"messages": [{
+                               "destination_org": THIS, "stage": "SENT",
+                               "authority": HeartbeatResponseEpochTests.MESSAGE["authority"]}]}))):
+            with self.subTest(outbox=kind):
+                self.outbox.write_text(body)
+                run = self.run_cli(["scripts/process_heartbeat_response.py", "--apply", "--hb-epoch", "4096"], {})
+                self.assertEqual(run.returncode, 1, kind + run.stdout + run.stderr)
+                self.assertNotIn("Traceback", run.stderr, kind)
+                refusal = json.loads(run.stdout)
+                self.assertEqual(refusal["failure_code"], "HB_OUTBOX_INVALID")
+                for name in EPOCH_FIELDS:
+                    self.assertTrue(refusal[name], kind + name)
+                self.assertIs(refusal["terminal"], True)
+                self.assertEqual(sorted(path.name for path in receipts.glob("*")), before)
+
+    # The torn-write cases are WriterCliTornWriteTests' own; not rerun here.
+    test_every_ledger_writer_cli = None
+    test_a_fault_after_the_head_replace_appends_once = None
+    test_a_different_record_under_a_recorded_transition_is_a_six_field_collision = None
+    test_the_heartbeat_node_cli = None
+    test_a_half_written_pair_is_not_overwritten_at_another_epoch = None
 
 
 class CarriedProvenanceArgumentTests(unittest.TestCase):

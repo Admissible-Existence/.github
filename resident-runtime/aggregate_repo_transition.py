@@ -122,7 +122,14 @@ def main():
  p=argparse.ArgumentParser(allow_abbrev=False);p.add_argument("--repo-receipt",required=True);p.add_argument("--org-transition-class",default="REPO_STATE_PROPAGATION");p.add_argument("--predecessor-org-state-sha256",required=True);p.add_argument("--successor-org-state-sha256",required=True);p.add_argument("--boundary-evidence-json",default="{}");p.add_argument("--authority-effect",default="NONE");p.add_argument("--hb-epoch",default=None);a=p.parse_args()
  refusal=epoch_refusal(a.hb_epoch)
  if refusal is not None:print(json.dumps(refusal,sort_keys=True));raise SystemExit(1)
- try:rec=append(load(a.repo_receipt),a.org_transition_class,a.predecessor_org_state_sha256,a.successor_org_state_sha256,json.loads(a.boundary_evidence_json),a.authority_effect,hb_epoch=a.hb_epoch)
+ # Bad input is the caller's: terminal six fields, read before anything is written.
+ try:
+  repo_receipt=kernel.read_json_input(a.repo_receipt,argument="--repo-receipt",retry_entrypoint=EPOCH_RETRY_ENTRYPOINT)
+  try:verify_repo(repo_receipt)
+  except SystemExit as exc:raise kernel.CliInputRefused(kernel.cli_input_refusal("--repo-receipt",str(exc.code),expect=dict,retry_entrypoint=EPOCH_RETRY_ENTRYPOINT)) from None
+  boundary_evidence=kernel.parse_json_argument(a.boundary_evidence_json,argument="--boundary-evidence-json",retry_entrypoint=EPOCH_RETRY_ENTRYPOINT)
+ except kernel.CliInputRefused as exc:print(json.dumps(exc.refusal,sort_keys=True));raise SystemExit(1)
+ try:rec=append(repo_receipt,a.org_transition_class,a.predecessor_org_state_sha256,a.successor_org_state_sha256,boundary_evidence,a.authority_effect,hb_epoch=a.hb_epoch)
  except OrgLedgerEpochRefused as exc:print(json.dumps(exc.refusal,sort_keys=True));raise SystemExit(1)
  except Exception as exc:
   # A torn write or a collision is six fields and exit 1, never a traceback.

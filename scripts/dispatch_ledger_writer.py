@@ -38,7 +38,13 @@ def command(writer: str, hb_epoch: str | None, arguments: str = "") -> list[str]
     if refusal is not None:
         print(json.dumps(refusal, sort_keys=True))
         raise SystemExit(1)
-    extra = shlex.split(arguments or "")
+    try:
+        extra = shlex.split(arguments or "")
+    except ValueError as error:
+        # Bad input is the caller's: terminal six fields, and no writer is invoked.
+        print(json.dumps(kernel.cli_input_refusal("--arguments", str(error), expect=None,
+                                                  retry_entrypoint=RETRY_ENTRYPOINT), sort_keys=True))
+        raise SystemExit(1)
     # Any --hb* option could reach the writer's epoch; only the hb_epoch input supplies it.
     if any(item.startswith("--hb") for item in extra):
         print(json.dumps({
