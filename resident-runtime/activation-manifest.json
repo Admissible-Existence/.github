@@ -43,9 +43,9 @@
     "authority_effect": "NONE",
     "evidence_class": "CI_VALIDATED",
     "entrypoints": {
-      "resident-runtime/run_once.py": "EPOCH_FREE",
-      "resident-runtime/ecosystem_control.py": "EPOCH_FREE",
-      "resident-runtime/federation_cycle.py": "EPOCH_FREE"
+      "resident-runtime/run_once.py": "EPOCH_REQUIRED",
+      "resident-runtime/ecosystem_control.py": "EPOCH_REQUIRED",
+      "resident-runtime/federation_cycle.py": "EPOCH_REQUIRED"
     },
     "ledger_writers": {
       "workflow": ".github/workflows/ledger-writer-dispatch.yml",

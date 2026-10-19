@@ -39,13 +39,22 @@ def command(writer: str, hb_epoch: str | None, arguments: str = "") -> list[str]
         print(json.dumps(refusal, sort_keys=True))
         raise SystemExit(1)
     extra = shlex.split(arguments or "")
-    if "--hb-epoch" in extra or any(item.startswith("--hb-epoch=") for item in extra):
-        raise SystemExit("the epoch is the hb_epoch input; it is not passed in arguments")
+    if any(item == "--hb-epoch" or item.startswith("--hb-epoch=") or
+           (item.startswith("--hb-ep") and "--hb-epoch".startswith(item.split("=", 1)[0])) for item in extra):
+        print(json.dumps({
+            "disposition": "FAIL_CLOSED", "failure_code": "HB_EPOCH_CONFLICT",
+            "failed_predicate": kernel.HB_EPOCH_PREDICATE,
+            "detail": "an epoch was passed in arguments as well as the hb_epoch input",
+            "required_evidence_or_repair": "supply the epoch only as the hb_epoch input",
+            "retry_entrypoint": RETRY_ENTRYPOINT, "owning_existing_goal": kernel.HB_EPOCH_OWNING_EXISTING_GOAL,
+            "next_attempt": "dispatch again without --hb-epoch in arguments; no writer was invoked",
+            "derived_from_clock": False, "consequence_committed": False}, sort_keys=True))
+        raise SystemExit(1)
     return [sys.executable, WRITERS[writer], *extra, "--hb-epoch", str(hb_epoch)]
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0], allow_abbrev=False)
     parser.add_argument("--writer", required=True, choices=sorted(WRITERS))
     parser.add_argument("--hb-epoch", default=None)
     parser.add_argument("--arguments", default="")

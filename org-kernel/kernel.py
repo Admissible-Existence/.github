@@ -462,7 +462,9 @@ def scan_addressed_frames(organization:str, *, root:Path|None=None, seen:set[str
             frame=json.loads(path.read_text(encoding="utf-8"))
             if not isinstance(frame,dict):
                 raise ValueError("frame_not_a_json_object")
-        except (ValueError,UnicodeDecodeError,OSError) as error:
+            if not isinstance(frame.get("destination_org"),str):
+                raise TypeError("frame_destination_org_not_a_string")
+        except (ValueError,TypeError,UnicodeDecodeError,OSError) as error:
             out.append({"path":str(path),"frame":None,"error":error})
             continue
         if frame.get("destination_org")==organization:
@@ -566,14 +568,14 @@ def publish_ecosystem_message(*, origin_org:str, origin_service:str, organizatio
                               standing:dict[str,Any], message_class:str, subject:str, body:dict[str,Any],
                               requested_action:str|None=None, transition_reference:str="ecosystem.communication.v1",
                               authority_effect:str="NONE", communication_id:str|None=None,
-                              root:Path|None=None, now_ns:int|None=None)->dict[str,Any]:
+                              root:Path|None=None, now_ns:int|None=None, epoch:int|None=None)->dict[str,Any]:
     built=build_ecosystem_packets(
       origin_org=origin_org,origin_service=origin_service,organizations=organizations,standing=standing,
       message_class=message_class,subject=subject,body=body,requested_action=requested_action,
       transition_reference=transition_reference,authority_effect=authority_effect,
       communication_id=communication_id
     )
-    publications=[publish_packet(packet,root=root,now_ns=now_ns) for packet in built["packets"]]
+    publications=[publish_packet(packet,root=root,now_ns=now_ns,epoch=epoch) for packet in built["packets"]]
     return {"communication_id":built["communication_id"],"organization_count":built["organization_count"],
             "published_count":len(publications),"publications":publications}
 
@@ -828,7 +830,7 @@ def collect_ecosystem_responses(origin_org:str, communication_id:str, *, mesh_ro
 def publish_ecosystem_from_directory(repo_root:Path, *, standing:dict[str,Any], message_class:str, subject:str, body:dict[str,Any],
                                      requested_action:str|None=None, authority_effect:str="NONE",
                                      communication_id:str|None=None, mesh_root:Path|None=None,
-                                     now_ns:int|None=None)->dict[str,Any]:
+                                     now_ns:int|None=None, epoch:int|None=None)->dict[str,Any]:
     registry=load_registry(repo_root)
     directory=load_federation_directory(repo_root)
     organizations=[row["organization"] for row in directory["organizations"]]
@@ -845,7 +847,8 @@ def publish_ecosystem_from_directory(repo_root:Path, *, standing:dict[str,Any], 
       authority_effect=authority_effect,
       communication_id=communication_id,
       root=mesh_root,
-      now_ns=now_ns
+      now_ns=now_ns,
+      epoch=epoch
     )
 
 

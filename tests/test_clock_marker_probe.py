@@ -196,7 +196,7 @@ class ClockMarkerProbeTests(_Workspace):
 
             # federation_cycle over the local spool: consume_and_respond and latest-cycle.json.
             with contextlib.redirect_stdout(io.StringIO()):
-                cycle.main()
+                self.assertEqual(cycle.main(["--hb-epoch", "4096"]), 0)
 
             # federation_cycle through the gateway: carrier frames, the ack and the cycle receipt.
             sent = []
@@ -212,7 +212,7 @@ class ClockMarkerProbeTests(_Workspace):
 
             os.environ["STEGVERSE_ORG_FEDERATION_GATEWAY_URL"] = "https://gateway.invalid"
             with mock.patch.object(GW, "_json_request", gateway), contextlib.redirect_stdout(io.StringIO()):
-                cycle.main()
+                self.assertEqual(cycle.main(["--hb-epoch", "4096"]), 0)
             del os.environ["STEGVERSE_ORG_FEDERATION_GATEWAY_URL"]
             objects.extend(("gateway-body", body) for body in sent if body is not None)
             acks = [body for body in sent if (body or {}).get("schema") == "stegverse.org-federation-rendezvous.ack/v1"]
@@ -235,7 +235,10 @@ class ClockMarkerProbeTests(_Workspace):
         self.assertEqual(unmarked, [])
         cycles = [value for where, value in objects if where.endswith("latest-cycle.json")]
         self.assertEqual(len(cycles), 1)
-        self.assertEqual(cycles[0]["heartbeat_reference"]["sampled_unix_ns"], INSTANT_NS)
+        # The cycle record is stamped at the supplied epoch, not from the clock.
+        self.assertEqual(cycles[0]["heartbeat_reference"]["epoch"], 4096)
+        self.assertIs(cycles[0]["heartbeat_reference"]["derived_from_clock"], False)
+        self.assertNotIn("sampled_unix_ns", cycles[0]["heartbeat_reference"])
         self.assertEqual(len(acks), 1)
         # The request frame is a clock sample, so it lends no epoch: the ack
         # carries no clock value, and no response is published.
@@ -1154,6 +1157,95 @@ class TotalGuardAndIoTests(_Workspace):
         self.assertEqual(result["state"], "PENDING_IO")
         assert_six_fields(self, result["ingest_refusal"], "FRAME_DISPATCH_IO_FAILED")
         self.assertEqual(acks, [])
+
+
+class ResidentEntrypointEpochTests(_Workspace):
+    """EPOCH_FREE_CLAIM_INACCURATE: each dispatched entrypoint stamps what it writes at the supplied epoch."""
+
+    def test_federation_cycle_refuses_without_an_epoch_and_writes_nothing(self):
+        cycle = _load("probe_cycle_refusal", self.repo / "resident-runtime" / "federation_cycle.py")
+        latest = self.repo / "resident-runtime" / "federation" / "latest-cycle.json"
+        for argv, code in (([], "HB_EPOCH_NOT_SUPPLIED"), (["--hb-epoch", "abc"], "HB_EPOCH_INVALID"),
+                           (["--hb-epoch", "31"], "HB_EPOCH_INVALID")):
+            with self.subTest(argv=argv):
+                with fixed_clock(cycle.K, cycle.GW) as clock, contextlib.redirect_stdout(io.StringIO()) as out:
+                    self.assertEqual(cycle.main(argv), 1)
+                self.assertEqual(clock.reads, 0)
+                assert_six_fields(self, json.loads(out.getvalue()), code)
+                self.assertFalse(latest.exists())
+
+    def test_federation_cycle_stamps_its_record_at_the_supplied_epoch_with_no_clock(self):
+        cycle = _load("probe_cycle_stamp", self.repo / "resident-runtime" / "federation_cycle.py")
+        with fixed_clock(cycle.K, cycle.GW) as clock, contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(cycle.main(["--hb-epoch", "4096"]), 0)
+        self.assertEqual(clock.reads, 0)
+        record = json.loads((self.repo / "resident-runtime" / "federation" / "latest-cycle.json").read_text())
+        self.assertEqual(record["heartbeat_reference"], kernel.hb_reference(epoch=4096))
+
+    def test_the_gateway_cycle_record_is_stamped_at_the_supplied_epoch(self):
+        cycle = _load("probe_cycle_gateway_stamp", self.repo / "resident-runtime" / "federation_cycle.py")
+        os.environ["STEGVERSE_ORG_FEDERATION_GATEWAY_URL"] = "https://gateway.invalid"
+        with fixed_clock(cycle.K, cycle.GW) as clock, contextlib.redirect_stdout(io.StringIO()), \
+                mock.patch.object(cycle.GW, "_json_request", lambda *a, **k: {"state": "NO_FRAME"}):
+            self.assertEqual(cycle.main(["--hb-epoch", "4096"]), 0)
+        self.assertEqual(clock.reads, 0)
+        record = json.loads((self.repo / "resident-runtime" / "federation" / "latest-cycle.json").read_text())
+        self.assertEqual(record["heartbeat_reference"], kernel.hb_reference(epoch=4096))
+
+    def test_run_once_stamps_the_egress_carrier_at_the_supplied_epoch(self):
+        import subprocess
+        import sys
+        K = _load("probe_run_once_kernel", self.repo / "org-kernel" / "kernel.py")
+        transport = _load("probe_run_once_transport", self.repo / "org-boundary" / "runtime" / "intr_transport.py")
+        ingress = transport.build_ingress({"org": PEER, "service": "p"},
+                                          {"org": THIS, "service": "admissible-existence.boundary-diagnostic"},
+                                          {"probe": 1}, "org-federation", "probe", packet_id="run-once", epoch=4096)
+        envelope = self.work / "ingress.json"
+        envelope.write_text(json.dumps(ingress))
+        egress = self.work / "egress.json"
+        base = [sys.executable, "resident-runtime/run_once.py", "--ingress", str(envelope), "--egress", str(egress)]
+        refused = subprocess.run(base, cwd=self.repo, capture_output=True, text=True)
+        self.assertEqual(refused.returncode, 1)
+        assert_six_fields(self, json.loads(refused.stdout), "HB_EPOCH_NOT_SUPPLIED")
+        self.assertFalse(egress.exists())
+        completed = subprocess.run(base + ["--hb-epoch", "4096"], cwd=self.repo, capture_output=True, text=True)
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        carrier = json.loads(egress.read_text())["carrier"]
+        self.assertEqual((carrier["observed_at"], carrier["derived_from_clock"]), ("HB:4096", False))
+        self.assertEqual(ingress["carrier"]["observed_at"], "HB:4096")
+        del K
+
+    def test_ecosystem_control_status_refuses_without_an_epoch_and_carries_one(self):
+        import subprocess
+        import sys
+        base = [sys.executable, "resident-runtime/ecosystem_control.py"]
+        refused = subprocess.run(base + ["status"], cwd=self.repo, capture_output=True, text=True)
+        self.assertEqual(refused.returncode, 1)
+        assert_six_fields(self, json.loads(refused.stdout), "HB_EPOCH_NOT_SUPPLIED")
+        status = subprocess.run(base + ["--hb-epoch", "4096", "status"], cwd=self.repo, capture_output=True, text=True)
+        self.assertEqual(status.returncode, 0, status.stderr)
+        self.assertEqual(json.loads(status.stdout)["heartbeat_reference"]["epoch"], 4096)
+        abbreviated = subprocess.run(base + ["--hb-ep", "4096", "status"], cwd=self.repo, capture_output=True, text=True)
+        self.assertNotEqual(abbreviated.returncode, 0)
+
+    def test_a_wrong_typed_destination_is_quarantined_not_skipped(self):
+        K = _load("probe_destination_kernel", self.repo / "org-kernel" / "kernel.py")
+        frames = self.mesh / "frames.d"
+        frames.mkdir(parents=True)
+        (frames / "wrong-destination.json").write_text(json.dumps({"destination_org": 5, "packet_id": "x"}))
+        item, = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        assert_six_fields(self, item["result"], "FRAME_INGEST_FAILED")
+        self.assertEqual(item["result"]["failed_predicate"], "TypeError")
+        self.assertIsNotNone(item["seen_marker"])
+
+    def test_the_ledger_dispatcher_refuses_an_epoch_in_arguments_with_six_fields(self):
+        dispatch = _load("probe_dispatch_conflict", ROOT / "scripts" / "dispatch_ledger_writer.py")
+        for arguments in ("--hb-epoch 77", "--hb-epoch=77", "--hb-ep 77"):
+            with self.subTest(arguments=arguments):
+                with contextlib.redirect_stdout(io.StringIO()) as out, self.assertRaises(SystemExit) as exited:
+                    dispatch.command("repository-ledger-emit", "4096", arguments)
+                self.assertEqual(exited.exception.code, 1)
+                assert_six_fields(self, json.loads(out.getvalue()), "HB_EPOCH_CONFLICT")
 
 
 class GatewayCycleEpochTests(_Workspace):
