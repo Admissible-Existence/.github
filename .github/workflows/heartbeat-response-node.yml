@@ -41,9 +41,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          args=(--apply)
-          if [ -n "${HB_EPOCH:-}" ]; then args+=(--hb-epoch "$HB_EPOCH"); fi
-          python scripts/process_heartbeat_response.py "${args[@]}"
+          # Receipts reference a supplied epoch. Only a dispatch carries one
+          # (input hb_epoch); a scheduled or push run has no epoch binding, so
+          # it checks the node and writes nothing.
+          if [ -n "${HB_EPOCH:-}" ]; then
+            python scripts/process_heartbeat_response.py --apply --hb-epoch "$HB_EPOCH"
+          else
+            echo "HB_EPOCH_NOT_SUPPLIED: no hb_epoch input on this ${GITHUB_EVENT_NAME} run; receipts are written only by a dispatch that supplies one"
+          fi
           python scripts/process_heartbeat_response.py --check
       - name: Persist new response receipts
         shell: bash

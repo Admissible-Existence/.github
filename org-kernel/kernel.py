@@ -732,9 +732,15 @@ def consume_and_respond(repo_root:Path, *, mesh_root:Path|None=None,
     return out
 
 def collect_ecosystem_responses(origin_org:str, communication_id:str, *, mesh_root:Path|None=None)->dict[str,Any]:
-    responses=[]
+    responses=[]; refused=[]
     for item in scan_addressed_frames(origin_org,root=mesh_root):
-        packet=recover_packet(item["frame"])
+        # A frame that does not recover is refused with six fields and skipped;
+        # it never aborts the collection of the frames after it.
+        try:
+            packet=recover_packet(item["frame"])
+        except Exception as error:
+            refused.append({"path":item["path"],**frame_ingest_refusal(item["frame"],error)})
+            continue
         payload=packet.get("payload") or {}
         if payload.get("communication_id")!=communication_id:
             continue
@@ -758,7 +764,8 @@ def collect_ecosystem_responses(origin_org:str, communication_id:str, *, mesh_ro
     return {
       "communication_id":communication_id,
       "response_count":len(rows),
-      "organizations":rows
+      "organizations":rows,
+      "refused_frames":refused
     }
 
 def publish_ecosystem_from_directory(repo_root:Path, *, standing:dict[str,Any], message_class:str, subject:str, body:dict[str,Any],

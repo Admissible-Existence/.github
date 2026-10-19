@@ -746,6 +746,39 @@ class CarrierEpochUniformityTests(_Workspace):
                 assert_six_fields(self, result["ingest_refusal"], code)
 
 
+class CollectorIntegrityTests(_Workspace):
+    """A tampered frame in the collector is refused and skipped, not raised."""
+
+    def test_a_tampered_frame_does_not_abort_collection(self):
+        K = _load("probe_collect_kernel", self.repo / "org-kernel" / "kernel.py")
+        response = K.build_packet(origin_org=PEER, origin_service="p", destination_org=THIS,
+                                  destination_service="admissible-existence.org-control",
+                                  payload={"communication_id": "collect", "message_class": "ecosystem.communication.ack",
+                                           "body": {"responding_organization": PEER}},
+                                  standing=STANDING, packet_id="collect:response")
+        frame = K.carrier_frame(response, epoch=4096)
+        K.publish_frame({**frame, "frame_sha256": "sha256:" + "0" * 64}, root=self.mesh)
+        K.publish_frame(frame, root=self.mesh)
+        with fixed_clock(K) as clock:
+            collected = K.collect_ecosystem_responses(THIS, "collect", mesh_root=self.mesh)
+        self.assertEqual(clock.reads, 0)
+        self.assertEqual(collected["response_count"], 1)
+        refused, = collected["refused_frames"]
+        assert_six_fields(self, refused, "FRAME_INTEGRITY_INVALID")
+
+
+class HeartbeatWorkflowBindingTests(unittest.TestCase):
+    """B-P36n: only a run with an epoch binding applies; the others check and write nothing."""
+
+    def test_apply_runs_only_with_the_dispatch_epoch(self):
+        workflow = (ROOT / ".github" / "workflows" / "heartbeat-response-node.yml").read_text()
+        step = workflow.split("- name: Receive and classify canonical heartbeat", 1)[1].split("- name:", 1)[0]
+        self.assertIn("HB_EPOCH: ${{ inputs.hb_epoch }}", step)
+        applies = [line.strip() for line in step.splitlines() if "--apply" in line]
+        self.assertEqual(applies, ['python scripts/process_heartbeat_response.py --apply --hb-epoch "$HB_EPOCH"'])
+        self.assertIn('if [ -n "${HB_EPOCH:-}" ]; then', step)
+
+
 class GatewayCycleEpochTests(_Workspace):
     """The gateway cycle answers at the frame's validated epoch, or not at all, and reads no clock."""
 
