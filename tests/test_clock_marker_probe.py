@@ -267,10 +267,18 @@ class SharedRuleProvenanceTests(unittest.TestCase):
     """F1. A reference that marks no provenance is refused by the shared rule."""
 
     def test_a_reference_with_no_derived_from_clock_key_is_refused(self):
-        for reference in ({"epoch": 4096}, kernel.hb_reference(now_ns=INSTANT_NS)):
+        code, _detail = kernel.supplied_epoch_failure(4096, {"epoch": 4096})
+        self.assertEqual(code, "HB_EPOCH_PROVENANCE_UNMARKED")
+
+    def test_the_ruled_order(self):
+        # (1) flag present and not false, (2) sampled_unix_ns present, (3) flag absent.
+        cases = (({"epoch": 4096, "derived_from_clock": True, "sampled_unix_ns": 1}, "HB_EPOCH_INVALID"),
+                 ({"epoch": 4096, "derived_from_clock": False, "sampled_unix_ns": 1}, "HB_EPOCH_INVALID"),
+                 (kernel.hb_reference(now_ns=INSTANT_NS), "HB_EPOCH_INVALID"),
+                 ({"epoch": 4096}, "HB_EPOCH_PROVENANCE_UNMARKED"))
+        for reference, code in cases:
             with self.subTest(reference=reference):
-                code, _detail = kernel.supplied_epoch_failure(reference["epoch"], reference)
-                self.assertEqual(code, "HB_EPOCH_PROVENANCE_UNMARKED")
+                self.assertEqual(kernel.supplied_epoch_failure(4096, reference)[0], code)
 
     def test_marked_references(self):
         self.assertIsNone(kernel.supplied_epoch_failure(4096, kernel.hb_reference(epoch=4096)))
@@ -299,7 +307,7 @@ class SharedRuleProvenanceTests(unittest.TestCase):
         self.assertEqual(kernel.carried_frame_epoch(kernel.carrier_frame(packet, epoch=4096)), (4096, None))
         epoch, failure = kernel.carried_frame_epoch(kernel.carrier_frame(packet, now_ns=INSTANT_NS))
         self.assertIsNone(epoch)
-        self.assertEqual(failure[0], "HB_EPOCH_PROVENANCE_UNMARKED")
+        self.assertEqual(failure[0], "HB_EPOCH_INVALID")
 
 
 class SourceReceiptProvenanceTests(_Workspace):
@@ -378,12 +386,50 @@ class CarriedFrameEpochTests(_Workspace):
         self.assertEqual(response["heartbeat_reference"]["epoch"], 4096)
         self.assertIs(response["heartbeat_reference"]["derived_from_clock"], False)
 
-    def test_a_clock_request_gets_a_six_field_refusal_and_no_response(self):
-        self.publish("admissible-existence.org-control", control("ecosystem.communication", "clock"), "clock")
-        item = self.consume()["clock"]
-        self.assertIsNone(item["response_publication"])
-        assert_six_fields(self, item["response_refusal"], "HB_EPOCH_PROVENANCE_UNMARKED")
-        self.assertEqual(self.frames_to(PEER), [])
+    def reframe(self, service, payload, packet_id, reference):
+        """Publish a frame whose heartbeat reference is replaced, re-hashed so it recovers."""
+        frame = self.K.carrier_frame(self.packet(self.K, service, payload, packet_id), epoch=4096)
+        body = {key: value for key, value in frame.items() if key != "frame_sha256"}
+        body["heartbeat_reference"] = reference
+        self.K.publish_frame({**body, "frame_sha256": self.K.sha(body)}, root=self.mesh)
+
+    def test_a_frame_without_a_supplied_epoch_is_refused_before_any_write_for_every_role(self):
+        unflagged = {key: value for key, value in self.K.hb_reference(epoch=4096).items()
+                     if key != "derived_from_clock"}
+        references = (("clock", self.K.hb_reference(now_ns=INSTANT_NS), "HB_EPOCH_INVALID"),
+                      ("unflagged", unflagged, "HB_EPOCH_PROVENANCE_UNMARKED"),
+                      ("unflagged-sampled", {**unflagged, "sampled_unix_ns": INSTANT_NS}, "HB_EPOCH_INVALID"))
+        services = (("admissible-existence.org-control", control("ecosystem.communication", "x")),
+                    ("admissible-existence.boundary-diagnostic", {"probe": 1}),
+                    ("admissible-existence.aid", {"probe": 1}),
+                    ("admissible-existence.intr-destination", {"message_class": "ecosystem.communication"}))
+        for name, reference, code in references:
+            for service, payload in services:
+                self.reframe(service, payload, name + ":" + service, reference)
+        before = snapshot(self.work)
+        results = self.consume()
+        self.assertEqual(len(results), len(references) * len(services))
+        for name, _reference, code in references:
+            for service, _payload in services:
+                with self.subTest(frame=name, service=service):
+                    item = results[name + ":" + service]
+                    assert_six_fields(self, item["result"], code)
+                    self.assertIsNone(item["seen_marker"])
+                    self.assertIsNone(item["response_publication"])
+        self.assertEqual(written(self.work, before), [])
+
+    def test_a_fabricated_carried_head_is_refused(self):
+        forged = {**self.K.hb_reference(epoch=4096), "source": "ORGANIZATION_LEDGER_HEAD",
+                  "head_receipt_sha": "sha256:" + "f" * 64}
+        self.reframe("admissible-existence.intr-destination", {
+            "message_class": "ecosystem.communication", "communication_id": "forged", "subject": "probe",
+            "body": {"schema": "stegverse.org-intr-destination-diagnostic/v1", "probe": "diagnostic-crossing"}},
+            "forged", forged)
+        before = snapshot(self.work)
+        item = self.consume()["forged"]
+        assert_six_fields(self, item["result"], "CARRIED_PROVENANCE_UNVERIFIED")
+        self.assertIsNone(item["seen_marker"])
+        self.assertEqual(written(self.work, before), [])
 
     def test_the_capability_ingress_receives_the_frames_supplied_epoch(self):
         self.publish("admissible-existence.intr-destination", {
@@ -403,14 +449,18 @@ class CarriedFrameEpochTests(_Workspace):
         assert_six_fields(self, item["result"], "ENDPOINT_ADAPTER_NOT_INSTALLED")
         self.assertIsNone(item["response_publication"])
 
-    def test_monitor_and_work_requests_read_no_clock_and_write_nothing_without_an_epoch(self):
-        self.publish("admissible-existence.org-control", control("ecosystem.monitor.request", "monitor"), "monitor")
-        self.publish("admissible-existence.org-control", control("ecosystem.work.request", "work"), "work")
-        results = self.consume()
-        application = results["monitor"]["result"]["execution_result"]["application_result"]
-        self.assertIsNone(application["monitor_status"]["heartbeat_reference"])
-        intake = results["work"]["result"]["execution_result"]["application_result"]["work_intake"]
-        assert_six_fields(self, intake, "HB_EPOCH_NOT_SUPPLIED")
+    def test_monitor_and_work_handlers_read_no_clock_and_write_nothing_without_an_epoch(self):
+        registry = self.K.load_registry(self.repo)
+        with fixed_clock(self.K) as clock:
+            monitor = self.K.handle_control_message(
+                self.repo, self.packet(self.K, "admissible-existence.org-control",
+                                       control("ecosystem.monitor.request", "monitor"), "monitor"), registry)
+            work = self.K.handle_control_message(
+                self.repo, self.packet(self.K, "admissible-existence.org-control",
+                                       control("ecosystem.work.request", "work"), "work"), registry)
+        self.assertEqual(clock.reads, 0)
+        self.assertIsNone(monitor["monitor_status"]["heartbeat_reference"])
+        assert_six_fields(self, work["work_intake"], "HB_EPOCH_NOT_SUPPLIED")
         self.assertFalse((self.repo / "resident-runtime" / "control" / "inbox").exists())
 
     def test_monitor_and_work_requests_carry_a_supplied_epoch(self):

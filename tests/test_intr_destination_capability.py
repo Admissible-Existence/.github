@@ -549,7 +549,7 @@ class OrganizationLedgerAndFrameEpochTests(RedirectedLedgers):
 
 
 class AddressedAndClosedTests(RedirectedLedgers):
-    def publish(self, payload, service, packet_id, origin=PEER):
+    def publish(self, payload, service, packet_id, origin=PEER, epoch=None):
         packet = kernel.build_packet(
             origin_org=origin,
             origin_service=kernel.organization_slug(origin) + "." + PROFILE_ID,
@@ -559,7 +559,10 @@ class AddressedAndClosedTests(RedirectedLedgers):
             authority_effect="NONE", packet_id=packet_id)
         # The mesh is temporary. publish_packet writes the frame and does not
         # append a ledger receipt; the receiving operation records its own.
-        kernel.publish_packet(packet, root=self.mesh, now_ns=kernel.HB_ANCHOR_UNIX_NS)
+        if epoch is None:
+            kernel.publish_packet(packet, root=self.mesh, now_ns=kernel.HB_ANCHOR_UNIX_NS)
+        else:
+            kernel.publish_packet(packet, root=self.mesh, epoch=epoch)
         return packet
 
     def consume(self):
@@ -577,29 +580,25 @@ class AddressedAndClosedTests(RedirectedLedgers):
         return frames
 
     def test_a_peer_frame_at_the_address_fails_closed_without_a_supplied_epoch(self):
-        # Capability ingress hands the frame on with no epoch. The receipt
-        # writer does not read a clock to fill one in, so nothing is recorded.
+        # The frame's reference is a clock sample, so it carries no supplied
+        # epoch: ingest refuses before dispatch and nothing is recorded.
         self.publish(diagnostic("addressed-diagnostic"), ADDRESS, "addressed-diagnostic")
         with no_clock(self):
             results = self.consume()
         self.assertEqual(len(results), 1)
-        execution = results[0]["result"]["execution_result"]
-        self.assertEqual(results[0]["result"]["status"], "CONSUMED")
-        self.assertEqual(results[0]["result"]["packet"]["origin"]["org"], PEER)
-        self.assertEqual(execution["service_id"], ADDRESS)
-        application = execution["application_result"]
-        self.assertIs(application["capability_received"], True)
-        self.assertEqual(application["receiving_operation_id"], OPERATION_ID)
-        operation = application["receiving_operation_result"]
-        assert_epoch_not_supplied(self, operation)
-        self.assertIs(operation["communication_acknowledged"], False)
+        refused = results[0]["result"]
+        self.assertEqual(refused["status"], "FAIL_CLOSED")
+        self.assertEqual(refused["failure_code"], "HB_EPOCH_INVALID")
+        for name in EPOCH_FIELDS:
+            self.assertTrue(refused[name], name)
+        self.assertNotIn("execution_result", refused)
         self.assertEqual(self.receipts("STEGVERSE_REPO_LEDGER_ROOT",
                                        "stegverse.repo-transition-receipt/v1"), [])
         self.assertEqual(self.receipts("STEGVERSE_ORG_LEDGER_ROOT",
                                        "stegverse.organization-transition-receipt/v1"), [])
 
     def test_a_manifest_addressed_to_this_capability_is_not_a_diagnostic(self):
-        self.publish({"manifest": {"probe": True}}, ADDRESS, "not-a-diagnostic")
+        self.publish({"manifest": {"probe": True}}, ADDRESS, "not-a-diagnostic", epoch=4096)
         with self.assertRaises(ValueError) as refused:
             self.consume()
         self.assertIn("SUBMISSION_DECLARES_A_RESPONDED_REQUEST_CLASS", str(refused.exception))
@@ -779,9 +778,8 @@ class EpochProvenanceTests(RedirectedLedgers):
         kernel.publish_packet(packet, root=self.mesh, now_ns=kernel.HB_ANCHOR_UNIX_NS)
         with fixed_clock():
             results = kernel.consume_addressed_frames(ROOT, mesh_root=self.mesh)
-        operation = results[0]["result"]["execution_result"]["application_result"][
-            "receiving_operation_result"]
-        self.assertEqual(operation["failure_code"], "HB_EPOCH_NOT_SUPPLIED")
+        self.assertEqual(results[0]["result"]["status"], "FAIL_CLOSED")
+        self.assertEqual(results[0]["result"]["failure_code"], "HB_EPOCH_INVALID")
         self.assertEqual(self.all_receipts(), [])
 
     def org_ledger_files(self):

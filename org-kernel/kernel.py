@@ -60,11 +60,11 @@ def supplied_epoch_failure(hb_epoch: Any, reference: Any = None) -> tuple[str, s
     must be ASCII [0-9]+ only -- an int is read as its decimal text; a bool, a
     float or anything coerced ('+33', ' 33', '3_3', '33.0') is refused -- with
     integer value >= 32 (the HB32 anchor). `reference`, the carrier frame's
-    heartbeat reference when there is one, must be an object, and a
-    `derived_from_clock` it carries must be exactly false. A reference with no
-    `derived_from_clock` is HB_EPOCH_PROVENANCE_UNMARKED: a bare
-    `sampled_unix_ns` is legacy CLOCK, and a CARRIED reference also carries
-    false. Any other failure is HB_EPOCH_INVALID.
+    heartbeat reference when there is one, must be an object, checked in this
+    order: a `derived_from_clock` present and not exactly false is
+    HB_EPOCH_INVALID; a `sampled_unix_ns` present is HB_EPOCH_INVALID (a clock
+    sample is never a supplied epoch); a `derived_from_clock` absent is
+    HB_EPOCH_PROVENANCE_UNMARKED. Any other failure is HB_EPOCH_INVALID.
     Returns (failure_code, detail), or None when the epoch is supplied. No
     clock is read.
     """
@@ -84,12 +84,14 @@ def supplied_epoch_failure(hb_epoch: Any, reference: Any = None) -> tuple[str, s
         return "HB_EPOCH_INVALID", "hb_epoch " + repr(hb_epoch) + " is not ASCII [0-9]+"
     if int(text) < 32:
         return "HB_EPOCH_INVALID", "hb_epoch " + text + " is below the HB32 anchor (32)"
-    if reference is not None and "derived_from_clock" not in reference:
-        return "HB_EPOCH_PROVENANCE_UNMARKED", "the carrier's heartbeat reference does not mark derived_from_clock"
     if reference is not None and "derived_from_clock" in reference \
             and reference["derived_from_clock"] is not False:
         return "HB_EPOCH_INVALID", ("the carrier's derived_from_clock is not exactly false; "
                                     "a clock-derived epoch is not a supplied one")
+    if reference is not None and "sampled_unix_ns" in reference:
+        return "HB_EPOCH_INVALID", "the carrier's heartbeat reference carries sampled_unix_ns; a clock sample is not a supplied epoch"
+    if reference is not None and "derived_from_clock" not in reference:
+        return "HB_EPOCH_PROVENANCE_UNMARKED", "the carrier's heartbeat reference does not mark derived_from_clock"
     return None
 
 class SuppliedEpochRefused(ValueError):
@@ -148,9 +150,15 @@ def carried_frame_epoch(frame:dict[str,Any])->tuple[int|None,tuple[str,str]|None
     """The epoch a carrier frame carries as supplied, or (None, failure).
 
     The frame's heartbeat reference must pass the shared rule with itself as
-    the reference: a clock-sampled or unmarked reference carries no epoch.
+    the reference: a clock-sampled or unmarked reference carries no epoch. A
+    reference asserting a CARRIED `source` or `head_receipt_sha` is
+    CARRIED_PROVENANCE_UNVERIFIED: a frame cannot verify a ledger head, so only
+    a writer that has verified the head may record CARRIED.
     """
     reference=frame.get("heartbeat_reference") if isinstance(frame,dict) else None
+    if isinstance(reference,dict) and ("source" in reference or "head_receipt_sha" in reference):
+        return None,("CARRIED_PROVENANCE_UNVERIFIED",
+                     "the frame asserts a CARRIED source or head_receipt_sha that no ledger head here verifies")
     epoch=reference.get("epoch") if isinstance(reference,dict) else None
     failure=supplied_epoch_failure(epoch,reference if reference is not None else {})
     if failure is not None:
@@ -319,9 +327,19 @@ def ingest_frame(root:Path, frame:dict[str,Any], *, mesh_root:Path|None=None)->d
     registry=load_registry(root)
     if frame["destination_org"]!=registry["organization"]:
         return {"status":"IGNORED_NOT_ADDRESSED","packet_id":frame["packet_id"]}
-    # The frame's epoch is forwarded only when it is a supplied one; a clock
-    # or unmarked reference forwards none, and the receiving writer refuses.
-    epoch,_failure=carried_frame_epoch(frame)
+    # A frame whose reference does not carry a supplied epoch is refused,
+    # for every role, before anything is dispatched or written.
+    epoch,failure=carried_frame_epoch(frame)
+    if failure is not None:
+        code,detail=failure
+        return {"status":"FAIL_CLOSED","packet_id":packet["packet_id"],
+                "disposition":"FAIL_CLOSED","failure_code":code,"failed_predicate":HB_EPOCH_PREDICATE,
+                "detail":"the frame carries no supplied epoch: "+detail,
+                "required_evidence_or_repair":("the frame's heartbeat_reference carries a supplied epoch: "
+                                               "derived_from_clock false, no sampled_unix_ns, no unverified CARRIED source"),
+                "retry_entrypoint":"org-kernel/kernel.py::ingest_frame","owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
+                "next_attempt":"the sender republishes the frame with a supplied epoch; nothing was dispatched or written",
+                "derived_from_clock":False,"consequence_committed":False}
     try:
         result=dispatch(root,packet,mesh_root=mesh_root,hb_epoch=epoch)
     except BoundaryFailClosed as refused:
@@ -660,9 +678,11 @@ def consume_and_respond(repo_root:Path, *, mesh_root:Path|None=None,
             else:
                 response=build_control_response(packet,result["execution_result"])
                 response_publication=publish_packet(response,root=mesh_root,epoch=epoch)
-        marker=mark_federation_frame_seen(repo_root,item["path"],item["frame"],result)
+        # A refused frame writes nothing, not even a seen marker.
+        marker=(mark_federation_frame_seen(repo_root,item["path"],item["frame"],result)
+                if result.get("status")=="CONSUMED" else None)
         out.append({"path":item["path"],"result":result,"response_publication":response_publication,
-                    "response_refusal":response_refusal,"seen_marker":str(marker)})
+                    "response_refusal":response_refusal,"seen_marker":str(marker) if marker else None})
     return out
 
 def collect_ecosystem_responses(origin_org:str, communication_id:str, *, mesh_root:Path|None=None)->dict[str,Any]:
