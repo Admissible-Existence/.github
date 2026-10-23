@@ -2,15 +2,14 @@ name: Heartbeat Response Node
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "data/heartbeat-response-node.json"
-      - "scripts/process_heartbeat_response.py"
-      - "tests/test_heartbeat_response.py"
-      - ".github/workflows/heartbeat-response-node.yml"
-  schedule:
-    - cron: "7 * * * *"
+    inputs:
+      hb_epoch:
+        description: "supplied heartbeat epoch (ASCII digits >= 32); new receipts are refused without one"
+        required: false
+        type: string
+# Receipts reference a supplied epoch, so this workflow is dispatched only, by
+# a caller that supplies hb_epoch. A schedule (clock-derived) or a push (no
+# epoch) is not an admissible dispatcher for it.
 
 permissions:
   contents: write
@@ -31,8 +30,18 @@ jobs:
       - name: Test node semantics
         run: python -m unittest tests.test_heartbeat_response -v
       - name: Receive and classify canonical heartbeat
+        env:
+          HB_EPOCH: ${{ inputs.hb_epoch }}
+        shell: bash
         run: |
-          python scripts/process_heartbeat_response.py --apply
+          set -euo pipefail
+          # Without a supplied epoch the run fails closed with the six-field
+          # refusal before anything is fetched, invoked or written.
+          if [ -z "${HB_EPOCH:-}" ]; then
+            python -c 'import importlib.util, json; spec = importlib.util.spec_from_file_location("kernel", "org-kernel/kernel.py"); kernel = importlib.util.module_from_spec(spec); spec.loader.exec_module(kernel); print(json.dumps(kernel.writer_epoch_refusal(None, retry_entrypoint="heartbeat-response-node.yml workflow_dispatch input hb_epoch"), sort_keys=True))'
+            exit 1
+          fi
+          python scripts/process_heartbeat_response.py --apply --hb-epoch "$HB_EPOCH"
           python scripts/process_heartbeat_response.py --check
       - name: Persist new response receipts
         shell: bash
