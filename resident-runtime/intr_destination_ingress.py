@@ -197,9 +197,12 @@ def _append(transition_class: str, packet_id: str, evidence: Mapping[str, Any],
             boundary_extra: Mapping[str, Any] | None = None) -> tuple[dict[str, Any], bool]:
     """Append at both levels. A replay of the same packet returns the recorded pair.
 
-    ``operation``, ``profile_id`` and ``boundary_extra`` name another operation
-    on the same two-level append (resident-runtime/merge_transfer.py); their
-    defaults are this ingress, so its receipts are unchanged."""
+    An absent or invalid epoch raises before either store is opened. ``operation``,
+    ``profile_id`` and ``boundary_extra`` name another operation on the same two-level
+    append (resident-runtime/merge_transfer.py); their defaults are this ingress, so its
+    receipts are unchanged.
+    """
+    repository_ledger.require_supplied_epoch(hb_epoch)
     predecessor = evidence["payload_sha256"]
     successor = sha({"disposition": evidence["disposition"], "packet_id": packet_id,
                      "communication_id": evidence.get("communication_id"),
@@ -212,9 +215,10 @@ def _append(transition_class: str, packet_id: str, evidence: Mapping[str, Any],
         transition_id, transition_class, predecessor, successor, dict(evidence),
         "NONE", hb_epoch=hb_epoch,
         idempotent_on=("communication_id", "payload_sha256", "disposition"))
-    # The organization receipt takes the repository receipt's epoch, so a replay
-    # rebuilds the same organization receipt rather than one stamped later.
-    epoch = repository_receipt["hb_reference"]["epoch"]
+    # The organization receipt takes the epoch supplied to this call. One read
+    # back from the repository receipt is not supplied: a replay can return a
+    # receipt some clock path stamped. A replay of a recorded organization
+    # receipt is returned as recorded.
     boundary = {"operation": operation, "profile_id": profile_id,
                 "disposition": evidence["disposition"],
                 "communication_id": evidence.get("communication_id"), **dict(boundary_extra or {})}
@@ -222,7 +226,7 @@ def _append(transition_class: str, packet_id: str, evidence: Mapping[str, Any],
         boundary["self_closure"] = True
     organization_receipt = organization_ledger.append(
         repository_receipt, "REPO_STATE_PROPAGATION", predecessor, successor,
-        boundary, "NONE", hb_epoch=epoch, idempotent=True)
+        boundary, "NONE", hb_epoch=hb_epoch, idempotent=True)
     return ({"repository_receipt": repository_receipt,
              "organization_receipt": organization_receipt}, prior is not None)
 
@@ -234,6 +238,13 @@ def _recorded(disposition: str, payload: Any, packet_id: str, hb_epoch: int | No
     transition_class = OPERATION_ID if disposition == ALLOW else REFUSED_CLASS
     try:
         appended, replayed = _append(transition_class, packet_id, evidence, hb_epoch)
+    except (repository_ledger.RepoLedgerEpochRefused, organization_ledger.OrgLedgerEpochRefused) as exc:
+        # The epoch is absent or invalid, or a replayed source receipt carries
+        # no supplied epoch: nothing is recorded and no clock is read.
+        refused = _evidence(payload, packet_id, FAIL_CLOSED,
+                            failed_predicate=exc.refusal["failed_predicate"],
+                            detail=exc.refusal["detail"])
+        return {**_result(refused, None, replayed=False, received=False), **exc.refusal}
     except ValueError as exc:
         if str(exc) != "ledger_receipt_collision":
             raise
@@ -304,38 +315,68 @@ def self_close(communication_id: str, *, registry: Mapping[str, Any] | None = No
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0], allow_abbrev=False)
     parser.add_argument("--payload", type=Path)
     parser.add_argument("--registry", type=Path)
     parser.add_argument("--self-close", action="store_true",
                         help="record a diagnostic self-closure on the supplied ledger roots")
     parser.add_argument("--communication-id")
     parser.add_argument("--packet-id", default=None)
-    parser.add_argument("--hb-epoch", type=int, default=None)
+    parser.add_argument("--hb-epoch", default=None)
     parser.add_argument("--out", type=Path, default=None)
     args = parser.parse_args()
+    refusal = repository_ledger.epoch_refusal(args.hb_epoch)
+    if refusal is not None:
+        # The epoch is checked as text by the shared rule; nothing is written.
+        print(json.dumps(refusal, sort_keys=True))
+        return 1
+    kernel = repository_ledger.kernel
+    entrypoint = "resident-runtime/intr_destination_ingress.py (same arguments)"
+    try:
+        # Bad input is the caller's: terminal six fields, read before anything is written.
+        inputs = {name: kernel.read_json_input(path, argument="--" + name, retry_entrypoint=entrypoint)
+                  for name, path in (("payload", args.payload), ("registry", args.registry)) if path is not None}
+        if args.self_close and args.communication_id is not None:
+            try:
+                require_communication_id(args.communication_id)
+            except ValueError as exc:
+                raise kernel.CliInputRefused(kernel.cli_input_refusal(
+                    "--communication-id", str(exc), expect=None, retry_entrypoint=entrypoint)) from None
+    except kernel.CliInputRefused as exc:
+        print(json.dumps(exc.refusal, sort_keys=True))
+        return 1
+    try:
+        result = _run(args, inputs)
+        if args.out:
+            args.out.parent.mkdir(parents=True, exist_ok=True)
+            args.out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    except Exception as exc:
+        # A torn write is six fields and exit 1, never a traceback.
+        refusal = kernel.writer_cli_refusal(exc, failure_code="INTR_DESTINATION_WRITE_FAILED",
+                                            retry_entrypoint=entrypoint)
+        if refusal is None:
+            raise
+        print(json.dumps(refusal, sort_keys=True))
+        return 1
+    print(json.dumps(result, sort_keys=True))
+    return 0 if result.get("disposition") == ALLOW else 1
+
+
+def _run(args: argparse.Namespace, inputs: Mapping[str, Any]) -> dict[str, Any]:
     if args.self_close:
         if not args.communication_id:
             raise SystemExit("self-close requires --communication-id")
-        registry = None
-        if args.registry is not None:
-            registry = json.loads(args.registry.read_text(encoding="utf-8"))
-        result = self_close(args.communication_id, registry=registry,
+        result = self_close(args.communication_id, registry=inputs.get("registry"),
                             packet_id=args.packet_id, hb_epoch=args.hb_epoch)
     else:
         if args.payload is None or args.registry is None:
             raise SystemExit("receive requires --payload and --registry")
         result = receive(
-            json.loads(args.payload.read_text(encoding="utf-8")),
-            registry=json.loads(args.registry.read_text(encoding="utf-8")),
+            inputs["payload"],
+            registry=inputs["registry"],
             packet_id=args.packet_id or "organization-intr-destination",
             hb_epoch=args.hb_epoch)
-    rendered = json.dumps(result, indent=2, sort_keys=True) + "\n"
-    if args.out:
-        args.out.parent.mkdir(parents=True, exist_ok=True)
-        args.out.write_text(rendered, encoding="utf-8")
-    print(json.dumps(result, sort_keys=True))
-    return 0 if result.get("disposition") == ALLOW else 1
+    return result
 
 
 if __name__ == "__main__":

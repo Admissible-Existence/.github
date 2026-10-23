@@ -1,6 +1,6 @@
 import unittest
 
-from scripts.process_heartbeat_response import authority_is_false, make_receipts, select_message
+from scripts.process_heartbeat_response import authority_is_false, kernel, make_receipts, select_message
 
 
 class HeartbeatResponseTests(unittest.TestCase):
@@ -32,7 +32,7 @@ class HeartbeatResponseTests(unittest.TestCase):
             select_message({"messages":[message]}, "Admissible-Existence")
 
     def test_emits_received_then_responded_without_authority(self):
-        received, responded = make_receipts(self.message, self.config, "2026-08-07T14:42:00Z")
+        received, responded = make_receipts(self.message, self.config, kernel.hb_reference(epoch=4096))
         self.assertEqual(received["stage"], "RECEIVED")
         self.assertEqual(responded["stage"], "RESPONDED")
         self.assertEqual(responded["detail_class"], "CAPABILITY")

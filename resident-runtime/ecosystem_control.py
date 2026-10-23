@@ -10,7 +10,8 @@ GWSPEC=importlib.util.spec_from_file_location("federation_gateway_transport",ROO
 GW=importlib.util.module_from_spec(GWSPEC); GWSPEC.loader.exec_module(GW)
 
 def main():
-    ap=argparse.ArgumentParser()
+    ap=argparse.ArgumentParser(allow_abbrev=False)
+    ap.add_argument("--hb-epoch",default=None,help="supplied heartbeat epoch; required, and never derived from a clock")
     sub=ap.add_subparsers(dest="cmd",required=True)
     for name,cls in (("send-monitor","ecosystem.monitor.request"),("send-work","ecosystem.work.request"),("send-message","ecosystem.communication")):
         p=sub.add_parser(name)
@@ -23,10 +24,17 @@ def main():
     p.add_argument("--communication-id",required=True)
     sub.add_parser("status")
     args=ap.parse_args()
+    # Status and every published frame reference the supplied epoch. An absent
+    # or invalid one is the six-field refusal before anything runs.
+    refusal=K.writer_epoch_refusal(args.hb_epoch,retry_entrypoint="resident-runtime/ecosystem_control.py --hb-epoch")
+    if refusal is not None:
+        print(json.dumps(refusal,sort_keys=True))
+        raise SystemExit(1)
+    epoch=int(str(args.hb_epoch))
     reg=K.load_registry(ROOT)
     org=reg["organization"]
     if args.cmd=="status":
-        print(json.dumps(K.resident_status(ROOT),indent=2,sort_keys=True))
+        print(json.dumps(K.resident_status(ROOT,hb_epoch=args.hb_epoch),indent=2,sort_keys=True))
         return
     if args.cmd=="collect":
         if os.getenv("STEGVERSE_ORG_FEDERATION_GATEWAY_URL","").strip():
@@ -35,7 +43,12 @@ def main():
             result=K.collect_ecosystem_responses(org,args.communication_id)
         print(json.dumps(result,indent=2,sort_keys=True))
         return
-    body=json.loads(args.body_json)
+    # Bad input is the caller's: terminal six fields, read before anything is published.
+    try:
+        body=K.parse_json_argument(args.body_json,argument="--body-json",retry_entrypoint="resident-runtime/ecosystem_control.py "+args.cmd)
+    except K.CliInputRefused as exc:
+        print(json.dumps(exc.refusal,sort_keys=True))
+        raise SystemExit(1)
     if os.getenv("STEGVERSE_ORG_FEDERATION_GATEWAY_URL","").strip():
         out=GW.publish_ecosystem_via_gateway(
             repo_root=ROOT,
@@ -43,7 +56,8 @@ def main():
             subject=args.subject,
             body=body,
             requested_action=args.requested_action,
-            communication_id=args.communication_id
+            communication_id=args.communication_id,
+            epoch=epoch
         )
     else:
         out=K.publish_ecosystem_from_directory(
@@ -52,7 +66,8 @@ def main():
             subject=args.subject,
             body=body,
             requested_action=args.requested_action,
-            communication_id=args.communication_id
+            communication_id=args.communication_id,
+            epoch=epoch
         )
     print(json.dumps({
       "status":"PUBLISHED",
