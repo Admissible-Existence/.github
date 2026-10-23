@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 CONTRACT=json.loads((ROOT/".stegverse/transition-ledger/contract.json").read_text())
+C=CONTRACT  # the name resident-runtime/merge_transfer.py (byte-identical with StegVerse-org/.github) reads
 HB_ANCHOR_EPOCH=32
 HB_ANCHOR_UNIX_NS=1_787_511_600_000_000_000
 HB_PERIOD_NS=10_000_000
