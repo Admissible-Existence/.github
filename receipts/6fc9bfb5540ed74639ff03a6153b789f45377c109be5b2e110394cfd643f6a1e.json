@@ -1,0 +1,35 @@
+{
+  "authority_effect": "NONE",
+  "boundary_evidence": {
+    "communication_id": "intr-path-v1:Admissible-Existence->Triad-Test",
+    "destination_organization": "Triad-Test",
+    "disposition": "ALLOW",
+    "operation": "INTR_MESH_PATH_TRANSFER",
+    "path_id": "Admissible-Existence->Triad-Test:intr-destination",
+    "profile_id": "intr-mesh-path-transfer",
+    "repository": "Admissible-Existence/.github",
+    "transfer_commit": "30fd53251d92904ffe485e7aca4268b1e5bca840"
+  },
+  "hb_reference": {
+    "authority_effect": "NONE",
+    "derived_from_clock": false,
+    "epoch": 469411750,
+    "frequency_hz": 100,
+    "generation": 469411750,
+    "heartbeat_id": "HB:469411750",
+    "phase_offset_ns": 0,
+    "progression_dependency": "OSCILLATOR_ONLY"
+  },
+  "observed_at": "HB:469411750",
+  "org_transition_class": "REPO_STATE_PROPAGATION",
+  "organization": "Admissible-Existence",
+  "predecessor_org_state_sha256": "sha256:48011101d7d739bf858d59096f2d7c19da3a141ca016e6dba35785498888f036",
+  "previous_receipt_sha256": "sha256:684db9b890581a46cde2b4632101f73f1caadd05d951f166c7699f192683a78a",
+  "receipt_sha256": "sha256:6fc9bfb5540ed74639ff03a6153b789f45377c109be5b2e110394cfd643f6a1e",
+  "repo_receipt_sha256": "sha256:873cc4ba130ed0af468f2f82104f4574751a1dab433195dc2ca49a6458d81a63",
+  "repo_transition_id": "INTR_MESH_PATH_TRANSFER:Admissible-Existence->Triad-Test:intr-destination@intr-path-v1:Admissible-Existence->Triad-Test",
+  "schema": "stegverse.organization-transition-receipt/v1",
+  "source_repository": "Admissible-Existence/.github",
+  "source_transition_sha256": "sha256:873cc4ba130ed0af468f2f82104f4574751a1dab433195dc2ca49a6458d81a63",
+  "successor_org_state_sha256": "sha256:4c7e01c5f7ca3dd76c302f5c1468828dcefbb5730cbf722683682afc48a9827b"
+}
