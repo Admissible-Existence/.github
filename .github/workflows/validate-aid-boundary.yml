@@ -14,7 +14,7 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - run: python3 -m py_compile org-kernel/kernel.py org-boundary/runtime/process_boundary.py resident-runtime/aid_discovery_surface.py
       - run: python3 -m unittest discover -s tests -p 'test_aid_discovery_surface.py'
       - run: |

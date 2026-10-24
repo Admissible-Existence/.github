@@ -28,6 +28,8 @@ on:
       - 'docs/INTR_DESTINATION_CAPABILITY_MIRROR_HANDOFF.md'
       - '.github/workflows/intr-destination-capability-validation.yml'
       - '.github/workflows/organization-ledger-transition.yml'
+      - '.github/workflows/**'
+      - 'tests/test_workflow_action_pins.py'
   push:
     branches: [main]
     paths:
@@ -55,6 +57,8 @@ on:
       - 'docs/INTR_DESTINATION_CAPABILITY_MIRROR_HANDOFF.md'
       - '.github/workflows/intr-destination-capability-validation.yml'
       - '.github/workflows/organization-ledger-transition.yml'
+      - '.github/workflows/**'
+      - 'tests/test_workflow_action_pins.py'
   workflow_dispatch:
 
 permissions:
@@ -65,9 +69,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout organization boundary
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
+
+      - name: Every remote workflow action is pinned to a commit sha
+        run: python -m unittest tests.test_workflow_action_pins -v
 
       - name: The boundary enforces the advertised address and the served set
         run: |
