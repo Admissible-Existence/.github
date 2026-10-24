@@ -27,10 +27,10 @@ def _gate():
     return module
 
 
-#: sha256 of resident-runtime/intr_destination_ingress.py on main @1787ae6. The
+#: sha256 of resident-runtime/intr_destination_ingress.py on main @30fd532. The
 #: InTr path is Grok Lane B's (lead ruling 20:06Z): this lane records the
 #: committed request through the ledger writers it owns and never edits it.
-INTR_INGRESS_MAIN_SHA256 = "22333ea24be8de8d2c38b6bf8fec17baf3d596718686c6ed1ebd7321954d57ad"
+INTR_INGRESS_MAIN_SHA256 = "0d6864a8056ecd057769c8776345b43d1cbaa25625b8ab103345a300fad43533"
 
 
 class InTrIngressUnchangedTests(unittest.TestCase):
