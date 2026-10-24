@@ -151,6 +151,19 @@ class BoundaryFailClosed(ValueError):
 #: guard that names only ValueError lets one peer-written file abort a cycle.
 JSON_DECODE_ERRORS=(ValueError,TypeError,UnicodeDecodeError,RecursionError,MemoryError)
 
+def _non_finite(token:str)->float:
+    raise ValueError("non-finite number "+token+" is not JSON and is never written into a receipt")
+
+def _finite_float(token:str)->float:
+    value=float(token)
+    if value!=value or value in (float("inf"),float("-inf")):
+        _non_finite(token)
+    return value
+
+def strict_json_loads(text:Any)->Any:
+    """json.loads that refuses NaN, Infinity and -Infinity, and an overflowing literal such as 1e999."""
+    return json.loads(text,parse_constant=_non_finite,parse_float=_finite_float)
+
 class CliInputRefused(ValueError):
     """A CLI input the caller supplied cannot be read as the JSON it must be.
 
@@ -176,7 +189,7 @@ def cli_input_refusal(argument:str, detail:str, *, expect:type|None, retry_entry
 def parse_json_argument(text:Any, *, argument:str, retry_entrypoint:str, expect:type|None=dict)->Any:
     """Parse a CLI JSON argument, or raise CliInputRefused (terminal, six fields)."""
     try:
-        value=json.loads(text)
+        value=strict_json_loads(text)
     except JSON_DECODE_ERRORS as error:
         raise CliInputRefused(cli_input_refusal(argument,type(error).__name__+": "+str(error),
                                                 expect=expect,retry_entrypoint=retry_entrypoint)) from None
@@ -309,7 +322,7 @@ def recover_packet(frame:dict[str,Any])->dict[str,Any]:
     if claimed!=sha(body): raise ValueError("carrier_frame_hash_mismatch")
     raw=base64.b64decode(frame["packet_base64"].encode("ascii"),validate=True)
     if sha(raw)!=frame["packet_sha256"]: raise ValueError("packet_hash_mismatch")
-    packet=json.loads(raw)
+    packet=strict_json_loads(raw)
     if packet["packet_id"]!=frame["packet_id"]: raise ValueError("packet_id_mismatch")
     if packet["destination"]["org"]!=frame["destination_org"]: raise ValueError("destination_org_mismatch")
     return packet

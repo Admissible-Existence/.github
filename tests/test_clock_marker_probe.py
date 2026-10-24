@@ -2677,10 +2677,110 @@ class GatewayDeepFrameTests(_Workspace):
                 assert_six_fields(self, result, "GATEWAY_FETCH_INVALID")
                 self.assertEqual(acks, [])
 
+    def test_the_blocked_ack_names_the_frame(self):
+        frame = ('{"packet_id": "deep-id", "frame_sha256": "sha256:' + "a" * 64 + '", "payload": '
+                 + "[" * 200000 + "]" * 200000 + "}")
+        result, acks = self.cycle(('{"state": "FRAME_AVAILABLE", "frame": ' + frame + "}").encode())
+        self.assertEqual(result["state"], "BLOCKED")
+        self.assertEqual(result["packet_id"], "deep-id")
+        ack, = acks
+        self.assertEqual(ack["packet_id"], "deep-id")
+        self.assertEqual(ack["frame_sha256"], "sha256:" + "a" * 64)
+        self.assertEqual(ack["frame_raw_sha256"],
+                         "sha256:" + hashlib.sha256(frame.encode()).hexdigest())
+        self.assertEqual(result["ingest_refusal"]["frame_raw_sha256"], ack["frame_raw_sha256"])
+
     def test_a_readable_fetch_is_unchanged(self):
         result, acks = self.cycle(b'{"state": "NO_FRAME"}')
         self.assertEqual(result["state"], "NO_FRAME")
         self.assertEqual(acks, [])
+
+
+class NonFiniteNumberTests(DeepJsonTests):
+    """NON_FINITE_NUMBER_WRITTEN_INTO_RECEIPT: NaN, Infinity, -Infinity and an
+    overflowing literal (1e999) are not JSON. Every CLI input refuses them as a
+    terminal CLI_INPUT_INVALID with nothing written; the receipt writers refuse
+    to serialise them; a peer frame carrying one is quarantined."""
+
+    NON_FINITE = ("NaN", "Infinity", "-Infinity", "1e999")
+
+    def test_every_inline_writer_argument(self):
+        cases = [
+            ("emit --evidence-json", lambda text: self.emit_args()[:-4] + ["--evidence-json", text, "--hb-epoch", "4096"]),
+            ("dispatch --evidence-json", lambda text: [
+                "scripts/dispatch_ledger_writer.py", "--writer", "repository-ledger-emit", "--hb-epoch", "4096",
+                "--arguments", " ".join(self.emit_args()[1:-4]) + " --evidence-json '" + text + "'"]),
+            ("aggregate --boundary-evidence-json", lambda text: [
+                "resident-runtime/aggregate_repo_transition.py", "--repo-receipt",
+                str(self.repo_receipt_file(self.work / ("nan-source-" + str(abs(hash(text)))))),
+                "--predecessor-org-state-sha256", "sha256:" + "2" * 64,
+                "--successor-org-state-sha256", "sha256:" + "3" * 64, "--hb-epoch", "4096",
+                "--boundary-evidence-json", text]),
+        ]
+        for label, argv_for in cases:
+            for constant in self.NON_FINITE:
+                with self.subTest(argument=label, value=constant):
+                    root = self.work / ("nan-" + label.split()[0] + "-" + constant.strip("-"))
+                    run = self.run_cli(argv_for('{"a": ' + constant + '}'), self.ledgers(root))
+                    self.assert_input_refused(run, label + " " + constant + ": ", root)
+
+    def test_every_file_argument(self):
+        payload = dict(self.DIAGNOSTIC, body={**self.DIAGNOSTIC["body"], "n": "NAN_HERE"})
+        text = json.dumps(payload).replace('"NAN_HERE"', "NaN")
+        nan_file = self.work / "nan.json"
+        nan_file.write_text(text)
+        for label, argv, argument, _extra in self.file_arguments():
+            with self.subTest(argument=label):
+                root = self.work / ("nan-file-" + label.replace(" ", "_"))
+                values = {**self.ledgers(root), "STEGVERSE_ORG_FEDERATION_ROOT": str(root / "mesh")}
+                full = [item if item != "OUT" else str(root / "egress.json") for item in argv]
+                run = self.run_cli(full + [argument, str(nan_file)], values)
+                self.assert_input_refused(run, label + ": ", root)
+        receipt = json.loads(Path(self.repo_receipt_file(self.work / "nan-receipt-source")).read_text())
+        receipt_text = json.dumps(receipt).replace('"probe": "torn"', '"probe": NaN')
+        receipt_file = self.work / "nan-receipt.json"
+        receipt_file.write_text(receipt_text)
+        root = self.work / "nan-aggregate-receipt"
+        run = self.run_cli(["resident-runtime/aggregate_repo_transition.py", "--repo-receipt", str(receipt_file),
+                            "--predecessor-org-state-sha256", "sha256:" + "2" * 64,
+                            "--successor-org-state-sha256", "sha256:" + "3" * 64, "--hb-epoch", "4096"],
+                           self.ledgers(root))
+        self.assert_input_refused(run, "aggregate --repo-receipt evidence: ", root)
+
+    def test_the_writers_refuse_to_serialise_a_non_finite_number(self):
+        writer = _load("probe_nan_writer", self.repo / ".stegverse" / "transition-ledger" / "emit.py")
+        root = self.work / "nan-library"
+        os.environ.update(self.ledgers(root))
+        with self.assertRaises(ValueError):
+            writer.append("probe:nan", "PROBE", "sha256:" + "0" * 64, "sha256:" + "1" * 64,
+                          {"a": float("nan")}, hb_epoch="4096")
+        self.assertEqual(self.receipts(root, "repo-ledger"), [])
+        store = _load("probe_nan_store", self.repo / "resident-runtime" / "ledger_store.py")
+        with self.assertRaises(ValueError):
+            store._document_bytes({"a": float("inf")})
+
+    def test_a_peer_frame_carrying_a_non_finite_number_is_quarantined(self):
+        K = _load("probe_nan_frame_kernel", self.repo / "org-kernel" / "kernel.py")
+        # This kernel will not serialise NaN, so a hostile peer's frame is built by hand:
+        # a valid frame whose packet bytes carry a raw NaN, with every hash recomputed.
+        payload = {**FrameIngestErrorTests.INTR, "communication_id": "nan-frame",
+                   "body": {"schema": "stegverse.org-intr-destination-diagnostic/v1", "probe": "NAN_HERE"}}
+        frame = K.carrier_frame(self.packet(K, "admissible-existence.intr-destination", payload, "nan-frame"),
+                                epoch=4096)
+        raw = base64.b64decode(frame["packet_base64"]).replace(b'"NAN_HERE"', b"NaN")
+        body = {key: value for key, value in frame.items() if key != "frame_sha256"}
+        body.update(packet_base64=base64.b64encode(raw).decode("ascii"), packet_sha256=K.sha(raw))
+        K.publish_frame({**body, "frame_sha256": K.sha(body)}, root=self.mesh)
+        results = K.consume_and_respond(self.repo, mesh_root=self.mesh)
+        self.assertEqual(results[0]["result"]["failure_code"], "FRAME_INGEST_FAILED")
+        self.assertIn("non-finite", results[0]["result"]["detail"])
+        self.assertEqual([marker["status"] for marker in self.markers()], ["REFUSED"])
+        self.assertEqual(self.receipts(self.work, "repo-ledger"), [])
+
+    for _inherited in [name for name in dir(DeepJsonTests) if name.startswith("test_")]:
+        if _inherited not in ("test_every_file_argument",):
+            locals()[_inherited] = None
+    del _inherited
 
 
 class CarriedProvenanceArgumentTests(unittest.TestCase):

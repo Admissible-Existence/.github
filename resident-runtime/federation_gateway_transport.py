@@ -77,6 +77,11 @@ class UnusableFrame:
     def __init__(self, error: BaseException, raw: str) -> None:
         self.error = error
         self.raw_sha256 = "sha256:" + hashlib.sha256(raw.encode("utf-8", "surrogatepass")).hexdigest()
+        # Whatever identity its own top level still yields, read without
+        # recursion, so the BLOCKED acknowledgement names the frame it retires.
+        members = _shallow_members(raw, nested=False) or {}
+        self.identity = {name: members[name] for name in ("packet_id", "frame_sha256")
+                         if isinstance(members.get(name), str)}
 
 
 def _json_value_end(text: str, index: int) -> int:
@@ -111,6 +116,19 @@ def _shallow_envelope(payload: bytes, error: BaseException) -> dict[str, Any] | 
     whose `state` decodes, so an unreadable envelope stays unreadable."""
     try:
         text = payload.decode("utf-8")
+    except UnicodeDecodeError:
+        return None
+    members = _shallow_members(text)
+    if members is None or not isinstance(members.get("state"), str):
+        return None
+    return members
+
+
+def _shallow_members(text: str, *, nested: bool = True) -> dict[str, Any] | None:
+    """The members of a top-level JSON object, each decoded on its own without
+    recursion; None if the top level is not a readable object. A member that
+    does not decode is an UnusableFrame (or omitted, when nested is False)."""
+    try:
         whitespace = " \t\r\n"
         index = 0
         while text[index] in whitespace:
@@ -135,9 +153,10 @@ def _shallow_envelope(payload: bytes, error: BaseException) -> dict[str, Any] | 
             end = _json_value_end(text, index)
             raw = text[index:end]
             try:
-                members[key] = json.loads(raw)
+                members[key] = K.strict_json_loads(raw)
             except K.JSON_DECODE_ERRORS as member_error:
-                members[key] = UnusableFrame(member_error, raw)
+                if nested:
+                    members[key] = UnusableFrame(member_error, raw)
             index = end
             while text[index] in whitespace:
                 index += 1
@@ -145,9 +164,7 @@ def _shallow_envelope(payload: bytes, error: BaseException) -> dict[str, Any] | 
                 index += 1
             elif text[index] != "}":
                 return None
-    except (UnicodeDecodeError, ValueError, IndexError):
-        return None
-    if not isinstance(members.get("state"), str):
+    except (ValueError, IndexError):
         return None
     return members
 
@@ -173,7 +190,7 @@ def fetch_frame(organization: str) -> dict[str, Any]:
 
 
 def acknowledge_frame(organization: str, frame: dict[str, Any], state: str,
-                      epoch: int | None = None) -> dict[str, Any]:
+                      epoch: int | None = None, identity: dict[str, Any] | None = None) -> dict[str, Any]:
     """Acknowledge a frame. No clock is read: `observed_at` is the frame's
     validated epoch's heartbeat id, or null when the frame lends none."""
     frame = frame if isinstance(frame, dict) else {}
@@ -187,6 +204,7 @@ def acknowledge_frame(organization: str, frame: dict[str, Any], state: str,
         "derived_from_clock": False,
         "gateway_execution_authority": "NONE",
         "authority_effect": "NONE_OBSERVATION_ONLY",
+        **(identity or {}),
     }
     return _json_request(
         "POST",
@@ -344,16 +362,17 @@ def resident_gateway_cycle(repo_root: Path) -> dict[str, Any]:
 
 
 def _blocked_unusable(organization: str, frame: UnusableFrame) -> dict[str, Any]:
-    refusal = {**K.frame_ingest_refusal(None, frame.error), "frame_raw_sha256": frame.raw_sha256}
+    refusal = {**K.frame_ingest_refusal(frame.identity, frame.error), "frame_raw_sha256": frame.raw_sha256}
     try:
-        ack = acknowledge_frame(organization, {}, "BLOCKED")
+        ack = acknowledge_frame(organization, dict(frame.identity), "BLOCKED",
+                                identity={"frame_raw_sha256": frame.raw_sha256})
     except (OSError, FederationGatewayTransportError) as ack_error:
         return _pending_io(organization, None, ack_error)
     return {
         "schema_version": "stegverse.org-federation-gateway-cycle.v1",
         "organization": organization,
         "state": "BLOCKED",
-        "packet_id": None,
+        "packet_id": frame.identity.get("packet_id"),
         "frames_consumed": 0,
         "responses_emitted": 0,
         "ingest_refusal": refusal,

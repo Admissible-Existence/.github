@@ -4,7 +4,7 @@ from contextlib import nullcontext
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 CONTRACT=json.loads((ROOT/".stegverse/transition-ledger/contract.json").read_text())
-def canon(v): return json.dumps(v,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()
+def canon(v): return json.dumps(v,sort_keys=True,separators=(",",":"),ensure_ascii=False,allow_nan=False).encode()
 def sha(v): return "sha256:"+hashlib.sha256(v if isinstance(v,(bytes,bytearray)) else canon(v)).hexdigest()
 def _load_ledger_store():
     spec=importlib.util.spec_from_file_location("ledger_store", ROOT/"resident-runtime/ledger_store.py")
