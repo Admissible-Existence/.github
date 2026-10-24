@@ -471,7 +471,7 @@ def frame_ingest_refusal(frame:Any, error:BaseException)->dict[str,Any]:
             "required_evidence_or_repair":repair,
             "retry_entrypoint":"org-kernel/kernel.py::ingest_frame","owning_existing_goal":HB_EPOCH_OWNING_EXISTING_GOAL,
             "next_attempt":"the frame is refused and not retried; nothing was dispatched or written",
-            "derived_from_clock":False,"consequence_committed":False}
+            "terminal":True,"derived_from_clock":False,"consequence_committed":False}
 
 FRAME_DISPATCH_IO_FAILED="FRAME_DISPATCH_IO_FAILED"
 

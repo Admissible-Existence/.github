@@ -59,8 +59,97 @@ def _json_request(method: str, path: str, *, body: dict[str, Any] | None = None,
         raise FederationGatewayTransportError(f"gateway request failed: {exc}") from exc
     try:
         return json.loads(payload.decode("utf-8"))
+    except (RecursionError, MemoryError) as exc:
+        # The response may be a readable envelope around one unusable member
+        # (a deeply nested frame): read its top level without recursion, so
+        # the frame is refused by name instead of the fetch failing forever.
+        shallow = _shallow_envelope(payload, exc)
+        if shallow is None:
+            raise FederationGatewayTransportError("gateway response is not JSON") from exc
+        return shallow
     except Exception as exc:
         raise FederationGatewayTransportError("gateway response is not JSON") from exc
+
+
+class UnusableFrame:
+    """A gateway-offered frame inside a readable envelope that does not decode."""
+
+    def __init__(self, error: BaseException, raw: str) -> None:
+        self.error = error
+        self.raw_sha256 = "sha256:" + hashlib.sha256(raw.encode("utf-8", "surrogatepass")).hexdigest()
+
+
+def _json_value_end(text: str, index: int) -> int:
+    """The end of the JSON value starting at index, found without recursion."""
+    if text[index] == '"':
+        return json.decoder.scanstring(text, index + 1)[1]
+    if text[index] in "[{":
+        depth = 0
+        while True:
+            char = text[index]
+            if char == '"':
+                index = json.decoder.scanstring(text, index + 1)[1]
+                continue
+            if char in "[{":
+                depth += 1
+            elif char in "]}":
+                depth -= 1
+                if depth == 0:
+                    return index + 1
+            index += 1
+    end = index
+    while end < len(text) and text[end] not in ",}] \t\r\n":
+        end += 1
+    return end
+
+
+def _shallow_envelope(payload: bytes, error: BaseException) -> dict[str, Any] | None:
+    """The top-level object of a response whose full decode recursed too deep.
+
+    Each member is decoded on its own; a member that still does not decode is
+    kept as an UnusableFrame. Returns None unless the top level is an object
+    whose `state` decodes, so an unreadable envelope stays unreadable."""
+    try:
+        text = payload.decode("utf-8")
+        whitespace = " \t\r\n"
+        index = 0
+        while text[index] in whitespace:
+            index += 1
+        if text[index] != "{":
+            return None
+        index += 1
+        members: dict[str, Any] = {}
+        while True:
+            while text[index] in whitespace:
+                index += 1
+            if text[index] == "}":
+                break
+            key, index = json.decoder.scanstring(text, index + 1)
+            while text[index] in whitespace:
+                index += 1
+            if text[index] != ":":
+                return None
+            index += 1
+            while text[index] in whitespace:
+                index += 1
+            end = _json_value_end(text, index)
+            raw = text[index:end]
+            try:
+                members[key] = json.loads(raw)
+            except K.JSON_DECODE_ERRORS as member_error:
+                members[key] = UnusableFrame(member_error, raw)
+            index = end
+            while text[index] in whitespace:
+                index += 1
+            if text[index] == ",":
+                index += 1
+            elif text[index] != "}":
+                return None
+    except (UnicodeDecodeError, ValueError, IndexError):
+        return None
+    if not isinstance(members.get("state"), str):
+        return None
+    return members
 
 
 def submit_frame(frame: dict[str, Any]) -> dict[str, Any]:
@@ -222,6 +311,11 @@ def resident_gateway_cycle(repo_root: Path) -> dict[str, Any]:
     if fetched.get("state") != "FRAME_AVAILABLE":
         return _fetch_refusal(organization, "unexpected gateway fetch state " + repr(fetched.get("state")))
     frame = fetched.get("frame")
+    if isinstance(frame, UnusableFrame):
+        # A readable envelope around a frame that does not decode (deeply
+        # nested): the frame's own defect, so it is refused terminally and
+        # acknowledged BLOCKED rather than offered again forever.
+        return _blocked_unusable(organization, frame)
     try:
         return _gateway_frame_cycle(repo_root, organization, frame)
     except (OSError, FederationGatewayTransportError) as error:
@@ -247,6 +341,25 @@ def resident_gateway_cycle(repo_root: Path) -> dict[str, Any]:
             "ack_state": ack.get("state") if isinstance(ack, dict) else None,
             "gateway_execution_authority": "NONE",
         }
+
+
+def _blocked_unusable(organization: str, frame: UnusableFrame) -> dict[str, Any]:
+    refusal = {**K.frame_ingest_refusal(None, frame.error), "frame_raw_sha256": frame.raw_sha256}
+    try:
+        ack = acknowledge_frame(organization, {}, "BLOCKED")
+    except (OSError, FederationGatewayTransportError) as ack_error:
+        return _pending_io(organization, None, ack_error)
+    return {
+        "schema_version": "stegverse.org-federation-gateway-cycle.v1",
+        "organization": organization,
+        "state": "BLOCKED",
+        "packet_id": None,
+        "frames_consumed": 0,
+        "responses_emitted": 0,
+        "ingest_refusal": refusal,
+        "ack_state": ack.get("state") if isinstance(ack, dict) else None,
+        "gateway_execution_authority": "NONE",
+    }
 
 
 def _pending_io(organization: str, frame: Any, error: BaseException) -> dict[str, Any]:

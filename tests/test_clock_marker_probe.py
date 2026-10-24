@@ -2634,6 +2634,55 @@ class DeepJsonTests(ProcessBoundaryExitSplitTests):
     del _inherited
 
 
+class GatewayDeepFrameTests(_Workspace):
+    """A deep or unusable frame inside a readable gateway envelope is refused terminally
+    and acknowledged BLOCKED (FRAME_INGEST_FAILED); only an unreadable envelope stays
+    non-terminal (GATEWAY_FETCH_INVALID, no acknowledgement)."""
+
+    def cycle(self, body):
+        cycle = _load("probe_deep_gateway_cycle", self.repo / "resident-runtime" / "federation_cycle.py")
+        GW = cycle.GW
+        acks = []
+
+        def urlopen(request, timeout=None):
+            if request.get_method() == "GET":
+                return contextlib.nullcontext(io.BytesIO(body))
+            acks.append(json.loads(request.data))
+            return contextlib.nullcontext(io.BytesIO(b'{"state": "BLOCKED"}'))
+
+        with mock.patch.dict(os.environ, {"STEGVERSE_ORG_FEDERATION_GATEWAY_URL": "https://gateway.invalid"}), \
+                mock.patch.object(GW, "urlopen", urlopen):
+            result = GW.resident_gateway_cycle(self.repo)
+        return result, acks
+
+    def test_a_deep_frame_in_a_readable_envelope_is_blocked(self):
+        body = ('{"state": "FRAME_AVAILABLE", "frame": ' + "[" * 200000 + "]" * 200000 + "}").encode()
+        result, acks = self.cycle(body)
+        self.assertEqual(result["state"], "BLOCKED")
+        refusal = result["ingest_refusal"]
+        assert_six_fields(self, refusal, "FRAME_INGEST_FAILED")
+        self.assertIs(refusal["terminal"], True)
+        self.assertIn("RecursionError", refusal["detail"])
+        self.assertTrue(refusal["frame_raw_sha256"].startswith("sha256:"))
+        self.assertEqual([ack["state"] for ack in acks], ["BLOCKED"])
+        self.assertIsNone(acks[0]["observed_at"])
+
+    def test_an_unreadable_envelope_stays_non_terminal(self):
+        for label, body in (("deep envelope", ("[" * 200000 + "]" * 200000).encode()),
+                            ("deep state", ('{"state": ' + "[" * 200000 + "]" * 200000 + "}").encode()),
+                            ("truncated deep", ('{"state": "FRAME_AVAILABLE", "frame": ' + "[" * 200000).encode()),
+                            ("not json", b"{not json")):
+            with self.subTest(envelope=label):
+                result, acks = self.cycle(body)
+                assert_six_fields(self, result, "GATEWAY_FETCH_INVALID")
+                self.assertEqual(acks, [])
+
+    def test_a_readable_fetch_is_unchanged(self):
+        result, acks = self.cycle(b'{"state": "NO_FRAME"}')
+        self.assertEqual(result["state"], "NO_FRAME")
+        self.assertEqual(acks, [])
+
+
 class CarriedProvenanceArgumentTests(unittest.TestCase):
     """No writer accepts a caller-supplied provenance or CARRIED source."""
 
