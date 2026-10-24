@@ -154,10 +154,15 @@ def recorded(environ=None) -> tuple[dict | None, dict | None]:
 
 def _carries_committed_request(value) -> bool:
     """Whether `value` has a committed_request key at any depth (iteratively, so
-    a deep document cannot exhaust the stack)."""
-    pending = [value]
+    a deep document cannot exhaust the stack, and once per container, so a
+    cyclic in-process value cannot loop)."""
+    pending, seen = [value], set()
     while pending:
         item = pending.pop()
+        if isinstance(item, (dict, list, tuple)):
+            if id(item) in seen:
+                continue
+            seen.add(id(item))
         if isinstance(item, dict):
             if "committed_request" in item:
                 return True

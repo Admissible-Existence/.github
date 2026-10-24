@@ -150,6 +150,9 @@ class CommittedRequestGateTests(unittest.TestCase):
         cursor["committed_request"] = forged
         self.assertEqual(self.gate.bind(deep, "evidence", {})[1]["failure_code"], "COMMITTED_REQUEST_INVALID")
         self.assertEqual(self.gate.bind({"a": [1]}, "evidence", {}), ({"a": [1]}, None))
+        cyclic = {"a": []}
+        cyclic["a"].append(cyclic)
+        self.assertIsNone(self.gate.bind(cyclic, "evidence", {})[1])
 
     def test_the_cli_writes_outputs_only_for_a_passing_request(self):
         output = self.work / "github_output"

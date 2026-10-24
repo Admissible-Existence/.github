@@ -3140,6 +3140,26 @@ class CommittedRequestRecordedTests(_Workspace):
                                   {}, hb_epoch="4096")
         self.assertEqual(record["boundary_evidence"]["committed_request"], recorded)
 
+    def test_aggregate_refuses_an_off_ledger_source_without_a_binding(self):
+        # OFF_LEDGER_SOURCE_RECEIPT_WITHOUT_BINDING_ACCEPTED: the ledger check is
+        # unconditional, outside a committed-request run and without committed_request.
+        emit = _load("probe_unbound_emit", self.repo / ".stegverse" / "transition-ledger" / "emit.py")
+        aggregate = _load("probe_unbound_aggregate", self.repo / "resident-runtime" / "aggregate_repo_transition.py")
+        genuine = emit.append("probe:unbound", "PROBE", "sha256:" + "0" * 64, "sha256:" + "1" * 64, {},
+                              hb_epoch="4096")
+        self.assertNotIn("committed_request", genuine["evidence"])
+        body = {key: value for key, value in genuine.items() if key != "receipt_sha256"}
+        body["transition_id"] = "probe:unbound-rehashed"
+        source = {**body, "receipt_sha256": emit.sha(body)}
+        aggregate.verify_repo(source)  # the hash is self-consistent
+        before = snapshot(self.work)
+        with self.assertRaises(aggregate.OrgLedgerEpochRefused) as refused:
+            aggregate.append(source, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64, "sha256:" + "3" * 64, {},
+                             hb_epoch="4096")
+        assert_six_fields(self, refused.exception.refusal, "COMMITTED_REQUEST_DIGEST_UNVERIFIED")
+        self.assertEqual(written(self.work, before), [])
+        self.assertFalse((self.work / "org-ledger").exists())
+
     def test_egress_refuses_a_malformed_committed_request_before_publishing(self):
         egress = _load("probe_request_egress_refused", self.repo / "resident-runtime" / "organization_egress_boundary.py")
         payload = {"message_class": "ecosystem.communication", "communication_id": "request-refused",
