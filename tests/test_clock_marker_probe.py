@@ -3035,6 +3035,72 @@ class CommittedRequestRecordedTests(_Workspace):
             with self.subTest(receipt=path.name):
                 self.assertEqual(json.loads(path.read_text())["committed_request"], recorded)
 
+    FORGED = {"path": "data/requests/forged.json", "sha256": "f" * 64, "hb_epoch_source": "COMMITTED_REQUEST"}
+    EMIT_ARGS = ["--transition-class", "PROBE", "--predecessor-state-sha256", "sha256:" + "0" * 64,
+                 "--successor-state-sha256", "sha256:" + "1" * 64, "--hb-epoch", "4096"]
+
+    def refused_cli(self, *argv):
+        completed = subprocess.run([sys.executable, *argv], cwd=self.repo, capture_output=True, text=True)
+        self.assertEqual(completed.returncode, 1, completed.stdout + completed.stderr)
+        assert_six_fields(self, json.loads(completed.stdout), "COMMITTED_REQUEST_INVALID")
+
+    def test_a_caller_supplied_committed_request_is_refused_with_nothing_written(self):
+        # A genuine repository receipt, written before the forgeries, for the aggregate to propagate.
+        source = self.work / "repo-receipt.json"
+        source.write_text(self.run_cli(".stegverse/transition-ledger/emit.py", "--transition-id", "genuine",
+                                       *self.EMIT_ARGS))
+        emit = _load("probe_forged_emit", self.repo / ".stegverse" / "transition-ledger" / "emit.py")
+        aggregate = _load("probe_forged_aggregate", self.repo / "resident-runtime" / "aggregate_repo_transition.py")
+        repo_receipt = json.loads(source.read_text())
+        forged = json.dumps({"committed_request": self.FORGED})
+        for env_present in (False, True):
+            with self.subTest(env_present=env_present):
+                if env_present:
+                    self.request("data/requests/ledger-writer-dispatch.json")
+                else:
+                    os.environ.pop("STEGVERSE_COMMITTED_REQUEST_PATH", None)
+                    os.environ.pop("STEGVERSE_COMMITTED_REQUEST_SHA256", None)
+                before = snapshot(self.work)
+                self.refused_cli(".stegverse/transition-ledger/emit.py", "--transition-id", "forged",
+                                 *self.EMIT_ARGS, "--evidence-json", forged)
+                self.refused_cli("resident-runtime/aggregate_repo_transition.py", "--repo-receipt", str(source),
+                                 "--predecessor-org-state-sha256", "sha256:" + "2" * 64,
+                                 "--successor-org-state-sha256", "sha256:" + "3" * 64, "--hb-epoch", "4096",
+                                 "--boundary-evidence-json", forged)
+                with self.assertRaises(emit.RepoLedgerEpochRefused) as refused:
+                    emit.append("forged", "PROBE", "sha256:" + "0" * 64, "sha256:" + "1" * 64,
+                                {"committed_request": self.FORGED}, hb_epoch="4096")
+                assert_six_fields(self, refused.exception.refusal, "COMMITTED_REQUEST_INVALID")
+                with self.assertRaises(aggregate.OrgLedgerEpochRefused) as refused:
+                    aggregate.append(repo_receipt, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64,
+                                     "sha256:" + "3" * 64, {"committed_request": self.FORGED}, hb_epoch="4096")
+                assert_six_fields(self, refused.exception.refusal, "COMMITTED_REQUEST_INVALID")
+                self.assertEqual(written(self.work, before), [])
+
+    def test_egress_refuses_a_malformed_committed_request_before_publishing(self):
+        egress = _load("probe_request_egress_refused", self.repo / "resident-runtime" / "organization_egress_boundary.py")
+        payload = {"message_class": "ecosystem.communication", "communication_id": "request-refused",
+                   "subject": "probe",
+                   "body": {"schema": "stegverse.org-intr-destination-diagnostic/v1", "probe": "diagnostic-crossing"}}
+        cases = {
+            "sha only": {"STEGVERSE_COMMITTED_REQUEST_SHA256": REQUEST_DIGEST},
+            "path only": {"STEGVERSE_COMMITTED_REQUEST_PATH": "data/requests/ledger-writer-dispatch.json"},
+            "malformed sha": {"STEGVERSE_COMMITTED_REQUEST_PATH": "data/requests/ledger-writer-dispatch.json",
+                              "STEGVERSE_COMMITTED_REQUEST_SHA256": "not-a-digest"},
+        }
+        for label, environ in cases.items():
+            with self.subTest(env=label):
+                os.environ.pop("STEGVERSE_COMMITTED_REQUEST_PATH", None)
+                os.environ.pop("STEGVERSE_COMMITTED_REQUEST_SHA256", None)
+                os.environ.update(environ)
+                before = snapshot(self.work)
+                with self.assertRaises(egress.repository_ledger.RepoLedgerEpochRefused) as refused:
+                    egress.emit(PEER, payload, standing=STANDING, capability="intr-destination",
+                                mesh_root=self.mesh, hb_epoch="4096")
+                assert_six_fields(self, refused.exception.refusal, "COMMITTED_REQUEST_INVALID")
+                self.assertEqual(written(self.work, before), [])
+                self.assertEqual(list(self.mesh.rglob("*.json")) if self.mesh.exists() else [], [])
+
     def test_a_malformed_committed_request_is_refused_before_anything_is_written(self):
         os.environ["STEGVERSE_COMMITTED_REQUEST_PATH"] = "data/requests/ledger-writer-dispatch.json"
         os.environ["STEGVERSE_COMMITTED_REQUEST_SHA256"] = "not-a-digest"

@@ -100,10 +100,8 @@ def append(repo_receipt, org_transition_class, predecessor, successor, boundary_
  rd=verify_repo(repo_receipt)
  refusal=source_refusal(repo_receipt)
  if refusal is not None:raise OrgLedgerEpochRefused(refusal)
- request,refused=committed_request.recorded()
+ evidence,refused=committed_request.bind(boundary_evidence,"boundary_evidence")
  if refused is not None:raise OrgLedgerEpochRefused(refused)
- evidence=dict(boundary_evidence)
- if request is not None:evidence["committed_request"]=request
  root=ledger_root(); store=ledger_store.open_store(root); store.initialize()
  retained={ledger_store.source_key(rd): repo_receipt}
  for _attempt in range(128):

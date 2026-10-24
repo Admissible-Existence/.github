@@ -152,6 +152,26 @@ def recorded(environ=None) -> tuple[dict | None, dict | None]:
     return {"path": path, "sha256": digest, "hb_epoch_source": "COMMITTED_REQUEST"}, None
 
 
+def bind(evidence, argument: str, environ=None) -> tuple[dict | None, dict | None]:
+    """(evidence with committed_request set from `recorded()`, None), or (None, refusal).
+
+    Only the run's own request sets committed_request: evidence a caller
+    supplies that already carries the key is a forged provenance and is refused
+    six-field COMMITTED_REQUEST_INVALID before anything is written.
+    """
+    if "committed_request" in evidence:
+        return None, refusal("COMMITTED_REQUEST_INVALID", "COMMITTED_REQUEST_IS_SET_ONLY_FROM_THE_RUN",
+                             argument + " carries committed_request; only the run's own committed request sets it",
+                             "remove committed_request from " + argument, argument, terminal=True)
+    request, refused = recorded(environ)
+    if refused is not None:
+        return None, refused
+    evidence = dict(evidence)
+    if request is not None:
+        evidence["committed_request"] = request
+    return evidence, None
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0], allow_abbrev=False)
     parser.add_argument("--request", type=Path, required=True)
