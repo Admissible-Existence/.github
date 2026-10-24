@@ -1,0 +1,35 @@
+{
+  "authority_effect": "NONE",
+  "boundary_evidence": {
+    "communication_id": "intr-path-v1:Admissible-Existence->StegVerse-org",
+    "destination_organization": "StegVerse-org",
+    "disposition": "ALLOW",
+    "operation": "INTR_MESH_PATH_TRANSFER",
+    "path_id": "Admissible-Existence->StegVerse-org:intr-destination",
+    "profile_id": "intr-mesh-path-transfer",
+    "repository": "Admissible-Existence/.github",
+    "transfer_commit": "30fd53251d92904ffe485e7aca4268b1e5bca840"
+  },
+  "hb_reference": {
+    "authority_effect": "NONE",
+    "derived_from_clock": false,
+    "epoch": 469411750,
+    "frequency_hz": 100,
+    "generation": 469411750,
+    "heartbeat_id": "HB:469411750",
+    "phase_offset_ns": 0,
+    "progression_dependency": "OSCILLATOR_ONLY"
+  },
+  "observed_at": "HB:469411750",
+  "org_transition_class": "REPO_STATE_PROPAGATION",
+  "organization": "Admissible-Existence",
+  "predecessor_org_state_sha256": "sha256:f49c7d013da932507d4a05956a7f6aa1d6b59bd6b9042b16dadb761800fc555b",
+  "previous_receipt_sha256": "sha256:95d7567edd95a6938a7edbaf606485942cf8aaad48531bb68d32b600bd35d4f1",
+  "receipt_sha256": "sha256:684db9b890581a46cde2b4632101f73f1caadd05d951f166c7699f192683a78a",
+  "repo_receipt_sha256": "sha256:2480bc9bdfda40d127d624909268efbe15457ea02382dde85a8759f2313dd012",
+  "repo_transition_id": "INTR_MESH_PATH_TRANSFER:Admissible-Existence->StegVerse-org:intr-destination@intr-path-v1:Admissible-Existence->StegVerse-org",
+  "schema": "stegverse.organization-transition-receipt/v1",
+  "source_repository": "Admissible-Existence/.github",
+  "source_transition_sha256": "sha256:2480bc9bdfda40d127d624909268efbe15457ea02382dde85a8759f2313dd012",
+  "successor_org_state_sha256": "sha256:d0d021769ca9f2d983da866e35c1829cca58b39fdaffb9e90abff7d69751beb0"
+}
