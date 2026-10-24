@@ -63,6 +63,46 @@ def source_refusal(repo_receipt):
          "owning_existing_goal":kernel.HB_EPOCH_OWNING_EXISTING_GOAL,
          "next_attempt":"nothing was written: no organization receipt, no source copy, no HEAD change",
          "derived_from_clock":False,"consequence_committed":False}
+UNVERIFIED_PREDICATE="SOURCE_RECEIPT_IS_ON_ITS_REPOSITORY_LEDGER_WITH_THIS_RUN_S_COMMITTED_REQUEST"
+def repo_ledger_root(repository):
+ """The repository ledger a source receipt is verified on: the supplied root, else the machine-local one."""
+ r=os.getenv("STEGVERSE_REPO_LEDGER_ROOT")
+ if r:return ledger_store.parse_locator(r)
+ return (Path(os.getenv("XDG_STATE_HOME",str(Path.home()/".local/state")))/"stegverse/repo-ledgers"/repository).resolve()
+def unverified_source_refusal(repo_receipt, digest, request):
+ """The six-field COMMITTED_REQUEST_DIGEST_UNVERIFIED of a source receipt, or None.
+
+ The source receipt must be the receipt at `digest` on its repository ledger,
+ reachable from that ledger's HEAD, and must carry this run's own committed
+ request (`request`, None outside a committed-request run). A rehashed
+ receipt that is not on the ledger, or one carrying another request, is
+ refused before anything is written. The ledger is only read.
+ """
+ terminal=True
+ try:
+  store=ledger_store.open_store(repo_ledger_root(repo_receipt["repository"]))
+  head=store.get(ledger_store.HEAD_KEY)
+  cursor=head.get("receipt_sha256") if isinstance(head,dict) and head.get("repository")==repo_receipt["repository"] else None
+  seen=set()
+  while isinstance(cursor,str) and cursor!=digest and cursor not in seen:
+   seen.add(cursor); prior=store.get(ledger_store.receipt_key(cursor))
+   cursor=prior.get("previous_receipt_sha256") if isinstance(prior,dict) else None
+  if cursor!=digest or store.get(ledger_store.receipt_key(digest))!=repo_receipt:
+   detail="source "+digest+" is not reachable from its repository ledger HEAD"
+  else:
+   evidence=repo_receipt.get("evidence")
+   carried=evidence.get("committed_request") if isinstance(evidence,dict) else None
+   detail=None if carried==request else ("source "+digest+" carries committed_request "+json.dumps(carried,sort_keys=True)
+                                         +", not this run's "+json.dumps(request,sort_keys=True))
+ except Exception as exc:
+  # The repository ledger could not be read: not verified, and retryable.
+  terminal=False; detail=("the repository ledger could not be read: "+type(exc).__name__+": "+str(exc))[:512]
+ if detail is None:return None
+ return {"disposition":"FAIL_CLOSED","failure_code":"COMMITTED_REQUEST_DIGEST_UNVERIFIED","failed_predicate":UNVERIFIED_PREDICATE,
+         "detail":detail,"required_evidence_or_repair":"pass the source receipt as recorded on its repository ledger, from a run of the same committed request",
+         "retry_entrypoint":EPOCH_RETRY_ENTRYPOINT,"owning_existing_goal":kernel.HB_EPOCH_OWNING_EXISTING_GOAL,
+         "next_attempt":"nothing was written: no organization receipt, no source copy, no HEAD change",
+         "terminal":terminal,"derived_from_clock":False,"consequence_committed":False}
 def ledger_root():
  """The organization ledger location supplied to this execution.
 
@@ -101,6 +141,8 @@ def append(repo_receipt, org_transition_class, predecessor, successor, boundary_
  refusal=source_refusal(repo_receipt)
  if refusal is not None:raise OrgLedgerEpochRefused(refusal)
  evidence,refused=committed_request.bind(boundary_evidence,"boundary_evidence")
+ if refused is not None:raise OrgLedgerEpochRefused(refused)
+ refused=unverified_source_refusal(repo_receipt,rd,evidence.get("committed_request"))
  if refused is not None:raise OrgLedgerEpochRefused(refused)
  root=ledger_root(); store=ledger_store.open_store(root); store.initialize()
  retained={ledger_store.source_key(rd): repo_receipt}
