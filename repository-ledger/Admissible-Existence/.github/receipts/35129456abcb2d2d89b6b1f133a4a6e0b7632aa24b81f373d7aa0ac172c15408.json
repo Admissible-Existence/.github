@@ -1,0 +1,46 @@
+{
+  "authority_effect": "NONE",
+  "evidence": {
+    "capability": "intr-destination",
+    "communication_id": "intr-path-v1:Admissible-Existence->AdmittedCode",
+    "destination_address": "admittedcode.intr-destination",
+    "destination_organization": "AdmittedCode",
+    "disposition": "ALLOW",
+    "merge_transfer_organization_receipt_sha256": "sha256:5caa4ce436f4a93c11280821d80ac143ee1ac952652a1520de5432a46a6bef51",
+    "message": {
+      "body": {
+        "path_id": "Admissible-Existence->AdmittedCode:intr-destination",
+        "schema": "stegverse.org-intr-destination-diagnostic/v1",
+        "transfer_commit": "30fd53251d92904ffe485e7aca4268b1e5bca840"
+      },
+      "communication_id": "intr-path-v1:Admissible-Existence->AdmittedCode",
+      "message_class": "ecosystem.communication"
+    },
+    "message_sha256": "sha256:7683b50f4eccb039edb6b5a511a367a113ad876196e9d43fbb78de89c17a1278",
+    "path_id": "Admissible-Existence->AdmittedCode:intr-destination",
+    "payload_sha256": "sha256:0bea3f6466583cd33fa27e48184225f9d0ead9e8aa957cf1885e951f71603b6d",
+    "repository": "Admissible-Existence/.github",
+    "schema": "stegverse.intr-path-transfer-evidence/v1",
+    "source_organization": "Admissible-Existence",
+    "transfer_commit": "30fd53251d92904ffe485e7aca4268b1e5bca840"
+  },
+  "hb_reference": {
+    "authority_effect": "NONE",
+    "derived_from_clock": false,
+    "epoch": 469411750,
+    "frequency_hz": 100,
+    "generation": 469411750,
+    "heartbeat_id": "HB:469411750",
+    "phase_offset_ns": 0,
+    "progression_dependency": "OSCILLATOR_ONLY"
+  },
+  "observed_at": "HB:469411750",
+  "predecessor_state_sha256": "sha256:0bea3f6466583cd33fa27e48184225f9d0ead9e8aa957cf1885e951f71603b6d",
+  "previous_receipt_sha256": "sha256:772209db1dd1441f44c858e486eb1b97dd5c6c1e62b0d9794600215a854f6833",
+  "receipt_sha256": "sha256:35129456abcb2d2d89b6b1f133a4a6e0b7632aa24b81f373d7aa0ac172c15408",
+  "repository": "Admissible-Existence/.github",
+  "schema": "stegverse.repo-transition-receipt/v1",
+  "successor_state_sha256": "sha256:4d64845d27dace82bb4f3a76636dc906de057b1e247905b44e0cff0abd55adfe",
+  "transition_class": "INTR_MESH_PATH_TRANSFER",
+  "transition_id": "INTR_MESH_PATH_TRANSFER:Admissible-Existence->AdmittedCode:intr-destination@intr-path-v1:Admissible-Existence->AdmittedCode"
+}
