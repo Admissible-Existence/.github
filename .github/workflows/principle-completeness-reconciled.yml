@@ -1,9 +1,6 @@
 name: Reconciled principle completeness evidence
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: "47 6 * * 1"
   push:
     branches: [main]
     paths:

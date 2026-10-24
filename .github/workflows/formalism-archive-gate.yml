@@ -13,7 +13,6 @@ on:
       - "data/formalism-archive-transfer-registry.json"
       - "tools/check_formalism_archive_gate.py"
       - ".github/workflows/formalism-archive-gate.yml"
-  workflow_dispatch:
 
 permissions:
   contents: read

@@ -8,6 +8,8 @@ SPEC=importlib.util.spec_from_file_location("org_kernel",ROOT/"org-kernel"/"kern
 K=importlib.util.module_from_spec(SPEC); SPEC.loader.exec_module(K)
 GWSPEC=importlib.util.spec_from_file_location("federation_gateway_transport",ROOT/"resident-runtime"/"federation_gateway_transport.py")
 GW=importlib.util.module_from_spec(GWSPEC); GWSPEC.loader.exec_module(GW)
+RSPEC=importlib.util.spec_from_file_location("committed_request_control",ROOT/"scripts"/"read_committed_request.py")
+REQUEST=importlib.util.module_from_spec(RSPEC); RSPEC.loader.exec_module(REQUEST)
 
 def main():
     ap=argparse.ArgumentParser(allow_abbrev=False)
@@ -30,11 +32,17 @@ def main():
     if refusal is not None:
         print(json.dumps(refusal,sort_keys=True))
         raise SystemExit(1)
+    # A run started from a committed request records its digest (B-P40).
+    request,refused=REQUEST.recorded()
+    if refused is not None:
+        print(json.dumps(refused,sort_keys=True))
+        raise SystemExit(1)
+    recorded={"committed_request":request} if request is not None else {}
     epoch=int(str(args.hb_epoch))
     reg=K.load_registry(ROOT)
     org=reg["organization"]
     if args.cmd=="status":
-        print(json.dumps(K.resident_status(ROOT,hb_epoch=args.hb_epoch),indent=2,sort_keys=True))
+        print(json.dumps({**K.resident_status(ROOT,hb_epoch=args.hb_epoch),**recorded},indent=2,sort_keys=True))
         return
     if args.cmd=="collect":
         if os.getenv("STEGVERSE_ORG_FEDERATION_GATEWAY_URL","").strip():
@@ -73,7 +81,8 @@ def main():
       "status":"PUBLISHED",
       "organization":org,
       "communication_id":out["communication_id"],
-      "published_count":out["published_count"]
+      "published_count":out["published_count"],
+      **recorded
     },indent=2,sort_keys=True))
 
 if __name__=="__main__":

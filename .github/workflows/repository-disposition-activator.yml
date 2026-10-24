@@ -1,7 +1,6 @@
 name: Repository disposition activator
 
 on:
-  workflow_dispatch:
   push:
     branches: [main]
     paths:

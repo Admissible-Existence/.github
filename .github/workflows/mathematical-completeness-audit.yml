@@ -1,9 +1,6 @@
 name: Mathematical completeness audit
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '23 5 * * *'
   push:
     branches: [main]
     paths:
