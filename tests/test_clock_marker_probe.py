@@ -3194,7 +3194,7 @@ class CommittedRequestRecordedTests(_Workspace):
         # receipt names another.
         aggregate = _load("probe_launder_aggregate", self.repo / "resident-runtime" / "aggregate_repo_transition.py")
         import inspect
-        self.assertEqual(list(inspect.signature(aggregate.repo_ledger_root).parameters), [])
+        self.assertEqual(list(inspect.signature(aggregate.source_ledger).parameters), [])
         attacker = self.mint("attacker-ledger", self.work / "attacker-ledger")
         self.refused_aggregate(aggregate, attacker, "SOURCE_RECEIPT_NOT_ON_LEDGER")
         other = self.mint("other-repository", self.work / "repo-ledger", THIS + "/other")
@@ -3271,9 +3271,10 @@ class CommittedRequestRecordedTests(_Workspace):
 
 
 class SourceLedgerPairingTests(_Workspace):
-    """CALLER_CHOSEN_SOURCE_LEDGER_ACCEPTED (lead 20:55Z): the organization writer
-    verifies a source receipt only on the repository ledger paired with the
-    organization ledger it appends to, and a request cannot choose it."""
+    """CALLER_CHOSEN_SOURCE_LEDGER_ACCEPTED (lead 21:13Z, paired-override form): with no
+    override the source ledger is the designated one; an override is accepted only as a
+    pair with the organization ledger, a POSIX pair only where this checkout tracks no
+    file; a lone, mismatched or request override is refused."""
 
     REF = "refs/stegverse/organization-ledger"
     NAMESPACE = "repository-ledger/Admissible-Existence/.github"
@@ -3330,8 +3331,45 @@ class SourceLedgerPairingTests(_Workspace):
                 before = snapshot(self.work)
                 with self.assertRaises(self.aggregate.OrgLedgerEpochRefused) as refused:
                     self.aggregate_source(source)
-                assert_six_fields(self, refused.exception.refusal, "SOURCE_LEDGER_NOT_PAIRED")
+                assert_six_fields(self, refused.exception.refusal, "CALLER_CHOSEN_SOURCE_LEDGER_REJECTED")
                 self.assertEqual(written(self.work, before), [])
+
+    def test_a_lone_repository_ledger_override_is_refused(self):
+        source = self.source()
+        os.environ.pop("STEGVERSE_ORG_LEDGER_ROOT")
+        before = snapshot(self.work)
+        with self.assertRaises(self.aggregate.OrgLedgerEpochRefused) as refused:
+            self.aggregate_source(source)
+        assert_six_fields(self, refused.exception.refusal, "CALLER_CHOSEN_SOURCE_LEDGER_REJECTED")
+        self.assertEqual(written(self.work, before), [])
+
+    def test_a_ledger_root_holding_tracked_files_is_not_contract_designated(self):
+        # A fake ledger committed in the checkout, then pointed at as a POSIX pair.
+        subprocess.run(["git", "init", "-q", str(self.repo)], check=True)
+        fake = self.repo / "fake-ledger"
+        self.pair(str(fake / "org"), str(fake / "repo"))
+        source = self.source()
+        identity = ["-c", "user.name=probe", "-c", "user.email=probe@example.invalid"]
+        subprocess.run(["git", "-C", str(self.repo), "add", "fake-ledger"], check=True)
+        subprocess.run(["git", "-C", str(self.repo), *identity, "commit", "-q", "-m", "fake ledger"], check=True)
+        before = snapshot(self.work)
+        with self.assertRaises(self.aggregate.OrgLedgerEpochRefused) as refused:
+            self.aggregate_source(source)
+        assert_six_fields(self, refused.exception.refusal, "LEDGER_ROOT_NOT_CONTRACT_DESIGNATED")
+        self.assertEqual(written(self.work, before), [])
+        # The same pair, untracked (a runner-temp or workspace root), is accepted.
+        subprocess.run(["git", "-C", str(self.repo), *identity, "rm", "-rq", "--cached", "fake-ledger"], check=True)
+        subprocess.run(["git", "-C", str(self.repo), *identity, "commit", "-q", "-m", "untrack"], check=True)
+        self.assertEqual(self.aggregate_source(source)["repo_receipt_sha256"], source["receipt_sha256"])
+
+    def test_with_no_override_only_the_designated_ledger_is_read(self):
+        source = self.source()  # on the workspace's POSIX ledger, not the designated one
+        os.environ.pop("STEGVERSE_REPO_LEDGER_ROOT")
+        os.environ.pop("STEGVERSE_ORG_LEDGER_ROOT")
+        os.environ["XDG_STATE_HOME"] = str(self.work)
+        with self.assertRaises(self.aggregate.OrgLedgerEpochRefused) as refused:
+            self.aggregate_source(source)
+        assert_six_fields(self, refused.exception.refusal, "SOURCE_RECEIPT_NOT_ON_LEDGER")
 
     def test_a_request_cannot_choose_the_repository_ledger(self):
         workflow = (ROOT / ".github" / "workflows" / "ledger-writer-dispatch.yml").read_text()

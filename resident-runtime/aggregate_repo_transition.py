@@ -8,7 +8,7 @@ transaction on the location the caller supplies, including a git ref.
 Authority and time are constraint variables. The disposition carried in
 boundary evidence is transition evidence only.
 """
-import argparse, hashlib, importlib.util, json, os
+import argparse, hashlib, importlib.util, json, os, subprocess
 from contextlib import nullcontext
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
@@ -65,42 +65,56 @@ def source_refusal(repo_receipt):
          "derived_from_clock":False,"consequence_committed":False}
 ON_LEDGER_PREDICATE="SOURCE_RECEIPT_IS_ON_ITS_REPOSITORY_LEDGER_REACHABLE_FROM_HEAD"
 UNVERIFIED_PREDICATE="SOURCE_RECEIPT_CARRIES_THIS_RUN_S_COMMITTED_REQUEST"
-PAIRED_PREDICATE="SOURCE_LEDGER_IS_THE_REPOSITORY_LEDGER_PAIRED_WITH_THIS_ORG_LEDGER"
+DESIGNATED_PREDICATE="SOURCE_LEDGER_IS_THE_DESIGNATED_LEDGER_OR_A_PAIRED_UNTRACKED_OVERRIDE"
 CHAIN_PREDICATE="SOURCE_REQUEST_CHAIN_IS_ACYCLIC_AND_BOUNDED"
 #: The longest source_committed_request chain an aggregate follows.
 SOURCE_REQUEST_CHAIN_LIMIT=8
 #: This repository's own transition ledger contract: the only repository whose
 #: receipts this writer can verify, on the only ledger it reads (row 8).
 REPO_CONTRACT=json.loads((ROOT/".stegverse/transition-ledger/contract.json").read_text())
-def repo_ledger_root():
- """This repository's own emit store, resolved exactly as emit.ledger_root resolves it.
+def designated_repo_ledger():
+ """This repository's designated ledger (contract.json repository_ledger_location): the
+ designated ref and namespace in this checkout, resolved through symlinks."""
+ location=REPO_CONTRACT["repository_ledger_location"]
+ return ledger_store.GitLocator(Path(os.path.realpath(ROOT)),location["ref"],location["namespace"])
+def _tracked_in_checkout(root):
+ """Whether the POSIX `root` holds any file git tracks in this checkout."""
+ completed=subprocess.run(["git","-C",str(ROOT),"ls-files","--",os.path.realpath(root)],capture_output=True,text=True)
+ return completed.returncode==0 and bool(completed.stdout.strip())
+def source_ledger():
+ """(the repository ledger a source receipt is verified on, None), or (None, (code, detail)).
 
- Never a location the source receipt or a request names: there is no source
- ledger argument, the receipt's `repository` never becomes a path (row 8),
- and a redirect is accepted only paired with the organization ledger
- (`unpaired_source_ledger`).
+ With no override it is the designated ledger. An override of
+ STEGVERSE_REPO_LEDGER_ROOT is accepted only as a pair with an override of
+ the organization ledger: for git, the contract namespace of the
+ organization ledger's own ref in the same repository (by realpath); for
+ POSIX, a POSIX organization ledger, neither root holding a file this
+ checkout tracks. A lone or mismatched override, and a request field, is
+ CALLER_CHOSEN_SOURCE_LEDGER_REJECTED; a tracked root is
+ LEDGER_ROOT_NOT_CONTRACT_DESIGNATED. No home, state or scratch directory is
+ a second root, and the receipt's `repository` never becomes a path.
  """
- r=os.getenv("STEGVERSE_REPO_LEDGER_ROOT")
- if r:return ledger_store.parse_locator(r)
- return (Path(os.getenv("XDG_STATE_HOME",str(Path.home()/".local/state")))/"stegverse/repo-ledgers"/REPO_CONTRACT["repository"]).resolve()
-def unpaired_source_ledger(repo_root, org_root):
- """Why `repo_root` is not the repository ledger paired with `org_root`, or None.
-
- A git repository ledger must be the contract namespace of the organization
- ledger's own ref in the same repository (both resolved through symlinks);
- a POSIX one is paired only with a POSIX organization ledger. A mixed pair
- is refused, so a redirect moves both ledgers together (CALLER_CHOSEN_SOURCE_LEDGER).
- """
+ repo_value,org_value=os.getenv("STEGVERSE_REPO_LEDGER_ROOT"),os.getenv("STEGVERSE_ORG_LEDGER_ROOT")
+ if not repo_value:return designated_repo_ledger(),None
+ rejected="CALLER_CHOSEN_SOURCE_LEDGER_REJECTED"
+ if not org_value:return None,(rejected,"STEGVERSE_REPO_LEDGER_ROOT is overridden without the organization ledger")
+ try:repo_root,org_root=ledger_store.parse_locator(repo_value),ledger_store.parse_locator(org_value)
+ except ValueError as exc:return None,(rejected,"a ledger override names no ledger: "+str(exc)[:256])
  git_repo,git_org=(isinstance(root,ledger_store.GitLocator) for root in (repo_root,org_root))
- if git_repo!=git_org:return "a git and a POSIX ledger are not a pair: "+str(repo_root)+" with "+str(org_root)
- if not git_repo:return None
- if Path(os.path.realpath(repo_root.repository))!=Path(os.path.realpath(org_root.repository)):
-  return "the repository ledger "+str(repo_root)+" is in another repository than the organization ledger "+str(org_root)
- if repo_root.ref!=org_root.ref:return "the repository ledger ref "+repo_root.ref+" is not the organization ledger ref "+org_root.ref
- namespace=REPO_CONTRACT["repository_ledger_location"]["namespace"]
- if repo_root.namespace!=namespace or org_root.namespace is not None:
-  return "the repository ledger namespace "+str(repo_root.namespace)+" is not "+namespace+" beside the organization ledger"
- return None
+ if git_repo!=git_org:return None,(rejected,"a git and a POSIX ledger are not a pair: "+str(repo_root)+" with "+str(org_root))
+ if git_repo:
+  namespace=REPO_CONTRACT["repository_ledger_location"]["namespace"]
+  if Path(os.path.realpath(repo_root.repository))!=Path(os.path.realpath(org_root.repository)):
+   return None,(rejected,"the repository ledger "+str(repo_root)+" is in another repository than the organization ledger "+str(org_root))
+  if repo_root.ref!=org_root.ref:
+   return None,(rejected,"the repository ledger ref "+repo_root.ref+" is not the organization ledger ref "+org_root.ref)
+  if repo_root.namespace!=namespace or org_root.namespace is not None:
+   return None,(rejected,"the repository ledger namespace "+str(repo_root.namespace)+" is not "+namespace+" beside the organization ledger")
+  return repo_root,None
+ for root in (repo_root,org_root):
+  if _tracked_in_checkout(root):
+   return None,("LEDGER_ROOT_NOT_CONTRACT_DESIGNATED",str(root)+" holds files this checkout tracks; a ledger root there is not contract-designated")
+ return repo_root,None
 def _bound_requests(store,head):
  """{committed request sha256: that request's source_committed_request sha256 or None} for every
  receipt reachable from `head` that is bound to a committed request (the direct field)."""
@@ -134,8 +148,9 @@ def unverified_source_refusal(repo_receipt, digest, request, source=None):
  """The six-field refusal of a source receipt, or None.
 
  Unconditionally, the source receipt must be this repository's, read from
- the repository ledger paired with this organization ledger
- (SOURCE_LEDGER_NOT_PAIRED), and be the receipt at `digest` there, byte for
+ the designated repository ledger or a paired override (`source_ledger`;
+ CALLER_CHOSEN_SOURCE_LEDGER_REJECTED, LEDGER_ROOT_NOT_CONTRACT_DESIGNATED),
+ and be the receipt at `digest` there, byte for
  byte, reachable from HEAD (SOURCE_RECEIPT_NOT_ON_LEDGER). Its
  committed_request must then be this run's own (`request`, None outside a
  committed-request run) or, when the run's request names `source`, exactly
@@ -150,10 +165,9 @@ def unverified_source_refusal(repo_receipt, digest, request, source=None):
   detail="source "+digest+" is "+str(repo_receipt.get("repository"))+"'s receipt; only "+repository+"'s own ledger is read"
  else:
   try:
-   repo_root=repo_ledger_root()
-   detail=unpaired_source_ledger(repo_root,ledger_root())
-   if detail is not None:
-    code,predicate="SOURCE_LEDGER_NOT_PAIRED",PAIRED_PREDICATE
+   repo_root,refused=source_ledger(); detail=None
+   if refused is not None:
+    (code,detail),predicate=refused,DESIGNATED_PREDICATE
    else:
     store=ledger_store.open_store(repo_root)
     head=store.get(ledger_store.HEAD_KEY)
@@ -186,7 +200,7 @@ def unverified_source_refusal(repo_receipt, digest, request, source=None):
    detail=("a stored repository ledger document is corrupt: "+type(exc).__name__+": "+str(exc))[:512]
  if detail is None:return None
  return {"disposition":"FAIL_CLOSED","failure_code":code,"failed_predicate":predicate,
-         "detail":detail,"required_evidence_or_repair":"pass the source receipt as recorded on the repository ledger paired with this organization ledger, from this run's committed request or the one it names as source_committed_request",
+         "detail":detail,"required_evidence_or_repair":"pass the source receipt as recorded on the designated repository ledger, or a paired untracked override, from this run's committed request or the one it names as source_committed_request",
          "retry_entrypoint":EPOCH_RETRY_ENTRYPOINT,"owning_existing_goal":kernel.HB_EPOCH_OWNING_EXISTING_GOAL,
          "next_attempt":"nothing was written: no organization receipt, no source copy, no HEAD change",
          "terminal":terminal,"derived_from_clock":False,"consequence_committed":False}
