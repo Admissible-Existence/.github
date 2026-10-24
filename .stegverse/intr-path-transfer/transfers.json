@@ -1,0 +1,55 @@
+{
+  "schema": "stegverse.intr-path-transfer-declaration/v1",
+  "source_repository": "Admissible-Existence/.github",
+  "rule": "Each row declares one InTr transfer over a declared mesh path whose source is this organization. Landing a row on main is the transition: after that push's main-merge transfer is ledgered, .github/workflows/intr-path-transfer.yml appends the path's source receipt, linked to that main-merge transfer receipt. A row already ledgered is answered from the ledger. No dispatch.",
+  "transfers": [
+    {
+      "path_id": "Admissible-Existence->AaCT-E:intr-destination",
+      "communication_id": "intr-path-v1:Admissible-Existence->AaCT-E"
+    },
+    {
+      "path_id": "Admissible-Existence->AdmittedCode:intr-destination",
+      "communication_id": "intr-path-v1:Admissible-Existence->AdmittedCode"
+    },
+    {
+      "path_id": "Admissible-Existence->Data-Continuation:intr-destination",
+      "communication_id": "intr-path-v1:Admissible-Existence->Data-Continuation"
+    },
+    {
+      "path_id": "Admissible-Existence->ECAT-ICAT-Formal:intr-destination",
+      "communication_id": "intr-path-v1:Admissible-Existence->ECAT-ICAT-Formal"
+    },
+    {
+      "path_id": "Admissible-Existence->GCAT-BCAT-Engine:intr-destination",
+      "communication_id": "intr-path-v1:Admissible-Existence->GCAT-BCAT-Engine"
+    },
+    {
+      "path_id": "Admissible-Existence->SV-011:intr-destination",
+      "communication_id": "intr-path-v1:Admissible-Existence->SV-011"
+    },
+    {
+      "path_id": "Admissible-Existence->SV-LLM:intr-destination",
+      "communication_id": "intr-path-v1:Admissible-Existence->SV-LLM"
+    },
+    {
+      "path_id": "Admissible-Existence->StegGhost:intr-destination",
+      "communication_id": "intr-path-v1:Admissible-Existence->StegGhost"
+    },
+    {
+      "path_id": "Admissible-Existence->StegVerse-002:intr-destination",
+      "communication_id": "intr-path-v1:Admissible-Existence->StegVerse-002"
+    },
+    {
+      "path_id": "Admissible-Existence->StegVerse-Labs:intr-destination",
+      "communication_id": "intr-path-v1:Admissible-Existence->StegVerse-Labs"
+    },
+    {
+      "path_id": "Admissible-Existence->StegVerse-org:intr-destination",
+      "communication_id": "intr-path-v1:Admissible-Existence->StegVerse-org"
+    },
+    {
+      "path_id": "Admissible-Existence->Triad-Test:intr-destination",
+      "communication_id": "intr-path-v1:Admissible-Existence->Triad-Test"
+    }
+  ]
+}

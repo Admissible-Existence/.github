@@ -192,8 +192,13 @@ def _result(evidence: Mapping[str, Any], appended: Mapping[str, Any] | None, *,
     return result
 
 
+# ``operation``, ``profile_id`` and ``boundary_extra`` name another operation on the
+# same two-level append (resident-runtime/merge_transfer.py); their defaults are
+# this ingress, so its receipts are unchanged.
 def _append(transition_class: str, packet_id: str, evidence: Mapping[str, Any],
-            hb_epoch: int | None) -> tuple[dict[str, Any], bool]:
+            hb_epoch: int | None, *,
+            operation: str = OPERATION_ID, profile_id: str = PROFILE_ID,
+            boundary_extra: Mapping[str, Any] | None = None) -> tuple[dict[str, Any], bool]:
     """Append at both levels. A replay of the same packet returns the recorded pair.
 
     An absent or invalid epoch raises before either store is opened.
@@ -215,9 +220,9 @@ def _append(transition_class: str, packet_id: str, evidence: Mapping[str, Any],
     # back from the repository receipt is not supplied: a replay can return a
     # receipt some clock path stamped. A replay of a recorded organization
     # receipt is returned as recorded.
-    boundary = {"operation": OPERATION_ID, "profile_id": PROFILE_ID,
+    boundary = {"operation": operation, "profile_id": profile_id,
                 "disposition": evidence["disposition"],
-                "communication_id": evidence.get("communication_id")}
+                "communication_id": evidence.get("communication_id"), **dict(boundary_extra or {})}
     if evidence.get("self_closure") is True:
         boundary["self_closure"] = True
     organization_receipt = organization_ledger.append(
