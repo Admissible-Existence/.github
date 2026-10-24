@@ -1,0 +1,35 @@
+{
+  "authority_effect": "NONE",
+  "boundary_evidence": {
+    "communication_id": "intr-path-v1:GCAT-BCAT-Engine->Admissible-Existence",
+    "disposition": "ALLOW",
+    "operation": "ORGANIZATION_INTR_DESTINATION_INGRESS",
+    "path_id": "GCAT-BCAT-Engine->Admissible-Existence:intr-destination",
+    "profile_id": "intr-destination",
+    "source_organization_receipt_sha256": "sha256:9cbe201829d21bca6a4666f720c4ada4a066f6247c47c331eb8de5e86dcc5ad9",
+    "source_repository": "GCAT-BCAT-Engine/.github",
+    "source_repository_receipt_sha256": "sha256:bf1b7cf778fd06e1dcbcea86c6b1d10786802bb7a2a73128a0b156a0d14a313b"
+  },
+  "hb_reference": {
+    "authority_effect": "NONE",
+    "derived_from_clock": false,
+    "epoch": 469411750,
+    "frequency_hz": 100,
+    "generation": 469411750,
+    "heartbeat_id": "HB:469411750",
+    "phase_offset_ns": 0,
+    "progression_dependency": "OSCILLATOR_ONLY"
+  },
+  "observed_at": "HB:469411750",
+  "org_transition_class": "REPO_STATE_PROPAGATION",
+  "organization": "Admissible-Existence",
+  "predecessor_org_state_sha256": "sha256:fbb178e54fbffa60ed06a3f897577b9a01e71fe2150c68c4c4452bf1d69dfce2",
+  "previous_receipt_sha256": "sha256:1f08a0ad835636e9b1cca9b0f21bcdb3c6a044030ed79f9d1050176e61838894",
+  "receipt_sha256": "sha256:b9199a5db8517758f4ae2768f962b916bc8b12bb4c9c56656dc6c8d7a252c2ad",
+  "repo_receipt_sha256": "sha256:05a5f1f0a9630637e913a646ba3b5493dfc500f60d054cbbb53b517767635b26",
+  "repo_transition_id": "INTR_MESH_PATH_INGRESS:GCAT-BCAT-Engine->Admissible-Existence:intr-destination@intr-path-v1:GCAT-BCAT-Engine->Admissible-Existence",
+  "schema": "stegverse.organization-transition-receipt/v1",
+  "source_repository": "Admissible-Existence/.github",
+  "source_transition_sha256": "sha256:05a5f1f0a9630637e913a646ba3b5493dfc500f60d054cbbb53b517767635b26",
+  "successor_org_state_sha256": "sha256:60388bb26ed1bcaa3b21a5a5b89dff6ad9ec8a937cf2397b9afc2fc6c4a2a122"
+}
