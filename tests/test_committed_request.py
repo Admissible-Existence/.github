@@ -84,6 +84,26 @@ class CommittedRequestGateTests(unittest.TestCase):
         values, refusal = self.gate.read(self.work / "absent.json", ("communication_id",))
         self.assertEqual(refusal["failure_code"], "COMMITTED_REQUEST_INVALID")
 
+    def test_choices_and_optional_text_fields(self):
+        choices = {"entrypoint": ("federation_cycle", "run_once")}
+        text = json.dumps({"entrypoint": "run_once", "hb_epoch": "4096", "ingress": "data/in put.json"})
+        values, refusal = self.gate.read(self.request(text), (), choices=choices, optional_text=("ingress", "extra"))
+        self.assertIsNone(refusal)
+        self.assertEqual((values["entrypoint"], values["ingress"], values["extra"]),
+                         ("run_once", "data/in put.json", ""))
+        for label, body in {
+            "not a choice": {"entrypoint": "status", "hb_epoch": "4096"},
+            "no choice": {"hb_epoch": "4096"},
+            "a newline in text": {"entrypoint": "run_once", "hb_epoch": "4096", "ingress": "a\nb=1"},
+            "text not a string": {"entrypoint": "run_once", "hb_epoch": "4096", "ingress": ["a"]},
+        }.items():
+            with self.subTest(request=label):
+                values, refusal = self.gate.read(self.request(json.dumps(body)), (), choices=choices,
+                                                 optional_text=("ingress",))
+                self.assertIsNone(values)
+                self.assertEqual(refusal["failure_code"], "COMMITTED_REQUEST_INVALID")
+                self.assertIs(refusal["terminal"], True)
+
     def test_the_cli_writes_outputs_only_for_a_passing_request(self):
         output = self.work / "github_output"
         passing = self.request(json.dumps({"communication_id": "b-p40-probe", "hb_epoch": "4096"}))

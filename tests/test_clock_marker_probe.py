@@ -772,52 +772,97 @@ class CollectorIntegrityTests(_Workspace):
         assert_six_fields(self, refused, "FRAME_INTEGRITY_INVALID")
 
 
-class HeartbeatWorkflowBindingTests(unittest.TestCase):
-    """B-P36n: only a run with an epoch binding applies; the others check and write nothing."""
+REQUEST_GATE = "python scripts/read_committed_request.py"
 
-    def test_apply_runs_only_with_the_dispatch_epoch(self):
-        workflow = (ROOT / ".github" / "workflows" / "heartbeat-response-node.yml").read_text()
-        triggers = workflow.split("\non:", 1)[1].split("\npermissions:", 1)[0]
-        # Only a dispatch that supplies hb_epoch reaches the epoch-requiring entrypoint.
-        self.assertIn("workflow_dispatch:", triggers)
-        self.assertIn("hb_epoch:", triggers)
+
+def _triggers(workflow):
+    return workflow.split("\non:", 1)[1].split("\npermissions:", 1)[0]
+
+
+def _gate_argv(workflow):
+    """The committed-request gate's argv, read from the workflow (folded or one line)."""
+    import shlex
+    lines = workflow.splitlines()
+    first = next(index for index, line in enumerate(lines) if REQUEST_GATE in line)
+    parts = [lines[first][lines[first].index(REQUEST_GATE):].strip()]
+    for line in lines[first + 1:]:
+        if not line.strip().startswith("--"):
+            break
+        parts.append(line.strip())
+    return shlex.split(" ".join(parts))
+
+
+def _run_gate(workflow, request_text, work):
+    """Run the workflow's own gate against `request_text` in place of its committed request."""
+    argv = _gate_argv(workflow)
+    request = Path(work) / "request.json"
+    request.write_text(request_text)
+    argv[argv.index("--request") + 1] = str(request)
+    env = {key: value for key, value in os.environ.items() if key != "GITHUB_OUTPUT"}
+    return subprocess.run([sys.executable, *argv[1:]], cwd=ROOT, capture_output=True, text=True, env=env)
+
+
+class HeartbeatWorkflowBindingTests(unittest.TestCase):
+    """B-P36n, B-P40 COMMITTED_REQUEST: only a committed request with an epoch applies."""
+
+    def setUp(self):
+        self.workflow = (ROOT / ".github" / "workflows" / "heartbeat-response-node.yml").read_text()
+
+    def test_apply_runs_only_with_the_committed_request_epoch(self):
+        triggers = _triggers(self.workflow)
+        # Only a push committing the request reaches the epoch-requiring entrypoint.
+        self.assertNotIn("workflow_dispatch:", triggers)
         self.assertNotIn("schedule:", triggers)
-        self.assertNotIn("push:", triggers)
-        step = workflow.split("- name: Receive and classify canonical heartbeat", 1)[1].split("- name:", 1)[0]
-        self.assertIn("HB_EPOCH: ${{ inputs.hb_epoch }}", step)
+        self.assertNotIn("inputs:", triggers)
+        self.assertEqual([line.strip() for line in triggers.splitlines() if line.strip().startswith("- ")],
+                         ['- "data/requests/heartbeat-response-node.json"'])
+        step = self.workflow.split("- name: Receive and classify canonical heartbeat", 1)[1].split("- name:", 1)[0]
+        self.assertIn("HB_EPOCH: ${{ steps.request.outputs.hb_epoch }}", step)
         applies = [line.strip() for line in step.splitlines() if "--apply" in line]
         self.assertEqual(applies, ['python scripts/process_heartbeat_response.py --apply --hb-epoch "$HB_EPOCH"'])
-        # An absent epoch fails closed with six fields before anything is invoked.
-        self.assertLess(step.index("writer_epoch_refusal(None"), step.index("--apply"))
+        # The request is gated before anything is invoked.
+        self.assertLess(self.workflow.index(REQUEST_GATE), self.workflow.index("--apply"))
+        self.assertEqual(_gate_argv(self.workflow)[2:],
+                         ["--request", "data/requests/heartbeat-response-node.json"])
 
     def test_the_fail_closed_step_prints_the_six_fields(self):
-        workflow = (ROOT / ".github" / "workflows" / "heartbeat-response-node.yml").read_text()
-        line = next(line.strip() for line in workflow.splitlines() if "writer_epoch_refusal(None" in line)
-        script = line.split("python -c '", 1)[1].rsplit("'", 1)[0]
-        import subprocess
-        import sys
-        completed = subprocess.run([sys.executable, "-c", script], cwd=ROOT, capture_output=True, text=True,
-                                   check=True)
-        assert_six_fields(self, json.loads(completed.stdout), "HB_EPOCH_NOT_SUPPLIED")
+        with tempfile.TemporaryDirectory() as work:
+            for text, code in (("{}", "HB_EPOCH_NOT_SUPPLIED"), ('{"hb_epoch": "31"}', "HB_EPOCH_INVALID"),
+                               ("{not json", "COMMITTED_REQUEST_INVALID")):
+                with self.subTest(request=text):
+                    completed = _run_gate(self.workflow, text, work)
+                    self.assertEqual(completed.returncode, 1)
+                    assert_six_fields(self, json.loads(completed.stdout), code)
 
-    def test_no_schedule_or_push_workflow_reaches_an_epoch_requiring_entrypoint(self):
+    def test_every_epoch_requiring_workflow_starts_from_a_committed_request(self):
         entrypoints = ("process_heartbeat_response.py --apply", "intr_destination_ingress.py",
-                       "organization_egress_boundary.py", "aggregate_repo_transition.py", "transition-ledger/emit.py")
+                       "organization_egress_boundary.py", "aggregate_repo_transition.py", "transition-ledger/emit.py",
+                       "run_once.py", "federation_cycle.py", "ecosystem_control.py", "dispatch_ledger_writer.py")
+        reached = set()
         for path in sorted((ROOT / ".github" / "workflows").glob("*.yml")):
             text = path.read_text()
             runs = [line for line in text.splitlines()
                     if line.strip().startswith("python ") and "py_compile" not in line]
             if not any(entry in line for line in runs for entry in entrypoints):
                 continue
+            reached.add(path.name)
             with self.subTest(workflow=path.name):
-                triggers = text.split("\non:", 1)[1].split("\npermissions:", 1)[0]
-                self.assertNotIn("schedule:", triggers)
-                self.assertNotIn("push:", triggers)
-                self.assertIn("hb_epoch:", triggers)
+                triggers = _triggers(text)
+                for event in ("schedule:", "workflow_dispatch:", "pull_request", "inputs:"):
+                    self.assertNotIn(event, triggers)
+                paths = [line.strip()[2:].strip('"') for line in triggers.splitlines()
+                         if line.strip().startswith("- ")]
+                self.assertTrue(paths)
+                self.assertTrue(all(item.startswith("data/requests/") for item in paths), paths)
+                first_run = min(text.index(line) for line in runs if any(entry in line for entry in entrypoints))
+                self.assertLess(text.index(REQUEST_GATE), first_run)
+                self.assertIn("${{ steps.request.outputs.hb_epoch }}", text)
+        self.assertEqual(reached, {"heartbeat-response-node.yml", "organization-ledger-transition.yml",
+                                   "resident-runtime-dispatch.yml", "ledger-writer-dispatch.yml"})
 
 
 class ManifestDispatcherTests(unittest.TestCase):
-    """B-P36n (lead 08:43Z): every manifest entrypoint has an in-tree dispatcher and an epoch binding."""
+    """B-P36n (lead 08:43Z), B-P40: every manifest entrypoint has an in-tree, committed-request dispatcher."""
 
     def setUp(self):
         self.manifest = json.loads((ROOT / "resident-runtime" / "activation-manifest.json").read_text())
@@ -830,29 +875,31 @@ class ManifestDispatcherTests(unittest.TestCase):
                                                "resident_cycle_entrypoint")}
 
     def test_the_dispatcher_is_declared_with_no_authority(self):
-        self.assertEqual(self.dispatcher["trigger"], "workflow_dispatch")
+        self.assertEqual(self.dispatcher["trigger"], "COMMITTED_REQUEST")
+        self.assertEqual(self.dispatcher["request"], "data/requests/resident-runtime-dispatch.json")
         self.assertEqual(self.dispatcher["authority_effect"], "NONE")
-        self.assertEqual(self.dispatcher["hb_epoch"], {"from": "dispatch_input", "input": "hb_epoch",
+        self.assertEqual(self.dispatcher["hb_epoch"], {"from": "committed_request", "field": "hb_epoch",
                                                        "required": True, "absent": "HB_EPOCH_NOT_SUPPLIED"})
         self.assertIs(self.manifest["github_actions_is_runtime_authority"], False)
-        triggers = self.workflow.split("\non:", 1)[1].split("\npermissions:", 1)[0]
-        self.assertIn("workflow_dispatch:", triggers)
-        self.assertNotIn("schedule:", triggers)
-        self.assertNotIn("push:", triggers)
-        hb_epoch = triggers.split("hb_epoch:", 1)[1].split("ingress:", 1)[0]
-        self.assertIn("required: true", hb_epoch)
+        triggers = _triggers(self.workflow)
+        for event in ("workflow_dispatch:", "schedule:", "inputs:"):
+            self.assertNotIn(event, triggers)
+        self.assertIn('- "' + self.dispatcher["request"] + '"', triggers)
+        argv = _gate_argv(self.workflow)
+        self.assertEqual(argv[argv.index("--request") + 1], self.dispatcher["request"])
 
     def test_every_declared_entrypoint_is_bound_and_invoked(self):
         bindings = self.dispatcher["entrypoints"]
         self.assertEqual(set(bindings), self.declared_entrypoints())
-        gate = self.step.index("writer_epoch_refusal(")
+        self.assertIn("HB_EPOCH: ${{ steps.request.outputs.hb_epoch }}", self.step)
+        gate = self.workflow.index(REQUEST_GATE)
         for path, binding in bindings.items():
             with self.subTest(entrypoint=path):
                 self.assertIn(binding, ("EPOCH_FREE", "EPOCH_REQUIRED"))
                 invocations = [line.strip() for line in self.step.splitlines()
                                if line.strip().startswith("python " + path)]
                 self.assertTrue(invocations, path)
-                self.assertLess(gate, self.step.index("python " + path))
+                self.assertLess(gate, self.workflow.index("python " + path))
                 source = (ROOT / path).read_text()
                 if binding == "EPOCH_FREE":
                     self.assertNotIn("hb-epoch", source)
@@ -862,20 +909,22 @@ class ManifestDispatcherTests(unittest.TestCase):
                     self.assertTrue(all('--hb-epoch "$HB_EPOCH"' in line for line in invocations))
 
     def test_the_gate_fails_closed_with_six_fields_before_anything_runs(self):
-        import os
-        import subprocess
-        import sys
-        line = next(line.strip() for line in self.step.splitlines() if "writer_epoch_refusal(" in line)
-        script = line.split("python -c '", 1)[1].rsplit("'", 1)[0]
-        for epoch, code in (("", "HB_EPOCH_NOT_SUPPLIED"), ("abc", "HB_EPOCH_INVALID"), ("31", "HB_EPOCH_INVALID")):
-            with self.subTest(epoch=epoch):
-                completed = subprocess.run([sys.executable, "-c", script], cwd=ROOT, capture_output=True, text=True,
-                                           env={**os.environ, "HB_EPOCH": epoch})
-                self.assertEqual(completed.returncode, 1)
-                assert_six_fields(self, json.loads(completed.stdout), code)
-        passed = subprocess.run([sys.executable, "-c", script], cwd=ROOT, capture_output=True, text=True,
-                                env={**os.environ, "HB_EPOCH": "4096"})
-        self.assertEqual((passed.returncode, passed.stdout), (0, ""))
+        with tempfile.TemporaryDirectory() as work:
+            for request, code in (({"entrypoint": "federation_cycle"}, "HB_EPOCH_NOT_SUPPLIED"),
+                                  ({"entrypoint": "federation_cycle", "hb_epoch": ""}, "HB_EPOCH_INVALID"),
+                                  ({"entrypoint": "federation_cycle", "hb_epoch": "abc"}, "HB_EPOCH_INVALID"),
+                                  ({"entrypoint": "federation_cycle", "hb_epoch": "31"}, "HB_EPOCH_INVALID"),
+                                  ({"entrypoint": "status", "hb_epoch": "4096"}, "COMMITTED_REQUEST_INVALID"),
+                                  ({"entrypoint": "run_once", "hb_epoch": "4096", "ingress": "a\nb"},
+                                   "COMMITTED_REQUEST_INVALID")):
+                with self.subTest(request=request):
+                    completed = _run_gate(self.workflow, json.dumps(request), work)
+                    self.assertEqual(completed.returncode, 1)
+                    assert_six_fields(self, json.loads(completed.stdout), code)
+            passed = _run_gate(self.workflow, json.dumps({"entrypoint": "run_once", "hb_epoch": "4096",
+                                                          "ingress": "data/ingress.json"}), work)
+            self.assertEqual(passed.returncode, 0, passed.stdout)
+            self.assertEqual(json.loads(passed.stdout)["hb_epoch"], "4096")
 
 
 class UnreadableFrameFileTests(_Workspace):
@@ -930,14 +979,18 @@ class LedgerWriterDispatcherTests(unittest.TestCase):
         self.assertEqual(self.binding["hb_epoch"]["required"], True)
         self.assertEqual(set(self.binding["entrypoints"]), set(self.dispatch.WRITERS.values()))
         self.assertEqual(set(self.binding["entrypoints"].values()), {"EPOCH_REQUIRED"})
+        self.assertEqual(self.binding["trigger"], "COMMITTED_REQUEST")
+        self.assertEqual(self.binding["hb_epoch"]["from"], "committed_request")
         workflow = (ROOT / self.binding["workflow"]).read_text()
-        triggers = workflow.split("\non:", 1)[1].split("\npermissions:", 1)[0]
-        self.assertNotIn("schedule:", triggers)
-        self.assertNotIn("push:", triggers)
-        self.assertIn("required: true", triggers.split("hb_epoch:", 1)[1].split("arguments:", 1)[0])
-        for name in self.dispatch.WRITERS:
-            self.assertIn("- " + name, triggers)
-        self.assertIn("python " + self.binding["dispatch_script"], workflow)
+        triggers = _triggers(workflow)
+        for event in ("workflow_dispatch:", "schedule:", "inputs:"):
+            self.assertNotIn(event, triggers)
+        self.assertIn('- "' + self.binding["request"] + '"', triggers)
+        argv = _gate_argv(workflow)
+        self.assertEqual(argv[argv.index("--request") + 1], self.binding["request"])
+        choice = next(item for item in argv if item.startswith("writer="))
+        self.assertEqual(set(choice.split("=", 1)[1].split(",")), set(self.dispatch.WRITERS))
+        self.assertLess(workflow.index(REQUEST_GATE), workflow.index("python " + self.binding["dispatch_script"]))
         pending = self.manifest["runtime_dispatcher_pending_substrate"]
         for name in ("failure_code", "failed_predicate", "required_evidence_or_repair",
                      "retry_entrypoint", "owning_existing_goal", "next_attempt"):

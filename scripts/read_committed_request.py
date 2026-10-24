@@ -8,14 +8,16 @@ anything is written, and either prints the values the writer needs (and
 appends them to $GITHUB_OUTPUT when that is set) or prints a six-field
 FAIL_CLOSED refusal and exits 1:
 
-* the file missing, unreadable, not UTF-8, not one JSON object, or carrying a
-  non-finite number: COMMITTED_REQUEST_INVALID (terminal);
+* the file missing, unreadable, not UTF-8, not one JSON object, carrying a
+  non-finite number, or a field that is missing, not an identifier, not one of
+  its declared choices, or not one line of text: COMMITTED_REQUEST_INVALID
+  (terminal);
 * no `hb_epoch`: HB_EPOCH_NOT_SUPPLIED;
 * an `hb_epoch` the shared rule refuses: HB_EPOCH_INVALID.
 
-The epoch is checked by the shared supplied-epoch rule
-(`organization_egress_boundary.supplied_epoch_failure`), so this gate and the
-writers cannot disagree about what an epoch is. No clock is read. The request
+The epoch is checked by the kernel's shared supplied-epoch rule
+(`kernel.supplied_epoch_failure`), so this gate and the writers cannot
+disagree about what an epoch is. No clock is read. The request
 file's sha256 is printed so the writer binds it into what it records.
 """
 from __future__ import annotations
@@ -34,11 +36,12 @@ OWNING_GOAL = "INTERLOCK-INTR-RUNTIME-INDEPENDENT-PROTOCOL-001"
 EPOCH_PREDICATE = "SUBMISSION_CARRIES_THE_SUPPLIED_HB_EPOCH"
 REQUEST_PREDICATE = "COMMITTED_REQUEST_IS_ONE_READABLE_JSON_OBJECT"
 FIELD = re.compile(r"[A-Za-z0-9._:-]{1,128}")
+#: One line of text: no control character can end a $GITHUB_OUTPUT line.
+TEXT = re.compile(r"[^\x00-\x1f\x7f]{0,4096}")
 
 
 def _shared_rule():
-    spec = importlib.util.spec_from_file_location(
-        "committed_request_egress", ROOT / "resident-runtime" / "organization_egress_boundary.py")
+    spec = importlib.util.spec_from_file_location("committed_request_kernel", ROOT / "org-kernel" / "kernel.py")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module.supplied_epoch_failure
@@ -65,8 +68,29 @@ def refusal(code: str, predicate: str, detail: str, repair: str, request: str, *
             "authority_effect": "NONE_REFUSAL_ONLY"}
 
 
-def read(request: Path, required: tuple[str, ...]) -> tuple[dict | None, dict | None]:
-    """(values, None) for a request that passes, or (None, six-field refusal)."""
+def _field_failure(value: dict, field: str, *, required: bool, choices: tuple[str, ...] = (),
+                   text: bool = False) -> str | None:
+    if field not in value and not required:
+        return None
+    item = value.get(field)
+    if not isinstance(item, str):
+        return field + " is missing or not a string"
+    if choices:
+        return None if item in choices else field + " is not one of " + ", ".join(choices)
+    if text:
+        return None if TEXT.fullmatch(item) else field + " is not one line of text (at most 4096 characters)"
+    return None if FIELD.fullmatch(item) else field + " is not an identifier ([A-Za-z0-9._:-]{1,128})"
+
+
+def read(request: Path, required: tuple[str, ...], *, choices: dict[str, tuple[str, ...]] | None = None,
+         optional_text: tuple[str, ...] = ()) -> tuple[dict | None, dict | None]:
+    """(values, None) for a request that passes, or (None, six-field refusal).
+
+    `required` fields are identifiers; `choices` fields must be one of their
+    declared values; `optional_text` fields, when present, are one line of
+    text and are output empty when absent.
+    """
+    choices = choices or {}
     name = str(request)
     try:
         raw = request.read_bytes()
@@ -79,11 +103,14 @@ def read(request: Path, required: tuple[str, ...]) -> tuple[dict | None, dict | 
         return None, refusal("COMMITTED_REQUEST_INVALID", REQUEST_PREDICATE,
                              "top-level " + type(value).__name__ + " is not a JSON object",
                              "commit " + name + " as one readable UTF-8 JSON object", name, terminal=True)
-    for field in required:
-        if not isinstance(value.get(field), str) or FIELD.fullmatch(value[field]) is None:
-            return None, refusal("COMMITTED_REQUEST_INVALID", REQUEST_PREDICATE,
-                                 field + " is missing or not an identifier ([A-Za-z0-9._:-]{1,128})",
-                                 "commit " + name + " with a string " + field, name, terminal=True)
+    checks = [(field, {"required": True}) for field in required]
+    checks += [(field, {"required": True, "choices": options}) for field, options in choices.items()]
+    checks += [(field, {"required": False, "text": True}) for field in optional_text]
+    for field, check in checks:
+        failure = _field_failure(value, field, **check)
+        if failure is not None:
+            return None, refusal("COMMITTED_REQUEST_INVALID", REQUEST_PREDICATE, failure,
+                                 "commit " + name + " with a valid " + field, name, terminal=True)
     if "hb_epoch" not in value:
         return None, refusal("HB_EPOCH_NOT_SUPPLIED", EPOCH_PREDICATE,
                              name + " declares no hb_epoch and no clock is read",
@@ -93,7 +120,8 @@ def read(request: Path, required: tuple[str, ...]) -> tuple[dict | None, dict | 
         code, detail = failure
         return None, refusal(code, EPOCH_PREDICATE, detail,
                              "commit " + name + " with hb_epoch: ASCII digits >= 32", name, terminal=False)
-    values = {field: value[field] for field in required}
+    values = {field: value[field] for field in (*required, *choices)}
+    values.update({field: value.get(field, "") for field in optional_text})
     values["hb_epoch"] = str(value["hb_epoch"])
     values["request_sha256"] = hashlib.sha256(raw).hexdigest()
     return values, None
@@ -103,9 +131,20 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0], allow_abbrev=False)
     parser.add_argument("--request", type=Path, required=True)
     parser.add_argument("--require", action="append", default=[],
-                        help="a string field the request must carry, besides hb_epoch")
+                        help="an identifier field the request must carry, besides hb_epoch")
+    parser.add_argument("--choice", action="append", default=[], metavar="FIELD=A,B,...",
+                        help="a field the request must carry with one of these values")
+    parser.add_argument("--optional-text", action="append", default=[],
+                        help="a field the request may carry as one line of text; empty when absent")
     args = parser.parse_args(argv)
-    values, refused = read(args.request, tuple(args.require))
+    choices = {}
+    for item in args.choice:
+        field, _, options = item.partition("=")
+        if not field or not options:
+            parser.error("--choice takes FIELD=A,B,...")
+        choices[field] = tuple(options.split(","))
+    values, refused = read(args.request, tuple(args.require), choices=choices,
+                           optional_text=tuple(args.optional_text))
     if refused is not None:
         print(json.dumps(refused, sort_keys=True))
         return 1

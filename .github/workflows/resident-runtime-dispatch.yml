@@ -5,25 +5,16 @@ name: Resident Runtime Dispatch
 # authority (authority_effect NONE). Each entrypoint keeps its own refusal
 # logic. A GitHub-hosted runner is an external machine, so a run here is CI
 # evidence, not the runtime substrate.
+#
+# B-P40 (lead ruling R-DISPATCH, COMMITTED_REQUEST): a push to main that
+# commits data/requests/resident-runtime-dispatch.json (entrypoint, hb_epoch,
+# and ingress for run_once) is the only start. There are no inputs and no
+# clock; the request is gated before anything is invoked.
 on:
-  workflow_dispatch:
-    inputs:
-      entrypoint:
-        description: "manifest-declared entrypoint to invoke"
-        required: true
-        type: choice
-        options:
-          - federation_cycle
-          - ecosystem_control_status
-          - run_once
-      hb_epoch:
-        description: "supplied heartbeat epoch (ASCII digits >= 32); the run fails closed without one"
-        required: true
-        type: string
-      ingress:
-        description: "run_once only: repository path of the ingress envelope"
-        required: false
-        type: string
+  push:
+    branches: [main]
+    paths:
+      - "data/requests/resident-runtime-dispatch.json"
 
 permissions:
   contents: read
@@ -33,23 +24,28 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
+      # The request and its epoch are checked by the kernel's shared rule before
+      # anything is invoked; an unusable request, or an absent or invalid
+      # epoch, fails closed with six fields.
+      - name: Read the committed request and gate its supplied epoch
+        id: request
+        run: >-
+          python scripts/read_committed_request.py --request data/requests/resident-runtime-dispatch.json
+          --choice entrypoint=federation_cycle,ecosystem_control_status,run_once --optional-text ingress
       - name: Invoke the declared entrypoint
         env:
-          ENTRYPOINT: ${{ inputs.entrypoint }}
-          HB_EPOCH: ${{ inputs.hb_epoch }}
-          INGRESS: ${{ inputs.ingress }}
+          ENTRYPOINT: ${{ steps.request.outputs.entrypoint }}
+          HB_EPOCH: ${{ steps.request.outputs.hb_epoch }}
+          INGRESS: ${{ steps.request.outputs.ingress }}
         shell: bash
         run: |
           set -euo pipefail
-          # The epoch is checked by the kernel's shared rule before anything is
-          # invoked; an empty or invalid one fails closed with six fields.
-          HB_EPOCH="$HB_EPOCH" python -c 'import importlib.util, json, os, sys; spec = importlib.util.spec_from_file_location("kernel", "org-kernel/kernel.py"); kernel = importlib.util.module_from_spec(spec); spec.loader.exec_module(kernel); refusal = kernel.writer_epoch_refusal(os.environ.get("HB_EPOCH") or None, retry_entrypoint="resident-runtime-dispatch.yml workflow_dispatch input hb_epoch"); refusal is None or (print(json.dumps(refusal, sort_keys=True)), sys.exit(1))'
           # Every declared entrypoint is EPOCH_REQUIRED (activation-manifest.json
           # dispatcher.entrypoints): each stamps what it writes at this epoch.
           case "$ENTRYPOINT" in
@@ -60,7 +56,7 @@ jobs:
               python resident-runtime/ecosystem_control.py --hb-epoch "$HB_EPOCH" status
               ;;
             run_once)
-              if [ -z "${INGRESS:-}" ]; then echo "run_once requires the ingress input"; exit 1; fi
+              if [ -z "${INGRESS:-}" ]; then echo "run_once requires ingress in the committed request"; exit 1; fi
               python resident-runtime/run_once.py --ingress "$INGRESS" --egress "$RUNNER_TEMP/egress.json" --hb-epoch "$HB_EPOCH"
               ;;
           esac
