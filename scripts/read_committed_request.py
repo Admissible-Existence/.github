@@ -19,6 +19,11 @@ The epoch is checked by the kernel's shared supplied-epoch rule
 (`kernel.supplied_epoch_failure`), so this gate and the writers cannot
 disagree about what an epoch is. No clock is read. The request
 file's sha256 is printed so the writer binds it into what it records.
+
+A workflow passes the request on to its writer as STEGVERSE_COMMITTED_REQUEST_PATH
+and STEGVERSE_COMMITTED_REQUEST_SHA256; the writer records `recorded()`,
+`committed_request {path, sha256, hb_epoch_source: COMMITTED_REQUEST}`, on
+everything it writes.
 """
 from __future__ import annotations
 
@@ -36,6 +41,9 @@ OWNING_GOAL = "INTERLOCK-INTR-RUNTIME-INDEPENDENT-PROTOCOL-001"
 EPOCH_PREDICATE = "SUBMISSION_CARRIES_THE_SUPPLIED_HB_EPOCH"
 REQUEST_PREDICATE = "COMMITTED_REQUEST_IS_ONE_READABLE_JSON_OBJECT"
 FIELD = re.compile(r"[A-Za-z0-9._:-]{1,128}")
+DIGEST = re.compile(r"[0-9a-f]{64}")
+REQUEST_PATH_ENV = "STEGVERSE_COMMITTED_REQUEST_PATH"
+REQUEST_SHA256_ENV = "STEGVERSE_COMMITTED_REQUEST_SHA256"
 #: One line of text: no control character can end a $GITHUB_OUTPUT line.
 TEXT = re.compile(r"[^\x00-\x1f\x7f]{0,4096}")
 
@@ -125,6 +133,23 @@ def read(request: Path, required: tuple[str, ...], *, choices: dict[str, tuple[s
     values["hb_epoch"] = str(value["hb_epoch"])
     values["request_sha256"] = hashlib.sha256(raw).hexdigest()
     return values, None
+
+
+def recorded(environ=None) -> tuple[dict | None, dict | None]:
+    """(committed_request, None) for a writer to record, (None, None) outside a
+    committed-request run, or (None, six-field refusal) for a half-set or
+    malformed one, which the writer raises before anything is written."""
+    environ = os.environ if environ is None else environ
+    path, digest = environ.get(REQUEST_PATH_ENV) or "", environ.get(REQUEST_SHA256_ENV) or ""
+    if not path and not digest:
+        return None, None
+    if not path or TEXT.fullmatch(path) is None or DIGEST.fullmatch(digest) is None:
+        return None, refusal("COMMITTED_REQUEST_INVALID", "COMMITTED_REQUEST_DIGEST_IS_RECORDED",
+                             REQUEST_PATH_ENV + " and " + REQUEST_SHA256_ENV + " must both be set, to the request's "
+                             "path and its lowercase hex sha256",
+                             "pass the gate's request path and request_sha256 to the writer", path or "the request",
+                             terminal=True)
+    return {"path": path, "sha256": digest, "hb_epoch_source": "COMMITTED_REQUEST"}, None
 
 
 def main(argv: list[str] | None = None) -> int:

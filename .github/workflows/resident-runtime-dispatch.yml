@@ -43,6 +43,8 @@ jobs:
           ENTRYPOINT: ${{ steps.request.outputs.entrypoint }}
           HB_EPOCH: ${{ steps.request.outputs.hb_epoch }}
           INGRESS: ${{ steps.request.outputs.ingress }}
+          STEGVERSE_COMMITTED_REQUEST_PATH: data/requests/resident-runtime-dispatch.json
+          STEGVERSE_COMMITTED_REQUEST_SHA256: ${{ steps.request.outputs.request_sha256 }}
         shell: bash
         run: |
           set -euo pipefail

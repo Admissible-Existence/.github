@@ -8,6 +8,8 @@ SPEC=importlib.util.spec_from_file_location("org_kernel",ROOT/"org-kernel"/"kern
 K=importlib.util.module_from_spec(SPEC); SPEC.loader.exec_module(K)
 GWSPEC=importlib.util.spec_from_file_location("federation_gateway_transport",ROOT/"resident-runtime"/"federation_gateway_transport.py")
 GW=importlib.util.module_from_spec(GWSPEC); GWSPEC.loader.exec_module(GW)
+RSPEC=importlib.util.spec_from_file_location("committed_request_cycle",ROOT/"scripts"/"read_committed_request.py")
+REQUEST=importlib.util.module_from_spec(RSPEC); RSPEC.loader.exec_module(REQUEST)
 EPOCH_RETRY_ENTRYPOINT="resident-runtime/federation_cycle.py --hb-epoch (or HB_EPOCH)"
 
 def main(argv=None):
@@ -23,6 +25,11 @@ def main(argv=None):
         print(json.dumps(refusal,sort_keys=True))
         return 1
     hb=K.supplied_hb_reference(hb_epoch,retry_entrypoint=EPOCH_RETRY_ENTRYPOINT)
+    # A cycle started from a committed request records its digest (B-P40).
+    request,refused=REQUEST.recorded()
+    if refused is not None:
+        print(json.dumps(refused,sort_keys=True))
+        return 1
     if os.getenv("STEGVERSE_ORG_FEDERATION_GATEWAY_URL","").strip():
         receipt=GW.resident_gateway_cycle(ROOT)
         receipt["heartbeat_reference"]=hb
@@ -41,6 +48,8 @@ def main(argv=None):
           "authority_effect":"NONE_CARRIER_ONLY",
           "transport":"LOCAL_SPOOL_FALLBACK"
         }
+    if request is not None:
+        receipt["committed_request"]=request
     out=ROOT/"resident-runtime"/"federation"/"latest-cycle.json"
     out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(json.dumps(receipt,indent=2,sort_keys=True)+"\n")

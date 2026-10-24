@@ -104,6 +104,24 @@ class CommittedRequestGateTests(unittest.TestCase):
                 self.assertEqual(refusal["failure_code"], "COMMITTED_REQUEST_INVALID")
                 self.assertIs(refusal["terminal"], True)
 
+    def test_a_writer_records_the_request_it_was_passed(self):
+        path, digest = "data/requests/ledger-writer-dispatch.json", "ab" * 32
+        self.assertEqual(self.gate.recorded({}), (None, None))
+        self.assertEqual(self.gate.recorded({self.gate.REQUEST_PATH_ENV: path, self.gate.REQUEST_SHA256_ENV: digest}),
+                         ({"path": path, "sha256": digest, "hb_epoch_source": "COMMITTED_REQUEST"}, None))
+        for label, environ in {
+            "no digest": {self.gate.REQUEST_PATH_ENV: path},
+            "no path": {self.gate.REQUEST_SHA256_ENV: digest},
+            "uppercase digest": {self.gate.REQUEST_PATH_ENV: path, self.gate.REQUEST_SHA256_ENV: digest.upper()},
+            "short digest": {self.gate.REQUEST_PATH_ENV: path, self.gate.REQUEST_SHA256_ENV: "ab"},
+        }.items():
+            with self.subTest(environ=label):
+                values, refusal = self.gate.recorded(environ)
+                self.assertIsNone(values)
+                self.assertEqual(refusal["failure_code"], "COMMITTED_REQUEST_INVALID")
+                for field in SIX:
+                    self.assertTrue(refusal[field], field)
+
     def test_the_cli_writes_outputs_only_for_a_passing_request(self):
         output = self.work / "github_output"
         passing = self.request(json.dumps({"communication_id": "b-p40-probe", "hb_epoch": "4096"}))

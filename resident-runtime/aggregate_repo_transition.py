@@ -22,6 +22,9 @@ def _load_ledger_store():
 ledger_store=_load_ledger_store()
 _kspec=importlib.util.spec_from_file_location("kernel_org_ledger", ROOT/"org-kernel/kernel.py")
 kernel=importlib.util.module_from_spec(_kspec); _kspec.loader.exec_module(kernel)
+# A run started from a committed request records it (B-P40 COMMITTED_REQUEST).
+_rspec=importlib.util.spec_from_file_location("committed_request_org_ledger", ROOT/"scripts/read_committed_request.py")
+committed_request=importlib.util.module_from_spec(_rspec); _rspec.loader.exec_module(committed_request)
 #: An append's epoch is supplied by its caller and checked by the kernel's
 #: shared rule (SUBMISSION_CARRIES_THE_SUPPLIED_HB_EPOCH); an absent or invalid
 #: one is refused six-field FAIL_CLOSED before anything is written, as
@@ -97,7 +100,11 @@ def append(repo_receipt, org_transition_class, predecessor, successor, boundary_
  rd=verify_repo(repo_receipt)
  refusal=source_refusal(repo_receipt)
  if refusal is not None:raise OrgLedgerEpochRefused(refusal)
- evidence=dict(boundary_evidence); root=ledger_root(); store=ledger_store.open_store(root); store.initialize()
+ request,refused=committed_request.recorded()
+ if refused is not None:raise OrgLedgerEpochRefused(refused)
+ evidence=dict(boundary_evidence)
+ if request is not None:evidence["committed_request"]=request
+ root=ledger_root(); store=ledger_store.open_store(root); store.initialize()
  retained={ledger_store.source_key(rd): repo_receipt}
  for _attempt in range(128):
   guard=store.exclusive() if hasattr(store, "exclusive") else nullcontext()

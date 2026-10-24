@@ -29,6 +29,9 @@ def lr():
 # cannot disagree about what an epoch is.
 _kspec=importlib.util.spec_from_file_location("kernel", ROOT/"org-kernel/kernel.py")
 kernel=importlib.util.module_from_spec(_kspec); _kspec.loader.exec_module(kernel)
+# A run started from a committed request records it (B-P40 COMMITTED_REQUEST).
+_rspec=importlib.util.spec_from_file_location("committed_request_emit", ROOT/"scripts/read_committed_request.py")
+committed_request=importlib.util.module_from_spec(_rspec); _rspec.loader.exec_module(committed_request)
 EPOCH_RETRY_ENTRYPOINT=".stegverse/transition-ledger/emit.py::append (hb_epoch=, or --hb-epoch)"
 RepoLedgerEpochRefused=kernel.SuppliedEpochRefused
 def epoch_refusal(hb_epoch):
@@ -59,7 +62,10 @@ def append(transition_id, transition_class, predecessor, successor, evidence, au
     evidence only.
     """
     hb=hb_reference(hb_epoch)
+    request,refused=committed_request.recorded()
+    if refused is not None: raise RepoLedgerEpochRefused(refused)
     evidence=dict(evidence)
+    if request is not None: evidence["committed_request"]=request
     root=lr(); store=ledger_store.open_store(root); store.initialize()
     for _attempt in range(128):
         guard=store.exclusive() if hasattr(store, "exclusive") else nullcontext()

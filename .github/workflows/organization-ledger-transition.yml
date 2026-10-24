@@ -84,6 +84,8 @@ jobs:
           COMMUNICATION_ID: ${{ steps.request.outputs.communication_id }}
           HB_EPOCH: ${{ steps.request.outputs.hb_epoch }}
           REQUEST_SHA256: ${{ steps.request.outputs.request_sha256 }}
+          STEGVERSE_COMMITTED_REQUEST_PATH: data/requests/organization-ledger-transition.json
+          STEGVERSE_COMMITTED_REQUEST_SHA256: ${{ steps.request.outputs.request_sha256 }}
         run: |
           set -euo pipefail
           export STEGVERSE_ORG_LEDGER_ROOT="git+$GITHUB_WORKSPACE#$LEDGER_REF"

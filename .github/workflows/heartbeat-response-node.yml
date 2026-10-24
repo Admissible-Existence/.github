@@ -38,6 +38,8 @@ jobs:
       - name: Receive and classify canonical heartbeat
         env:
           HB_EPOCH: ${{ steps.request.outputs.hb_epoch }}
+          STEGVERSE_COMMITTED_REQUEST_PATH: data/requests/heartbeat-response-node.json
+          STEGVERSE_COMMITTED_REQUEST_SHA256: ${{ steps.request.outputs.request_sha256 }}
         shell: bash
         run: |
           set -euo pipefail

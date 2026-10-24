@@ -2922,5 +2922,136 @@ class HeartbeatResponseEpochTests(unittest.TestCase):
         self.assertIn("HB_NODE_CURRENT", self.apply(None))
 
 
+REQUEST_DIGEST = "ab" * 32
+
+
+class CommittedRequestRecordedTests(_Workspace):
+    """B-P40 clause (b): every record a committed-request run writes carries
+    committed_request {path, sha256, hb_epoch_source: COMMITTED_REQUEST}."""
+
+    WORKFLOWS = {
+        "organization-ledger-transition.yml": "data/requests/organization-ledger-transition.json",
+        "ledger-writer-dispatch.yml": "data/requests/ledger-writer-dispatch.json",
+        "resident-runtime-dispatch.yml": "data/requests/resident-runtime-dispatch.json",
+        "heartbeat-response-node.yml": "data/requests/heartbeat-response-node.json",
+    }
+
+    def request(self, path):
+        os.environ["STEGVERSE_COMMITTED_REQUEST_PATH"] = path
+        os.environ["STEGVERSE_COMMITTED_REQUEST_SHA256"] = REQUEST_DIGEST
+        return {"path": path, "sha256": REQUEST_DIGEST, "hb_epoch_source": "COMMITTED_REQUEST"}
+
+    def run_cli(self, *argv):
+        completed = subprocess.run([sys.executable, *argv], cwd=self.repo, capture_output=True, text=True)
+        self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+        return completed.stdout
+
+    def receipts(self):
+        found = []
+        for root in (self.work / "repo-ledger", self.work / "org-ledger"):
+            for path in sorted(root.rglob("*.json")):
+                record = json.loads(path.read_text())
+                if record.get("schema") in ("stegverse.repo-transition-receipt/v1",
+                                            "stegverse.organization-transition-receipt/v1"):
+                    found.append((path, record))
+        return found
+
+    def test_each_workflow_passes_its_gated_request_to_the_writer(self):
+        for name, request in self.WORKFLOWS.items():
+            with self.subTest(workflow=name):
+                text = (ROOT / ".github" / "workflows" / name).read_text()
+                self.assertEqual(text.count("STEGVERSE_COMMITTED_REQUEST_PATH: " + request), 1)
+                self.assertEqual(text.count(
+                    "STEGVERSE_COMMITTED_REQUEST_SHA256: ${{ steps.request.outputs.request_sha256 }}"), 1)
+                argv = _gate_argv(text)
+                self.assertEqual(argv[argv.index("--request") + 1], request)
+                self.assertLess(text.index(REQUEST_GATE), text.index("STEGVERSE_COMMITTED_REQUEST_PATH"))
+
+    def test_every_ledger_receipt_records_the_committed_request(self):
+        # ledger-writer-dispatch: emit and aggregate through the dispatcher,
+        # egress and ingress through their own entrypoints.
+        recorded = self.request("data/requests/ledger-writer-dispatch.json")
+        receipt = json.loads(self.run_cli(
+            "scripts/dispatch_ledger_writer.py", "--writer", "repository-ledger-emit", "--hb-epoch", "4096",
+            "--arguments", "--transition-id request-probe --transition-class PROBE "
+            "--predecessor-state-sha256 sha256:" + "0" * 64 + " --successor-state-sha256 sha256:" + "1" * 64))
+        self.assertEqual(receipt["evidence"]["committed_request"], recorded)
+        source = self.work / "repo-receipt.json"
+        source.write_text(json.dumps(receipt))
+        aggregated = json.loads(self.run_cli(
+            "scripts/dispatch_ledger_writer.py", "--writer", "organization-ledger-aggregate", "--hb-epoch", "4096",
+            "--arguments", "--repo-receipt " + str(source) + " --predecessor-org-state-sha256 sha256:" + "2" * 64
+            + " --successor-org-state-sha256 sha256:" + "3" * 64))
+        self.assertEqual(aggregated["boundary_evidence"]["committed_request"], recorded)
+        egress = _load("probe_request_egress", self.repo / "resident-runtime" / "organization_egress_boundary.py")
+        payload = {"message_class": "ecosystem.communication", "communication_id": "request-probe",
+                   "subject": "probe",
+                   "body": {"schema": "stegverse.org-intr-destination-diagnostic/v1", "probe": "diagnostic-crossing"}}
+        self.assertIs(egress.emit(PEER, payload, standing=STANDING, capability="intr-destination",
+                                  mesh_root=self.mesh, hb_epoch="4096")["emitted"], True)
+        self.run_cli("resident-runtime/intr_destination_ingress.py", "--self-close", "--communication-id",
+                     "request-probe", "--hb-epoch", "4096", "--packet-id", "request-probe:request-sha256:"
+                     + REQUEST_DIGEST, "--out", str(self.work / "closure.json"))
+        receipts = self.receipts()
+        self.assertGreaterEqual(len(receipts), 6)
+        for path, record in receipts:
+            with self.subTest(receipt=path.name):
+                evidence = record.get("evidence", record.get("boundary_evidence"))
+                self.assertEqual(evidence["committed_request"], recorded)
+
+    def test_the_resident_cycle_records_carry_the_committed_request(self):
+        recorded = self.request("data/requests/resident-runtime-dispatch.json")
+        cycle = _load("probe_request_cycle", self.repo / "resident-runtime" / "federation_cycle.py")
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(cycle.main(["--hb-epoch", "4096"]), 0)
+        latest = json.loads((self.repo / "resident-runtime" / "federation" / "latest-cycle.json").read_text())
+        self.assertEqual(latest["committed_request"], recorded)
+        status = json.loads(self.run_cli("resident-runtime/ecosystem_control.py", "--hb-epoch", "4096", "status"))
+        self.assertEqual(status["committed_request"], recorded)
+        transport = _load("probe_request_transport", self.repo / "org-boundary" / "runtime" / "intr_transport.py")
+        ingress = transport.build_ingress({"org": PEER, "service": "p"},
+                                          {"org": THIS, "service": "admissible-existence.boundary-diagnostic"},
+                                          {"probe": 1}, "org-federation", "probe", packet_id="request-run-once",
+                                          epoch=4096)
+        envelope = self.work / "ingress.json"
+        envelope.write_text(json.dumps(ingress))
+        result = json.loads(self.run_cli("resident-runtime/run_once.py", "--ingress", str(envelope), "--egress",
+                                         str(self.work / "egress.json"), "--hb-epoch", "4096"))
+        self.assertEqual(result["committed_request"], recorded)
+
+    def test_both_heartbeat_receipts_carry_the_committed_request(self):
+        recorded = self.request("data/requests/heartbeat-response-node.json")
+        node = _load("probe_request_node", self.repo / "scripts" / "process_heartbeat_response.py")
+        receipts = self.work / "receipts"
+        body = json.dumps({"messages": [HeartbeatResponseEpochTests.MESSAGE]}).encode()
+        config = json.loads((self.repo / "data" / "heartbeat-response-node.json").read_text())
+        with mock.patch.object(node, "RECEIPTS", receipts), \
+                mock.patch.object(node, "urlopen", lambda *a, **k: contextlib.nullcontext(io.BytesIO(body))), \
+                contextlib.redirect_stdout(io.StringIO()):
+            node.apply(config, "4096")
+        written_receipts = sorted(receipts.glob("*.json"))
+        self.assertEqual(len(written_receipts), 2)
+        for path in written_receipts:
+            with self.subTest(receipt=path.name):
+                self.assertEqual(json.loads(path.read_text())["committed_request"], recorded)
+
+    def test_a_malformed_committed_request_is_refused_before_anything_is_written(self):
+        os.environ["STEGVERSE_COMMITTED_REQUEST_PATH"] = "data/requests/ledger-writer-dispatch.json"
+        os.environ["STEGVERSE_COMMITTED_REQUEST_SHA256"] = "not-a-digest"
+        completed = subprocess.run(
+            [sys.executable, "scripts/dispatch_ledger_writer.py", "--writer", "repository-ledger-emit",
+             "--hb-epoch", "4096", "--arguments", "--transition-id request-probe --transition-class PROBE "
+             "--predecessor-state-sha256 sha256:" + "0" * 64 + " --successor-state-sha256 sha256:" + "1" * 64],
+            cwd=self.repo, capture_output=True, text=True)
+        self.assertEqual(completed.returncode, 1, completed.stderr)
+        assert_six_fields(self, json.loads(completed.stdout), "COMMITTED_REQUEST_INVALID")
+        cycle = _load("probe_request_cycle_refused", self.repo / "resident-runtime" / "federation_cycle.py")
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            self.assertEqual(cycle.main(["--hb-epoch", "4096"]), 1)
+        assert_six_fields(self, json.loads(out.getvalue()), "COMMITTED_REQUEST_INVALID")
+        self.assertFalse((self.repo / "resident-runtime" / "federation" / "latest-cycle.json").exists())
+        self.assertEqual(self.receipts(), [])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -43,6 +43,8 @@ jobs:
           ARGUMENTS: ${{ steps.request.outputs.arguments }}
           REPO_LEDGER_ROOT: ${{ steps.request.outputs.repo_ledger_root }}
           ORG_LEDGER_ROOT: ${{ steps.request.outputs.org_ledger_root }}
+          STEGVERSE_COMMITTED_REQUEST_PATH: data/requests/ledger-writer-dispatch.json
+          STEGVERSE_COMMITTED_REQUEST_SHA256: ${{ steps.request.outputs.request_sha256 }}
         shell: bash
         run: |
           set -euo pipefail
