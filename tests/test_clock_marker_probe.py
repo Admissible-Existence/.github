@@ -3113,17 +3113,19 @@ class CommittedRequestRecordedTests(_Workspace):
             return {**body, "receipt_sha256": emit.sha(body)}
 
         sources = {
-            "off-ledger, forged request": rehashed(evidence={"committed_request": self.FORGED}),
-            "off-ledger, this run's request": rehashed(transition_id="probe:rehashed"),
-            "on-ledger, another request": other,
+            "off-ledger, forged request": (rehashed(evidence={"committed_request": self.FORGED}),
+                                           "SOURCE_RECEIPT_NOT_ON_LEDGER"),
+            "off-ledger, this run's request": (rehashed(transition_id="probe:rehashed"),
+                                               "SOURCE_RECEIPT_NOT_ON_LEDGER"),
+            "on-ledger, another request": (other, "COMMITTED_REQUEST_DIGEST_UNVERIFIED"),
         }
-        for label, source in sources.items():
+        for label, (source, code) in sources.items():
             with self.subTest(source=label):
                 before = snapshot(self.work)
                 with self.assertRaises(aggregate.OrgLedgerEpochRefused) as refused:
                     aggregate.append(source, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64, "sha256:" + "3" * 64,
                                      {}, hb_epoch="4096")
-                assert_six_fields(self, refused.exception.refusal, "COMMITTED_REQUEST_DIGEST_UNVERIFIED")
+                assert_six_fields(self, refused.exception.refusal, code)
                 path = self.work / "source.json"
                 path.write_text(json.dumps(source))
                 completed = subprocess.run(
@@ -3132,7 +3134,7 @@ class CommittedRequestRecordedTests(_Workspace):
                      "--successor-org-state-sha256", "sha256:" + "3" * 64, "--hb-epoch", "4096"],
                     cwd=self.repo, capture_output=True, text=True)
                 self.assertEqual(completed.returncode, 1, completed.stdout + completed.stderr)
-                assert_six_fields(self, json.loads(completed.stdout), "COMMITTED_REQUEST_DIGEST_UNVERIFIED")
+                assert_six_fields(self, json.loads(completed.stdout), code)
                 self.assertEqual([item for item in written(self.work, before) if item != path], [])
                 self.assertFalse((self.work / "org-ledger").exists())
         # The genuine source, on the ledger with this run's request, is aggregated.
@@ -3156,9 +3158,16 @@ class CommittedRequestRecordedTests(_Workspace):
         with self.assertRaises(aggregate.OrgLedgerEpochRefused) as refused:
             aggregate.append(source, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64, "sha256:" + "3" * 64, {},
                              hb_epoch="4096")
-        assert_six_fields(self, refused.exception.refusal, "COMMITTED_REQUEST_DIGEST_UNVERIFIED")
+        assert_six_fields(self, refused.exception.refusal, "SOURCE_RECEIPT_NOT_ON_LEDGER")
         self.assertEqual(written(self.work, before), [])
         self.assertFalse((self.work / "org-ledger").exists())
+        # The genuine receipt with one byte of its evidence changed and rehashed is not on the ledger either.
+        altered = {**body, "transition_id": genuine["transition_id"], "evidence": {"probe": "altered"}}
+        with self.assertRaises(aggregate.OrgLedgerEpochRefused) as refused:
+            aggregate.append({**altered, "receipt_sha256": emit.sha(altered)}, "REPO_STATE_PROPAGATION",
+                             "sha256:" + "2" * 64, "sha256:" + "3" * 64, {}, hb_epoch="4096")
+        assert_six_fields(self, refused.exception.refusal, "SOURCE_RECEIPT_NOT_ON_LEDGER")
+        self.assertEqual(written(self.work, before), [])
 
     def test_egress_refuses_a_malformed_committed_request_before_publishing(self):
         egress = _load("probe_request_egress_refused", self.repo / "resident-runtime" / "organization_egress_boundary.py")
