@@ -1,0 +1,46 @@
+{
+  "authority_effect": "NONE",
+  "evidence": {
+    "capability": "intr-destination",
+    "communication_id": "intr-path-v1:Admissible-Existence->SV-011",
+    "destination_address": "sv-011.intr-destination",
+    "destination_organization": "SV-011",
+    "disposition": "ALLOW",
+    "merge_transfer_organization_receipt_sha256": "sha256:5caa4ce436f4a93c11280821d80ac143ee1ac952652a1520de5432a46a6bef51",
+    "message": {
+      "body": {
+        "path_id": "Admissible-Existence->SV-011:intr-destination",
+        "schema": "stegverse.org-intr-destination-diagnostic/v1",
+        "transfer_commit": "30fd53251d92904ffe485e7aca4268b1e5bca840"
+      },
+      "communication_id": "intr-path-v1:Admissible-Existence->SV-011",
+      "message_class": "ecosystem.communication"
+    },
+    "message_sha256": "sha256:fa422d36a5ab84aeb4d5bb2924b4ad7e240b6f746f0e7743c155ea14e7001e5c",
+    "path_id": "Admissible-Existence->SV-011:intr-destination",
+    "payload_sha256": "sha256:58da0a193e067a320d6a42bbf02110e7bce9758976ec42e5ea101e3be3cdd02b",
+    "repository": "Admissible-Existence/.github",
+    "schema": "stegverse.intr-path-transfer-evidence/v1",
+    "source_organization": "Admissible-Existence",
+    "transfer_commit": "30fd53251d92904ffe485e7aca4268b1e5bca840"
+  },
+  "hb_reference": {
+    "authority_effect": "NONE",
+    "derived_from_clock": false,
+    "epoch": 469411750,
+    "frequency_hz": 100,
+    "generation": 469411750,
+    "heartbeat_id": "HB:469411750",
+    "phase_offset_ns": 0,
+    "progression_dependency": "OSCILLATOR_ONLY"
+  },
+  "observed_at": "HB:469411750",
+  "predecessor_state_sha256": "sha256:58da0a193e067a320d6a42bbf02110e7bce9758976ec42e5ea101e3be3cdd02b",
+  "previous_receipt_sha256": "sha256:b1775cec8ad8a56fac69cfc88ce7947bea42ad1b47d6fd7cd1e20a4809e32187",
+  "receipt_sha256": "sha256:0cfbef1e30a51108eb8504d13f94250558a3e106c53b37ed9c407c9013e25fb8",
+  "repository": "Admissible-Existence/.github",
+  "schema": "stegverse.repo-transition-receipt/v1",
+  "successor_state_sha256": "sha256:5014fbd8972c6155ec7d493a87419eda9d9639264befef195c1421f7e6fc6751",
+  "transition_class": "INTR_MESH_PATH_TRANSFER",
+  "transition_id": "INTR_MESH_PATH_TRANSFER:Admissible-Existence->SV-011:intr-destination@intr-path-v1:Admissible-Existence->SV-011"
+}
