@@ -125,7 +125,7 @@ temporary directory.
 
 `self_close` in `resident-runtime/intr_destination_ingress.py` records one diagnostic this organization addresses to its own ingress. The repository receipt and the organization receipt both carry `communication_id`. No peer is named and no mesh frame is sent.
 
-`.github/workflows/organization-ledger-transition.yml` runs that closure on a push that commits `data/requests/organization-ledger-transition.json` (COMMITTED_REQUEST) with the ledger roots pointed at `refs/stegverse/organization-ledger`, fast-forward pushes the ref, and reads both chains back from a fresh fetch. Authority and time stay constraint variables. The disposition is transition evidence only.
+`.github/workflows/organization-ledger-transition.yml` is the `workflow_dispatch` that runs that closure with the ledger roots pointed at `refs/stegverse/organization-ledger`, fast-forward pushes the ref, and reads both chains back from a fresh fetch. Authority and time stay constraint variables. The disposition is transition evidence only.
 
 `tests/test_organization_ledger_git_ref.py` runs the same closure against a temporary git repository. Those receipts are fixtures of that temporary ref.
 

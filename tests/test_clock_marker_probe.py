@@ -778,6 +778,9 @@ class CollectorIntegrityTests(_Workspace):
 
 
 REQUEST_GATE = "python scripts/read_committed_request.py"
+SELF_CLOSURE_PACKET = ".stegverse/intr-destination/self-closure-packet.json"
+SELF_CLOSURE_READER = ("self_closure_packet.py --packet .stegverse/intr-destination/self-closure-packet.json"
+                       " --require-hb-epoch")
 
 
 def _triggers(workflow):
@@ -855,13 +858,19 @@ class HeartbeatWorkflowBindingTests(unittest.TestCase):
                 triggers = _triggers(text)
                 for event in ("schedule:", "workflow_dispatch:", "pull_request", "inputs:"):
                     self.assertNotIn(event, triggers)
-                paths = [line.strip()[2:].strip('"') for line in triggers.splitlines()
+                paths = [line.strip()[2:].strip("'\"") for line in triggers.splitlines()
                          if line.strip().startswith("- ")]
                 self.assertTrue(paths)
-                self.assertTrue(all(item.startswith("data/requests/") for item in paths), paths)
                 first_run = min(text.index(line) for line in runs if any(entry in line for entry in entrypoints))
-                self.assertLess(text.index(REQUEST_GATE), first_run)
-                self.assertIn("${{ steps.request.outputs.hb_epoch }}", text)
+                if paths == [SELF_CLOSURE_PACKET]:
+                    # Lane B's binding (#162): the committed self-closure packet supplies
+                    # the epoch, read before the first epoch-requiring entrypoint runs.
+                    self.assertLess(text.index(SELF_CLOSURE_READER), first_run)
+                    self.assertIn('--hb-epoch "$HB_EPOCH"', text)
+                else:
+                    self.assertTrue(all(item.startswith("data/requests/") for item in paths), paths)
+                    self.assertLess(text.index(REQUEST_GATE), first_run)
+                    self.assertIn("${{ steps.request.outputs.hb_epoch }}", text)
         self.assertEqual(reached, {"heartbeat-response-node.yml", "organization-ledger-transition.yml",
                                    "resident-runtime-dispatch.yml", "ledger-writer-dispatch.yml"})
 
@@ -2934,8 +2943,9 @@ class CommittedRequestRecordedTests(_Workspace):
     """B-P40 clause (b): every record a committed-request run writes carries
     committed_request {path, sha256, hb_epoch_source: COMMITTED_REQUEST}."""
 
+    # organization-ledger-transition.yml is Lane B's (#162): it starts from the
+    # committed self-closure packet, which binds its own epoch.
     WORKFLOWS = {
-        "organization-ledger-transition.yml": "data/requests/organization-ledger-transition.json",
         "ledger-writer-dispatch.yml": "data/requests/ledger-writer-dispatch.json",
         "resident-runtime-dispatch.yml": "data/requests/resident-runtime-dispatch.json",
         "heartbeat-response-node.yml": "data/requests/heartbeat-response-node.json",
