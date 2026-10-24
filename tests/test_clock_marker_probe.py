@@ -3169,6 +3169,65 @@ class CommittedRequestRecordedTests(_Workspace):
         assert_six_fields(self, refused.exception.refusal, "SOURCE_RECEIPT_NOT_ON_LEDGER")
         self.assertEqual(written(self.work, before), [])
 
+    def mint(self, name, ledger, repository=None):
+        """A receipt minted by the real emit into `ledger`, as `repository` (default: this one)."""
+        emit = _load("probe_mint_" + name, self.repo / ".stegverse" / "transition-ledger" / "emit.py")
+        if repository is not None:
+            emit.CONTRACT = {**emit.CONTRACT, "repository": repository}
+        with mock.patch.dict(os.environ, {"STEGVERSE_REPO_LEDGER_ROOT": str(ledger)}):
+            return emit.append("probe:" + name, "PROBE", "sha256:" + "0" * 64, "sha256:" + "1" * 64, {},
+                               hb_epoch="4096")
+
+    def refused_aggregate(self, aggregate, source, code, *, terminal=True):
+        before = snapshot(self.work)
+        with self.assertRaises(aggregate.OrgLedgerEpochRefused) as refused:
+            aggregate.append(source, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64, "sha256:" + "3" * 64, {},
+                             hb_epoch="4096")
+        assert_six_fields(self, refused.exception.refusal, code)
+        self.assertIs(refused.exception.refusal["terminal"], terminal)
+        self.assertEqual(written(self.work, before), [])
+        self.assertFalse((self.work / "org-ledger").exists())
+
+    def test_a_receipt_minted_in_another_ledger_is_not_laundered(self):
+        # Row 8, SOURCE_LEDGER_OVERRIDE_LAUNDERS_FABRICATED_RECEIPT: the only
+        # ledger read is this repository's own emit store; no caller or
+        # receipt names another.
+        aggregate = _load("probe_launder_aggregate", self.repo / "resident-runtime" / "aggregate_repo_transition.py")
+        import inspect
+        self.assertEqual(list(inspect.signature(aggregate.repo_ledger_root).parameters), [])
+        attacker = self.mint("attacker-ledger", self.work / "attacker-ledger")
+        self.refused_aggregate(aggregate, attacker, "SOURCE_RECEIPT_NOT_ON_LEDGER")
+        other = self.mint("other-repository", self.work / "repo-ledger", THIS + "/other")
+        self.refused_aggregate(aggregate, other, "SOURCE_RECEIPT_NOT_ON_LEDGER")
+        # With no supplied root, the receipt's repository never becomes a path,
+        # even through a symlink placed where it would resolve.
+        state = self.work / "state"
+        linked = state / "stegverse" / "repo-ledgers" / THIS / "linked"
+        linked.parent.mkdir(parents=True)
+        linked.symlink_to(self.work / "symlinked-ledger", target_is_directory=True)
+        symlinked = self.mint("symlinked", self.work / "symlinked-ledger", THIS + "/linked")
+        os.environ.pop("STEGVERSE_REPO_LEDGER_ROOT")
+        os.environ["XDG_STATE_HOME"] = str(state)
+        self.refused_aggregate(aggregate, symlinked, "SOURCE_RECEIPT_NOT_ON_LEDGER")
+
+    def test_a_corrupt_stored_receipt_is_refused_not_a_traceback(self):
+        # Row 9, SOURCE_LEDGER_WALK_TRACEBACK_ON_CORRUPT_RECEIPT.
+        aggregate = _load("probe_corrupt_aggregate", self.repo / "resident-runtime" / "aggregate_repo_transition.py")
+        source = self.mint("corrupt", self.work / "repo-ledger")
+        stored = self.work / "repo-ledger" / "receipts" / (source["receipt_sha256"].split(":", 1)[1] + ".json")
+        original = stored.read_bytes()
+        for label, data in (("truncated", original[: len(original) // 2]), ("garbage", b"\xff\x00 not a receipt")):
+            with self.subTest(stored=label):
+                stored.write_bytes(data)
+                self.refused_aggregate(aggregate, source, "SOURCE_RECEIPT_NOT_ON_LEDGER", terminal=True)
+        stored.write_bytes(original)
+        with mock.patch.object(aggregate.ledger_store.PosixLedgerStore, "get",
+                               side_effect=OSError(5, "Input/output error")):
+            self.refused_aggregate(aggregate, source, "SOURCE_RECEIPT_NOT_ON_LEDGER", terminal=False)
+        self.assertEqual(aggregate.append(source, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64,
+                                          "sha256:" + "3" * 64, {}, hb_epoch="4096")["repo_receipt_sha256"],
+                         source["receipt_sha256"])
+
     def test_egress_refuses_a_malformed_committed_request_before_publishing(self):
         egress = _load("probe_request_egress_refused", self.repo / "resident-runtime" / "organization_egress_boundary.py")
         payload = {"message_class": "ecosystem.communication", "communication_id": "request-refused",
