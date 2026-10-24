@@ -52,9 +52,14 @@ class DesignationTests(unittest.TestCase):
         self.assertIs(location["new_ledger_root"], False)
         self.assertEqual(location["namespace"], "repository-ledger/Admissible-Existence/.github")
 
-    def test_the_dispatch_workflow_appends_pushes_and_reads_the_designated_ref(self):
+    def test_the_committed_request_workflow_appends_pushes_and_reads_the_designated_ref(self):
+        # B-P40 COMMITTED_REQUEST: a push committing the request file runs the
+        # writer; there is no manual dispatch and the request is the only input.
         text = (ROOT / ".github/workflows/organization-ledger-transition.yml").read_text()
-        self.assertIn("workflow_dispatch:", text)
+        self.assertNotIn("workflow_dispatch:", text)
+        self.assertIn("data/requests/organization-ledger-transition.json", text)
+        self.assertIn("scripts/read_committed_request.py", text)
+        self.assertIn("request-sha256:$REQUEST_SHA256", text)
         self.assertIn("refs/stegverse/organization-ledger", text)
         self.assertIn("intr_destination_ingress.py", text)
         self.assertIn("--self-close", text)

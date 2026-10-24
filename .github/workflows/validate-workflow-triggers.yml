@@ -10,6 +10,8 @@ on:
       - ".github/workflows/**"
       - "tests/test_workflow_triggers.py"
       - "tests/test_workflow_action_pins.py"
+      - "tests/test_committed_request.py"
+      - "scripts/read_committed_request.py"
       - "docs/CANONICAL_NODE_INGRESS_CONTRACT_001.json"
   push:
     branches:
@@ -18,6 +20,8 @@ on:
       - ".github/workflows/**"
       - "tests/test_workflow_triggers.py"
       - "tests/test_workflow_action_pins.py"
+      - "tests/test_committed_request.py"
+      - "scripts/read_committed_request.py"
       - "docs/CANONICAL_NODE_INGRESS_CONTRACT_001.json"
 
 permissions:
@@ -34,8 +38,8 @@ jobs:
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
-      - name: No workflow starts by manual dispatch or a clock; every action is pinned
-        run: python -m unittest tests.test_workflow_triggers tests.test_workflow_action_pins -v
+      - name: No workflow starts by manual dispatch or a clock; every action is pinned; the committed-request gate holds
+        run: python -m unittest tests.test_workflow_triggers tests.test_workflow_action_pins tests.test_committed_request -v
       - name: The node-ingress contract stays valid and marks the observed host non-normative
         run: |
           python - <<'PY'

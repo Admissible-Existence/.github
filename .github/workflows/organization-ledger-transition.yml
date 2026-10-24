@@ -1,6 +1,11 @@
 name: Organization Ledger Transition
 
-# A workflow_dispatch runs one intr-destination diagnostic self-closure.
+# A committed request runs one intr-destination diagnostic self-closure
+# (B-P40 COMMITTED_REQUEST): a push to main that commits
+# data/requests/organization-ledger-transition.json, which declares the
+# communication_id and the supplied hb_epoch. There is no manual dispatch and
+# no clock; the request is the only input, and its sha256 is bound into the
+# self-closure's packet id, so both receipts record which request ran.
 # The closure appends a repository receipt and an organization receipt, both
 # carrying communication_id, to refs/stegverse/organization-ledger
 # (org-contract.json organization_ledger_ref). The ref is published by a
@@ -8,16 +13,10 @@ name: Organization Ledger Transition
 # evidence. Authority and time are constraint variables. The disposition is
 # transition evidence only.
 on:
-  workflow_dispatch:
-    inputs:
-      communication_id:
-        description: 'communication_id the self-closure correlates on'
-        required: true
-        type: string
-      hb_epoch:
-        description: 'optional heartbeat epoch (integer)'
-        required: false
-        type: string
+  push:
+    branches: [main]
+    paths:
+      - "data/requests/organization-ledger-transition.json"
 
 permissions:
   contents: write
@@ -74,29 +73,36 @@ jobs:
             echo "ledger ref not yet materialized; the first append opens it at genesis"
           fi
 
+      - name: Read the committed request and gate its supplied epoch
+        id: request
+        # Absent hb_epoch is HB_EPOCH_NOT_SUPPLIED and an invalid one
+        # HB_EPOCH_INVALID (six fields, exit 1) before anything is appended.
+        run: python scripts/read_committed_request.py --request data/requests/organization-ledger-transition.json --require communication_id
+
       - name: Append repo and organization receipts for the diagnostic self-closure
         env:
-          COMMUNICATION_ID: ${{ inputs.communication_id }}
-          HB_EPOCH: ${{ inputs.hb_epoch }}
+          COMMUNICATION_ID: ${{ steps.request.outputs.communication_id }}
+          HB_EPOCH: ${{ steps.request.outputs.hb_epoch }}
+          REQUEST_SHA256: ${{ steps.request.outputs.request_sha256 }}
         run: |
           set -euo pipefail
           export STEGVERSE_ORG_LEDGER_ROOT="git+$GITHUB_WORKSPACE#$LEDGER_REF"
           export STEGVERSE_REPO_LEDGER_ROOT="git+$GITHUB_WORKSPACE#$LEDGER_REF:$REPO_LEDGER_NAMESPACE"
           mkdir -p "$RUNNER_TEMP/results"
-          args=(--self-close --communication-id "$COMMUNICATION_ID" --out "$RUNNER_TEMP/results/closure.json")
-          if [ -n "${HB_EPOCH:-}" ]; then
-            args+=(--hb-epoch "$HB_EPOCH")
-          fi
-          python resident-runtime/intr_destination_ingress.py "${args[@]}"
+          echo "committed request sha256 $REQUEST_SHA256 at $GITHUB_SHA"
+          python resident-runtime/intr_destination_ingress.py --self-close \
+            --communication-id "$COMMUNICATION_ID" --hb-epoch "$HB_EPOCH" \
+            --packet-id "intr-destination-self-closure:$COMMUNICATION_ID:request-sha256:$REQUEST_SHA256" \
+            --out "$RUNNER_TEMP/results/closure.json"
 
       - name: Publish the ledger ref (fast-forward only)
         run: |
           if ! git rev-parse --verify --quiet "$LEDGER_REF" >/dev/null; then
-            echo '{"disposition":"FAIL_CLOSED","failure_code":"ORGANIZATION_LEDGER_NOT_MATERIALIZED","failed_predicate":"SELF_CLOSURE_APPENDED_TO_THE_DESIGNATED_REF","required_evidence_or_repair":"the self-closure did not publish a local ledger ref","retry_entrypoint":".github/workflows/organization-ledger-transition.yml","owning_existing_goal":"ADMISSIBLE-EXISTENCE-ORGANIZATION-LEDGER","next_attempt":"re-run the dispatch; nothing was published","authority_effect":"NONE_REFUSAL_ONLY","routing_authority_constraint":"CONSTRAINT_VARIABLE","time_constraint":"CONSTRAINT_VARIABLE","disposition_role":"TRANSITION_EVIDENCE_ONLY"}'
+            echo '{"disposition":"FAIL_CLOSED","failure_code":"ORGANIZATION_LEDGER_NOT_MATERIALIZED","failed_predicate":"SELF_CLOSURE_APPENDED_TO_THE_DESIGNATED_REF","required_evidence_or_repair":"the self-closure did not publish a local ledger ref","retry_entrypoint":".github/workflows/organization-ledger-transition.yml","owning_existing_goal":"ADMISSIBLE-EXISTENCE-ORGANIZATION-LEDGER","next_attempt":"commit the request again; nothing was published","authority_effect":"NONE_REFUSAL_ONLY","routing_authority_constraint":"CONSTRAINT_VARIABLE","time_constraint":"CONSTRAINT_VARIABLE","disposition_role":"TRANSITION_EVIDENCE_ONLY"}'
             exit 1
           fi
           if ! git push origin "$LEDGER_REF:$LEDGER_REF"; then
-            echo '{"disposition":"FAIL_CLOSED","failure_code":"ORGANIZATION_LEDGER_PUBLISH_RACE","failed_predicate":"PUBLISHED_REF_FAST_FORWARDS","required_evidence_or_repair":"another append moved the ref first; this run published nothing","retry_entrypoint":".github/workflows/organization-ledger-transition.yml","owning_existing_goal":"ADMISSIBLE-EXISTENCE-ORGANIZATION-LEDGER","next_attempt":"re-run; a self-closure whose communication_id is already in the chain is answered from the ledger","authority_effect":"NONE_REFUSAL_ONLY","routing_authority_constraint":"CONSTRAINT_VARIABLE","time_constraint":"CONSTRAINT_VARIABLE","disposition_role":"TRANSITION_EVIDENCE_ONLY"}'
+            echo '{"disposition":"FAIL_CLOSED","failure_code":"ORGANIZATION_LEDGER_PUBLISH_RACE","failed_predicate":"PUBLISHED_REF_FAST_FORWARDS","required_evidence_or_repair":"another append moved the ref first; this run published nothing","retry_entrypoint":".github/workflows/organization-ledger-transition.yml","owning_existing_goal":"ADMISSIBLE-EXISTENCE-ORGANIZATION-LEDGER","next_attempt":"commit the request again; a self-closure whose communication_id is already in the chain is answered from the ledger","authority_effect":"NONE_REFUSAL_ONLY","routing_authority_constraint":"CONSTRAINT_VARIABLE","time_constraint":"CONSTRAINT_VARIABLE","disposition_role":"TRANSITION_EVIDENCE_ONLY"}'
             exit 1
           fi
 
@@ -107,7 +113,7 @@ jobs:
           git init -q --bare "$fresh"
           auth_header=$(git config --local --get http.https://github.com/.extraheader || true)
           if [ -z "$auth_header" ]; then
-            echo '{"disposition":"FAIL_CLOSED","failure_code":"LEDGER_READBACK_FETCH_UNAVAILABLE","failed_predicate":"FRESH_FETCH_HAS_A_CHECKOUT_HEADER","required_evidence_or_repair":"checkout token header unavailable for an independent fetch of the ledger ref","retry_entrypoint":".github/workflows/organization-ledger-transition.yml","owning_existing_goal":"ADMISSIBLE-EXISTENCE-ORGANIZATION-LEDGER","next_attempt":"re-run the dispatch with a contents token that can fetch the ref","authority_effect":"NONE_READBACK_ONLY","routing_authority_constraint":"CONSTRAINT_VARIABLE","time_constraint":"CONSTRAINT_VARIABLE","disposition_role":"TRANSITION_EVIDENCE_ONLY"}'
+            echo '{"disposition":"FAIL_CLOSED","failure_code":"LEDGER_READBACK_FETCH_UNAVAILABLE","failed_predicate":"FRESH_FETCH_HAS_A_CHECKOUT_HEADER","required_evidence_or_repair":"checkout token header unavailable for an independent fetch of the ledger ref","retry_entrypoint":".github/workflows/organization-ledger-transition.yml","owning_existing_goal":"ADMISSIBLE-EXISTENCE-ORGANIZATION-LEDGER","next_attempt":"commit the request again with a contents token that can fetch the ref","authority_effect":"NONE_READBACK_ONLY","routing_authority_constraint":"CONSTRAINT_VARIABLE","time_constraint":"CONSTRAINT_VARIABLE","disposition_role":"TRANSITION_EVIDENCE_ONLY"}'
             exit 1
           fi
           git --git-dir="$fresh" -c http.https://github.com/.extraheader="$auth_header" fetch -q "$(git remote get-url origin)" "+$LEDGER_REF:$LEDGER_REF"
