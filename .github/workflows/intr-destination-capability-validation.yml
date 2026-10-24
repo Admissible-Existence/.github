@@ -19,6 +19,12 @@ on:
       - '.stegverse/transition-ledger/org-contract.json'
       - 'tests/test_intr_destination_capability.py'
       - 'tests/test_organization_ledger_git_ref.py'
+      - 'tests/test_clock_marker_probe.py'
+      - 'tests/test_heartbeat_response.py'
+      - 'org-boundary/runtime/intr_transport.py'
+      - 'resident-runtime/federation_cycle.py'
+      - 'resident-runtime/federation_gateway_transport.py'
+      - 'scripts/process_heartbeat_response.py'
       - 'docs/INTR_DESTINATION_CAPABILITY_MIRROR_HANDOFF.md'
       - '.github/workflows/intr-destination-capability-validation.yml'
       - '.github/workflows/organization-ledger-transition.yml'
@@ -42,6 +48,12 @@ on:
       - '.stegverse/transition-ledger/org-contract.json'
       - 'tests/test_intr_destination_capability.py'
       - 'tests/test_organization_ledger_git_ref.py'
+      - 'tests/test_clock_marker_probe.py'
+      - 'tests/test_heartbeat_response.py'
+      - 'org-boundary/runtime/intr_transport.py'
+      - 'resident-runtime/federation_cycle.py'
+      - 'resident-runtime/federation_gateway_transport.py'
+      - 'scripts/process_heartbeat_response.py'
       - 'docs/INTR_DESTINATION_CAPABILITY_MIRROR_HANDOFF.md'
       - '.github/workflows/intr-destination-capability-validation.yml'
       - '.github/workflows/organization-ledger-transition.yml'
@@ -87,4 +99,4 @@ jobs:
         env:
           STEGVERSE_REPO_LEDGER_ROOT: ${{ runner.temp }}/repo-ledger
           STEGVERSE_ORG_LEDGER_ROOT: ${{ runner.temp }}/org-ledger
-        run: python -m unittest tests.test_intr_destination_capability tests.test_organization_ledger_git_ref -v
+        run: python -m unittest tests.test_intr_destination_capability tests.test_organization_ledger_git_ref tests.test_clock_marker_probe tests.test_heartbeat_response -v
