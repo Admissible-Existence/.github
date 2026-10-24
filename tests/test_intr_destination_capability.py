@@ -19,6 +19,8 @@ import os
 import shutil
 import tempfile
 import unittest
+from datetime import datetime, timezone
+from unittest import mock
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -86,6 +88,86 @@ def assert_constraints(test, record):
     for name in CONSTRAINT_FIELDS:
         test.assertEqual(record[name], CONSTRAINT, name)
     test.assertEqual(record["disposition_role"], DISPOSITION_ROLE)
+
+
+EPOCH_FIELDS = ("failure_code", "failed_predicate", "required_evidence_or_repair",
+                "retry_entrypoint", "owning_existing_goal", "next_attempt")
+
+
+class _NoClock:
+    """Stands in for ``datetime`` and ``time`` in the writers. Reading it fails the test."""
+
+    def __init__(self, test):
+        self.test = test
+
+    def __getattr__(self, name):
+        self.test.fail("a receipt writer or carrier frame read a clock (" + name + ")")
+
+
+def _clock_holders():
+    """Every loaded writer, kernel and boundary module that could read a clock."""
+    seen, pending = {}, [kernel, capability, egress, ingress]
+    while pending:
+        module = pending.pop()
+        if id(module) in seen:
+            continue
+        seen[id(module)] = module
+        for name in ("kernel", "repository_ledger", "organization_ledger", "ledger_store"):
+            nested = getattr(module, name, None)
+            if nested is not None:
+                pending.append(nested)
+    return list(seen.values())
+
+
+class no_clock:
+    """``datetime`` and ``time`` in every writer, kernel and boundary module raise."""
+
+    def __init__(self, test):
+        self.test = test
+
+    def __enter__(self):
+        self.saved = []
+        for module in _clock_holders():
+            for name in ("datetime", "time"):
+                if name in vars(module):
+                    self.saved.append((module, name, vars(module)[name]))
+                    setattr(module, name, _NoClock(self.test))
+        self.patches = [mock.patch("time.time", side_effect=self._read),
+                        mock.patch("time.time_ns", side_effect=self._read)]
+        for patch in self.patches:
+            patch.start()
+
+    def _read(self, *args, **kwargs):
+        self.test.fail("a receipt writer or carrier frame read the clock (time)")
+
+    def __exit__(self, *exc):
+        for patch in self.patches:
+            patch.stop()
+        for module, name, value in self.saved:
+            setattr(module, name, value)
+
+
+def assert_epoch_refused(test, record, failure_code):
+    test.assertEqual(record["disposition"], "FAIL_CLOSED")
+    test.assertEqual(record["failure_code"], failure_code)
+    test.assertEqual(record["failed_predicate"], "SUBMISSION_CARRIES_THE_SUPPLIED_HB_EPOCH")
+    test.assertEqual(record["owning_existing_goal"], "INTERLOCK-INTR-RUNTIME-INDEPENDENT-PROTOCOL-001")
+    for name in EPOCH_FIELDS:
+        test.assertTrue(record[name], name)
+    test.assertIs(record["derived_from_clock"], False)
+    test.assertIs(record["consequence_committed"], False)
+    test.assertIs(record["received"], False)
+    test.assertIs(record["repository_receipt_observed"], False)
+    test.assertIs(record["organization_receipt_observed"], False)
+
+
+def assert_epoch_not_supplied(test, record):
+    assert_epoch_refused(test, record, "HB_EPOCH_NOT_SUPPLIED")
+
+
+INVALID_EPOCHS = ("33.0", True, 31, "+33", "abc")
+REFUSED_EPOCHS = ((None, "HB_EPOCH_NOT_SUPPLIED"),) + tuple(
+    (epoch, "HB_EPOCH_INVALID") for epoch in INVALID_EPOCHS)
 
 
 class DeclarationTests(unittest.TestCase):
@@ -301,8 +383,173 @@ class OperationReceiptTests(RedirectedLedgers):
             "STEGVERSE_REPO_LEDGER_ROOT", "stegverse.repo-transition-receipt/v1", OPERATION_ID), [])
 
 
+class SuppliedEpochTests(RedirectedLedgers):
+    """A receipt carries a supplied epoch. Without one the writer fails closed
+    before a store opens, and no clock is read."""
+
+    def roots_untouched(self):
+        for name in self.LEDGER_ROOTS:
+            self.assertFalse(Path(os.environ[name]).exists(), name)
+
+    def test_the_repository_writer_fails_closed_before_the_store_opens(self):
+        writer = ingress.repository_ledger
+        with no_clock(self), self.assertRaises(writer.RepoLedgerEpochRefused) as refused:
+            writer.append("probe:no-epoch", "PROBE", "sha256:" + "0" * 64,
+                          "sha256:" + "1" * 64, {}, "NONE")
+        self.assertEqual(refused.exception.refusal, writer.epoch_refusal(None))
+        self.assertEqual(refused.exception.refusal["failure_code"], "HB_EPOCH_NOT_SUPPLIED")
+        self.assertEqual(refused.exception.refusal["failed_predicate"],
+                         "SUBMISSION_CARRIES_THE_SUPPLIED_HB_EPOCH")
+        self.roots_untouched()
+
+    def test_the_repository_writer_refuses_an_invalid_epoch_before_the_store_opens(self):
+        writer = ingress.repository_ledger
+        for epoch in INVALID_EPOCHS:
+            with self.subTest(epoch=epoch):
+                with no_clock(self), self.assertRaises(writer.RepoLedgerEpochRefused) as refused:
+                    writer.append("probe:invalid-epoch", "PROBE", "sha256:" + "0" * 64,
+                                  "sha256:" + "1" * 64, {}, "NONE", hb_epoch=epoch)
+                refusal = refused.exception.refusal
+                self.assertEqual(refusal, writer.epoch_refusal(epoch))
+                self.assertEqual(refusal["failure_code"], "HB_EPOCH_INVALID")
+                for name in EPOCH_FIELDS:
+                    self.assertTrue(refusal[name], name)
+                self.roots_untouched()
+
+    def test_the_heartbeat_reference_is_not_derived_from_a_clock(self):
+        writer = ingress.repository_ledger
+        with no_clock(self):
+            with self.assertRaises(writer.RepoLedgerEpochRefused):
+                writer.hb_reference(None)
+            self.assertEqual(writer.hb_reference(32)["epoch"], 32)
+            self.assertIs(writer.hb_reference("33")["derived_from_clock"], False)
+
+    def test_a_diagnostic_without_an_epoch_records_nothing(self):
+        with no_clock(self):
+            result = ingress.receive(diagnostic(), registry=REGISTRY, packet_id="no-epoch")
+        assert_epoch_not_supplied(self, result)
+        self.assertEqual({name: result[name] for name in ingress.repository_ledger.epoch_refusal(None)},
+                         ingress.repository_ledger.epoch_refusal(None))
+        assert_constraints(self, result)
+        self.roots_untouched()
+
+    def test_a_diagnostic_with_an_invalid_epoch_records_nothing(self):
+        for epoch in INVALID_EPOCHS:
+            with self.subTest(epoch=epoch):
+                with no_clock(self):
+                    result = ingress.receive(diagnostic(), registry=REGISTRY,
+                                             packet_id="invalid-epoch", hb_epoch=epoch)
+                assert_epoch_refused(self, result, "HB_EPOCH_INVALID")
+                self.assertIs(result["received"], False)
+                self.assertIs(result["repository_receipt_observed"], False)
+                self.assertIs(result["organization_receipt_observed"], False)
+                assert_constraints(self, result)
+                self.roots_untouched()
+
+    def test_an_emission_without_an_epoch_publishes_and_records_nothing(self):
+        with no_clock(self), self.assertRaises(egress.repository_ledger.RepoLedgerEpochRefused) as refused:
+            egress.emit(PEER, diagnostic("no-epoch-emission"), standing=STANDING,
+                        capability=PROFILE_ID, mesh_root=self.mesh)
+        self.assertEqual(refused.exception.refusal["failure_code"], "HB_EPOCH_NOT_SUPPLIED")
+        self.assertFalse(self.mesh.exists())
+        self.roots_untouched()
+
+    def test_an_emission_with_an_invalid_epoch_publishes_and_records_nothing(self):
+        for epoch in INVALID_EPOCHS:
+            with self.subTest(epoch=epoch):
+                with no_clock(self), \
+                        self.assertRaises(egress.repository_ledger.RepoLedgerEpochRefused) as refused:
+                    egress.emit(PEER, diagnostic("invalid-epoch-emission"), standing=STANDING,
+                                capability=PROFILE_ID, mesh_root=self.mesh, hb_epoch=epoch)
+                self.assertEqual(refused.exception.refusal["failure_code"], "HB_EPOCH_INVALID")
+                self.assertFalse(self.mesh.exists())
+                self.roots_untouched()
+
+
+class OrganizationLedgerAndFrameEpochTests(RedirectedLedgers):
+    """The organization writer and the egress frame take the supplied epoch.
+
+    An absent or invalid one is refused six-field FAIL_CLOSED before a
+    directory is created, a frame is built or anything is published. The valid
+    path reads no clock.
+    """
+
+    def roots_untouched(self):
+        for name in self.LEDGER_ROOTS:
+            self.assertFalse(Path(os.environ[name]).exists(), name)
+
+    def repository_receipt(self, epoch=33):
+        with no_clock(self):
+            return ingress.repository_ledger.append(
+                "probe:org-epoch", "PROBE", "sha256:" + "0" * 64, "sha256:" + "1" * 64,
+                {}, "NONE", hb_epoch=epoch)
+
+    def test_the_organization_writer_refuses_before_any_directory_exists(self):
+        writer = ingress.organization_ledger
+        receipt = self.repository_receipt()
+        org_root = Path(os.environ["STEGVERSE_ORG_LEDGER_ROOT"])
+        for epoch, code in REFUSED_EPOCHS:
+            with self.subTest(epoch=epoch):
+                kwargs = {} if epoch is None else {"hb_epoch": epoch}
+                with no_clock(self), self.assertRaises(writer.OrgLedgerEpochRefused) as refused:
+                    writer.append(receipt, "REPO_STATE_PROPAGATION", "sha256:" + "0" * 64,
+                                  "sha256:" + "1" * 64, {}, "NONE", **kwargs)
+                refusal = refused.exception.refusal
+                self.assertEqual(refusal, writer.epoch_refusal(epoch))
+                self.assertEqual(refusal["disposition"], "FAIL_CLOSED")
+                self.assertEqual(refusal["failure_code"], code)
+                self.assertEqual(refusal["failed_predicate"], "SUBMISSION_CARRIES_THE_SUPPLIED_HB_EPOCH")
+                for name in EPOCH_FIELDS:
+                    self.assertTrue(refusal[name], name)
+                self.assertFalse(org_root.exists())
+
+    def test_the_organization_writer_reads_no_clock_on_the_valid_path(self):
+        writer = ingress.organization_ledger
+        receipt = self.repository_receipt()
+        self.assertEqual(receipt["observed_at"], "HB:33")
+        with no_clock(self):
+            record = writer.append(receipt, "REPO_STATE_PROPAGATION", "sha256:" + "0" * 64,
+                                   "sha256:" + "1" * 64, {}, "NONE", hb_epoch="33")
+        self.assertEqual(record["hb_reference"]["epoch"], 33)
+        self.assertIs(record["hb_reference"]["derived_from_clock"], False)
+        self.assertEqual(record["observed_at"], "HB:33")
+
+    def test_an_emission_with_a_refused_epoch_builds_and_publishes_nothing(self):
+        def refuse(*args, **kwargs):
+            self.fail("a packet was built or published for a refused epoch")
+        for epoch, code in REFUSED_EPOCHS:
+            with self.subTest(epoch=epoch):
+                kwargs = {} if epoch is None else {"hb_epoch": epoch}
+                with no_clock(self), mock.patch.object(egress.kernel, "build_packet", refuse), \
+                        mock.patch.object(egress.kernel, "publish_packet", refuse), \
+                        self.assertRaises(egress.repository_ledger.RepoLedgerEpochRefused) as refused:
+                    egress.emit(PEER, diagnostic("refused-epoch-emission"), standing=STANDING,
+                                capability=PROFILE_ID, mesh_root=self.mesh, **kwargs)
+                self.assertEqual(refused.exception.refusal["failure_code"], code)
+                self.assertEqual(refused.exception.refusal["disposition"], "FAIL_CLOSED")
+                self.assertFalse(self.mesh.exists())
+                self.roots_untouched()
+
+    def test_an_emission_frame_carries_the_supplied_epoch_and_reads_no_clock(self):
+        with no_clock(self):
+            emitted = egress.emit(PEER, diagnostic("supplied-epoch-emission"), standing=STANDING,
+                                  capability=PROFILE_ID, mesh_root=self.mesh, hb_epoch="35")
+        self.assertIs(emitted["emitted"], True)
+        frame = emitted["emission_record"]
+        frames = [json.loads(path.read_text(encoding="utf-8")) for path in self.mesh.rglob("*.json")]
+        published = [item for item in frames if item.get("frame_sha256") == emitted["frame_sha256"]]
+        self.assertEqual(len(published), 1, frame)
+        self.assertEqual(published[0]["heartbeat_reference"]["epoch"], 35)
+        self.assertIs(published[0]["heartbeat_reference"]["derived_from_clock"], False)
+        for receipt in (self.receipts("STEGVERSE_REPO_LEDGER_ROOT", "stegverse.repo-transition-receipt/v1")
+                        + self.receipts("STEGVERSE_ORG_LEDGER_ROOT",
+                                        "stegverse.organization-transition-receipt/v1")):
+            self.assertEqual(receipt["hb_reference"]["epoch"], 35)
+            self.assertEqual(receipt["observed_at"], "HB:35")
+
+
 class AddressedAndClosedTests(RedirectedLedgers):
-    def publish(self, payload, service, packet_id, origin=PEER):
+    def publish(self, payload, service, packet_id, origin=PEER, epoch=None):
         packet = kernel.build_packet(
             origin_org=origin,
             origin_service=kernel.organization_slug(origin) + "." + PROFILE_ID,
@@ -312,7 +559,10 @@ class AddressedAndClosedTests(RedirectedLedgers):
             authority_effect="NONE", packet_id=packet_id)
         # The mesh is temporary. publish_packet writes the frame and does not
         # append a ledger receipt; the receiving operation records its own.
-        kernel.publish_packet(packet, root=self.mesh, now_ns=kernel.HB_ANCHOR_UNIX_NS)
+        if epoch is None:
+            kernel.publish_packet(packet, root=self.mesh, now_ns=kernel.HB_ANCHOR_UNIX_NS)
+        else:
+            kernel.publish_packet(packet, root=self.mesh, epoch=epoch)
         return packet
 
     def consume(self):
@@ -329,38 +579,34 @@ class AddressedAndClosedTests(RedirectedLedgers):
                 frames.append(frame)
         return frames
 
-    def test_a_peer_frame_at_the_address_is_received_and_receipted(self):
+    def test_a_peer_frame_at_the_address_fails_closed_without_a_supplied_epoch(self):
+        # The frame's reference is a clock sample. Under NARROW S1 it is
+        # consumed but lends no epoch, so the receiving writer refuses and
+        # nothing is recorded.
         self.publish(diagnostic("addressed-diagnostic"), ADDRESS, "addressed-diagnostic")
-        results = self.consume()
+        with no_clock(self):
+            results = self.consume()
         self.assertEqual(len(results), 1)
         execution = results[0]["result"]["execution_result"]
         self.assertEqual(results[0]["result"]["status"], "CONSUMED")
-        self.assertEqual(results[0]["result"]["packet"]["origin"]["org"], PEER)
         self.assertEqual(execution["service_id"], ADDRESS)
-        self.assertEqual(execution["processing_selection"], "BOUNDARY_LOCAL_NO_PROCESSOR_SELECTED")
-        application = execution["application_result"]
-        self.assertIs(application["capability_received"], True)
-        self.assertEqual(application["capability_profile_id"], PROFILE_ID)
-        self.assertEqual(application["receiving_operation_id"], OPERATION_ID)
-        self.assertIs(application["declared_capability_processed_at_this_address"], False)
-        operation = application["receiving_operation_result"]
-        self.assertEqual(operation["disposition"], "ALLOW", operation.get("detail"))
-        self.assertIs(operation["communication_acknowledged"], True)
-        self.assertEqual(operation["authority_effect"], "NONE_DIAGNOSTIC_ACK_ONLY")
-        assert_constraints(self, operation)
-        self.assertIs(operation["organization_receipt_preserves_repository_receipt"], True)
-        repository, = self.receipts("STEGVERSE_REPO_LEDGER_ROOT",
-                                    "stegverse.repo-transition-receipt/v1", OPERATION_ID)
-        matched = [record for record in self.receipts(
-            "STEGVERSE_ORG_LEDGER_ROOT", "stegverse.organization-transition-receipt/v1")
-            if record.get("repo_receipt_sha256") == repository["receipt_sha256"]]
-        self.assertEqual(len(matched), 1)
+        operation = execution["application_result"]["receiving_operation_result"]
+        assert_epoch_not_supplied(self, operation)
+        self.assertIs(operation["communication_acknowledged"], False)
+        self.assertEqual(self.receipts("STEGVERSE_REPO_LEDGER_ROOT",
+                                       "stegverse.repo-transition-receipt/v1"), [])
+        self.assertEqual(self.receipts("STEGVERSE_ORG_LEDGER_ROOT",
+                                       "stegverse.organization-transition-receipt/v1"), [])
 
     def test_a_manifest_addressed_to_this_capability_is_not_a_diagnostic(self):
-        self.publish({"manifest": {"probe": True}}, ADDRESS, "not-a-diagnostic")
-        with self.assertRaises(ValueError) as refused:
-            self.consume()
-        self.assertIn("SUBMISSION_DECLARES_A_RESPONDED_REQUEST_CLASS", str(refused.exception))
+        self.publish({"manifest": {"probe": True}}, ADDRESS, "not-a-diagnostic", epoch=4096)
+        # B-P36o: the refusal is six fields for this one frame, not an
+        # exception that aborts the consume cycle.
+        refused = self.consume()[0]["result"]
+        self.assertEqual(refused["status"], "FAIL_CLOSED")
+        self.assertEqual(refused["failure_code"], "FRAME_INGEST_FAILED")
+        self.assertEqual(refused["failed_predicate"], "ValueError")
+        self.assertIn("SUBMISSION_DECLARES_A_RESPONDED_REQUEST_CLASS", refused["detail"])
         self.assertEqual(self.receipts(
             "STEGVERSE_REPO_LEDGER_ROOT", "stegverse.repo-transition-receipt/v1", OPERATION_ID), [])
 
@@ -616,6 +862,174 @@ class CloseResponseAbsentFailsClosed(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assert_response_absent_refusal(json.loads(out.getvalue()))
         self.assert_nothing_appended()
+FIXED_CLOCK = datetime(2026, 10, 19, 12, 0, 0, tzinfo=timezone.utc)
+
+
+class _FixedDatetime(datetime):
+    """``datetime`` whose ``now`` returns one fixed instant."""
+
+    @classmethod
+    def now(cls, tz=None):
+        return FIXED_CLOCK
+
+
+class fixed_clock:
+    """Every writer, kernel and boundary module reads the same fixed instant."""
+
+    def __enter__(self):
+        self.saved = []
+        for module in _clock_holders():
+            if "datetime" in vars(module):
+                self.saved.append((module, vars(module)["datetime"]))
+                module.datetime = _FixedDatetime
+        return self
+
+    def __exit__(self, *exc):
+        for module, value in self.saved:
+            module.datetime = value
+
+
+def clock_reference(writer):
+    """The kernel's clock path, as a pre-B-P31 writer or a None default would stamp it."""
+    return lambda epoch: writer.kernel.hb_reference()
+
+
+class EpochProvenanceTests(RedirectedLedgers):
+    """B-P36f. A receipt's epoch is never forwarded to the next writer as supplied.
+
+    The organization writer takes the epoch supplied to the ingress or egress
+    call, not the one read back from the repository receipt it just wrote or
+    replayed. With the epoch absent and the clock fixed, nothing is written.
+    """
+
+    def all_receipts(self):
+        return (self.receipts("STEGVERSE_REPO_LEDGER_ROOT", "stegverse.repo-transition-receipt/v1")
+                + self.receipts("STEGVERSE_ORG_LEDGER_ROOT",
+                                "stegverse.organization-transition-receipt/v1"))
+
+    def assert_no_laundered_epoch(self, supplied):
+        for receipt in self.all_receipts():
+            reference = receipt["hb_reference"]
+            if reference.get("derived_from_clock") is False:
+                self.assertIn(reference["epoch"], supplied, receipt["receipt_sha256"])
+
+    def test_every_ingress_writes_nothing_without_an_epoch_under_a_fixed_clock(self):
+        attempts = {
+            "receive": lambda: ingress.receive(diagnostic("absent-receive"), registry=REGISTRY,
+                                               packet_id="absent-receive"),
+            "self_close": lambda: ingress.self_close("absent-self-close", registry=REGISTRY),
+            "emit": lambda: egress.emit(PEER, diagnostic("absent-emit"), standing=STANDING,
+                                        capability=PROFILE_ID, mesh_root=self.mesh),
+            "close": lambda: egress._record("probe:absent-close", egress.CLOSED_CLASS,
+                                            "sha256:" + "0" * 64, "sha256:" + "1" * 64,
+                                            {"intended_action": "CLOSE", "disposition": "ALLOW",
+                                             "crossed_an_organization_boundary": True}, None),
+        }
+        for name, attempt in attempts.items():
+            with self.subTest(path=name), fixed_clock():
+                try:
+                    result = attempt()
+                except kernel.SuppliedEpochRefused:
+                    pass
+                except ValueError as exc:
+                    self.assertEqual(getattr(exc, "failed_predicate", None),
+                                     "SUBMISSION_CARRIES_THE_SUPPLIED_HB_EPOCH", str(exc))
+                else:
+                    self.assertEqual(result["disposition"], "FAIL_CLOSED", name)
+                self.assertEqual(self.all_receipts(), [], name)
+        # A peer frame through capability ingress carries no supplied epoch.
+        packet = kernel.build_packet(
+            origin_org=PEER, origin_service=kernel.organization_slug(PEER) + "." + PROFILE_ID,
+            destination_org=THIS, destination_service=ADDRESS, payload=diagnostic("absent-frame"),
+            standing=STANDING, transition_reference="intr:transition:absent-frame",
+            authority_effect="NONE", packet_id="absent-frame")
+        kernel.publish_packet(packet, root=self.mesh, now_ns=kernel.HB_ANCHOR_UNIX_NS)
+        with fixed_clock():
+            results = kernel.consume_addressed_frames(ROOT, mesh_root=self.mesh)
+        operation = results[0]["result"]["execution_result"]["application_result"][
+            "receiving_operation_result"]
+        self.assertEqual(operation["failure_code"], "HB_EPOCH_NOT_SUPPLIED")
+        self.assertEqual(self.all_receipts(), [])
+
+    def org_ledger_files(self):
+        root = Path(os.environ["STEGVERSE_ORG_LEDGER_ROOT"])
+        return sorted(path for path in root.rglob("*") if path.is_file()) if root.exists() else []
+
+    def test_a_replayed_clock_receipt_is_refused_as_a_source_and_writes_nothing(self):
+        writer = ingress.repository_ledger
+        with fixed_clock() as clock:
+            clock_epoch = writer.kernel.hb_reference()["epoch"]
+            with mock.patch.object(writer, "hb_reference", clock_reference(writer)), \
+                    mock.patch.object(ingress.organization_ledger, "append",
+                                      side_effect=RuntimeError("stopped after the repository write")):
+                with self.assertRaises(RuntimeError):
+                    ingress.receive(diagnostic("replayed-clock"), registry=REGISTRY,
+                                    packet_id="replayed-clock", hb_epoch="4096")
+        repository, = self.receipts("STEGVERSE_REPO_LEDGER_ROOT",
+                                    "stegverse.repo-transition-receipt/v1")
+        self.assertEqual(repository["hb_reference"]["epoch"], clock_epoch)
+        self.assertNotEqual(clock_epoch, 4096)
+        before = self.org_ledger_files()
+        with no_clock(self):
+            result = ingress.receive(diagnostic("replayed-clock"), registry=REGISTRY,
+                                     packet_id="replayed-clock", hb_epoch="4096")
+        # F2: the replayed repository receipt's epoch was read from a clock, so
+        # it cannot be the source of an organization receipt.
+        self.assertEqual(result["disposition"], "FAIL_CLOSED")
+        self.assertEqual(result["failure_code"], "SOURCE_RECEIPT_IS_CLOCK_PROVENANCE")
+        self.assertIn("CARRIED:LEGACY_CLOCK_RECEIPT", result["required_evidence_or_repair"])
+        for name in EPOCH_FIELDS:
+            self.assertTrue(result[name], name)
+        self.assertEqual(self.org_ledger_files(), before)
+        self.assertEqual(self.receipts("STEGVERSE_ORG_LEDGER_ROOT",
+                                       "stegverse.organization-transition-receipt/v1"), [])
+        self.assert_no_laundered_epoch({4096})
+
+    def test_a_replayed_clock_emission_is_refused_as_a_source_and_writes_nothing(self):
+        writer = egress.repository_ledger
+        record = {"intended_action": "EMIT", "disposition": "ALLOW",
+                  "crossed_an_organization_boundary": True,
+                  "frame_sha256": "sha256:" + "2" * 64, "payload_sha256": "sha256:" + "3" * 64}
+        args = ("probe:replayed-emission", egress.EMITTED_CLASS, "sha256:" + "0" * 64,
+                "sha256:" + "1" * 64, record)
+        with fixed_clock():
+            clock_epoch = writer.kernel.hb_reference()["epoch"]
+            with mock.patch.object(writer, "hb_reference", clock_reference(writer)), \
+                    mock.patch.object(egress.organization_ledger, "append",
+                                      side_effect=RuntimeError("stopped after the repository write")):
+                with self.assertRaises(RuntimeError):
+                    egress._record(*args, "4096")
+        repository, = self.receipts("STEGVERSE_REPO_LEDGER_ROOT",
+                                    "stegverse.repo-transition-receipt/v1")
+        self.assertEqual(repository["hb_reference"]["epoch"], clock_epoch)
+        before = self.org_ledger_files()
+        with no_clock(self), self.assertRaises(egress.organization_ledger.OrgLedgerEpochRefused) as refused:
+            egress._record(*args, "4096")
+        self.assertEqual(refused.exception.refusal["failure_code"], "SOURCE_RECEIPT_IS_CLOCK_PROVENANCE")
+        for name in EPOCH_FIELDS:
+            self.assertTrue(refused.exception.refusal[name], name)
+        self.assertEqual(self.org_ledger_files(), before)
+        self.assert_no_laundered_epoch({4096})
+
+    def test_the_supplied_4096_reaches_both_receipts_on_every_path(self):
+        with no_clock(self):
+            received = ingress.receive(diagnostic("supplied-receive"), registry=REGISTRY,
+                                       packet_id="supplied-receive", hb_epoch="4096")
+            closed = ingress.self_close("supplied-self-close", registry=REGISTRY, hb_epoch="4096")
+            emitted = egress.emit(PEER, diagnostic("supplied-emit"), standing=STANDING,
+                                  capability=PROFILE_ID, mesh_root=self.mesh, hb_epoch="4096")
+        self.assertEqual(received["disposition"], "ALLOW", received.get("detail"))
+        self.assertIs(closed["closed"], True)
+        self.assertIs(emitted["emitted"], True)
+        repository = self.receipts("STEGVERSE_REPO_LEDGER_ROOT", "stegverse.repo-transition-receipt/v1")
+        organization = self.receipts("STEGVERSE_ORG_LEDGER_ROOT",
+                                     "stegverse.organization-transition-receipt/v1")
+        self.assertEqual(len(repository), 3)
+        self.assertEqual(len(organization), 3)
+        for receipt in repository + organization:
+            self.assertEqual(receipt["hb_reference"]["epoch"], 4096)
+            self.assertIs(receipt["hb_reference"]["derived_from_clock"], False)
+            self.assertEqual(receipt["observed_at"], "HB:4096")
 
 
 if __name__ == "__main__":
