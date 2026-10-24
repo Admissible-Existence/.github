@@ -812,8 +812,18 @@ class HeartbeatWorkflowBindingTests(unittest.TestCase):
             with self.subTest(workflow=path.name):
                 triggers = text.split("\non:", 1)[1].split("\npermissions:", 1)[0]
                 self.assertNotIn("schedule:", triggers)
-                self.assertNotIn("push:", triggers)
-                self.assertIn("hb_epoch:", triggers)
+                packet_push = ("\n  push:\n    branches: [main]\n    paths:\n"
+                               "      - '.stegverse/intr-destination/self-closure-packet.json'\n")
+                if "push:" in triggers:
+                    # The one push binding: the committed self-closure packet supplies the epoch
+                    # (--require-hb-epoch), read before the first epoch-requiring entrypoint runs.
+                    self.assertEqual(triggers.strip(), packet_push.strip())
+                    reader = "self_closure_packet.py --packet .stegverse/intr-destination/self-closure-packet.json --require-hb-epoch"
+                    first = min(text.index(line) for line in runs if any(entry in line for entry in entrypoints))
+                    self.assertLess(text.index(reader), first)
+                    self.assertIn('--hb-epoch "$HB_EPOCH"', text)
+                else:
+                    self.assertIn("hb_epoch:", triggers)
 
 
 class ManifestDispatcherTests(unittest.TestCase):

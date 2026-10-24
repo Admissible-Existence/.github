@@ -2,7 +2,7 @@
 
 These cases run against a temporary git repository. The receipts they append
 are fixtures of that temporary ref. They are exercised here so a
-``workflow_dispatch`` can perform the same closure against the published ref.
+push of the committed self-closure packet can perform the same closure against the published ref.
 """
 from __future__ import annotations
 
@@ -52,9 +52,10 @@ class DesignationTests(unittest.TestCase):
         self.assertIs(location["new_ledger_root"], False)
         self.assertEqual(location["namespace"], "repository-ledger/Admissible-Existence/.github")
 
-    def test_the_dispatch_workflow_appends_pushes_and_reads_the_designated_ref(self):
+    def test_the_packet_push_workflow_appends_pushes_and_reads_the_designated_ref(self):
         text = (ROOT / ".github/workflows/organization-ledger-transition.yml").read_text()
-        self.assertIn("workflow_dispatch:", text)
+        self.assertNotIn("workflow_dispatch", text)
+        self.assertIn("paths:\n      - '.stegverse/intr-destination/self-closure-packet.json'", text)
         self.assertIn("refs/stegverse/organization-ledger", text)
         self.assertIn("intr_destination_ingress.py", text)
         self.assertIn("--self-close", text)
