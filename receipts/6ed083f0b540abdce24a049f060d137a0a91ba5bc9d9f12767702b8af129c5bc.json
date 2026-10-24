@@ -1,0 +1,32 @@
+{
+  "authority_effect": "NONE",
+  "boundary_evidence": {
+    "communication_id": "admissible-existence-hb-supplied-001",
+    "disposition": "ALLOW",
+    "operation": "ORGANIZATION_INTR_DESTINATION_INGRESS",
+    "profile_id": "intr-destination",
+    "self_closure": true
+  },
+  "hb_reference": {
+    "authority_effect": "NONE",
+    "derived_from_clock": false,
+    "epoch": 469411750,
+    "frequency_hz": 100,
+    "generation": 469411750,
+    "heartbeat_id": "HB:469411750",
+    "phase_offset_ns": 0,
+    "progression_dependency": "OSCILLATOR_ONLY"
+  },
+  "observed_at": "HB:469411750",
+  "org_transition_class": "REPO_STATE_PROPAGATION",
+  "organization": "Admissible-Existence",
+  "predecessor_org_state_sha256": "sha256:5609b25259ee8670a816cab4a1982c57aa224102462fdee9ee905edf70bad34d",
+  "previous_receipt_sha256": "sha256:caacc196fb11507476e6a2860f6a30066813ae0f02164cbc4c45f4f84c84a327",
+  "receipt_sha256": "sha256:6ed083f0b540abdce24a049f060d137a0a91ba5bc9d9f12767702b8af129c5bc",
+  "repo_receipt_sha256": "sha256:9e99ea54463732a62f715ffafb93099b108afb8e1c013bd14c652be8cce75187",
+  "repo_transition_id": "ORGANIZATION_INTR_DESTINATION_INGRESS:admissible-existence-intr-destination-self-closure-hb-001",
+  "schema": "stegverse.organization-transition-receipt/v1",
+  "source_repository": "Admissible-Existence/.github",
+  "source_transition_sha256": "sha256:9e99ea54463732a62f715ffafb93099b108afb8e1c013bd14c652be8cce75187",
+  "successor_org_state_sha256": "sha256:e9d9ff12b3d8c4a049522b0f9f2b2f876eedd172620a1d3fe09d9827b2f6b310"
+}
