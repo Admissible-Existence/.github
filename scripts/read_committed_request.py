@@ -44,6 +44,10 @@ FIELD = re.compile(r"[A-Za-z0-9._:-]{1,128}")
 DIGEST = re.compile(r"[0-9a-f]{64}")
 REQUEST_PATH_ENV = "STEGVERSE_COMMITTED_REQUEST_PATH"
 REQUEST_SHA256_ENV = "STEGVERSE_COMMITTED_REQUEST_SHA256"
+#: The digest of the committed request that produced this run's source receipt,
+#: when the request names one (source_committed_request).
+SOURCE_SHA256_ENV = "STEGVERSE_SOURCE_COMMITTED_REQUEST_SHA256"
+BOUND_KEYS = ("committed_request", "source_committed_request")
 #: One line of text: no control character can end a $GITHUB_OUTPUT line.
 TEXT = re.compile(r"[^\x00-\x1f\x7f]{0,4096}")
 
@@ -77,12 +81,16 @@ def refusal(code: str, predicate: str, detail: str, repair: str, request: str, *
 
 
 def _field_failure(value: dict, field: str, *, required: bool, choices: tuple[str, ...] = (),
-                   text: bool = False) -> str | None:
+                   text: bool = False, digest: bool = False, forbidden: bool = False) -> str | None:
+    if forbidden:
+        return field + " may not be set by a request" if field in value else None
     if field not in value and not required:
         return None
     item = value.get(field)
     if not isinstance(item, str):
         return field + " is missing or not a string"
+    if digest:
+        return None if DIGEST.fullmatch(item) else field + " is not a lowercase hex sha256"
     if choices:
         return None if item in choices else field + " is not one of " + ", ".join(choices)
     if text:
@@ -91,12 +99,15 @@ def _field_failure(value: dict, field: str, *, required: bool, choices: tuple[st
 
 
 def read(request: Path, required: tuple[str, ...], *, choices: dict[str, tuple[str, ...]] | None = None,
-         optional_text: tuple[str, ...] = ()) -> tuple[dict | None, dict | None]:
+         optional_text: tuple[str, ...] = (), optional_digest: tuple[str, ...] = (),
+         forbidden: tuple[str, ...] = ()) -> tuple[dict | None, dict | None]:
     """(values, None) for a request that passes, or (None, six-field refusal).
 
     `required` fields are identifiers; `choices` fields must be one of their
     declared values; `optional_text` fields, when present, are one line of
-    text and are output empty when absent.
+    text, and `optional_digest` fields a lowercase hex sha256; both are output
+    empty when absent. A `forbidden` field may not appear at all: a request
+    cannot choose, for instance, the ledger its writer reads.
     """
     choices = choices or {}
     name = str(request)
@@ -114,6 +125,8 @@ def read(request: Path, required: tuple[str, ...], *, choices: dict[str, tuple[s
     checks = [(field, {"required": True}) for field in required]
     checks += [(field, {"required": True, "choices": options}) for field, options in choices.items()]
     checks += [(field, {"required": False, "text": True}) for field in optional_text]
+    checks += [(field, {"required": False, "digest": True}) for field in optional_digest]
+    checks += [(field, {"required": False, "forbidden": True}) for field in forbidden]
     for field, check in checks:
         failure = _field_failure(value, field, **check)
         if failure is not None:
@@ -129,9 +142,13 @@ def read(request: Path, required: tuple[str, ...], *, choices: dict[str, tuple[s
         return None, refusal(code, EPOCH_PREDICATE, detail,
                              "commit " + name + " with hb_epoch: ASCII digits >= 32", name, terminal=False)
     values = {field: value[field] for field in (*required, *choices)}
-    values.update({field: value.get(field, "") for field in optional_text})
+    values.update({field: value.get(field, "") for field in (*optional_text, *optional_digest)})
     values["hb_epoch"] = str(value["hb_epoch"])
     values["request_sha256"] = hashlib.sha256(raw).hexdigest()
+    if values.get("source_committed_request") == values["request_sha256"]:
+        return None, refusal("COMMITTED_REQUEST_INVALID", REQUEST_PREDICATE,
+                             "source_committed_request names this request itself",
+                             "name the request that produced the source receipt, not this one", name, terminal=True)
     return values, None
 
 
@@ -152,8 +169,25 @@ def recorded(environ=None) -> tuple[dict | None, dict | None]:
     return {"path": path, "sha256": digest, "hb_epoch_source": "COMMITTED_REQUEST"}, None
 
 
+def source_named(request, environ=None) -> tuple[dict | None, dict | None]:
+    """(source_committed_request, None) when the run's request names the request
+    that produced its source receipt, (None, None) when it names none, or
+    (None, six-field refusal) for one named outside a committed-request run,
+    malformed, or naming the run's own request."""
+    environ = os.environ if environ is None else environ
+    digest = environ.get(SOURCE_SHA256_ENV) or ""
+    if not digest:
+        return None, None
+    if request is None or DIGEST.fullmatch(digest) is None or digest == request["sha256"]:
+        return None, refusal("COMMITTED_REQUEST_INVALID", "SOURCE_COMMITTED_REQUEST_NAMES_ANOTHER_REQUEST",
+                             SOURCE_SHA256_ENV + " must be the lowercase hex sha256 of another committed request, "
+                             "within a committed-request run",
+                             "name the request that produced the source receipt", "the request", terminal=True)
+    return {"path": request["path"], "sha256": digest}, None
+
+
 def _carries_committed_request(value) -> bool:
-    """Whether `value` has a committed_request key at any depth (iteratively, so
+    """Whether `value` has a committed_request or source_committed_request key at any depth (iteratively, so
     a deep document cannot exhaust the stack, and once per container, so a
     cyclic in-process value cannot loop)."""
     pending, seen = [value], set()
@@ -164,7 +198,7 @@ def _carries_committed_request(value) -> bool:
                 continue
             seen.add(id(item))
         if isinstance(item, dict):
-            if "committed_request" in item:
+            if any(key in item for key in BOUND_KEYS):
                 return True
             pending.extend(item.values())
         elif isinstance(item, (list, tuple)):
@@ -181,14 +215,21 @@ def bind(evidence, argument: str, environ=None) -> tuple[dict | None, dict | Non
     """
     if _carries_committed_request(evidence):
         return None, refusal("COMMITTED_REQUEST_INVALID", "COMMITTED_REQUEST_IS_SET_ONLY_FROM_THE_RUN",
-                             argument + " carries committed_request; only the run's own committed request sets it",
-                             "remove committed_request from " + argument, argument, terminal=True)
+                             argument + " carries committed_request or source_committed_request; only the run's "
+                             "own committed request sets them",
+                             "remove committed_request and source_committed_request from " + argument, argument,
+                             terminal=True)
     request, refused = recorded(environ)
+    if refused is not None:
+        return None, refused
+    source, refused = source_named(request, environ)
     if refused is not None:
         return None, refused
     evidence = dict(evidence)
     if request is not None:
         evidence["committed_request"] = request
+    if source is not None:
+        evidence["source_committed_request"] = source
     return evidence, None
 
 
@@ -201,6 +242,10 @@ def main(argv: list[str] | None = None) -> int:
                         help="a field the request must carry with one of these values")
     parser.add_argument("--optional-text", action="append", default=[],
                         help="a field the request may carry as one line of text; empty when absent")
+    parser.add_argument("--optional-digest", action="append", default=[],
+                        help="a field the request may carry as a lowercase hex sha256; empty when absent")
+    parser.add_argument("--forbid", action="append", default=[],
+                        help="a field the request may not carry")
     args = parser.parse_args(argv)
     choices = {}
     for item in args.choice:
@@ -209,7 +254,8 @@ def main(argv: list[str] | None = None) -> int:
             parser.error("--choice takes FIELD=A,B,...")
         choices[field] = tuple(options.split(","))
     values, refused = read(args.request, tuple(args.require), choices=choices,
-                           optional_text=tuple(args.optional_text))
+                           optional_text=tuple(args.optional_text), optional_digest=tuple(args.optional_digest),
+                           forbidden=tuple(args.forbid))
     if refused is not None:
         print(json.dumps(refused, sort_keys=True))
         return 1

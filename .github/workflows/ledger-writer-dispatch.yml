@@ -8,8 +8,12 @@ name: Ledger Writer Dispatch
 #
 # B-P40 (lead ruling R-DISPATCH, COMMITTED_REQUEST): a push to main that
 # commits data/requests/ledger-writer-dispatch.json (writer, hb_epoch, and
-# optionally arguments, repo_ledger_root, org_ledger_root) is the only start.
-# There are no inputs and no clock; the request is gated before any writer runs.
+# optionally arguments, org_ledger_root and source_committed_request, the
+# digest of the request that produced an aggregate's source receipt) is the
+# only start. There are no inputs and no clock; the request is gated before
+# any writer runs. A request cannot choose the repository ledger: it is the one
+# paired with the organization ledger (a git org ledger's contract namespace,
+# else this run's own POSIX root).
 on:
   push:
     branches: [main]
@@ -35,21 +39,27 @@ jobs:
         run: >-
           python scripts/read_committed_request.py --request data/requests/ledger-writer-dispatch.json
           --choice writer=repository-ledger-emit,organization-ledger-aggregate,organization-egress,intr-destination-ingress
-          --optional-text arguments --optional-text repo_ledger_root --optional-text org_ledger_root
+          --optional-text arguments --optional-text org_ledger_root
+          --optional-digest source_committed_request --forbid repo_ledger_root
       - name: Invoke the ledger writer
         env:
           WRITER: ${{ steps.request.outputs.writer }}
           HB_EPOCH: ${{ steps.request.outputs.hb_epoch }}
           ARGUMENTS: ${{ steps.request.outputs.arguments }}
-          REPO_LEDGER_ROOT: ${{ steps.request.outputs.repo_ledger_root }}
           ORG_LEDGER_ROOT: ${{ steps.request.outputs.org_ledger_root }}
           STEGVERSE_COMMITTED_REQUEST_PATH: data/requests/ledger-writer-dispatch.json
           STEGVERSE_COMMITTED_REQUEST_SHA256: ${{ steps.request.outputs.request_sha256 }}
+          STEGVERSE_SOURCE_COMMITTED_REQUEST_SHA256: ${{ steps.request.outputs.source_committed_request }}
         shell: bash
         run: |
           set -euo pipefail
-          export STEGVERSE_REPO_LEDGER_ROOT="${REPO_LEDGER_ROOT:-$RUNNER_TEMP/repo-ledger}"
           export STEGVERSE_ORG_LEDGER_ROOT="${ORG_LEDGER_ROOT:-$RUNNER_TEMP/org-ledger}"
+          # The repository ledger moves with the organization ledger, never on its own.
+          namespace=$(python -c 'import json; print(json.load(open(".stegverse/transition-ledger/contract.json"))["repository_ledger_location"]["namespace"])')
+          case "$STEGVERSE_ORG_LEDGER_ROOT" in
+            git+*) export STEGVERSE_REPO_LEDGER_ROOT="$STEGVERSE_ORG_LEDGER_ROOT:$namespace" ;;
+            *) export STEGVERSE_REPO_LEDGER_ROOT="$RUNNER_TEMP/repo-ledger" ;;
+          esac
           # The dispatcher checks the epoch first: an empty or invalid one is
           # the six-field FAIL_CLOSED and no writer is invoked.
           python scripts/dispatch_ledger_writer.py --writer "$WRITER" --hb-epoch "$HB_EPOCH" --arguments "$ARGUMENTS"

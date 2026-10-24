@@ -3270,5 +3270,179 @@ class CommittedRequestRecordedTests(_Workspace):
         self.assertEqual(self.receipts(), [])
 
 
+class SourceLedgerPairingTests(_Workspace):
+    """CALLER_CHOSEN_SOURCE_LEDGER_ACCEPTED (lead 20:55Z): the organization writer
+    verifies a source receipt only on the repository ledger paired with the
+    organization ledger it appends to, and a request cannot choose it."""
+
+    REF = "refs/stegverse/organization-ledger"
+    NAMESPACE = "repository-ledger/Admissible-Existence/.github"
+
+    def setUp(self):
+        super().setUp()
+        self.aggregate = _load("probe_pairing_aggregate", self.repo / "resident-runtime" / "aggregate_repo_transition.py")
+        self.emit = _load("probe_pairing_emit", self.repo / ".stegverse" / "transition-ledger" / "emit.py")
+
+    def git_repository(self, name):
+        path = self.work / name
+        subprocess.run(["git", "init", "-q", str(path)], check=True)
+        return path
+
+    def pair(self, org, repo):
+        os.environ["STEGVERSE_ORG_LEDGER_ROOT"] = org
+        os.environ["STEGVERSE_REPO_LEDGER_ROOT"] = repo
+
+    def source(self, name="probe:pairing"):
+        return self.emit.append(name, "PROBE", "sha256:" + "0" * 64, "sha256:" + "1" * 64, {}, hb_epoch="4096")
+
+    def aggregate_source(self, source):
+        return self.aggregate.append(source, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64, "sha256:" + "3" * 64,
+                                     {}, hb_epoch="4096")
+
+    def test_a_git_pair_is_accepted_through_a_symlink(self):
+        ledger = self.git_repository("ledger")
+        linked = self.work / "linked"
+        linked.symlink_to(ledger, target_is_directory=True)
+        self.pair(f"git+{ledger}#{self.REF}", f"git+{ledger}#{self.REF}:{self.NAMESPACE}")
+        source = self.source()
+        os.environ["STEGVERSE_REPO_LEDGER_ROOT"] = f"git+{linked}#{self.REF}:{self.NAMESPACE}"
+        self.assertEqual(self.aggregate_source(source)["repo_receipt_sha256"], source["receipt_sha256"])
+
+    def test_an_unpaired_source_ledger_is_refused_with_nothing_written(self):
+        ledger = self.git_repository("ledger")
+        other = self.git_repository("other")
+        to_other = self.work / "to-other"
+        to_other.symlink_to(other, target_is_directory=True)
+        org = f"git+{ledger}#{self.REF}"
+        cases = {
+            "mixed git and POSIX": (org, str(self.work / "repo-ledger")),
+            "POSIX and git": (str(self.work / "org-ledger"), f"git+{ledger}#{self.REF}:{self.NAMESPACE}"),
+            "another repository's namespace": (org, f"git+{ledger}#{self.REF}:repository-ledger/{THIS}/other"),
+            "a different ref": (org, f"git+{ledger}#refs/stegverse/other:{self.NAMESPACE}"),
+            "another repository": (org, f"git+{other}#{self.REF}:{self.NAMESPACE}"),
+            "a symlink to another repository": (org, f"git+{to_other}#{self.REF}:{self.NAMESPACE}"),
+        }
+        for label, (org_root, repo_root) in cases.items():
+            with self.subTest(pair=label):
+                # The source is genuinely on the ledger the repository root names.
+                self.pair(org_root, repo_root)
+                source = self.source("probe:" + label.replace(" ", "-").replace("'", ""))
+                before = snapshot(self.work)
+                with self.assertRaises(self.aggregate.OrgLedgerEpochRefused) as refused:
+                    self.aggregate_source(source)
+                assert_six_fields(self, refused.exception.refusal, "SOURCE_LEDGER_NOT_PAIRED")
+                self.assertEqual(written(self.work, before), [])
+
+    def test_a_request_cannot_choose_the_repository_ledger(self):
+        workflow = (ROOT / ".github" / "workflows" / "ledger-writer-dispatch.yml").read_text()
+        self.assertNotIn("repo_ledger_root }}", workflow)
+        with tempfile.TemporaryDirectory() as work:
+            completed = _run_gate(workflow, json.dumps({"writer": "organization-ledger-aggregate", "hb_epoch": "4096",
+                                                        "repo_ledger_root": str(self.work / "attacker")}), work)
+        self.assertEqual(completed.returncode, 1)
+        assert_six_fields(self, json.loads(completed.stdout), "COMMITTED_REQUEST_INVALID")
+
+
+class SourceCommittedRequestTests(_Workspace):
+    """LWD_AGGREGATE_UNREACHABLE_ONE_WRITER_PER_REQUEST (lead 20:54Z): a request may name
+    source_committed_request, the request that produced its source receipt."""
+
+    PATH = "data/requests/ledger-writer-dispatch.json"
+
+    def setUp(self):
+        super().setUp()
+        self.aggregate = _load("probe_chain_aggregate", self.repo / "resident-runtime" / "aggregate_repo_transition.py")
+        self.emit = _load("probe_chain_emit", self.repo / ".stegverse" / "transition-ledger" / "emit.py")
+
+    def run_as(self, digest, source=None):
+        os.environ["STEGVERSE_COMMITTED_REQUEST_PATH"] = self.PATH
+        os.environ["STEGVERSE_COMMITTED_REQUEST_SHA256"] = digest
+        if source is None:
+            os.environ.pop("STEGVERSE_SOURCE_COMMITTED_REQUEST_SHA256", None)
+        else:
+            os.environ["STEGVERSE_SOURCE_COMMITTED_REQUEST_SHA256"] = source
+
+    def emitted(self, digest, source=None):
+        self.run_as(digest, source)
+        return self.emit.append("probe:" + digest, "PROBE", "sha256:" + "0" * 64, "sha256:" + "1" * 64, {},
+                                hb_epoch="4096")
+
+    def aggregated(self, receipt, digest, source):
+        self.run_as(digest, source)
+        return self.aggregate.append(receipt, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64, "sha256:" + "3" * 64,
+                                     {}, hb_epoch="4096")
+
+    def refused(self, receipt, digest, source, code):
+        before = snapshot(self.work)
+        with self.assertRaises(self.aggregate.OrgLedgerEpochRefused) as refused:
+            self.aggregated(receipt, digest, source)
+        assert_six_fields(self, refused.exception.refusal, code)
+        self.assertEqual(written(self.work, before), [])
+        self.assertFalse((self.work / "org-ledger").exists())
+
+    def test_a_genuine_two_request_aggregate_records_both_digests(self):
+        source = self.emitted("a" * 64)
+        record = self.aggregated(source, "b" * 64, "a" * 64)
+        self.assertEqual(record["boundary_evidence"]["committed_request"]["sha256"], "b" * 64)
+        self.assertEqual(record["boundary_evidence"]["source_committed_request"], {"path": self.PATH, "sha256": "a" * 64})
+
+    def test_a_genuine_two_request_aggregate_through_the_ledger_writer_dispatcher(self):
+        def dispatch(digest, source, writer, arguments):
+            env = {**os.environ, "STEGVERSE_COMMITTED_REQUEST_PATH": self.PATH,
+                   "STEGVERSE_COMMITTED_REQUEST_SHA256": digest, "STEGVERSE_SOURCE_COMMITTED_REQUEST_SHA256": source}
+            completed = subprocess.run([sys.executable, "scripts/dispatch_ledger_writer.py", "--writer", writer,
+                                        "--hb-epoch", "4096", "--arguments", arguments],
+                                       cwd=self.repo, capture_output=True, text=True, env=env)
+            self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+            return json.loads(completed.stdout)
+        receipt = dispatch("a" * 64, "", "repository-ledger-emit",
+                           "--transition-id lwd-emit --transition-class PROBE --predecessor-state-sha256 sha256:"
+                           + "0" * 64 + " --successor-state-sha256 sha256:" + "1" * 64)
+        path = self.work / "lwd-receipt.json"
+        path.write_text(json.dumps(receipt))
+        record = dispatch("b" * 64, "a" * 64, "organization-ledger-aggregate",
+                          "--repo-receipt " + str(path) + " --predecessor-org-state-sha256 sha256:" + "2" * 64
+                          + " --successor-org-state-sha256 sha256:" + "3" * 64)
+        self.assertEqual(record["boundary_evidence"]["source_committed_request"]["sha256"], "a" * 64)
+        self.assertEqual(record["boundary_evidence"]["committed_request"]["sha256"], "b" * 64)
+
+    def test_a_wrong_digest_is_refused(self):
+        source = self.emitted("a" * 64)
+        self.emitted("d" * 64)  # another genuine request on the ledger
+        self.refused(source, "b" * 64, "d" * 64, "COMMITTED_REQUEST_DIGEST_UNVERIFIED")
+
+    def test_a_missing_request_in_the_chain_is_refused(self):
+        source = self.emitted("a" * 64, "c" * 64)  # names a request with no receipt anywhere
+        self.refused(source, "b" * 64, "a" * 64, "COMMITTED_REQUEST_DIGEST_UNVERIFIED")
+
+    def test_a_request_cannot_name_itself(self):
+        source = self.emitted("a" * 64)
+        self.refused(source, "b" * 64, "b" * 64, "COMMITTED_REQUEST_INVALID")
+        with self.assertRaises(self.emit.RepoLedgerEpochRefused) as refused:
+            self.emitted("e" * 64, "e" * 64)
+        assert_six_fields(self, refused.exception.refusal, "COMMITTED_REQUEST_INVALID")
+
+    def test_a_cyclic_chain_is_refused(self):
+        source = self.emitted("a" * 64, "e" * 64)
+        self.emitted("e" * 64, "a" * 64)
+        self.refused(source, "b" * 64, "a" * 64, "COMMITTED_REQUEST_DIGEST_UNVERIFIED")
+        # A chain that returns to the aggregating request itself is a cycle too.
+        back = self.emitted("f" * 64, "b" * 64)
+        self.emitted("b" * 64)
+        self.refused(back, "b" * 64, "f" * 64, "COMMITTED_REQUEST_DIGEST_UNVERIFIED")
+
+    def test_an_over_deep_chain_is_refused(self):
+        digests = ["%064x" % (index + 1) for index in range(self.aggregate.SOURCE_REQUEST_CHAIN_LIMIT + 1)]
+        previous = None
+        for digest in digests:
+            receipt = self.emitted(digest, previous)
+            previous = digest
+        self.refused(receipt, "b" * 64, digests[-1], "SOURCE_REQUEST_CHAIN_TOO_DEEP")
+        # One link shorter is accepted.
+        shallow = self.emitted("c" * 64, digests[1])
+        self.assertEqual(self.aggregated(shallow, "b" * 64, "c" * 64)["boundary_evidence"]
+                         ["source_committed_request"]["sha256"], "c" * 64)
+
+
 if __name__ == "__main__":
     unittest.main()
