@@ -256,8 +256,12 @@ def declared_manifest(payload: Any) -> dict[str, Any]:
 
 
 def receive(root: Path, service: Mapping[str, Any], packet: Mapping[str, Any], *, registry: Mapping[str, Any],
-            mesh_root: Path | None = None) -> dict[str, Any]:
+            mesh_root: Path | None = None, hb_epoch: Any = None) -> dict[str, Any]:
     """Hand an addressed submission to the receiving operation the overlay binds.
+
+    ``hb_epoch`` is the epoch the carrier frame carried, which the kernel
+    forwards only after the shared rule accepts the frame's reference. It is
+    passed to the operation as its supplied epoch; None is refused there.
 
     The operation records its own dispositions at both ledger levels; this
     returns what it reported. A refusal is returned as the operation stated it,
@@ -273,7 +277,7 @@ def receive(root: Path, service: Mapping[str, Any], packet: Mapping[str, Any], *
     module = load_operation(resolved)
     result = module.receive(submission, registry=registry, standing=packet.get("standing"),
                             packet_id=str(packet.get("packet_id") or resolved["receiving_operation_id"]),
-                            mesh_root=mesh_root)
+                            mesh_root=mesh_root, hb_epoch=hb_epoch)
     return {
         "capability_received": True,
         "capability_profile_id": resolved["capability_profile_id"],

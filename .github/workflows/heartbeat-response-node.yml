@@ -1,18 +1,16 @@
 name: Heartbeat Response Node
 
-# B-P40 (lead ruling R-DISPATCH): the node runs once per committed transition,
-# a push to main that changes its configuration, script, tests or this file.
-# It is not dispatched by hand and no clock polls the outbox. A committed
-# epoch request (COMMITTED_REQUEST) lands with the node's --hb-epoch support
-# (Admissible-Existence/.github#97).
+# B-P40 (lead ruling R-DISPATCH, COMMITTED_REQUEST): the node runs once per
+# committed request, a push to main that commits
+# data/requests/heartbeat-response-node.json with the supplied hb_epoch. It is
+# not dispatched by hand, no clock polls the outbox, and it takes no inputs:
+# the epoch comes only from the committed request and is gated before
+# anything is fetched, invoked or written.
 on:
   push:
     branches: [main]
     paths:
-      - "data/heartbeat-response-node.json"
-      - "scripts/process_heartbeat_response.py"
-      - "tests/test_heartbeat_response.py"
-      - ".github/workflows/heartbeat-response-node.yml"
+      - "data/requests/heartbeat-response-node.json"
 
 permissions:
   contents: write
@@ -32,9 +30,18 @@ jobs:
           python-version: "3.12"
       - name: Test node semantics
         run: python -m unittest tests.test_heartbeat_response -v
+      # Without a usable request and a supplied epoch the run fails closed
+      # with the six-field refusal before anything is fetched, invoked or written.
+      - name: Read the committed request and gate its supplied epoch
+        id: request
+        run: python scripts/read_committed_request.py --request data/requests/heartbeat-response-node.json
       - name: Receive and classify canonical heartbeat
+        env:
+          HB_EPOCH: ${{ steps.request.outputs.hb_epoch }}
+        shell: bash
         run: |
-          python scripts/process_heartbeat_response.py --apply
+          set -euo pipefail
+          python scripts/process_heartbeat_response.py --apply --hb-epoch "$HB_EPOCH"
           python scripts/process_heartbeat_response.py --check
       - name: Persist new response receipts
         shell: bash
