@@ -21,6 +21,9 @@ on:
       - 'tests/test_organization_ledger_git_ref.py'
       - 'tests/test_clock_marker_probe.py'
       - 'tests/test_heartbeat_response.py'
+      - 'resident-runtime/self_closure_packet.py'
+      - 'tests/test_self_closure_packet.py'
+      - 'tests/test_organization_ledger_transition_writer.py'
       - 'org-boundary/runtime/intr_transport.py'
       - 'resident-runtime/federation_cycle.py'
       - 'resident-runtime/federation_gateway_transport.py'
@@ -50,6 +53,9 @@ on:
       - 'tests/test_organization_ledger_git_ref.py'
       - 'tests/test_clock_marker_probe.py'
       - 'tests/test_heartbeat_response.py'
+      - 'resident-runtime/self_closure_packet.py'
+      - 'tests/test_self_closure_packet.py'
+      - 'tests/test_organization_ledger_transition_writer.py'
       - 'org-boundary/runtime/intr_transport.py'
       - 'resident-runtime/federation_cycle.py'
       - 'resident-runtime/federation_gateway_transport.py'
@@ -100,3 +106,6 @@ jobs:
           STEGVERSE_REPO_LEDGER_ROOT: ${{ runner.temp }}/repo-ledger
           STEGVERSE_ORG_LEDGER_ROOT: ${{ runner.temp }}/org-ledger
         run: python -m unittest tests.test_intr_destination_capability tests.test_organization_ledger_git_ref tests.test_clock_marker_probe tests.test_heartbeat_response -v
+
+      - name: "Push-on-packet writer: the committed packet supplies the epoch (no dispatch, no clock; temporary repositories)"
+        run: python -m unittest tests.test_self_closure_packet tests.test_organization_ledger_transition_writer -v
