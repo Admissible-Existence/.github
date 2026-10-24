@@ -18,9 +18,8 @@ that schema is a refusal, recorded, not an acknowledgement.
 
 ``self_close`` is the diagnostic this organization addresses to its own
 ingress. Both ledger levels append a receipt carrying ``communication_id``.
-No peer is named. A committed request
-(``data/requests/organization-ledger-transition.json``) runs that closure via
-``.github/workflows/organization-ledger-transition.yml``
+No peer is named. A ``workflow_dispatch`` of
+``.github/workflows/organization-ledger-transition.yml`` runs that closure
 against the designated organization ledger ref.
 
 The profile name ``InTr:Destination`` is local to this binding. The pinned SDK
