@@ -13,6 +13,7 @@ def main():
  # predecessor binding. There is no default: a silent one would be the
  # defaulting the contract forbids.
  p.add_argument("--standing",required=True,help="JSON file declaring mode, node_ref and the predecessor key")
+ p.add_argument("--hb-epoch",default=None,help="supplied hb_epoch for the carrier frame; without one the publish is FAIL_CLOSED HB_EPOCH_NOT_SUPPLIED (no clock is read)")
  a=p.parse_args()
  receipt=load(a.org_receipt)
  if receipt.get("schema")!="stegverse.organization-transition-receipt/v1":raise SystemExit("organization receipt schema mismatch")
@@ -21,6 +22,6 @@ def main():
  standing=load(a.standing)
  if not isinstance(standing,dict) or "predecessor" not in standing:raise SystemExit("standing must declare the predecessor key; null is explicit genesis")
  packet=K.build_packet(origin_org="Admissible-Existence",origin_service="admissible-existence.org-control",destination_org="master-records",destination_service="master-records.ecosystem-transition-ledger",payload=payload,standing=standing,transition_reference="ecosystem.transition.custody.v1",authority_effect="NONE")
- published=K.publish_packet(packet)
+ published=K.publish_packet(packet,epoch=a.hb_epoch)
  print(json.dumps({"status":"PUBLISHED_FOR_CUSTODY","packet_id":packet["packet_id"],"frame_sha256":published["frame"]["frame_sha256"],"authority_effect":"NONE"},sort_keys=True))
 if __name__=="__main__":main()
