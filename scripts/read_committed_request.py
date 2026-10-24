@@ -152,14 +152,29 @@ def recorded(environ=None) -> tuple[dict | None, dict | None]:
     return {"path": path, "sha256": digest, "hb_epoch_source": "COMMITTED_REQUEST"}, None
 
 
+def _carries_committed_request(value) -> bool:
+    """Whether `value` has a committed_request key at any depth (iteratively, so
+    a deep document cannot exhaust the stack)."""
+    pending = [value]
+    while pending:
+        item = pending.pop()
+        if isinstance(item, dict):
+            if "committed_request" in item:
+                return True
+            pending.extend(item.values())
+        elif isinstance(item, (list, tuple)):
+            pending.extend(item)
+    return False
+
+
 def bind(evidence, argument: str, environ=None) -> tuple[dict | None, dict | None]:
     """(evidence with committed_request set from `recorded()`, None), or (None, refusal).
 
     Only the run's own request sets committed_request: evidence a caller
-    supplies that already carries the key is a forged provenance and is refused
-    six-field COMMITTED_REQUEST_INVALID before anything is written.
+    supplies that carries the key at any depth is a forged provenance and is
+    refused six-field COMMITTED_REQUEST_INVALID before anything is written.
     """
-    if "committed_request" in evidence:
+    if _carries_committed_request(evidence):
         return None, refusal("COMMITTED_REQUEST_INVALID", "COMMITTED_REQUEST_IS_SET_ONLY_FROM_THE_RUN",
                              argument + " carries committed_request; only the run's own committed request sets it",
                              "remove committed_request from " + argument, argument, terminal=True)

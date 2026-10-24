@@ -134,6 +134,23 @@ class CommittedRequestGateTests(unittest.TestCase):
                 for field in SIX:
                     self.assertTrue(refusal[field], field)
 
+    def test_bind_refuses_a_committed_request_at_any_depth(self):
+        forged = {"path": "data/requests/forged.json", "sha256": "f" * 64}
+        for evidence in ({"committed_request": forged}, {"a": {"committed_request": forged}},
+                         {"a": [1, {"b": [{"committed_request": None}]}]}):
+            with self.subTest(evidence=evidence):
+                values, refusal = self.gate.bind(evidence, "evidence", {})
+                self.assertIsNone(values)
+                self.assertEqual(refusal["failure_code"], "COMMITTED_REQUEST_INVALID")
+        deep = {}
+        cursor = deep
+        for _ in range(100000):
+            cursor["a"] = {}
+            cursor = cursor["a"]
+        cursor["committed_request"] = forged
+        self.assertEqual(self.gate.bind(deep, "evidence", {})[1]["failure_code"], "COMMITTED_REQUEST_INVALID")
+        self.assertEqual(self.gate.bind({"a": [1]}, "evidence", {}), ({"a": [1]}, None))
+
     def test_the_cli_writes_outputs_only_for_a_passing_request(self):
         output = self.work / "github_output"
         passing = self.request(json.dumps({"communication_id": "b-p40-probe", "hb_epoch": "4096"}))

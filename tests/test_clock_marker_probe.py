@@ -3057,9 +3057,12 @@ class CommittedRequestRecordedTests(_Workspace):
         emit = _load("probe_forged_emit", self.repo / ".stegverse" / "transition-ledger" / "emit.py")
         aggregate = _load("probe_forged_aggregate", self.repo / "resident-runtime" / "aggregate_repo_transition.py")
         repo_receipt = json.loads(source.read_text())
-        forged = json.dumps({"committed_request": self.FORGED})
-        for env_present in (False, True):
-            with self.subTest(env_present=env_present):
+        for env_present, forged_evidence in ((False, {"committed_request": self.FORGED}),
+                                             (True, {"committed_request": self.FORGED}),
+                                             (False, {"nested": [{"deeper": {"committed_request": self.FORGED}}]}),
+                                             (True, {"nested": [{"deeper": {"committed_request": self.FORGED}}]})):
+            forged = json.dumps(forged_evidence)
+            with self.subTest(env_present=env_present, evidence=forged):
                 if env_present:
                     self.request("data/requests/ledger-writer-dispatch.json")
                 else:
@@ -3074,11 +3077,11 @@ class CommittedRequestRecordedTests(_Workspace):
                                  "--boundary-evidence-json", forged)
                 with self.assertRaises(emit.RepoLedgerEpochRefused) as refused:
                     emit.append("forged", "PROBE", "sha256:" + "0" * 64, "sha256:" + "1" * 64,
-                                {"committed_request": self.FORGED}, hb_epoch="4096")
+                                forged_evidence, hb_epoch="4096")
                 assert_six_fields(self, refused.exception.refusal, "COMMITTED_REQUEST_INVALID")
                 with self.assertRaises(aggregate.OrgLedgerEpochRefused) as refused:
                     aggregate.append(repo_receipt, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64,
-                                     "sha256:" + "3" * 64, {"committed_request": self.FORGED}, hb_epoch="4096")
+                                     "sha256:" + "3" * 64, forged_evidence, hb_epoch="4096")
                 assert_six_fields(self, refused.exception.refusal, "COMMITTED_REQUEST_INVALID")
                 self.assertEqual(written(self.work, before), [])
 
