@@ -110,6 +110,8 @@
     "single_contract_requirement": true,
     "single_host_requirement": false,
     "currently_observed_discovery_host": "https://stegverse-ecosystem-chat-gateway.onrender.com/api/stegverse-node",
+    "currently_observed_discovery_host_normative": false,
+    "currently_observed_discovery_host_note": "NON_NORMATIVE observation only. No contract requirement, writer or workflow depends on, awaits or polls this externally hosted surface (NO_EXTERNAL_MACHINE_AWAITING, NO_ALWAYS_ON_RECEIVER); standing is established by the contract, never by reaching a host.",
     "host_is_authority": false,
     "host_replaceable": true,
     "must_publish_machine_readable_continuations": true,
