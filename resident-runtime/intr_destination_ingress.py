@@ -18,9 +18,10 @@ that schema is a refusal, recorded, not an acknowledgement.
 
 ``self_close`` is the diagnostic this organization addresses to its own
 ingress. Both ledger levels append a receipt carrying ``communication_id``.
-No peer is named. A ``workflow_dispatch`` of
-``.github/workflows/organization-ledger-transition.yml`` runs that closure
-against the designated organization ledger ref.
+No peer is named. No workflow runs it any more: an organization addressing its
+own intr-destination is an InTr hop inside one organization, and InTr paths exist
+only between distinct organizations (Rigel's rule, 2026-10-25). It remains only
+as a library the temporary-ledger tests exercise.
 
 The profile name ``InTr:Destination`` is local to this binding. The pinned SDK
 baseline does not declare the profile, and the canonical StegOS connector
