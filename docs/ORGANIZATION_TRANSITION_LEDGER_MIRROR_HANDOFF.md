@@ -7,7 +7,7 @@ Repository-level transitions remain owned and replayable in their originating re
 Contract: `.stegverse/transition-ledger/org-contract.json`  
 Rollup: `resident-runtime/aggregate_repo_transition.py`  
 Published ref: `refs/stegverse/organization-ledger` in `Admissible-Existence/.github`  
-Dispatch: `.github/workflows/organization-ledger-transition.yml`
+Writer: `.github/workflows/organization-ledger-writer.yml` (push only; the self-closure `organization-ledger-transition.yml` is retired under Rigel's rule, 2026-10-25: no InTr hop inside one organization)
 
 The repository chain is the subtree `repository-ledger/Admissible-Existence/.github` of that same ref. One fast-forward push publishes both. `resident-runtime/organization_ledger_readback.py` reads both back from a fresh fetch.
 
