@@ -18,9 +18,7 @@
     "Admissible-Existence/.github/issues/4"
   ],
   "triggers": [
-    "schedule:41 * * * *",
     "workflow_run:Principle completeness repository workers:completed",
-    "workflow_dispatch",
     "push:observer files"
   ],
   "expected_evidence": [

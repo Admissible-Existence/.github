@@ -1,13 +1,10 @@
 name: Principle worker activation observer
 
 on:
-  schedule:
-    - cron: "41 * * * *"
   workflow_run:
     workflows:
       - "Principle completeness repository workers"
     types: [completed]
-  workflow_dispatch:
   push:
     branches: [main]
     paths:

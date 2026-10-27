@@ -6,7 +6,6 @@ on:
       - 'docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md'
       - 'profile/README.md'
       - '.github/workflows/validate-stcm-chf-inert-witness.yml'
-  workflow_dispatch:
 
 permissions: {}
 

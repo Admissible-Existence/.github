@@ -29,6 +29,9 @@ def lr():
 # cannot disagree about what an epoch is.
 _kspec=importlib.util.spec_from_file_location("kernel", ROOT/"org-kernel/kernel.py")
 kernel=importlib.util.module_from_spec(_kspec); _kspec.loader.exec_module(kernel)
+# A run started from a committed request records it (B-P40 COMMITTED_REQUEST).
+_rspec=importlib.util.spec_from_file_location("committed_request_emit", ROOT/"scripts/read_committed_request.py")
+committed_request=importlib.util.module_from_spec(_rspec); _rspec.loader.exec_module(committed_request)
 EPOCH_RETRY_ENTRYPOINT=".stegverse/transition-ledger/emit.py::append (hb_epoch=, or --hb-epoch)"
 RepoLedgerEpochRefused=kernel.SuppliedEpochRefused
 def epoch_refusal(hb_epoch):
@@ -48,6 +51,11 @@ def recorded(store, head, transition_id, transition_class):
         if receipt.get("transition_id")==transition_id and receipt.get("transition_class")==transition_class: return receipt
         cursor=receipt.get("previous_receipt_sha256")
     return None
+def require_committed_request():
+    """Raise `RepoLedgerEpochRefused` for a half-set or malformed committed request,
+    so a caller that publishes before it appends refuses first."""
+    _request,refused=committed_request.recorded()
+    if refused is not None: raise RepoLedgerEpochRefused(refused)
 def append(transition_id, transition_class, predecessor, successor, evidence, authority_effect="NONE", hb_epoch=None, idempotent_on=None):
     """Append one repository receipt. A matching idempotent replay returns the recorded receipt.
 
@@ -59,7 +67,8 @@ def append(transition_id, transition_class, predecessor, successor, evidence, au
     evidence only.
     """
     hb=hb_reference(hb_epoch)
-    evidence=dict(evidence)
+    evidence,refused=committed_request.bind(evidence,"evidence")
+    if refused is not None: raise RepoLedgerEpochRefused(refused)
     root=lr(); store=ledger_store.open_store(root); store.initialize()
     for _attempt in range(128):
         guard=store.exclusive() if hasattr(store, "exclusive") else nullcontext()

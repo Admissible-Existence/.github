@@ -39,8 +39,9 @@
   "federation_network_route": "SHARED_SERVICE_GATEWAY",
   "dispatcher": {
     "workflow": ".github/workflows/resident-runtime-dispatch.yml",
-    "trigger": "workflow_dispatch",
-    "hb_epoch": {"from": "dispatch_input", "input": "hb_epoch", "required": true, "absent": "HB_EPOCH_NOT_SUPPLIED"},
+    "trigger": "COMMITTED_REQUEST",
+    "request": "data/requests/resident-runtime-dispatch.json",
+    "hb_epoch": {"from": "committed_request", "field": "hb_epoch", "required": true, "absent": "HB_EPOCH_NOT_SUPPLIED"},
     "authority_effect": "NONE",
     "evidence_class": "CI_VALIDATED",
     "entrypoints": {
@@ -50,9 +51,10 @@
     },
     "ledger_writers": {
       "workflow": ".github/workflows/ledger-writer-dispatch.yml",
-      "trigger": "workflow_dispatch",
+      "trigger": "COMMITTED_REQUEST",
+      "request": "data/requests/ledger-writer-dispatch.json",
       "dispatch_script": "scripts/dispatch_ledger_writer.py",
-      "hb_epoch": {"from": "dispatch_input", "input": "hb_epoch", "required": true, "absent": "HB_EPOCH_NOT_SUPPLIED"},
+      "hb_epoch": {"from": "committed_request", "field": "hb_epoch", "required": true, "absent": "HB_EPOCH_NOT_SUPPLIED"},
       "authority_effect": "NONE",
       "evidence_class": "CI_VALIDATED",
       "entrypoints": {

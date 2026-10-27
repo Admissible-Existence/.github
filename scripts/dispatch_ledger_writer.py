@@ -18,7 +18,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RETRY_ENTRYPOINT = "ledger-writer-dispatch.yml workflow_dispatch input hb_epoch"
+RETRY_ENTRYPOINT = "commit data/requests/ledger-writer-dispatch.json with hb_epoch to main"
 #: Every epoch-requiring writer the manifest binds to this dispatcher.
 WRITERS = {
     "repository-ledger-emit": ".stegverse/transition-ledger/emit.py",
@@ -45,15 +45,15 @@ def command(writer: str, hb_epoch: str | None, arguments: str = "") -> list[str]
         print(json.dumps(kernel.cli_input_refusal("--arguments", str(error), expect=None,
                                                   retry_entrypoint=RETRY_ENTRYPOINT), sort_keys=True))
         raise SystemExit(1)
-    # Any --hb* option could reach the writer's epoch; only the hb_epoch input supplies it.
+    # Any --hb* option could reach the writer's epoch; only the request's hb_epoch supplies it.
     if any(item.startswith("--hb") for item in extra):
         print(json.dumps({
             "disposition": "FAIL_CLOSED", "failure_code": "HB_EPOCH_CONFLICT",
             "failed_predicate": kernel.HB_EPOCH_PREDICATE,
-            "detail": "an epoch was passed in arguments as well as the hb_epoch input",
-            "required_evidence_or_repair": "supply the epoch only as the hb_epoch input",
+            "detail": "an epoch was passed in arguments as well as hb_epoch",
+            "required_evidence_or_repair": "supply the epoch only as the request's hb_epoch",
             "retry_entrypoint": RETRY_ENTRYPOINT, "owning_existing_goal": kernel.HB_EPOCH_OWNING_EXISTING_GOAL,
-            "next_attempt": "dispatch again without --hb-epoch in arguments; no writer was invoked",
+            "next_attempt": "commit the request again without --hb-epoch in arguments; no writer was invoked",
             "derived_from_clock": False, "consequence_committed": False}, sort_keys=True))
         raise SystemExit(1)
     return [sys.executable, WRITERS[writer], *extra, "--hb-epoch", str(hb_epoch)]

@@ -494,6 +494,9 @@ def emit(destination_organization: Any, payload: Mapping[str, Any], *,
     clock is read.
     """
     hb = repository_ledger.require_supplied_epoch(hb_epoch)
+    # A half-set or malformed committed request is refused before a frame is
+    # published, so no peer sees a crossing that has no receipt.
+    repository_ledger.require_committed_request()
     origin = this_organization(root)
     try:
         if credential_authority is not None:

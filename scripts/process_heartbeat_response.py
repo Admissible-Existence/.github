@@ -17,6 +17,9 @@ EPOCH_RETRY_ENTRYPOINT = "scripts/process_heartbeat_response.py --apply --hb-epo
 _spec = importlib.util.spec_from_file_location("org_kernel", ROOT / "org-kernel" / "kernel.py")
 kernel = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(kernel)
+_rspec = importlib.util.spec_from_file_location("committed_request_node", ROOT / "scripts" / "read_committed_request.py")
+committed_request = importlib.util.module_from_spec(_rspec)
+_rspec.loader.exec_module(committed_request)
 
 
 def canonical_sha256(value):
@@ -44,10 +47,11 @@ def select_message(batch, organization):
     return message
 
 
-def make_receipts(message, config, hb):
+def make_receipts(message, config, hb, request=None):
     """The received/responded pair. `hb` is the supplied epoch's heartbeat
-    reference; `observed_at` is its heartbeat id and no clock is read."""
-    received = make_received(message, config, hb)
+    reference; `observed_at` is its heartbeat id and no clock is read. A run
+    started from a committed request records it on both (`request`)."""
+    received = make_received(message, config, hb, request)
     return received, make_responded(received, config)
 
 
@@ -59,6 +63,8 @@ def make_responded(received, config):
     """The responded receipt, from its received receipt alone: the same epoch,
     exchange and observed message. A torn pair is completed from it."""
     common = {key: received[key] for key in COMMON_FIELDS}
+    if "committed_request" in received:
+        common["committed_request"] = received["committed_request"]
     return {
         **common,
         "message_id": received["message_id"][:-len("-received")] + "-responded",
@@ -75,7 +81,7 @@ def make_responded(received, config):
     }
 
 
-def make_received(message, config, hb):
+def make_received(message, config, hb, request=None):
     organization = config["organization"]
     digest = canonical_sha256(message)
     common = {
@@ -89,6 +95,8 @@ def make_received(message, config, hb):
         "observed_message_sha256": digest,
         "authority": {key: False for key in AUTH_KEYS},
     }
+    if request is not None:
+        common["committed_request"] = request
     received = {
         **common,
         "message_id": f"{message['message_id']}-received",
@@ -295,8 +303,11 @@ def apply(config, hb_epoch=None):
     # an absent or invalid one is refused (SuppliedEpochRefused) before the
     # receipt directory is created. A run with nothing to write needs none.
     hb = kernel.supplied_hb_reference(hb_epoch, retry_entrypoint=EPOCH_RETRY_ENTRYPOINT)
+    request, refused = committed_request.recorded()
+    if refused is not None:
+        raise NodeRefused(refused)
     RECEIPTS.mkdir(parents=True, exist_ok=True)
-    received, responded = make_receipts(message, config, hb)
+    received, responded = make_receipts(message, config, hb, request)
     # A run torn between the two writes completes the pair at the same epoch.
     for path, document in ((received_path, received), (responded_path, responded)):
         _write_once(path, document)

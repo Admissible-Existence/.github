@@ -14,7 +14,6 @@ on:
       - "tests/test_principle_worker_blocker_fallback.py"
       - "docs/PRINCIPLE_COMPLETENESS_MIRROR_HANDOFF.md"
       - ".github/workflows/validate-principle-worker-blocker-fallback.yml"
-  workflow_dispatch:
 
 permissions:
   contents: read

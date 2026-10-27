@@ -59,7 +59,6 @@ on:
       - 'tests/test_no_org_internal_intr_hop.py'
       - '.github/workflows/**'
       - 'tests/test_workflow_action_pins.py'
-  workflow_dispatch:
 
 permissions:
   contents: read

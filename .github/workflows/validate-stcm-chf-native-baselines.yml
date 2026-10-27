@@ -5,7 +5,6 @@ on:
     paths:
       - 'research/stcm-chf-witness/**'
       - '.github/workflows/validate-stcm-chf-native-baselines.yml'
-  workflow_dispatch:
 
 permissions: {}
 

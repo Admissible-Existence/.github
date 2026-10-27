@@ -1,7 +1,6 @@
 name: Support completion activator
 
 on:
-  workflow_dispatch:
   push:
     branches: [main]
     paths:

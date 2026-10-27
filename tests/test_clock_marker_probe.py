@@ -358,7 +358,12 @@ class SourceReceiptProvenanceTests(_Workspace):
         self.assertEqual(refused.exception.refusal["required_evidence_or_repair"], self.aggregate.CLOCK_SOURCE_REPAIR)
 
     def test_a_supplied_source_is_aggregated(self):
-        record = self.append(kernel.hb_reference(epoch=4096))
+        # A source must be on its repository ledger (COMMITTED_REQUEST_DIGEST_UNVERIFIED).
+        emit = _load("probe_source_emit", ROOT / ".stegverse" / "transition-ledger" / "emit.py")
+        source = emit.append("probe:source", "PROBE", "sha256:" + "0" * 64, "sha256:" + "1" * 64, {},
+                             hb_epoch="4096")
+        record = self.aggregate.append(source, "REPO_STATE_PROPAGATION", "sha256:" + "0" * 64,
+                                       "sha256:" + "1" * 64, {}, hb_epoch="4096")
         self.assertEqual(record["hb_reference"]["epoch"], 4096)
 
 
@@ -772,62 +777,107 @@ class CollectorIntegrityTests(_Workspace):
         assert_six_fields(self, refused, "FRAME_INTEGRITY_INVALID")
 
 
-class HeartbeatWorkflowBindingTests(unittest.TestCase):
-    """B-P36n: only a run with an epoch binding applies; the others check and write nothing."""
+REQUEST_GATE = "python scripts/read_committed_request.py"
+SELF_CLOSURE_PACKET = ".stegverse/intr-destination/self-closure-packet.json"
+SELF_CLOSURE_READER = ("self_closure_packet.py --packet .stegverse/intr-destination/self-closure-packet.json"
+                       " --require-hb-epoch")
 
-    def test_apply_runs_only_with_the_dispatch_epoch(self):
-        workflow = (ROOT / ".github" / "workflows" / "heartbeat-response-node.yml").read_text()
-        triggers = workflow.split("\non:", 1)[1].split("\npermissions:", 1)[0]
-        # Only a dispatch that supplies hb_epoch reaches the epoch-requiring entrypoint.
-        self.assertIn("workflow_dispatch:", triggers)
-        self.assertIn("hb_epoch:", triggers)
+
+def _triggers(workflow):
+    return workflow.split("\non:", 1)[1].split("\npermissions:", 1)[0]
+
+
+def _gate_argv(workflow):
+    """The committed-request gate's argv, read from the workflow (folded or one line)."""
+    import shlex
+    lines = workflow.splitlines()
+    first = next(index for index, line in enumerate(lines) if REQUEST_GATE in line)
+    parts = [lines[first][lines[first].index(REQUEST_GATE):].strip()]
+    for line in lines[first + 1:]:
+        if not line.strip().startswith("--"):
+            break
+        parts.append(line.strip())
+    return shlex.split(" ".join(parts))
+
+
+def _run_gate(workflow, request_text, work):
+    """Run the workflow's own gate against `request_text` in place of its committed request."""
+    argv = _gate_argv(workflow)
+    request = Path(work) / "request.json"
+    request.write_text(request_text)
+    argv[argv.index("--request") + 1] = str(request)
+    env = {key: value for key, value in os.environ.items() if key != "GITHUB_OUTPUT"}
+    return subprocess.run([sys.executable, *argv[1:]], cwd=ROOT, capture_output=True, text=True, env=env)
+
+
+class HeartbeatWorkflowBindingTests(unittest.TestCase):
+    """B-P36n, B-P40 COMMITTED_REQUEST: only a committed request with an epoch applies."""
+
+    def setUp(self):
+        self.workflow = (ROOT / ".github" / "workflows" / "heartbeat-response-node.yml").read_text()
+
+    def test_apply_runs_only_with_the_committed_request_epoch(self):
+        triggers = _triggers(self.workflow)
+        # Only a push committing the request reaches the epoch-requiring entrypoint.
+        self.assertNotIn("workflow_dispatch:", triggers)
         self.assertNotIn("schedule:", triggers)
-        self.assertNotIn("push:", triggers)
-        step = workflow.split("- name: Receive and classify canonical heartbeat", 1)[1].split("- name:", 1)[0]
-        self.assertIn("HB_EPOCH: ${{ inputs.hb_epoch }}", step)
+        self.assertNotIn("inputs:", triggers)
+        self.assertEqual([line.strip() for line in triggers.splitlines() if line.strip().startswith("- ")],
+                         ['- "data/requests/heartbeat-response-node.json"'])
+        step = self.workflow.split("- name: Receive and classify canonical heartbeat", 1)[1].split("- name:", 1)[0]
+        self.assertIn("HB_EPOCH: ${{ steps.request.outputs.hb_epoch }}", step)
         applies = [line.strip() for line in step.splitlines() if "--apply" in line]
         self.assertEqual(applies, ['python scripts/process_heartbeat_response.py --apply --hb-epoch "$HB_EPOCH"'])
-        # An absent epoch fails closed with six fields before anything is invoked.
-        self.assertLess(step.index("writer_epoch_refusal(None"), step.index("--apply"))
+        # The request is gated before anything is invoked.
+        self.assertLess(self.workflow.index(REQUEST_GATE), self.workflow.index("--apply"))
+        self.assertEqual(_gate_argv(self.workflow)[2:],
+                         ["--request", "data/requests/heartbeat-response-node.json"])
 
     def test_the_fail_closed_step_prints_the_six_fields(self):
-        workflow = (ROOT / ".github" / "workflows" / "heartbeat-response-node.yml").read_text()
-        line = next(line.strip() for line in workflow.splitlines() if "writer_epoch_refusal(None" in line)
-        script = line.split("python -c '", 1)[1].rsplit("'", 1)[0]
-        import subprocess
-        import sys
-        completed = subprocess.run([sys.executable, "-c", script], cwd=ROOT, capture_output=True, text=True,
-                                   check=True)
-        assert_six_fields(self, json.loads(completed.stdout), "HB_EPOCH_NOT_SUPPLIED")
+        with tempfile.TemporaryDirectory() as work:
+            for text, code in (("{}", "HB_EPOCH_NOT_SUPPLIED"), ('{"hb_epoch": "31"}', "HB_EPOCH_INVALID"),
+                               ("{not json", "COMMITTED_REQUEST_INVALID")):
+                with self.subTest(request=text):
+                    completed = _run_gate(self.workflow, text, work)
+                    self.assertEqual(completed.returncode, 1)
+                    assert_six_fields(self, json.loads(completed.stdout), code)
 
-    def test_no_schedule_or_push_workflow_reaches_an_epoch_requiring_entrypoint(self):
+    def test_every_epoch_requiring_workflow_starts_from_a_committed_request(self):
         entrypoints = ("process_heartbeat_response.py --apply", "intr_destination_ingress.py",
-                       "organization_egress_boundary.py", "aggregate_repo_transition.py", "transition-ledger/emit.py")
+                       "organization_egress_boundary.py", "aggregate_repo_transition.py", "transition-ledger/emit.py",
+                       "run_once.py", "federation_cycle.py", "ecosystem_control.py", "dispatch_ledger_writer.py")
+        reached = set()
         for path in sorted((ROOT / ".github" / "workflows").glob("*.yml")):
             text = path.read_text()
             runs = [line for line in text.splitlines()
                     if line.strip().startswith("python ") and "py_compile" not in line]
             if not any(entry in line for line in runs for entry in entrypoints):
                 continue
+            reached.add(path.name)
             with self.subTest(workflow=path.name):
-                triggers = text.split("\non:", 1)[1].split("\npermissions:", 1)[0]
-                self.assertNotIn("schedule:", triggers)
-                packet_push = ("\n  push:\n    branches: [main]\n    paths:\n"
-                               "      - '.stegverse/intr-destination/self-closure-packet.json'\n")
-                if "push:" in triggers:
-                    # The one push binding: the committed self-closure packet supplies the epoch
-                    # (--require-hb-epoch), read before the first epoch-requiring entrypoint runs.
-                    self.assertEqual(triggers.strip(), packet_push.strip())
-                    reader = "self_closure_packet.py --packet .stegverse/intr-destination/self-closure-packet.json --require-hb-epoch"
-                    first = min(text.index(line) for line in runs if any(entry in line for entry in entrypoints))
-                    self.assertLess(text.index(reader), first)
+                triggers = _triggers(text)
+                for event in ("schedule:", "workflow_dispatch:", "pull_request", "inputs:"):
+                    self.assertNotIn(event, triggers)
+                paths = [line.strip()[2:].strip("'\"") for line in triggers.splitlines()
+                         if line.strip().startswith("- ")]
+                self.assertTrue(paths)
+                first_run = min(text.index(line) for line in runs if any(entry in line for entry in entrypoints))
+                if paths == [SELF_CLOSURE_PACKET]:
+                    # Lane B's binding (#162): the committed self-closure packet supplies
+                    # the epoch, read before the first epoch-requiring entrypoint runs.
+                    self.assertLess(text.index(SELF_CLOSURE_READER), first_run)
                     self.assertIn('--hb-epoch "$HB_EPOCH"', text)
                 else:
-                    self.assertIn("hb_epoch:", triggers)
+                    self.assertTrue(all(item.startswith("data/requests/") for item in paths), paths)
+                    self.assertLess(text.index(REQUEST_GATE), first_run)
+                    self.assertIn("${{ steps.request.outputs.hb_epoch }}", text)
+        # organization-ledger-transition.yml was retired on main (19f74d6, Lane B).
+        self.assertEqual(reached, {"heartbeat-response-node.yml", "resident-runtime-dispatch.yml",
+                                   "ledger-writer-dispatch.yml"})
 
 
 class ManifestDispatcherTests(unittest.TestCase):
-    """B-P36n (lead 08:43Z): every manifest entrypoint has an in-tree dispatcher and an epoch binding."""
+    """B-P36n (lead 08:43Z), B-P40: every manifest entrypoint has an in-tree, committed-request dispatcher."""
 
     def setUp(self):
         self.manifest = json.loads((ROOT / "resident-runtime" / "activation-manifest.json").read_text())
@@ -840,29 +890,31 @@ class ManifestDispatcherTests(unittest.TestCase):
                                                "resident_cycle_entrypoint")}
 
     def test_the_dispatcher_is_declared_with_no_authority(self):
-        self.assertEqual(self.dispatcher["trigger"], "workflow_dispatch")
+        self.assertEqual(self.dispatcher["trigger"], "COMMITTED_REQUEST")
+        self.assertEqual(self.dispatcher["request"], "data/requests/resident-runtime-dispatch.json")
         self.assertEqual(self.dispatcher["authority_effect"], "NONE")
-        self.assertEqual(self.dispatcher["hb_epoch"], {"from": "dispatch_input", "input": "hb_epoch",
+        self.assertEqual(self.dispatcher["hb_epoch"], {"from": "committed_request", "field": "hb_epoch",
                                                        "required": True, "absent": "HB_EPOCH_NOT_SUPPLIED"})
         self.assertIs(self.manifest["github_actions_is_runtime_authority"], False)
-        triggers = self.workflow.split("\non:", 1)[1].split("\npermissions:", 1)[0]
-        self.assertIn("workflow_dispatch:", triggers)
-        self.assertNotIn("schedule:", triggers)
-        self.assertNotIn("push:", triggers)
-        hb_epoch = triggers.split("hb_epoch:", 1)[1].split("ingress:", 1)[0]
-        self.assertIn("required: true", hb_epoch)
+        triggers = _triggers(self.workflow)
+        for event in ("workflow_dispatch:", "schedule:", "inputs:"):
+            self.assertNotIn(event, triggers)
+        self.assertIn('- "' + self.dispatcher["request"] + '"', triggers)
+        argv = _gate_argv(self.workflow)
+        self.assertEqual(argv[argv.index("--request") + 1], self.dispatcher["request"])
 
     def test_every_declared_entrypoint_is_bound_and_invoked(self):
         bindings = self.dispatcher["entrypoints"]
         self.assertEqual(set(bindings), self.declared_entrypoints())
-        gate = self.step.index("writer_epoch_refusal(")
+        self.assertIn("HB_EPOCH: ${{ steps.request.outputs.hb_epoch }}", self.step)
+        gate = self.workflow.index(REQUEST_GATE)
         for path, binding in bindings.items():
             with self.subTest(entrypoint=path):
                 self.assertIn(binding, ("EPOCH_FREE", "EPOCH_REQUIRED"))
                 invocations = [line.strip() for line in self.step.splitlines()
                                if line.strip().startswith("python " + path)]
                 self.assertTrue(invocations, path)
-                self.assertLess(gate, self.step.index("python " + path))
+                self.assertLess(gate, self.workflow.index("python " + path))
                 source = (ROOT / path).read_text()
                 if binding == "EPOCH_FREE":
                     self.assertNotIn("hb-epoch", source)
@@ -872,20 +924,22 @@ class ManifestDispatcherTests(unittest.TestCase):
                     self.assertTrue(all('--hb-epoch "$HB_EPOCH"' in line for line in invocations))
 
     def test_the_gate_fails_closed_with_six_fields_before_anything_runs(self):
-        import os
-        import subprocess
-        import sys
-        line = next(line.strip() for line in self.step.splitlines() if "writer_epoch_refusal(" in line)
-        script = line.split("python -c '", 1)[1].rsplit("'", 1)[0]
-        for epoch, code in (("", "HB_EPOCH_NOT_SUPPLIED"), ("abc", "HB_EPOCH_INVALID"), ("31", "HB_EPOCH_INVALID")):
-            with self.subTest(epoch=epoch):
-                completed = subprocess.run([sys.executable, "-c", script], cwd=ROOT, capture_output=True, text=True,
-                                           env={**os.environ, "HB_EPOCH": epoch})
-                self.assertEqual(completed.returncode, 1)
-                assert_six_fields(self, json.loads(completed.stdout), code)
-        passed = subprocess.run([sys.executable, "-c", script], cwd=ROOT, capture_output=True, text=True,
-                                env={**os.environ, "HB_EPOCH": "4096"})
-        self.assertEqual((passed.returncode, passed.stdout), (0, ""))
+        with tempfile.TemporaryDirectory() as work:
+            for request, code in (({"entrypoint": "federation_cycle"}, "HB_EPOCH_NOT_SUPPLIED"),
+                                  ({"entrypoint": "federation_cycle", "hb_epoch": ""}, "HB_EPOCH_INVALID"),
+                                  ({"entrypoint": "federation_cycle", "hb_epoch": "abc"}, "HB_EPOCH_INVALID"),
+                                  ({"entrypoint": "federation_cycle", "hb_epoch": "31"}, "HB_EPOCH_INVALID"),
+                                  ({"entrypoint": "status", "hb_epoch": "4096"}, "COMMITTED_REQUEST_INVALID"),
+                                  ({"entrypoint": "run_once", "hb_epoch": "4096", "ingress": "a\nb"},
+                                   "COMMITTED_REQUEST_INVALID")):
+                with self.subTest(request=request):
+                    completed = _run_gate(self.workflow, json.dumps(request), work)
+                    self.assertEqual(completed.returncode, 1)
+                    assert_six_fields(self, json.loads(completed.stdout), code)
+            passed = _run_gate(self.workflow, json.dumps({"entrypoint": "run_once", "hb_epoch": "4096",
+                                                          "ingress": "data/ingress.json"}), work)
+            self.assertEqual(passed.returncode, 0, passed.stdout)
+            self.assertEqual(json.loads(passed.stdout)["hb_epoch"], "4096")
 
 
 class UnreadableFrameFileTests(_Workspace):
@@ -940,14 +994,18 @@ class LedgerWriterDispatcherTests(unittest.TestCase):
         self.assertEqual(self.binding["hb_epoch"]["required"], True)
         self.assertEqual(set(self.binding["entrypoints"]), set(self.dispatch.WRITERS.values()))
         self.assertEqual(set(self.binding["entrypoints"].values()), {"EPOCH_REQUIRED"})
+        self.assertEqual(self.binding["trigger"], "COMMITTED_REQUEST")
+        self.assertEqual(self.binding["hb_epoch"]["from"], "committed_request")
         workflow = (ROOT / self.binding["workflow"]).read_text()
-        triggers = workflow.split("\non:", 1)[1].split("\npermissions:", 1)[0]
-        self.assertNotIn("schedule:", triggers)
-        self.assertNotIn("push:", triggers)
-        self.assertIn("required: true", triggers.split("hb_epoch:", 1)[1].split("arguments:", 1)[0])
-        for name in self.dispatch.WRITERS:
-            self.assertIn("- " + name, triggers)
-        self.assertIn("python " + self.binding["dispatch_script"], workflow)
+        triggers = _triggers(workflow)
+        for event in ("workflow_dispatch:", "schedule:", "inputs:"):
+            self.assertNotIn(event, triggers)
+        self.assertIn('- "' + self.binding["request"] + '"', triggers)
+        argv = _gate_argv(workflow)
+        self.assertEqual(argv[argv.index("--request") + 1], self.binding["request"])
+        choice = next(item for item in argv if item.startswith("writer="))
+        self.assertEqual(set(choice.split("=", 1)[1].split(",")), set(self.dispatch.WRITERS))
+        self.assertLess(workflow.index(REQUEST_GATE), workflow.index("python " + self.binding["dispatch_script"]))
         pending = self.manifest["runtime_dispatcher_pending_substrate"]
         for name in ("failure_code", "failed_predicate", "required_evidence_or_repair",
                      "retry_entrypoint", "owning_existing_goal", "next_attempt"):
@@ -2049,8 +2107,8 @@ class WriterCliTornWriteTests(_Workspace):
                 "--hb-epoch", "4096"]
 
     def repo_receipt_file(self, root):
-        made = self.run_cli(self.emit_args(), {**self.ledgers(root),
-                                               "STEGVERSE_REPO_LEDGER_ROOT": str(root / "source-ledger")})
+        # The source is on the repository ledger the aggregate verifies it against.
+        made = self.run_cli(self.emit_args(), self.ledgers(root))
         self.assertEqual(made.returncode, 0, made.stderr)
         path = root / "repo-receipt.json"
         path.write_text(made.stdout)
@@ -2877,6 +2935,599 @@ class HeartbeatResponseEpochTests(unittest.TestCase):
     def test_receipts_already_current_need_no_epoch(self):
         self.apply("4096")
         self.assertIn("HB_NODE_CURRENT", self.apply(None))
+
+
+REQUEST_DIGEST = "ab" * 32
+
+
+class CommittedRequestRecordedTests(_Workspace):
+    """B-P40 clause (b): every record a committed-request run writes carries
+    committed_request {path, sha256, hb_epoch_source: COMMITTED_REQUEST}."""
+
+    # organization-ledger-transition.yml (Lane B's) was retired on main (19f74d6).
+    WORKFLOWS = {
+        "ledger-writer-dispatch.yml": "data/requests/ledger-writer-dispatch.json",
+        "resident-runtime-dispatch.yml": "data/requests/resident-runtime-dispatch.json",
+        "heartbeat-response-node.yml": "data/requests/heartbeat-response-node.json",
+    }
+
+    def request(self, path):
+        os.environ["STEGVERSE_COMMITTED_REQUEST_PATH"] = path
+        os.environ["STEGVERSE_COMMITTED_REQUEST_SHA256"] = REQUEST_DIGEST
+        return {"path": path, "sha256": REQUEST_DIGEST, "hb_epoch_source": "COMMITTED_REQUEST"}
+
+    def run_cli(self, *argv):
+        completed = subprocess.run([sys.executable, *argv], cwd=self.repo, capture_output=True, text=True)
+        self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+        return completed.stdout
+
+    def receipts(self):
+        found = []
+        for root in (self.work / "repo-ledger", self.work / "org-ledger"):
+            for path in sorted(root.rglob("*.json")):
+                record = json.loads(path.read_text())
+                if record.get("schema") in ("stegverse.repo-transition-receipt/v1",
+                                            "stegverse.organization-transition-receipt/v1"):
+                    found.append((path, record))
+        return found
+
+    def test_each_workflow_passes_its_gated_request_to_the_writer(self):
+        for name, request in self.WORKFLOWS.items():
+            with self.subTest(workflow=name):
+                text = (ROOT / ".github" / "workflows" / name).read_text()
+                self.assertEqual(text.count("STEGVERSE_COMMITTED_REQUEST_PATH: " + request), 1)
+                self.assertEqual(text.count(
+                    "STEGVERSE_COMMITTED_REQUEST_SHA256: ${{ steps.request.outputs.request_sha256 }}"), 1)
+                argv = _gate_argv(text)
+                self.assertEqual(argv[argv.index("--request") + 1], request)
+                self.assertLess(text.index(REQUEST_GATE), text.index("STEGVERSE_COMMITTED_REQUEST_PATH"))
+
+    def test_every_ledger_receipt_records_the_committed_request(self):
+        # ledger-writer-dispatch: emit and aggregate through the dispatcher,
+        # egress and ingress through their own entrypoints.
+        recorded = self.request("data/requests/ledger-writer-dispatch.json")
+        receipt = json.loads(self.run_cli(
+            "scripts/dispatch_ledger_writer.py", "--writer", "repository-ledger-emit", "--hb-epoch", "4096",
+            "--arguments", "--transition-id request-probe --transition-class PROBE "
+            "--predecessor-state-sha256 sha256:" + "0" * 64 + " --successor-state-sha256 sha256:" + "1" * 64))
+        self.assertEqual(receipt["evidence"]["committed_request"], recorded)
+        source = self.work / "repo-receipt.json"
+        source.write_text(json.dumps(receipt))
+        aggregated = json.loads(self.run_cli(
+            "scripts/dispatch_ledger_writer.py", "--writer", "organization-ledger-aggregate", "--hb-epoch", "4096",
+            "--arguments", "--repo-receipt " + str(source) + " --predecessor-org-state-sha256 sha256:" + "2" * 64
+            + " --successor-org-state-sha256 sha256:" + "3" * 64))
+        self.assertEqual(aggregated["boundary_evidence"]["committed_request"], recorded)
+        egress = _load("probe_request_egress", self.repo / "resident-runtime" / "organization_egress_boundary.py")
+        payload = {"message_class": "ecosystem.communication", "communication_id": "request-probe",
+                   "subject": "probe",
+                   "body": {"schema": "stegverse.org-intr-destination-diagnostic/v1", "probe": "diagnostic-crossing"}}
+        self.assertIs(egress.emit(PEER, payload, standing=STANDING, capability="intr-destination",
+                                  mesh_root=self.mesh, hb_epoch="4096")["emitted"], True)
+        self.run_cli("resident-runtime/intr_destination_ingress.py", "--self-close", "--communication-id",
+                     "request-probe", "--hb-epoch", "4096", "--packet-id", "request-probe:request-sha256:"
+                     + REQUEST_DIGEST, "--out", str(self.work / "closure.json"))
+        receipts = self.receipts()
+        self.assertGreaterEqual(len(receipts), 6)
+        for path, record in receipts:
+            with self.subTest(receipt=path.name):
+                evidence = record.get("evidence", record.get("boundary_evidence"))
+                self.assertEqual(evidence["committed_request"], recorded)
+
+    def test_the_resident_cycle_records_carry_the_committed_request(self):
+        recorded = self.request("data/requests/resident-runtime-dispatch.json")
+        cycle = _load("probe_request_cycle", self.repo / "resident-runtime" / "federation_cycle.py")
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(cycle.main(["--hb-epoch", "4096"]), 0)
+        latest = json.loads((self.repo / "resident-runtime" / "federation" / "latest-cycle.json").read_text())
+        self.assertEqual(latest["committed_request"], recorded)
+        status = json.loads(self.run_cli("resident-runtime/ecosystem_control.py", "--hb-epoch", "4096", "status"))
+        self.assertEqual(status["committed_request"], recorded)
+        transport = _load("probe_request_transport", self.repo / "org-boundary" / "runtime" / "intr_transport.py")
+        ingress = transport.build_ingress({"org": PEER, "service": "p"},
+                                          {"org": THIS, "service": "admissible-existence.boundary-diagnostic"},
+                                          {"probe": 1}, "org-federation", "probe", packet_id="request-run-once",
+                                          epoch=4096)
+        envelope = self.work / "ingress.json"
+        envelope.write_text(json.dumps(ingress))
+        result = json.loads(self.run_cli("resident-runtime/run_once.py", "--ingress", str(envelope), "--egress",
+                                         str(self.work / "egress.json"), "--hb-epoch", "4096"))
+        self.assertEqual(result["committed_request"], recorded)
+
+    def test_both_heartbeat_receipts_carry_the_committed_request(self):
+        recorded = self.request("data/requests/heartbeat-response-node.json")
+        node = _load("probe_request_node", self.repo / "scripts" / "process_heartbeat_response.py")
+        receipts = self.work / "receipts"
+        body = json.dumps({"messages": [HeartbeatResponseEpochTests.MESSAGE]}).encode()
+        config = json.loads((self.repo / "data" / "heartbeat-response-node.json").read_text())
+        with mock.patch.object(node, "RECEIPTS", receipts), \
+                mock.patch.object(node, "urlopen", lambda *a, **k: contextlib.nullcontext(io.BytesIO(body))), \
+                contextlib.redirect_stdout(io.StringIO()):
+            node.apply(config, "4096")
+        written_receipts = sorted(receipts.glob("*.json"))
+        self.assertEqual(len(written_receipts), 2)
+        for path in written_receipts:
+            with self.subTest(receipt=path.name):
+                self.assertEqual(json.loads(path.read_text())["committed_request"], recorded)
+
+    FORGED = {"path": "data/requests/forged.json", "sha256": "f" * 64, "hb_epoch_source": "COMMITTED_REQUEST"}
+    EMIT_ARGS = ["--transition-class", "PROBE", "--predecessor-state-sha256", "sha256:" + "0" * 64,
+                 "--successor-state-sha256", "sha256:" + "1" * 64, "--hb-epoch", "4096"]
+
+    def refused_cli(self, *argv):
+        completed = subprocess.run([sys.executable, *argv], cwd=self.repo, capture_output=True, text=True)
+        self.assertEqual(completed.returncode, 1, completed.stdout + completed.stderr)
+        assert_six_fields(self, json.loads(completed.stdout), "COMMITTED_REQUEST_INVALID")
+
+    def test_a_caller_supplied_committed_request_is_refused_with_nothing_written(self):
+        # A genuine repository receipt, written before the forgeries, for the aggregate to propagate.
+        source = self.work / "repo-receipt.json"
+        source.write_text(self.run_cli(".stegverse/transition-ledger/emit.py", "--transition-id", "genuine",
+                                       *self.EMIT_ARGS))
+        emit = _load("probe_forged_emit", self.repo / ".stegverse" / "transition-ledger" / "emit.py")
+        aggregate = _load("probe_forged_aggregate", self.repo / "resident-runtime" / "aggregate_repo_transition.py")
+        repo_receipt = json.loads(source.read_text())
+        for env_present, forged_evidence in ((False, {"committed_request": self.FORGED}),
+                                             (True, {"committed_request": self.FORGED}),
+                                             (False, {"nested": [{"deeper": {"committed_request": self.FORGED}}]}),
+                                             (True, {"nested": [{"deeper": {"committed_request": self.FORGED}}]})):
+            forged = json.dumps(forged_evidence)
+            with self.subTest(env_present=env_present, evidence=forged):
+                if env_present:
+                    self.request("data/requests/ledger-writer-dispatch.json")
+                else:
+                    os.environ.pop("STEGVERSE_COMMITTED_REQUEST_PATH", None)
+                    os.environ.pop("STEGVERSE_COMMITTED_REQUEST_SHA256", None)
+                before = snapshot(self.work)
+                self.refused_cli(".stegverse/transition-ledger/emit.py", "--transition-id", "forged",
+                                 *self.EMIT_ARGS, "--evidence-json", forged)
+                self.refused_cli("resident-runtime/aggregate_repo_transition.py", "--repo-receipt", str(source),
+                                 "--predecessor-org-state-sha256", "sha256:" + "2" * 64,
+                                 "--successor-org-state-sha256", "sha256:" + "3" * 64, "--hb-epoch", "4096",
+                                 "--boundary-evidence-json", forged)
+                with self.assertRaises(emit.RepoLedgerEpochRefused) as refused:
+                    emit.append("forged", "PROBE", "sha256:" + "0" * 64, "sha256:" + "1" * 64,
+                                forged_evidence, hb_epoch="4096")
+                assert_six_fields(self, refused.exception.refusal, "COMMITTED_REQUEST_INVALID")
+                with self.assertRaises(aggregate.OrgLedgerEpochRefused) as refused:
+                    aggregate.append(repo_receipt, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64,
+                                     "sha256:" + "3" * 64, forged_evidence, hb_epoch="4096")
+                assert_six_fields(self, refused.exception.refusal, "COMMITTED_REQUEST_INVALID")
+                self.assertEqual(written(self.work, before), [])
+
+    def test_aggregate_refuses_a_source_that_is_off_ledger_or_of_another_request(self):
+        emit = _load("probe_unverified_emit", self.repo / ".stegverse" / "transition-ledger" / "emit.py")
+        aggregate = _load("probe_unverified_aggregate", self.repo / "resident-runtime" / "aggregate_repo_transition.py")
+        states = ("sha256:" + "0" * 64, "sha256:" + "1" * 64)
+        # On the ledger, under another committed request.
+        os.environ["STEGVERSE_COMMITTED_REQUEST_PATH"] = "data/requests/ledger-writer-dispatch.json"
+        os.environ["STEGVERSE_COMMITTED_REQUEST_SHA256"] = "cd" * 32
+        other = emit.append("probe:other-request", "PROBE", *states, {}, hb_epoch="4096")
+        recorded = self.request("data/requests/ledger-writer-dispatch.json")
+        genuine = emit.append("probe:genuine", "PROBE", *states, {}, hb_epoch="4096")
+        self.assertEqual(genuine["evidence"]["committed_request"], recorded)
+
+        def rehashed(**changes):
+            body = {key: value for key, value in genuine.items() if key != "receipt_sha256"}
+            body.update(changes)
+            return {**body, "receipt_sha256": emit.sha(body)}
+
+        sources = {
+            "off-ledger, forged request": (rehashed(evidence={"committed_request": self.FORGED}),
+                                           "SOURCE_RECEIPT_NOT_ON_LEDGER"),
+            "off-ledger, this run's request": (rehashed(transition_id="probe:rehashed"),
+                                               "SOURCE_RECEIPT_NOT_ON_LEDGER"),
+            "on-ledger, another request": (other, "COMMITTED_REQUEST_DIGEST_UNVERIFIED"),
+        }
+        for label, (source, code) in sources.items():
+            with self.subTest(source=label):
+                before = snapshot(self.work)
+                with self.assertRaises(aggregate.OrgLedgerEpochRefused) as refused:
+                    aggregate.append(source, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64, "sha256:" + "3" * 64,
+                                     {}, hb_epoch="4096")
+                assert_six_fields(self, refused.exception.refusal, code)
+                path = self.work / "source.json"
+                path.write_text(json.dumps(source))
+                completed = subprocess.run(
+                    [sys.executable, "resident-runtime/aggregate_repo_transition.py", "--repo-receipt", str(path),
+                     "--predecessor-org-state-sha256", "sha256:" + "2" * 64,
+                     "--successor-org-state-sha256", "sha256:" + "3" * 64, "--hb-epoch", "4096"],
+                    cwd=self.repo, capture_output=True, text=True)
+                self.assertEqual(completed.returncode, 1, completed.stdout + completed.stderr)
+                assert_six_fields(self, json.loads(completed.stdout), code)
+                self.assertEqual([item for item in written(self.work, before) if item != path], [])
+                self.assertFalse((self.work / "org-ledger").exists())
+        # The genuine source, on the ledger with this run's request, is aggregated.
+        record = aggregate.append(genuine, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64, "sha256:" + "3" * 64,
+                                  {}, hb_epoch="4096")
+        self.assertEqual(record["boundary_evidence"]["committed_request"], recorded)
+
+    def test_aggregate_refuses_an_off_ledger_source_without_a_binding(self):
+        # OFF_LEDGER_SOURCE_RECEIPT_WITHOUT_BINDING_ACCEPTED: the ledger check is
+        # unconditional, outside a committed-request run and without committed_request.
+        emit = _load("probe_unbound_emit", self.repo / ".stegverse" / "transition-ledger" / "emit.py")
+        aggregate = _load("probe_unbound_aggregate", self.repo / "resident-runtime" / "aggregate_repo_transition.py")
+        genuine = emit.append("probe:unbound", "PROBE", "sha256:" + "0" * 64, "sha256:" + "1" * 64, {},
+                              hb_epoch="4096")
+        self.assertNotIn("committed_request", genuine["evidence"])
+        body = {key: value for key, value in genuine.items() if key != "receipt_sha256"}
+        body["transition_id"] = "probe:unbound-rehashed"
+        source = {**body, "receipt_sha256": emit.sha(body)}
+        aggregate.verify_repo(source)  # the hash is self-consistent
+        before = snapshot(self.work)
+        with self.assertRaises(aggregate.OrgLedgerEpochRefused) as refused:
+            aggregate.append(source, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64, "sha256:" + "3" * 64, {},
+                             hb_epoch="4096")
+        assert_six_fields(self, refused.exception.refusal, "SOURCE_RECEIPT_NOT_ON_LEDGER")
+        self.assertEqual(written(self.work, before), [])
+        self.assertFalse((self.work / "org-ledger").exists())
+        # The genuine receipt with one byte of its evidence changed and rehashed is not on the ledger either.
+        altered = {**body, "transition_id": genuine["transition_id"], "evidence": {"probe": "altered"}}
+        with self.assertRaises(aggregate.OrgLedgerEpochRefused) as refused:
+            aggregate.append({**altered, "receipt_sha256": emit.sha(altered)}, "REPO_STATE_PROPAGATION",
+                             "sha256:" + "2" * 64, "sha256:" + "3" * 64, {}, hb_epoch="4096")
+        assert_six_fields(self, refused.exception.refusal, "SOURCE_RECEIPT_NOT_ON_LEDGER")
+        self.assertEqual(written(self.work, before), [])
+
+    def mint(self, name, ledger, repository=None):
+        """A receipt minted by the real emit into `ledger`, as `repository` (default: this one)."""
+        emit = _load("probe_mint_" + name, self.repo / ".stegverse" / "transition-ledger" / "emit.py")
+        if repository is not None:
+            emit.CONTRACT = {**emit.CONTRACT, "repository": repository}
+        with mock.patch.dict(os.environ, {"STEGVERSE_REPO_LEDGER_ROOT": str(ledger)}):
+            return emit.append("probe:" + name, "PROBE", "sha256:" + "0" * 64, "sha256:" + "1" * 64, {},
+                               hb_epoch="4096")
+
+    def refused_aggregate(self, aggregate, source, code, *, terminal=True):
+        before = snapshot(self.work)
+        with self.assertRaises(aggregate.OrgLedgerEpochRefused) as refused:
+            aggregate.append(source, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64, "sha256:" + "3" * 64, {},
+                             hb_epoch="4096")
+        assert_six_fields(self, refused.exception.refusal, code)
+        self.assertIs(refused.exception.refusal["terminal"], terminal)
+        self.assertEqual(written(self.work, before), [])
+        self.assertFalse((self.work / "org-ledger").exists())
+
+    def test_a_receipt_minted_in_another_ledger_is_not_laundered(self):
+        # Row 8, SOURCE_LEDGER_OVERRIDE_LAUNDERS_FABRICATED_RECEIPT: the only
+        # ledger read is this repository's own emit store; no caller or
+        # receipt names another.
+        aggregate = _load("probe_launder_aggregate", self.repo / "resident-runtime" / "aggregate_repo_transition.py")
+        import inspect
+        self.assertEqual(list(inspect.signature(aggregate.source_ledger).parameters), [])
+        attacker = self.mint("attacker-ledger", self.work / "attacker-ledger")
+        self.refused_aggregate(aggregate, attacker, "SOURCE_RECEIPT_NOT_ON_LEDGER")
+        other = self.mint("other-repository", self.work / "repo-ledger", THIS + "/other")
+        self.refused_aggregate(aggregate, other, "SOURCE_RECEIPT_NOT_ON_LEDGER")
+        # With no supplied root, the receipt's repository never becomes a path,
+        # even through a symlink placed where it would resolve.
+        state = self.work / "state"
+        linked = state / "stegverse" / "repo-ledgers" / THIS / "linked"
+        linked.parent.mkdir(parents=True)
+        linked.symlink_to(self.work / "symlinked-ledger", target_is_directory=True)
+        symlinked = self.mint("symlinked", self.work / "symlinked-ledger", THIS + "/linked")
+        os.environ.pop("STEGVERSE_REPO_LEDGER_ROOT")
+        os.environ["XDG_STATE_HOME"] = str(state)
+        self.refused_aggregate(aggregate, symlinked, "SOURCE_RECEIPT_NOT_ON_LEDGER")
+
+    def test_a_corrupt_stored_receipt_is_refused_not_a_traceback(self):
+        # Row 9, SOURCE_LEDGER_WALK_TRACEBACK_ON_CORRUPT_RECEIPT.
+        aggregate = _load("probe_corrupt_aggregate", self.repo / "resident-runtime" / "aggregate_repo_transition.py")
+        source = self.mint("corrupt", self.work / "repo-ledger")
+        stored = self.work / "repo-ledger" / "receipts" / (source["receipt_sha256"].split(":", 1)[1] + ".json")
+        original = stored.read_bytes()
+        for label, data in (("truncated", original[: len(original) // 2]), ("garbage", b"\xff\x00 not a receipt")):
+            with self.subTest(stored=label):
+                stored.write_bytes(data)
+                self.refused_aggregate(aggregate, source, "SOURCE_RECEIPT_NOT_ON_LEDGER", terminal=True)
+        stored.write_bytes(original)
+        with mock.patch.object(aggregate.ledger_store.PosixLedgerStore, "get",
+                               side_effect=OSError(5, "Input/output error")):
+            self.refused_aggregate(aggregate, source, "SOURCE_RECEIPT_NOT_ON_LEDGER", terminal=False)
+        self.assertEqual(aggregate.append(source, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64,
+                                          "sha256:" + "3" * 64, {}, hb_epoch="4096")["repo_receipt_sha256"],
+                         source["receipt_sha256"])
+
+    def test_egress_refuses_a_malformed_committed_request_before_publishing(self):
+        egress = _load("probe_request_egress_refused", self.repo / "resident-runtime" / "organization_egress_boundary.py")
+        payload = {"message_class": "ecosystem.communication", "communication_id": "request-refused",
+                   "subject": "probe",
+                   "body": {"schema": "stegverse.org-intr-destination-diagnostic/v1", "probe": "diagnostic-crossing"}}
+        cases = {
+            "sha only": {"STEGVERSE_COMMITTED_REQUEST_SHA256": REQUEST_DIGEST},
+            "path only": {"STEGVERSE_COMMITTED_REQUEST_PATH": "data/requests/ledger-writer-dispatch.json"},
+            "malformed sha": {"STEGVERSE_COMMITTED_REQUEST_PATH": "data/requests/ledger-writer-dispatch.json",
+                              "STEGVERSE_COMMITTED_REQUEST_SHA256": "not-a-digest"},
+        }
+        for label, environ in cases.items():
+            with self.subTest(env=label):
+                os.environ.pop("STEGVERSE_COMMITTED_REQUEST_PATH", None)
+                os.environ.pop("STEGVERSE_COMMITTED_REQUEST_SHA256", None)
+                os.environ.update(environ)
+                before = snapshot(self.work)
+                with self.assertRaises(egress.repository_ledger.RepoLedgerEpochRefused) as refused:
+                    egress.emit(PEER, payload, standing=STANDING, capability="intr-destination",
+                                mesh_root=self.mesh, hb_epoch="4096")
+                assert_six_fields(self, refused.exception.refusal, "COMMITTED_REQUEST_INVALID")
+                self.assertEqual(written(self.work, before), [])
+                self.assertEqual(list(self.mesh.rglob("*.json")) if self.mesh.exists() else [], [])
+
+    def test_a_malformed_committed_request_is_refused_before_anything_is_written(self):
+        os.environ["STEGVERSE_COMMITTED_REQUEST_PATH"] = "data/requests/ledger-writer-dispatch.json"
+        os.environ["STEGVERSE_COMMITTED_REQUEST_SHA256"] = "not-a-digest"
+        completed = subprocess.run(
+            [sys.executable, "scripts/dispatch_ledger_writer.py", "--writer", "repository-ledger-emit",
+             "--hb-epoch", "4096", "--arguments", "--transition-id request-probe --transition-class PROBE "
+             "--predecessor-state-sha256 sha256:" + "0" * 64 + " --successor-state-sha256 sha256:" + "1" * 64],
+            cwd=self.repo, capture_output=True, text=True)
+        self.assertEqual(completed.returncode, 1, completed.stderr)
+        assert_six_fields(self, json.loads(completed.stdout), "COMMITTED_REQUEST_INVALID")
+        cycle = _load("probe_request_cycle_refused", self.repo / "resident-runtime" / "federation_cycle.py")
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            self.assertEqual(cycle.main(["--hb-epoch", "4096"]), 1)
+        assert_six_fields(self, json.loads(out.getvalue()), "COMMITTED_REQUEST_INVALID")
+        self.assertFalse((self.repo / "resident-runtime" / "federation" / "latest-cycle.json").exists())
+        self.assertEqual(self.receipts(), [])
+
+
+class SourceLedgerPairingTests(_Workspace):
+    """CALLER_CHOSEN_SOURCE_LEDGER_ACCEPTED (lead 21:13Z, paired-override form): with no
+    override the source ledger is the designated one; an override is accepted only as a
+    pair with the organization ledger, a POSIX pair only where this checkout tracks no
+    file; a lone, mismatched or request override is refused."""
+
+    REF = "refs/stegverse/organization-ledger"
+    NAMESPACE = "repository-ledger/Admissible-Existence/.github"
+
+    def setUp(self):
+        super().setUp()
+        self.aggregate = _load("probe_pairing_aggregate", self.repo / "resident-runtime" / "aggregate_repo_transition.py")
+        self.emit = _load("probe_pairing_emit", self.repo / ".stegverse" / "transition-ledger" / "emit.py")
+
+    def git_repository(self, name):
+        path = self.work / name
+        subprocess.run(["git", "init", "-q", str(path)], check=True)
+        return path
+
+    def pair(self, org, repo):
+        os.environ["STEGVERSE_ORG_LEDGER_ROOT"] = org
+        os.environ["STEGVERSE_REPO_LEDGER_ROOT"] = repo
+
+    def source(self, name="probe:pairing"):
+        return self.emit.append(name, "PROBE", "sha256:" + "0" * 64, "sha256:" + "1" * 64, {}, hb_epoch="4096")
+
+    def aggregate_source(self, source):
+        return self.aggregate.append(source, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64, "sha256:" + "3" * 64,
+                                     {}, hb_epoch="4096")
+
+    def test_a_git_pair_is_accepted_through_a_symlink(self):
+        ledger = self.git_repository("ledger")
+        linked = self.work / "linked"
+        linked.symlink_to(ledger, target_is_directory=True)
+        self.pair(f"git+{ledger}#{self.REF}", f"git+{ledger}#{self.REF}:{self.NAMESPACE}")
+        source = self.source()
+        os.environ["STEGVERSE_REPO_LEDGER_ROOT"] = f"git+{linked}#{self.REF}:{self.NAMESPACE}"
+        self.assertEqual(self.aggregate_source(source)["repo_receipt_sha256"], source["receipt_sha256"])
+
+    def test_an_unpaired_source_ledger_is_refused_with_nothing_written(self):
+        ledger = self.git_repository("ledger")
+        other = self.git_repository("other")
+        to_other = self.work / "to-other"
+        to_other.symlink_to(other, target_is_directory=True)
+        org = f"git+{ledger}#{self.REF}"
+        cases = {
+            "mixed git and POSIX": (org, str(self.work / "repo-ledger")),
+            "POSIX and git": (str(self.work / "org-ledger"), f"git+{ledger}#{self.REF}:{self.NAMESPACE}"),
+            "another repository's namespace": (org, f"git+{ledger}#{self.REF}:repository-ledger/{THIS}/other"),
+            "a different ref": (org, f"git+{ledger}#refs/stegverse/other:{self.NAMESPACE}"),
+            "another repository": (org, f"git+{other}#{self.REF}:{self.NAMESPACE}"),
+            "a symlink to another repository": (org, f"git+{to_other}#{self.REF}:{self.NAMESPACE}"),
+            # Both at one non-contract ref: in an attacker repository, and in this checkout.
+            "a non-contract ref in another repository": (f"git+{ledger}#refs/stegverse/not-the-contract",
+                                                         f"git+{ledger}#refs/stegverse/not-the-contract:{self.NAMESPACE}"),
+            "a non-contract ref in this checkout": (f"git+{self.repo}#refs/stegverse/not-the-contract",
+                                                    f"git+{self.repo}#refs/stegverse/not-the-contract:{self.NAMESPACE}"),
+        }
+        subprocess.run(["git", "init", "-q", str(self.repo)], check=True)
+        for label, (org_root, repo_root) in cases.items():
+            with self.subTest(pair=label):
+                # The source is genuinely on the ledger the repository root names.
+                self.pair(org_root, repo_root)
+                source = self.source("probe:" + label.replace(" ", "-").replace("'", ""))
+                before = snapshot(self.work)
+                with self.assertRaises(self.aggregate.OrgLedgerEpochRefused) as refused:
+                    self.aggregate_source(source)
+                assert_six_fields(self, refused.exception.refusal, "CALLER_CHOSEN_SOURCE_LEDGER_REJECTED")
+                self.assertEqual(written(self.work, before), [])
+
+    def test_a_lone_repository_ledger_override_is_refused(self):
+        source = self.source()
+        os.environ.pop("STEGVERSE_ORG_LEDGER_ROOT")
+        before = snapshot(self.work)
+        with self.assertRaises(self.aggregate.OrgLedgerEpochRefused) as refused:
+            self.aggregate_source(source)
+        assert_six_fields(self, refused.exception.refusal, "CALLER_CHOSEN_SOURCE_LEDGER_REJECTED")
+        self.assertEqual(written(self.work, before), [])
+
+    def test_a_ledger_root_holding_tracked_files_is_not_contract_designated(self):
+        # A fake ledger committed in the checkout, then pointed at as a POSIX pair.
+        subprocess.run(["git", "init", "-q", str(self.repo)], check=True)
+        fake = self.repo / "fake-ledger"
+        self.pair(str(fake / "org"), str(fake / "repo"))
+        source = self.source()
+        identity = ["-c", "user.name=probe", "-c", "user.email=probe@example.invalid"]
+        subprocess.run(["git", "-C", str(self.repo), "add", "fake-ledger"], check=True)
+        subprocess.run(["git", "-C", str(self.repo), *identity, "commit", "-q", "-m", "fake ledger"], check=True)
+        before = snapshot(self.work)
+        with self.assertRaises(self.aggregate.OrgLedgerEpochRefused) as refused:
+            self.aggregate_source(source)
+        assert_six_fields(self, refused.exception.refusal, "LEDGER_ROOT_NOT_CONTRACT_DESIGNATED")
+        self.assertEqual(written(self.work, before), [])
+        # The same pair, untracked (a runner-temp or workspace root), is accepted.
+        subprocess.run(["git", "-C", str(self.repo), *identity, "rm", "-rq", "--cached", "fake-ledger"], check=True)
+        subprocess.run(["git", "-C", str(self.repo), *identity, "commit", "-q", "-m", "untrack"], check=True)
+        self.assertEqual(self.aggregate_source(source)["repo_receipt_sha256"], source["receipt_sha256"])
+
+    def test_with_no_override_only_the_designated_ledger_is_read(self):
+        source = self.source()  # on the workspace's POSIX ledger, not the designated one
+        os.environ.pop("STEGVERSE_REPO_LEDGER_ROOT")
+        os.environ.pop("STEGVERSE_ORG_LEDGER_ROOT")
+        os.environ["XDG_STATE_HOME"] = str(self.work)
+        with self.assertRaises(self.aggregate.OrgLedgerEpochRefused) as refused:
+            self.aggregate_source(source)
+        assert_six_fields(self, refused.exception.refusal, "SOURCE_RECEIPT_NOT_ON_LEDGER")
+
+    def test_a_request_cannot_choose_either_ledger(self):
+        workflow = (ROOT / ".github" / "workflows" / "ledger-writer-dispatch.yml").read_text()
+        self.assertNotIn("ledger_root }}", workflow)
+        for field, value in (("repo_ledger_root", str(self.work / "attacker")),
+                             ("org_ledger_root", f"git+{self.work / 'attacker'}#refs/stegverse/not-the-contract")):
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as work:
+                completed = _run_gate(workflow, json.dumps({"writer": "organization-ledger-aggregate",
+                                                            "hb_epoch": "4096", field: value}), work)
+                self.assertEqual(completed.returncode, 1)
+                assert_six_fields(self, json.loads(completed.stdout), "COMMITTED_REQUEST_INVALID")
+
+
+class SourceCommittedRequestTests(_Workspace):
+    """LWD_AGGREGATE_UNREACHABLE_ONE_WRITER_PER_REQUEST (lead 20:54Z): a request may name
+    source_committed_request, the request that produced its source receipt. Each named
+    digest must be a version of the request committed on the request path, with a receipt
+    bound to it on the ledger (SOURCE_REQUEST_NOT_RESOLVED_TO_COMMITTED_REQUEST)."""
+
+    PATH = "data/requests/ledger-writer-dispatch.json"
+    IDENTITY = ["-c", "user.name=probe", "-c", "user.email=probe@example.invalid"]
+
+    def setUp(self):
+        super().setUp()
+        self.aggregate = _load("probe_chain_aggregate", self.repo / "resident-runtime" / "aggregate_repo_transition.py")
+        self.emit = _load("probe_chain_emit", self.repo / ".stegverse" / "transition-ledger" / "emit.py")
+        subprocess.run(["git", "init", "-q", str(self.repo)], check=True)
+        self.serial = 0
+
+    def committed(self):
+        """Commit a new version of the request and return its sha256."""
+        self.serial += 1
+        request = self.repo / self.PATH
+        request.parent.mkdir(parents=True, exist_ok=True)
+        data = json.dumps({"writer": "repository-ledger-emit", "hb_epoch": "4096",
+                           "arguments": "--transition-id probe-%d" % self.serial}).encode()
+        request.write_bytes(data)
+        subprocess.run(["git", "-C", str(self.repo), "add", self.PATH], check=True)
+        subprocess.run(["git", "-C", str(self.repo), *self.IDENTITY, "commit", "-q", "-m", "request"], check=True)
+        return hashlib.sha256(data).hexdigest()
+
+    def run_as(self, digest, source=None):
+        os.environ["STEGVERSE_COMMITTED_REQUEST_PATH"] = self.PATH
+        os.environ["STEGVERSE_COMMITTED_REQUEST_SHA256"] = digest
+        if source is None:
+            os.environ.pop("STEGVERSE_SOURCE_COMMITTED_REQUEST_SHA256", None)
+        else:
+            os.environ["STEGVERSE_SOURCE_COMMITTED_REQUEST_SHA256"] = source
+
+    def emitted(self, digest, source=None):
+        self.run_as(digest, source)
+        return self.emit.append("probe:" + digest, "PROBE", "sha256:" + "0" * 64, "sha256:" + "1" * 64, {},
+                                hb_epoch="4096")
+
+    def aggregated(self, receipt, digest, source):
+        self.run_as(digest, source)
+        return self.aggregate.append(receipt, "REPO_STATE_PROPAGATION", "sha256:" + "2" * 64, "sha256:" + "3" * 64,
+                                     {}, hb_epoch="4096")
+
+    def refused(self, receipt, digest, source, code):
+        before = snapshot(self.work)
+        with self.assertRaises(self.aggregate.OrgLedgerEpochRefused) as refused:
+            self.aggregated(receipt, digest, source)
+        assert_six_fields(self, refused.exception.refusal, code)
+        self.assertEqual(written(self.work, before), [])
+        self.assertFalse((self.work / "org-ledger").exists())
+        return refused.exception.refusal
+
+    def test_a_genuine_two_request_aggregate_records_both_digests(self):
+        first, second = self.committed(), self.committed()
+        source = self.emitted(first)
+        record = self.aggregated(source, second, first)
+        self.assertEqual(record["boundary_evidence"]["committed_request"]["sha256"], second)
+        self.assertEqual(record["boundary_evidence"]["source_committed_request"], {"path": self.PATH, "sha256": first})
+
+    def test_a_genuine_two_request_aggregate_through_the_ledger_writer_dispatcher(self):
+        first, second = self.committed(), self.committed()
+
+        def dispatch(digest, source, writer, arguments):
+            env = {**os.environ, "STEGVERSE_COMMITTED_REQUEST_PATH": self.PATH,
+                   "STEGVERSE_COMMITTED_REQUEST_SHA256": digest, "STEGVERSE_SOURCE_COMMITTED_REQUEST_SHA256": source}
+            completed = subprocess.run([sys.executable, "scripts/dispatch_ledger_writer.py", "--writer", writer,
+                                        "--hb-epoch", "4096", "--arguments", arguments],
+                                       cwd=self.repo, capture_output=True, text=True, env=env)
+            self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+            return json.loads(completed.stdout)
+        receipt = dispatch(first, "", "repository-ledger-emit",
+                           "--transition-id lwd-emit --transition-class PROBE --predecessor-state-sha256 sha256:"
+                           + "0" * 64 + " --successor-state-sha256 sha256:" + "1" * 64)
+        path = self.work / "lwd-receipt.json"
+        path.write_text(json.dumps(receipt))
+        record = dispatch(second, first, "organization-ledger-aggregate",
+                          "--repo-receipt " + str(path) + " --predecessor-org-state-sha256 sha256:" + "2" * 64
+                          + " --successor-org-state-sha256 sha256:" + "3" * 64)
+        self.assertEqual(record["boundary_evidence"]["source_committed_request"]["sha256"], first)
+        self.assertEqual(record["boundary_evidence"]["committed_request"]["sha256"], second)
+
+    def test_a_bound_but_uncommitted_digest_is_refused(self):
+        # SOURCE_REQUEST_NOT_RESOLVED_TO_COMMITTED_REQUEST: a ledger binding alone is not enough.
+        second = self.committed()
+        uncommitted = "ab" * 32
+        source = self.emitted(uncommitted)  # bound on the ledger, never committed on the request path
+        refusal = self.refused(source, second, uncommitted, "COMMITTED_REQUEST_DIGEST_UNVERIFIED")
+        self.assertIn("not a version of " + self.PATH + " committed", refusal["detail"])
+        # A committed request whose chain names an uncommitted, bound one is refused too.
+        first = self.committed()
+        chained = self.emitted(first, uncommitted)
+        self.refused(chained, second, first, "COMMITTED_REQUEST_DIGEST_UNVERIFIED")
+
+    def test_a_wrong_digest_is_refused(self):
+        first, second, other = self.committed(), self.committed(), self.committed()
+        source = self.emitted(first)
+        self.emitted(other)  # another genuine request on the ledger
+        self.refused(source, second, other, "COMMITTED_REQUEST_DIGEST_UNVERIFIED")
+
+    def test_a_missing_request_in_the_chain_is_refused(self):
+        first, second, unbound = self.committed(), self.committed(), self.committed()
+        source = self.emitted(first, unbound)  # names a committed request with no receipt
+        self.refused(source, second, first, "COMMITTED_REQUEST_DIGEST_UNVERIFIED")
+
+    def test_a_request_cannot_name_itself(self):
+        first, second = self.committed(), self.committed()
+        source = self.emitted(first)
+        self.refused(source, second, second, "COMMITTED_REQUEST_INVALID")
+        with self.assertRaises(self.emit.RepoLedgerEpochRefused) as refused:
+            self.emitted(first, first)
+        assert_six_fields(self, refused.exception.refusal, "COMMITTED_REQUEST_INVALID")
+
+    def test_a_cyclic_chain_is_refused(self):
+        first, second, third = self.committed(), self.committed(), self.committed()
+        source = self.emitted(first, third)
+        self.emitted(third, first)
+        self.refused(source, second, first, "COMMITTED_REQUEST_DIGEST_UNVERIFIED")
+        # A chain that returns to the aggregating request itself is a cycle too.
+        fourth = self.committed()
+        back = self.emitted(fourth, second)
+        self.emitted(second)
+        self.refused(back, second, fourth, "COMMITTED_REQUEST_DIGEST_UNVERIFIED")
+
+    def test_an_over_deep_chain_is_refused(self):
+        digests = [self.committed() for _ in range(self.aggregate.SOURCE_REQUEST_CHAIN_LIMIT + 1)]
+        aggregating = self.committed()
+        previous = None
+        for digest in digests:
+            receipt = self.emitted(digest, previous)
+            previous = digest
+        self.refused(receipt, aggregating, digests[-1], "SOURCE_REQUEST_CHAIN_TOO_DEEP")
+        # A shorter chain is accepted.
+        shallow_digest = self.committed()
+        shallow = self.emitted(shallow_digest, digests[1])
+        self.assertEqual(self.aggregated(shallow, aggregating, shallow_digest)["boundary_evidence"]
+                         ["source_committed_request"]["sha256"], shallow_digest)
 
 
 if __name__ == "__main__":
