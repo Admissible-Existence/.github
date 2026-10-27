@@ -125,7 +125,7 @@ temporary directory.
 
 `self_close` in `resident-runtime/intr_destination_ingress.py` records one diagnostic this organization addresses to its own ingress. The repository receipt and the organization receipt both carry `communication_id`. No peer is named and no mesh frame is sent.
 
-`.github/workflows/organization-ledger-transition.yml` is the `workflow_dispatch` that runs that closure with the ledger roots pointed at `refs/stegverse/organization-ledger`, fast-forward pushes the ref, and reads both chains back from a fresh fetch. Authority and time stay constraint variables. The disposition is transition evidence only.
+The workflow that ran that closure against `refs/stegverse/organization-ledger` (`.github/workflows/organization-ledger-transition.yml`) is retired. An organization addressing its own intr-destination is an InTr hop inside one organization, and InTr paths exist only between distinct organizations (Rigel's rule, 2026-10-25). Historical receipts on the ref stay; the ledger is append-only.
 
 `tests/test_organization_ledger_git_ref.py` runs the same closure against a temporary git repository. Those receipts are fixtures of that temporary ref.
 

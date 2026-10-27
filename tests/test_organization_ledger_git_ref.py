@@ -2,7 +2,8 @@
 
 These cases run against a temporary git repository. The receipts they append
 are fixtures of that temporary ref. They are exercised here so a
-push of the committed self-closure packet can perform the same closure against the published ref.
+push of the committed self-closure packet performed the same closure against the published ref until that
+carrier was retired (Rigel's rule, 2026-10-25: no InTr hop inside one organization).
 """
 from __future__ import annotations
 
@@ -53,17 +54,16 @@ class DesignationTests(unittest.TestCase):
         self.assertEqual(location["namespace"], "repository-ledger/Admissible-Existence/.github")
 
     def test_the_packet_push_workflow_appends_pushes_and_reads_the_designated_ref(self):
-        text = (ROOT / ".github/workflows/organization-ledger-transition.yml").read_text()
-        self.assertNotIn("workflow_dispatch", text)
-        self.assertIn("paths:\n      - '.stegverse/intr-destination/self-closure-packet.json'", text)
+        # Re-purposed (base id kept) under Rigel's rule (2026-10-25): InTr paths exist only between distinct
+        # organizations, so the packet-push self-closure workflow is retired. The designated ref is appended
+        # only by the push-only organization-ledger-writer.yml, fast-forward only.
+        self.assertFalse((ROOT / ".github/workflows/organization-ledger-transition.yml").exists())
+        text = (ROOT / ".github/workflows/organization-ledger-writer.yml").read_text()
+        self.assertNotIn("--self-close", text)
+        self.assertNotIn("self-closure-packet", text)
         self.assertIn("refs/stegverse/organization-ledger", text)
-        self.assertIn("intr_destination_ingress.py", text)
-        self.assertIn("--self-close", text)
-        self.assertIn('git push origin "$LEDGER_REF:$LEDGER_REF"', text)
-        self.assertIn("organization_ledger_readback.py", text)
         self.assertNotIn("--force", text)
         self.assertNotIn("grant", text.lower())
-
 
 class TemporaryGitSelfClosureTests(unittest.TestCase):
     def setUp(self):
