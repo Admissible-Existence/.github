@@ -8,12 +8,11 @@ name: Ledger Writer Dispatch
 #
 # B-P40 (lead ruling R-DISPATCH, COMMITTED_REQUEST): a push to main that
 # commits data/requests/ledger-writer-dispatch.json (writer, hb_epoch, and
-# optionally arguments, org_ledger_root and source_committed_request, the
+# optionally arguments and source_committed_request, the
 # digest of the request that produced an aggregate's source receipt) is the
 # only start. There are no inputs and no clock; the request is gated before
-# any writer runs. A request cannot choose the repository ledger: it is the one
-# paired with the organization ledger (a git org ledger's contract namespace,
-# else this run's own POSIX root).
+# any writer runs. A request cannot choose either ledger: both are this run's
+# own runner-temp roots (repo_ledger_root and org_ledger_root are refused).
 on:
   push:
     branches: [main]
@@ -31,6 +30,9 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
+          # A named source_committed_request resolves only against the request's
+          # committed history, so the whole history is checked out.
+          fetch-depth: 0
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
@@ -39,27 +41,23 @@ jobs:
         run: >-
           python scripts/read_committed_request.py --request data/requests/ledger-writer-dispatch.json
           --choice writer=repository-ledger-emit,organization-ledger-aggregate,organization-egress,intr-destination-ingress
-          --optional-text arguments --optional-text org_ledger_root
-          --optional-digest source_committed_request --forbid repo_ledger_root
+          --optional-text arguments --optional-digest source_committed_request
+          --forbid repo_ledger_root --forbid org_ledger_root
       - name: Invoke the ledger writer
         env:
           WRITER: ${{ steps.request.outputs.writer }}
           HB_EPOCH: ${{ steps.request.outputs.hb_epoch }}
           ARGUMENTS: ${{ steps.request.outputs.arguments }}
-          ORG_LEDGER_ROOT: ${{ steps.request.outputs.org_ledger_root }}
           STEGVERSE_COMMITTED_REQUEST_PATH: data/requests/ledger-writer-dispatch.json
           STEGVERSE_COMMITTED_REQUEST_SHA256: ${{ steps.request.outputs.request_sha256 }}
           STEGVERSE_SOURCE_COMMITTED_REQUEST_SHA256: ${{ steps.request.outputs.source_committed_request }}
         shell: bash
         run: |
           set -euo pipefail
-          export STEGVERSE_ORG_LEDGER_ROOT="${ORG_LEDGER_ROOT:-$RUNNER_TEMP/org-ledger}"
-          # The repository ledger moves with the organization ledger, never on its own.
-          namespace=$(python -c 'import json; print(json.load(open(".stegverse/transition-ledger/contract.json"))["repository_ledger_location"]["namespace"])')
-          case "$STEGVERSE_ORG_LEDGER_ROOT" in
-            git+*) export STEGVERSE_REPO_LEDGER_ROOT="$STEGVERSE_ORG_LEDGER_ROOT:$namespace" ;;
-            *) export STEGVERSE_REPO_LEDGER_ROOT="$RUNNER_TEMP/repo-ledger" ;;
-          esac
+          # Neither ledger is a request's choice: the pair is this run's own untracked
+          # runner-temp roots (a harness redirection the organization writer accepts).
+          export STEGVERSE_ORG_LEDGER_ROOT="$RUNNER_TEMP/org-ledger"
+          export STEGVERSE_REPO_LEDGER_ROOT="$RUNNER_TEMP/repo-ledger"
           # The dispatcher checks the epoch first: an empty or invalid one is
           # the six-field FAIL_CLOSED and no writer is invoked.
           python scripts/dispatch_ledger_writer.py --writer "$WRITER" --hb-epoch "$HB_EPOCH" --arguments "$ARGUMENTS"

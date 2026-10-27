@@ -86,8 +86,9 @@ def source_ledger():
 
  With no override it is the designated ledger. An override of
  STEGVERSE_REPO_LEDGER_ROOT is accepted only as a pair with an override of
- the organization ledger: for git, the contract namespace of the
- organization ledger's own ref in the same repository (by realpath); for
+ the organization ledger: for git, the contract ref and namespace beside
+ the organization ledger at that same contract ref, in the same repository
+ (by realpath); for
  POSIX, a POSIX organization ledger, neither root holding a file this
  checkout tracks. A lone or mismatched override, and a request field, is
  CALLER_CHOSEN_SOURCE_LEDGER_REJECTED; a tracked root is
@@ -106,8 +107,9 @@ def source_ledger():
   namespace=REPO_CONTRACT["repository_ledger_location"]["namespace"]
   if Path(os.path.realpath(repo_root.repository))!=Path(os.path.realpath(org_root.repository)):
    return None,(rejected,"the repository ledger "+str(repo_root)+" is in another repository than the organization ledger "+str(org_root))
-  if repo_root.ref!=org_root.ref:
-   return None,(rejected,"the repository ledger ref "+repo_root.ref+" is not the organization ledger ref "+org_root.ref)
+  contract_ref=REPO_CONTRACT["repository_ledger_location"]["ref"]
+  if repo_root.ref!=contract_ref or org_root.ref!=contract_ref:
+   return None,(rejected,"the ledger pair's refs "+repo_root.ref+" and "+org_root.ref+" are not the contract ref "+contract_ref)
   if repo_root.namespace!=namespace or org_root.namespace is not None:
    return None,(rejected,"the repository ledger namespace "+str(repo_root.namespace)+" is not "+namespace+" beside the organization ledger")
   return repo_root,None
@@ -128,19 +130,33 @@ def _bound_requests(store,head):
    bound.setdefault(own["sha256"],source.get("sha256") if isinstance(source,dict) else None)
   cursor=receipt.get("previous_receipt_sha256")
  return bound
-def _source_chain_failure(bound,request,source):
- """(code, detail) when the named source chain does not resolve on the ledger, or None.
+def committed_request_digests(path):
+ """The sha256 of every version of the request at `path` committed in this
+ checkout's history. Empty when there is none, or no history to read."""
+ log=subprocess.run(["git","-C",str(ROOT),"log","--format=%H","--no-renames","--",path],capture_output=True,text=True)
+ if log.returncode!=0:return set()
+ digests=set()
+ for commit in log.stdout.split():
+  shown=subprocess.run(["git","-C",str(ROOT),"show",commit+":"+path],capture_output=True)
+  if shown.returncode==0:digests.add(hashlib.sha256(shown.stdout).hexdigest())
+ return digests
+def _source_chain_failure(bound,request,source,committed=None):
+ """(code, detail) when the named source chain does not resolve, or None.
 
- Each named digest must be a committed request with a receipt bound to it on
- the ledger; the chain may not return to a request already on it (the run's
- own included) and may not exceed SOURCE_REQUEST_CHAIN_LIMIT links.
+ Each named digest must be a version of the request committed on the request
+ path (lead 20:54Z) with a receipt bound to it on the ledger; the chain may
+ not return to a request already on it (the run's own included) and may not
+ exceed SOURCE_REQUEST_CHAIN_LIMIT links.
  """
+ committed=committed_request_digests(source["path"]) if committed is None else committed
  seen={request["sha256"]} if request else set(); link=source["sha256"]; depth=0
  while link:
   if link in seen:return "COMMITTED_REQUEST_DIGEST_UNVERIFIED","the source request chain returns to "+link
   seen.add(link); depth+=1
   if depth>SOURCE_REQUEST_CHAIN_LIMIT:
    return "SOURCE_REQUEST_CHAIN_TOO_DEEP","the source request chain exceeds "+str(SOURCE_REQUEST_CHAIN_LIMIT)+" requests"
+  if link not in committed:
+   return "COMMITTED_REQUEST_DIGEST_UNVERIFIED",link+" is not a version of "+source["path"]+" committed in this checkout"
   if link not in bound:return "COMMITTED_REQUEST_DIGEST_UNVERIFIED","committed request "+link+" has no receipt bound to it on the ledger"
   link=bound[link]
  return None
