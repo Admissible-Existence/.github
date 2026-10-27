@@ -871,8 +871,9 @@ class HeartbeatWorkflowBindingTests(unittest.TestCase):
                     self.assertTrue(all(item.startswith("data/requests/") for item in paths), paths)
                     self.assertLess(text.index(REQUEST_GATE), first_run)
                     self.assertIn("${{ steps.request.outputs.hb_epoch }}", text)
-        self.assertEqual(reached, {"heartbeat-response-node.yml", "organization-ledger-transition.yml",
-                                   "resident-runtime-dispatch.yml", "ledger-writer-dispatch.yml"})
+        # organization-ledger-transition.yml was retired on main (19f74d6, Lane B).
+        self.assertEqual(reached, {"heartbeat-response-node.yml", "resident-runtime-dispatch.yml",
+                                   "ledger-writer-dispatch.yml"})
 
 
 class ManifestDispatcherTests(unittest.TestCase):
@@ -2943,8 +2944,7 @@ class CommittedRequestRecordedTests(_Workspace):
     """B-P40 clause (b): every record a committed-request run writes carries
     committed_request {path, sha256, hb_epoch_source: COMMITTED_REQUEST}."""
 
-    # organization-ledger-transition.yml is Lane B's (#162): it starts from the
-    # committed self-closure packet, which binds its own epoch.
+    # organization-ledger-transition.yml (Lane B's) was retired on main (19f74d6).
     WORKFLOWS = {
         "ledger-writer-dispatch.yml": "data/requests/ledger-writer-dispatch.json",
         "resident-runtime-dispatch.yml": "data/requests/resident-runtime-dispatch.json",
