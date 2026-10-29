@@ -1,0 +1,35 @@
+{
+  "authority_effect": "NONE",
+  "boundary_evidence": {
+    "communication_id": "intr-path-v1:Infrastructure-Continuity-Ventures->Admissible-Existence",
+    "disposition": "ALLOW",
+    "operation": "ORGANIZATION_INTR_DESTINATION_INGRESS",
+    "path_id": "Infrastructure-Continuity-Ventures->Admissible-Existence:intr-destination",
+    "profile_id": "intr-destination",
+    "source_organization_receipt_sha256": "sha256:3763d2cbaaa20fab279f7c3a8d5a68fa3bddddf3e45aa4e1f25852d19d5651d7",
+    "source_repository": "Infrastructure-Continuity-Ventures/.github",
+    "source_repository_receipt_sha256": "sha256:fa3171d58e2dec37a3c63b646cf31a226bec42b838793f6243e8c1131eca766e"
+  },
+  "hb_reference": {
+    "authority_effect": "NONE",
+    "derived_from_clock": false,
+    "epoch": 469411750,
+    "frequency_hz": 100,
+    "generation": 469411750,
+    "heartbeat_id": "HB:469411750",
+    "phase_offset_ns": 0,
+    "progression_dependency": "OSCILLATOR_ONLY"
+  },
+  "observed_at": "HB:469411750",
+  "org_transition_class": "REPO_STATE_PROPAGATION",
+  "organization": "Admissible-Existence",
+  "predecessor_org_state_sha256": "sha256:df5db48f3ed2d3e0da82c24a61b06d2d8edada623db6551a865a8eabfe785d5f",
+  "previous_receipt_sha256": "sha256:4595eb3c4d00b1dcf8a176342701cfbb9485149cd67795ce0048e22cfa4c0668",
+  "receipt_sha256": "sha256:36be067583cd3c6b72107461bc9ce6249d5b3d33e14c76a993b52c9d2335c926",
+  "repo_receipt_sha256": "sha256:6d6e8955a594480fba722cdf2167abb56f6863a8f5ef6517a25f92223cfc035e",
+  "repo_transition_id": "INTR_MESH_PATH_INGRESS:Infrastructure-Continuity-Ventures->Admissible-Existence:intr-destination@intr-path-v1:Infrastructure-Continuity-Ventures->Admissible-Existence",
+  "schema": "stegverse.organization-transition-receipt/v1",
+  "source_repository": "Admissible-Existence/.github",
+  "source_transition_sha256": "sha256:6d6e8955a594480fba722cdf2167abb56f6863a8f5ef6517a25f92223cfc035e",
+  "successor_org_state_sha256": "sha256:d9204f237334b022f77ea6dd656c8467b963ee826cc14be3bb8b8630bc9bab0c"
+}
