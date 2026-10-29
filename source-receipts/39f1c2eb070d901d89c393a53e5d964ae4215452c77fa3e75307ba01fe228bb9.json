@@ -1,0 +1,46 @@
+{
+  "authority_effect": "NONE",
+  "evidence": {
+    "capability": "intr-destination",
+    "communication_id": "intr-path-v1:Admissible-Existence->Infrastructure-Continuity-Ventures",
+    "destination_address": "infrastructure-continuity-ventures.intr-destination",
+    "destination_organization": "Infrastructure-Continuity-Ventures",
+    "disposition": "ALLOW",
+    "merge_transfer_organization_receipt_sha256": "sha256:b30a5ddc48ac99ce526fcbb93d00bfb12462779d243093b12c4377a94ad313f9",
+    "message": {
+      "body": {
+        "path_id": "Admissible-Existence->Infrastructure-Continuity-Ventures:intr-destination",
+        "schema": "stegverse.org-intr-destination-diagnostic/v1",
+        "transfer_commit": "e73569a919f3ebe4b24461e135303fb6e21c39d0"
+      },
+      "communication_id": "intr-path-v1:Admissible-Existence->Infrastructure-Continuity-Ventures",
+      "message_class": "ecosystem.communication"
+    },
+    "message_sha256": "sha256:65416f856fe65104649cf45d032fbb9c434ca25af4a8c4969805250d9af2aa9e",
+    "path_id": "Admissible-Existence->Infrastructure-Continuity-Ventures:intr-destination",
+    "payload_sha256": "sha256:bbc9217fad985b955876b99e9ab861149e1cb26fb4e08b30d2985456fe28917e",
+    "repository": "Admissible-Existence/.github",
+    "schema": "stegverse.intr-path-transfer-evidence/v1",
+    "source_organization": "Admissible-Existence",
+    "transfer_commit": "e73569a919f3ebe4b24461e135303fb6e21c39d0"
+  },
+  "hb_reference": {
+    "authority_effect": "NONE",
+    "derived_from_clock": false,
+    "epoch": 469411750,
+    "frequency_hz": 100,
+    "generation": 469411750,
+    "heartbeat_id": "HB:469411750",
+    "phase_offset_ns": 0,
+    "progression_dependency": "OSCILLATOR_ONLY"
+  },
+  "observed_at": "HB:469411750",
+  "predecessor_state_sha256": "sha256:bbc9217fad985b955876b99e9ab861149e1cb26fb4e08b30d2985456fe28917e",
+  "previous_receipt_sha256": "sha256:75e6027b8bc3dc22c6351ccb08b92acb717e49365845905a132f7b9a774fc4d2",
+  "receipt_sha256": "sha256:39f1c2eb070d901d89c393a53e5d964ae4215452c77fa3e75307ba01fe228bb9",
+  "repository": "Admissible-Existence/.github",
+  "schema": "stegverse.repo-transition-receipt/v1",
+  "successor_state_sha256": "sha256:e94bd39fe42c9763e8f9d6301ed50664cd6ccf09d69e9999d1126cba7db5e5e6",
+  "transition_class": "INTR_MESH_PATH_TRANSFER",
+  "transition_id": "INTR_MESH_PATH_TRANSFER:Admissible-Existence->Infrastructure-Continuity-Ventures:intr-destination@intr-path-v1:Admissible-Existence->Infrastructure-Continuity-Ventures"
+}
