@@ -13,6 +13,30 @@ A proof candidate is not an accepted proof. Routing completion is not mathematic
 
 ## Canonical control surfaces
 
+### Non-source consumer repair candidate (2026-11-14)
+
+Under QA-AEX-04 / AEX-A4 and finding AEX-A4-NONSOURCE-GATE-01, the two-field
+`state=PASS` / `role_contract_complete=true` payload was reproduced as falsely
+selecting a complete non-source row in the original consumer. The repair requires
+role correspondence, a nonblank N/A rationale, validation success, explicit
+non-authority, receipt path/full blob ID and canonical handoff path/full commit ID.
+Malformed or incomplete records stay `PENDING_EVIDENCE`. The existing five source
+PASS rows and all nine pending non-source rows are preserved.
+
+Regression: `python -m unittest discover -s tests -p test_math_non_source_evidence.py`
+(also under `python -O`). Eight tests include malformed payloads, valid synthetic
+controls for each existing non-source role and a CLI-level false-readiness case.
+Current matrix regeneration was compared semantically with the committed matrix;
+no row changed. This is local author-side execution, not independent acceptance
+or hosted validation. The repair changes no registered receipt or standard.
+
+Full object IDs are structural pins only. They do not prove receipt bytes,
+repository/path correspondence, temporal currency or truth; native owner readback
+and non-author review remain prerequisites to registering real role evidence.
+Stale but well-formed pins are not automatically detected by this consumer.
+The separate run-bound snapshot documentation remains in PR #114 and is not
+silently adopted by this repair branch.
+
 - policy: `data/mathematical-completeness-policy.json`
 - evidence registry: `data/mathematical-completeness-evidence-registry.json`
 - shared Actions blocker: `data/mathematical-completeness-actions-scheduler-blocker.json`
@@ -211,3 +235,4 @@ This complete session is **not** archive-ready. Archive only when all 32 registe
 - current blocked rows with durable owner/release condition: none from the former ET/HPS scheduler cohort
 - matrix ready: false
 - session consolidation for the clarification goal: complete as a transfer mechanism, but execution goal remains active.
+
