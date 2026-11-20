@@ -8,6 +8,7 @@ remains PENDING. A proof candidate is never promoted to proof by this auditor.
 from __future__ import annotations
 import argparse
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -61,20 +62,39 @@ def source_audit(evidence: dict[str, Any] | None) -> dict[str, Any]:
 def non_source_audit(repo: str, role: str, evidence: dict[str, Any] | None, worker_state: str | None) -> dict[str, Any]:
     # Mathematics/proof is intentionally non-applicable to non-source roles. The row still requires durable
     # role-completion evidence; until that evidence is recorded in this registry, the row remains pending.
-    if evidence and evidence.get("state") == "PASS" and evidence.get("role_contract_complete") is True:
-        gaps = []
-        state = "PASS"
-    else:
-        # Existing completed/deprecated routing is not by itself enough to prove the clarified role contract.
-        gaps = ["role_specific_completeness_evidence"]
-        state = "PENDING_EVIDENCE"
+    gaps = []
+    record = evidence if isinstance(evidence, dict) else {}
+    def nonblank(value: Any) -> bool:
+        return isinstance(value, str) and bool(value.strip())
+
+    def object_id(value: Any) -> bool:
+        return isinstance(value, str) and re.fullmatch(r"[0-9a-fA-F]{40}", value) is not None
+
+    if record.get("state") != "PASS" or record.get("role_contract_complete") is not True:
+        gaps.append("role_specific_completeness_evidence")
+    if record:
+        if record.get("role") != role:
+            gaps.append("role_binding")
+        if not nonblank(record.get("na_rationale")):
+            gaps.append("na_rationale")
+        if record.get("conclusion") != "success":
+            gaps.append("role_validation_not_success")
+        if record.get("execution_authorized") is not False:
+            gaps.append("execution_authority_boundary")
+        if not nonblank(record.get("receipt")) or not object_id(record.get("receipt_blob")):
+            gaps.append("receipt_binding")
+        if not nonblank(record.get("handoff")) or not object_id(record.get("handoff_commit")):
+            gaps.append("handoff_binding")
+    # These are structural bindings, not a remote readback or proof of freshness/truth.
+    # Native owners must inspect the referenced evidence before registering it.
+    state = "PENDING_EVIDENCE" if gaps else "PASS"
     return {
         "state": state,
         "semantic": {k: "N/A" for k in SOURCE_FIELDS},
-        "na_rationale": evidence.get("na_rationale") if evidence else (
+        "na_rationale": record.get("na_rationale") if record else (
             "Non-source repository: mathematics and independent proof candidates are not required; the repository must instead prove its declared support, coordination, observation, integration, or disposition role without creating source authority."
         ),
-        "gaps": gaps,
+        "gaps": sorted(set(gaps)),
         "mathematical_complete": not gaps,
         "proof_candidate_is_proof": False,
         "worker_state": worker_state,
@@ -172,3 +192,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

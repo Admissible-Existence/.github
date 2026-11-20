@@ -1,5 +1,21 @@
 # Admissible-Existence organization coordination
 
+## Non-source mathematical-audit evidence contract
+
+The mathematical-completeness auditor keeps non-source mathematics N/A. A role
+contract requires more than two PASS/completion flags: its registry entry must
+match the role, explain N/A with nonblank text, report validation success and
+`execution_authorized: false`, and bind a receipt path/blob and canonical handoff
+path/commit using full Git object IDs. Missing or malformed bindings remain
+`PENDING_EVIDENCE`; worker completion labels cannot substitute for them.
+
+These checks validate the structure of a recorded claim, not the referenced
+bytes, their freshness or mathematical truth. Native owners still inspect the
+exact receipt and handoff before evidence registration. No synthetic test
+fixture is a repository completion receipt. Run the bounded regression with
+`python -m unittest discover -s tests -p test_math_non_source_evidence.py`.
+See [the canonical audit handoff](docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md).
+
 Original authority remains in [`ORG_BOUNDARY_MIRROR_HANDOFF.md`](ORG_BOUNDARY_MIRROR_HANDOFF.md). [Organization root-license audit](docs/OPEN_SOURCE_ORGANIZATION_INVENTORY_20260926.json) records 34 repository root LICENSE/LICENSE.md checks under central `ECOSYSTEM-OPEN-SOURCE-STRATEGY-001` / COSV `20010010100000`: 2 observed MIT text roots and 32 roots without either checked path. These are observations only; complete file grants, author title, dependencies, redistribution and release remain unverified. Central public census gets aggregate counts only; nonpublic names stay in this source owner.
 
 
@@ -21,3 +37,4 @@ PR #89 merged as `b7d431ad7d2d2d5a424378cc3ccd02762cd40647` from exact head `72e
 ## STCM/CHF PR #90 source-complete boundary (2026-09-29)
 
 PR #90 merged as `687a09098461d24580702b754d8bb1504f587e47` from exact head `81d30440491df788a7a21a3d2247a02428bac649`; validation run `36632916970` succeeded and submitted-review enumeration remains empty. The bounded StegVerse-side comparison source package is complete without claiming external common-specimen execution or runtime custody. Central Registry still says `STCM-CHF-THERMODYNAMIC-WITNESS-COMPARISON-001` ACTIVE/UNCLAIMED, so this repository does not fabricate retirement. Authenticated ChatGPT-origin exposure remains owned by `ECOSYSTEM-INGRESS-AI-BOUNDARIES-001`; future external common-specimen execution requires a genuinely separable canonical successor rather than a prompt-budget reset. See `docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md`.
+
