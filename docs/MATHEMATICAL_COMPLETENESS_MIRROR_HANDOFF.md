@@ -24,25 +24,62 @@ A proof candidate is not an accepted proof. Routing completion is not mathematic
 
 ## Current matrix
 
-Last inspected central matrix run:
+Snapshot inspected on 2026-11-14 from the current committed
+[JSON matrix](../reports/mathematical-completeness-matrix.json), under policy 1.0.0
+and worker registry 3.23.0:
 
 ```text
-run: 31220654251
-job: 93004267295
+run: 33416514684
+run_created_at: 2026-08-31T16:52:46Z
+job: 99568337043
+source_head: 965a1bd275084181a05a16b6e19a8657d8cb03a1
+persisted_matrix_commit: 0d060bf4f1e787fae6fd57d3dced12180b82ebd5
+matrix_commit_date: 2026-08-31T16:52:51Z
 registered: 32
 source: 23
-source_complete: 2
+source_complete: 5
 non_source: 9
 non_source_complete: 0
-gap_repositories: 30
+gap_repositories: 27
 ready: false
 ```
 
-The run generated, validated, persisted, and artifacted the matrix, then intentionally failed its final fail-closed step because organization mathematical completeness is not proven.
+[Run 33416514684](https://github.com/Admissible-Existence/.github/actions/runs/33416514684)
+concluded **failure**. Its native job log records successful generation and shape
+checks with the counts above, persistence and push of `0d060bf`, and artifact
+upload. The final fail-closed step then exited 1 because `ready=false`. This is
+a successful production of an incomplete matrix, not organization-wide
+mathematical completeness or a claim that every candidate proof is accepted.
 
-Persisted matrix commit: `d6866c1`.  
-Artifact: `9010223410`.  
-Artifact digest: `sha256:29ac5f98281dca5b0a0b2d33649eafbca4c148af22e43dce484cd96bb3002da9`.
+Artifact: `9767210450`, `mathematical-completeness-matrix`.  
+Provider/log artifact digest:
+`sha256:8fbc6289ed40d94e7958c9da97d93b59d317f63dacac00a220e5a9aa94d6a87b`.
+The archive bytes were not independently downloaded in this documentation repair.
+
+Every quoted matrix snapshot must name its run ID, date, source head and persisted
+matrix commit. A later successful workflow or receipt does not change this
+historical snapshot automatically. Reconcile a changed committed matrix before
+updating these numbers; do not substitute worker-state labels for receipt evidence.
+
+The former snapshot (run `31220654251`, job `93004267295`, persisted commit
+`d6866c1`, artifact `9010223410`, digest
+`sha256:29ac5f98281dca5b0a0b2d33649eafbca4c148af22e43dce484cd96bb3002da9`)
+is historical: it recorded 2 source PASS and 30 gaps. It is not the current matrix.
+
+### Scope and proposed-standard follow-on
+
+The authenticated accessible inventory on 2026-11-14 returned 34 repositories;
+the governing worker registry and this matrix still enumerate 32. These are
+different denominators. The two additional repositories require explicit native
+scope/role disposition before enrollment; no registry count or PASS was changed
+by this snapshot repair.
+
+[AEX Wave A program](https://github.com/StegVerse-Labs/.github/issues/3467#issuecomment-6881161379)
+and its [prepared establishment package](https://github.com/StegVerse-Labs/.github/issues/3444#issuecomment-6881209843)
+are **proposed**, not an established replacement for policy 1.0.0. Existing five
+PASS rows retain their original bounded policy/evidence scope. Wave B–G packages
+remain gated on Wave A and authenticated org establishment. The independently
+owned wiki requires its own source authority before a pilot changes it.
 
 ## PASS rows
 
