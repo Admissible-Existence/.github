@@ -21,3 +21,18 @@ PR #89 merged as `b7d431ad7d2d2d5a424378cc3ccd02762cd40647` from exact head `72e
 ## STCM/CHF PR #90 source-complete boundary (2026-09-29)
 
 PR #90 merged as `687a09098461d24580702b754d8bb1504f587e47` from exact head `81d30440491df788a7a21a3d2247a02428bac649`; validation run `36632916970` succeeded and submitted-review enumeration remains empty. The bounded StegVerse-side comparison source package is complete without claiming external common-specimen execution or runtime custody. Central Registry still says `STCM-CHF-THERMODYNAMIC-WITNESS-COMPARISON-001` ACTIVE/UNCLAIMED, so this repository does not fabricate retirement. Authenticated ChatGPT-origin exposure remains owned by `ECOSYSTEM-INGRESS-AI-BOUNDARIES-001`; future external common-specimen execution requires a genuinely separable canonical successor rather than a prompt-budget reset. See `docs/STCM_CHF_THERMODYNAMIC_WITNESS_RESEARCH_INTAKE_MIRROR_HANDOFF.md`.
+
+
+## Mathematical-completeness snapshot
+
+The [canonical mathematical handoff](docs/MATHEMATICAL_COMPLETENESS_MIRROR_HANDOFF.md)
+binds the committed matrix to run `33416514684` (2026-08-31), source head
+`965a1bd275084181a05a16b6e19a8657d8cb03a1` and persisted commit
+`0d060bf4f1e787fae6fd57d3dced12180b82ebd5`: 5/23 source PASS, 0/9
+non-source role-contract PASS, 27 incomplete of 32 registered, `ready=false`.
+The run failed its final fail-closed gate after persisting that incomplete matrix.
+This is historical evidence under the existing policy, not accepted proof of every
+claim or runtime/publication authority. The authenticated accessible census of 34
+and the proposed new standard are separately tracked Wave A work; neither silently
+changes the governing denominator or policy. Central public census projections
+retain aggregate counts only.
